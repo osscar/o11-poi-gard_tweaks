@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <!-- Search Views -->
+
+        <!-- Views -->
+        <record id="product_product_tree_view" model="ir.ui.view">
+            <field name="name">product.product.tree.inherit.gard_product_stock_qty</field>
+            <field name="model">product.product</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='default_code']" position="before">
+                    <button string="Product Stock Quantity"
+                            attrs="{'invisible':[('qty_available', '&lt;', '1')]}"
+                            icon="/gard_product_stock_qty/static/src/img/icons/product_stock_quantity.png"
+                            name="button_product_stock_quantity"
+                            type="object"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="product_template_form_view" model="ir.ui.view">
+            <field name="name">product.template.form.view.inherit.gard_product_stock_qty</field>
+            <field name="model">product.template</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@name='buttons']" position="attributes">
+                    <attribute name="style">width: 310px;</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="product_form_view_procurement_button" model="ir.ui.view">
+            <field name="name">product.form.view.procurement.button.inherit.gard_product_stock_qty</field>
+            <field name="model">product.product</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="stock.product_form_view_procurement_button"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[1]" position="replace">
+                    <button class="oe_stat_button"
+                            name="button_product_stock_quantity"
+                            type="object"
+                            attrs="{'invisible': [('type', '=', 'service'), ('qty_available', '&lt;', '1')]}"
+                            icon="fa-calculator"
+                            groups="stock.group_locations">>
+                        <field name="qty_available2" widget="statinfo"/>
+                    </button>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Actions -->
+
+        <!-- Menus -->
+</odoo>

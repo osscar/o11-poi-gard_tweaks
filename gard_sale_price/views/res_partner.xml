@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <!-- View Customizations -->
+        <!--  -->
+        <record id="view_partner_property_form" model="ir.ui.view">
+            <field name="name">res.partner.product.property.inherit.inherit.gard_sale_price</field>
+            <field name="model">res.partner</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="product.view_partner_property_form"/>
+            <field name="arch" type="xml">
+
+                <!-- add some fields -->
+                <xpath expr="//group[@name='sale']" position="before">
+                    <group string="Pricelist Versions" colspan="2">
+                        <field name="price_version_ids" widget="many2many_tags" nolabel="1"/>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Action Customizations -->
+
+        <!-- Menu Customizations -->
+
+    </data>
+</openerp>

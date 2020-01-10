@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <!-- Search Views -->
+
+        <!-- Views -->
+        <record id="view_order_form" model="ir.ui.view">
+            <field name="name">view.order.form.inherit.gard_product_stock_qty</field>
+            <field name="model">sale.order</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//tree[@string='Sales Order Lines']/field[last()]" position="after">
+                    <button name="button_product_stock_quantity"
+                            string="Product Stock Quantity"
+                            type="object"
+                            attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"
+                            icon="/gard_product_stock_qty/static/src/img/icons/product_stock_quantity.png"
+                            />
+                            <!-- attrs="{'invisible': [('type', '=', 'service')]}" , ('qty_available', '&lt;', '1')] -->
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <record id="product_stock_quantity_sale_action_view_tree" model="ir.actions.act_window">
+            <field name="name">Product Stock Quantity</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.quant</field>
+            <field name="view_id" ref="gard_product_stock_qty.product_stock_quantity_sale_view_tree"/>
+            <field name="view_mode">tree</field>
+            <field name="context">{'group_by': ['location_id', 'product_id']}</field>
+            <field name="domain">[('location_id.usage','=', 'internal')]</field>
+            <field name="search_view_id" ref="gard_product_stock_qty.product_stock_quantity_search"/>
+        </record>
+
+        <!-- Menus -->
+        <menuitem
+            id="product_stock_quantity_tree"
+            name="Product Stock Quantity"
+            parent="base.menu_sales"
+            action="product_stock_quantity_sale_action_view_tree"
+            sequence="10"
+            groups=""
+            />
+
+</odoo>
