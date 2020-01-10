@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record id="purchase_order_form" model="ir.ui.view" >
+            <field name="name">purchase.order.form.inherit.gard_order_history</field>
+            <field name="model">purchase.order</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+
+            <page string="Deliveries &amp; Invoices" position="after">
+                <page string="History">
+                    <separator colspan="4" string="Invoices Related"/>
+                    <field colspan="4" name="invoice_ids" nolabel="1" widget="one2many_list">
+                        <tree colors="red:state in 'open' and (residual &gt; 0) and date_due &lt; current_date;blue:state == 'draft';black:state in ('proforma','proforma2','open');gray:state == 'cancel';green: state == 'paid'" fonts="bold: state in 'open' and (residual &gt; 0) and date_due &lt; current_date">
+                            <field name="state"/>
+                            <field name="date_due"/>
+                            <field name="date_invoice"/>
+                            <field name="supplier_invoice_number"/>
+                            <field name="origin"/>
+                            <field name="partner_id"/>
+                            <field name="currency_id"/>
+                            <field name="residual"/>
+                            <field name="amount_total"/>
+                        </tree>
+                    </field>
+                    <separator colspan="4" string="Pickings Related"/>
+                    <field colspan="4" name="picking_ids" nolabel="1" widget="one2many_list" context="{'tree_view_ref': 'gard_order_history.stock_picking_view_tree'}"/>
+                </page>
+            </page>
+
+            </field>
+        </record>
+
+  </data>
+</openerp>
