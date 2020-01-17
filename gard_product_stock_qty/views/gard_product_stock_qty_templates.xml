@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <template id="assets_common" name="gard_product_stock_qty assets" inherit_id="web.assets_common">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/gard_product_stock_qty/static/src/css/gard_product_stock_qty.css"/>
+            </xpath>
+        </template>
+
+</odoo>

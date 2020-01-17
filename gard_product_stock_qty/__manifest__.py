@@ -19,7 +19,7 @@
 ##############################################################################
 {
     'name': 'GARD Product Stock Quantity',
-    'version': '1.0',
+    'version': '11.1',
     'author': 'squid',
     'company': '',
     'website': 'http://www.comcom.com',
@@ -29,7 +29,6 @@ Product stock availability
 ==========================
 This module adds views to enhance available stock visibility.
 
-* updated view on related smart button in product form
 * button in product variants tree view
 * button in sale order line
 * product stock quantity menu in sales menu
@@ -43,6 +42,7 @@ This module adds views to enhance available stock visibility.
     ],
     'category': 'Stock',
     'data': [
+        'views/gard_product_stock_qty_templates.xml',
         'views/product_view.xml',
         'views/stock_view.xml',
         'views/sale_view.xml',
