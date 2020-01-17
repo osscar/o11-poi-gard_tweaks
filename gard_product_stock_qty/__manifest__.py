@@ -19,19 +19,24 @@
 ##############################################################################
 {
     'name': 'GARD Product Stock Quantity',
-    'version': '11.1',
+    'version': '11.02',
     'author': 'squid',
     'company': '',
-    'website': 'http://www.comcom.com',
+    'website': 'http://wwf.comcom.com',
     'summary': 'Poduct stock availablity.',
     'descrption': """
 Product stock availability
 ==========================
-This module adds views to enhance available stock visibility.
+This module adds buttons and views to enhance useability for the
+visualization of a product's available stock.
 
 * button in product variants tree view
 * button in sale order line
 * product stock quantity menu in sales menu
+* product stock quantity menu in inventory menu
+* kanban views include button
+
+- security groups have not been specified yet
 
 """,
     'images': [],

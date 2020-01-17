@@ -11,11 +11,13 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//field[@name='default_code']" position="before">
-                    <button string="Product Stock Quantity"
-                            attrs="{'invisible':[('qty_available', '&lt;', '1')]}"
-                            icon="fa-dropbox fa-gard-icon-orange"
-                            name="button_product_stock_quantity"
-                            type="object"/>
+                    <button
+                        name="button_product_stock_quantity"
+                        string="Product Stock Quantity"
+                        attrs="{'invisible':[('qty_available', '&lt;', '1')]}"
+                        type="object"
+                        icon="fa-dropbox fa-gard-icon-orange fa-2x"
+                        />
                 </xpath>
 
             </field>
@@ -30,11 +32,18 @@
 
                 <xpath expr="//field[@name='lst_price']" position="before">
                     <field name="qty_available"/>
-                    <button string="Product Stock Quantity"
-                            attrs="{'invisible':[('qty_available', '&lt;', '1')]}"
-                            icon="fa-dropbox fa-gard-icon-orange"
+                </xpath>
+
+                <xpath expr="/kanban//templates/t//div" position="inside">
+                    <div class="col-xs-4 pull-right">
+                        <button
                             name="button_product_stock_quantity"
-                            type="object"/>
+                            string="Product Stock Quantity"
+                            attrs="{'invisible':[('qty_available', '&lt;', '1')]}"
+                            type="object"
+                            class="fa fa-dropbox fa-gard-icon-orange pull-right"
+                            />
+                    </div>
                 </xpath>
 
             </field>
