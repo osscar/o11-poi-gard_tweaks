@@ -28,7 +28,7 @@ class ProductProduct(models.Model):
   def button_product_stock_quantity(self):
     product_id = self.id
     view_id = self.env.ref(
-        'gard_product_stock_qty.product_stock_quantity_view_tree').id
+        'gard_product_stock_qty.view_product_stock_quantity_tree').id
 
     return {
         'type': 'ir.actions.act_window',

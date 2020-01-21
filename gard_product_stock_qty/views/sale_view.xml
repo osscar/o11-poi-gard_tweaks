@@ -15,7 +15,7 @@
                         name="button_product_stock_quantity"
                         string="Product Stock Quantity"
                         type="object"
-                        icon="fa-dropbox fa-gard-icon-orange"
+                        icon="fa-dropbox fa-gard-icon-orange fa-2x"
                         />
                 </xpath>
 
@@ -43,25 +43,24 @@
         </record>
 
         <!-- Actions -->
-        <record id="product_stock_quantity_sale_action_view_tree" model="ir.actions.act_window">
+        <record id="action_sale_product_stock_quantity_tree" model="ir.actions.act_window">
             <field name="name">Product Stock Quantity</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">stock.quant</field>
-            <field name="view_id" ref="gard_product_stock_qty.product_stock_quantity_sale_view_tree"/>
+            <field name="view_id" ref="gard_product_stock_qty.view_sale_product_stock_quantity_tree"/>
             <field name="view_mode">tree</field>
             <field name="context">{'group_by': ['location_id', 'product_id']}</field>
             <field name="domain">[('location_id.usage','=', 'internal')]</field>
-            <field name="search_view_id" ref="gard_product_stock_qty.product_stock_quantity_search"/>
+            <field name="search_view_id" ref="gard_product_stock_qty.view_product_stock_quantity_search"/>
         </record>
 
         <!-- Menus -->
         <menuitem
-            id="product_stock_quantity_tree"
+            id="menu_action_sale_product_stock_quantity_tree"
             name="Product Stock Quantity"
             parent="sale.product_menu_catalog"
-            action="product_stock_quantity_sale_action_view_tree"
-            sequence="10"
-            groups=""
+            action="action_sale_product_stock_quantity_tree"
+            sequence="20"
             />
 
 </odoo>

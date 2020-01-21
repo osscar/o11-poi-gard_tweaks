@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
         <!-- Search Views -->
-        <record id="product_stock_quantity_search" model="ir.ui.view">
-            <field name="name">product.stock.quantity.search</field>
+        <record id="view_product_stock_quantity_search" model="ir.ui.view">
+            <field name="name">product.stock.quantity.search.gard_product_stock_qty</field>
             <field name="model">stock.quant</field>
             <field name="arch" type="xml">
 
@@ -22,7 +22,7 @@
         </record>
 
         <!-- Views -->
-        <record id="product_stock_quantity_view_tree" model="ir.ui.view">
+        <record id="view_product_stock_quantity_tree" model="ir.ui.view">
             <field name="name">product.stock.quantity.tree.gard_product_stock_qty</field>
             <field name="model">stock.quant</field>
             <field name="view_mode">tree</field>
@@ -39,8 +39,8 @@
             </field>
         </record>
 
-        <record id="product_stock_quantity_sale_view_tree" model="ir.ui.view">
-            <field name="name">product.stock.quantity.sale.tree.gard_product_stock_qty</field>
+        <record id="view_sale_product_stock_quantity_tree" model="ir.ui.view">
+            <field name="name">sale.product.stock.quantity.tree.gard_product_stock_qty</field>
             <field name="model">stock.quant</field>
             <field name="view_mode">tree</field>
             <field name="type">tree</field>
@@ -57,21 +57,24 @@
         </record>
 
         <!-- Actions -->
-        <record id="stock.product_open_quants" model="ir.actions.act_window">
+        <record id="action_stock_product_stock_quantity_tree" model="ir.actions.act_window">
+            <field name="name">Product Stock Quantity</field>
+            <field name="type">ir.actions.act_window</field>
             <field name="res_model">stock.quant</field>
-            <field name="context">{'group_by': ['location_id', 'poduct_id']}</field>
-            <field name="domain">[('location_id.usage', '=', 'internal')]</field>
-            <field name="view_id" ref="gard_product_stock_qty.product_stock_quantity_view_tree"/>
+            <field name="view_id" ref="gard_product_stock_qty.view_product_stock_quantity_tree"/>
+            <field name="view_mode">tree</field>
+            <field name="context">{'group_by': ['location_id', 'product_id']}</field>
+            <field name="domain">[('location_id.usage','=', 'internal')]</field>
+            <field name="search_view_id" ref="gard_product_stock_qty.view_product_stock_quantity_search"/>
         </record>
 
         <!-- Menus -->
         <menuitem
-            id="product_stock_quantity_tree"
+            id="menu_action_product_stock_quantity_tree"
             name="Product Stock Quantity"
             parent="stock.menu_stock_inventory_control"
-            action="product_stock_quantity_sale_action_view_tree"
-            sequence="10"
-            groups=""
+            action="action_stock_product_stock_quantity_tree"
+            sequence="20"
             />
 
 </odoo>

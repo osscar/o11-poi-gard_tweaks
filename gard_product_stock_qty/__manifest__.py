@@ -27,16 +27,15 @@
     'descrption': """
 Product stock availability
 ==========================
-This module adds buttons and views to enhance useability for the
-visualization of a product's available stock.
+This module adds buttons and views to enhance product's
+available stock visualization.
 
-* button in product variants tree view
-* button in sale order line
-* product stock quantity menu in sales menu
-* product stock quantity menu in inventory menu
-* kanban views include button
+* stock quantity button in: product variants tree view, sale order line
+* stock quantity menu in: sales menu, inventory menu
+* kanban views include stock quantity button
 
-- security groups have not been specified yet
+- TO DO: security groups have not been specified
+- TO DO: add stock quantity button to product template tree view
 
 """,
     'images': [],
