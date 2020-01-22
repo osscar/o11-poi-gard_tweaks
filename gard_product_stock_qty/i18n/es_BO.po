@@ -18,13 +18,20 @@ msgstr ""
 
 #. module: gard_product_stock_qty
 #: view:product.product:gard_product_stock_qty.product_product_tree_view
-#: view:product.product:gard_product_stock_qty.product_form_view_procurement_button
+#: view:product.product:gard_product_stock_qty.product_kanban_view
 #: view:product.product:gard_product_stock_qty.view_order_form
-#: view:product.product:gard_product_stock_qty.product_stock_quantity_view_tree
-#: view:product.product:gard_product_stock_qty.product_stock_quantity_sale_view_tree
-#: model:ir.actions.act_window,name:gard_product_stock_qty.product_stock_quantity_sale_action_view_tree
-#: model:ir.ui.menu,name:gard_product_stock_qty.product_stock_quantity_tree
+#: view:product.product:gard_product_stock_qty.view_product_stock_quantity_tree
+#: view:product.product:gard_product_stock_qty.view_sale_product_stock_quantity_tree
+#: model:ir.actions.act_window,name:gard_product_stock_qty.action_sale_product_stock_quantity_tree
+#: model:ir.actions.act_window,name:gard_product_stock_qty.action_stock_product_stock_quantity_tree
+#: model:ir.ui.menu,name:gard_product_stock_qty.menu_action_sale_product_stock_quantity_tree
+#: model:ir.ui.menu,name:gard_product_stock_qty.menu_action_product_stock_quantity_tree
 #: field:product.product,location_ids:0
 #: field:product.template,location_ids:0
 msgid "Product Stock Quantity"
 msgstr "Stock Actual"
+
+#. module: gard_product_stock_qty
+#: view:product.product:gard_product_stock_qty.view_product_stock_quantity_search
+msgid "Search Product Stock Quantity"
+msgstr "Buscar Stock Actual"
