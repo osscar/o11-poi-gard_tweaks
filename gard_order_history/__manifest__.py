@@ -18,18 +18,22 @@
 {
     'name': "GARD Order History",
     'summary': "Order picking and invoice history.",
-    'version': '3.01',
+    'version': '11.01',
     'author': 'squid',
     'category': 'Purchase, Sale',
     'description': """
 GARD order history
 ==============================
 
-Adds feature to enhance view of the status stock pickings
-and invoices related to purchase and sales orders.
+Adds features to enhance view of the status of stock pickings
+and invoices related to purchase and sales orders, as well as on related
+tree views.
 
 * adds a tab in order view
 * customized tree view colors for enhanced visibility
+
+- TO DO: add fields to supplier invoice view to customize colors
+- TO DO: customize kanban views
 
     """,
     'license': 'AGPL-3',
@@ -37,10 +41,11 @@ and invoices related to purchase and sales orders.
     'images': [],
     'depends': [
         'account',
-        'bo_invoice',
+        'poi_x_gard',
         'purchase',
         'sale',
         'stock',
+        'web_tree_dynamic_colored_field',
     ],
     'demo': [],
     'data': [

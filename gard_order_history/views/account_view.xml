@@ -9,31 +9,155 @@
             <field name="inherit_id" ref="account.invoice_tree"/>
             <field name="arch" type="xml">
 
-                <xpath expr="//tree[1]" position="attributes">
-                    <attribute name="colors">red:state in 'open' and (residual &gt; 0) and date_due &lt; current_date;blue:state == 'draft';black:state in ('proforma','proforma2','open');gray:state == 'cancel';green: state == 'paid'</attribute>
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="decoration-danger">(state in 'open') and (residual_signed &gt; 0) and (date_due &lt; current_date)</attribute>
+                    <attribute name="decoration-danger">state not in ('paid','cancel') and estado_fac in 'A'</attribute>
+                    <attribute name="decoration-success">state in 'paid' and estado_fac in 'V'</attribute>
+                </xpath>
+
+                <xpath expr="//tree/field[@name='state']" position="attributes">
+                    <attribute name="widget">label_selection</attribute>
+                    <attribute name="options">{
+                        'classes': {
+                            'draft': 'primary',
+                            'none': 'danger',
+                            'open': 'warning',
+                            'paid': 'success',
+                            'cancel': 'default'
+                            }
+                    }</attribute>
+                </xpath>
+
+                <xpath expr="//tree/field[@name='estado_fac']" position="attributes">
+                    <attribute name="options">{
+                        "bg_color": "
+                            silver: state in 'paid' and estado_fac in 'A';
+                            lightcoral: state not in ('paid','cancel') and estado_fac in 'A'
+                            "
+                    }</attribute>
+                </xpath>
+
+                <xpath expr="//tree/field[@name='residual_signed']" position="attributes">
+                    <attribute name="options">{
+                        "bg_color": "
+                            lightcoral: (state in 'open') and (residual_signed &gt; 0) and (date_due &lt; current_date)
+                            "
+                    }</attribute>
                 </xpath>
 
             </field>
         </record>
 
-        <record id="invoice_view_tree" model="ir.ui.view">
+        <record id="invoice_supplier_tree" model="ir.ui.view">
+            <field name="name">invoice.supplier.tree.inherit.gard_order_history</field>
+            <field name="model">account.invoice</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="account.invoice_supplier_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="decoration-danger">(state in 'open') and (residual_signed &gt; 0) and (date_due &lt; current_date)</attribute>
+                    <!-- TO DO: needs 'estado_fac' field added to view -->
+                    <!-- <attribute name="decoration-danger">state not in ('paid','cancel') and estado_fac in 'A'</attribute> -->
+                    <!-- <attribute name="decoration-success">state in 'paid' and estado_fac in 'V'</attribute> -->
+                </xpath>
+
+                <xpath expr="//tree/field[@name='state']" position="attributes">
+                    <attribute name="widget">label_selection</attribute>
+                    <attribute name="options">{
+                        'classes': {
+                            'draft': 'primary',
+                            'none': 'danger',
+                            'open': 'warning',
+                            'paid': 'success',
+                            'cancel': 'default'
+                            },
+                    }</attribute>
+                    <!-- TO DO: needs 'estado_fac' field added to view -->
+                    <!--         "bg_color": "
+                    lightcoral: (state in 'open') and (residual_signed &gt; 0) and (date_due &lt; current_date)
+                    " -->
+                </xpath>
+
+                <!-- TO DO: needs 'estado_fac' field added to view -->
+                <!-- <xpath expr="//tree/field[@name='estado_fac']" position="attributes">
+                    <attribute name="options">{
+                        "bg_color": "
+                            silver: state in 'paid' and estado_fac in 'A';
+                            lightcoral: state not in ('paid','cancel') and estado_fac in 'A'
+                            "
+                    }</attribute>
+                </xpath> -->
+
+                <xpath expr="//tree/field[@name='residual_signed']" position="attributes">
+                    <attribute name="options">{
+                        "bg_color": "
+                            lightcoral: (state in 'open') and (residual_signed &gt; 0) and (date_due &lt; current_date)
+                            "
+                    }</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_invoice_tree" model="ir.ui.view">
             <field name="name">invoice.tree.gard_order_history</field>
             <field name="model">account.invoice</field>
             <field name="view_mode">tree</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
 
-                <tree colors="red:state in 'open' and (residual &gt; 0) and date_due &lt; current_date;blue:state == 'draft';black:state in ('proforma','proforma2','open');gray:state == 'cancel';green: state == 'paid'" fonts="bold: state in 'open' and (residual &gt; 0) and date_due &lt; current_date" string="Invoices">
-                    <field name="state"/>
+                <tree decoration-danger="state in 'open' and (residual_signed &gt; 0) and date_due &lt; current_date" decoration-success="state == 'paid'" string="Invoices">
+                    <field name="state" widget="label_selection"
+                        options="{
+                            'classes': {
+                                'draft': 'primary',
+                                'none': 'danger',
+                                'open': 'warning',
+                                'paid': 'success',
+                                'cancel': 'default'
+                                }}"/>
+                    <field name="estado_fac"/>
                     <field name="date_due"/>
                     <field name="date_invoice"/>
-                    <field name="invoice_number"/>
+                    <field name="number"/>
+                    <field name="cc_nro"/>
                     <field name="origin"/>
                     <field name="partner_id"/>
                     <field name="currency_id"/>
-                    <field name="residual"/>
-                    <field name="amount_total"/>
+                    <field name="residual_signed"/>
+                    <field name="amount_total_signed"/>
                 </tree>
+
+            </field>
+        </record>
+
+        <!-- TO DO: had to inherit custom view to xpath and extend options' attributes to colorize fields -->
+        <!-- optimally this should be added in primary view -->
+        <!-- but the JSON syntax doesn't bode well with conditions against field values -->
+        <record id="view_invoice_tree_inherit" model="ir.ui.view">
+            <field name="name">invoice.tree.inherit.gard_order_history</field>
+            <field name="model">account.invoice</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="gard_order_history.view_invoice_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//tree/field[@name='estado_fac']" position="attributes">
+                    <attribute name="options">{
+                        "bg_color": "
+                            silver: state in 'paid' and estado_fac in 'A';
+                            lightcoral: state not in ('paid','cancel') and estado_fac in 'A'
+                            "
+                    }</attribute>
+                </xpath>
+
+                <xpath expr="//tree/field[@name='residual_signed']" position="attributes">
+                    <attribute name="options">{
+                        "bg_color": "
+                            lightcoral: (state in 'open') and (residual_signed &gt; 0) and (date_due &lt; current_date)
+                            "
+                    }</attribute>
+                </xpath>
 
             </field>
         </record>

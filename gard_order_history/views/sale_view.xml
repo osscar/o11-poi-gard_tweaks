@@ -3,20 +3,20 @@
     <data>
 
         <record id="view_order_form" model="ir.ui.view">
-            <field name="name">view.order.form.inherit.gard_order_history</field>
+            <field name="name">sale.order.form.inherit.gard_order_history</field>
             <field name="model">sale.order</field>
             <field name="mode">extension</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
 
-                <page string="Other Information" position="after">
+                <xpath expr="//notebook[last()]" position="inside">
                     <page string="History">
                         <separator colspan="4" string="Invoices Related"/>
-                        <field colspan="4" name="invoice_ids" nolabel="1" context="{'tree_view_ref': 'gard_order_history.invoice_view_tree', 'form_view_ref': 'bo_invoice.bo_invoice_form'}"/>
+                        <field colspan="4" name="invoice_ids" nolabel="1" context="{'tree_view_ref': 'gard_order_history.view_invoice_tree', 'form_view_ref': 'poi_x_gard.account_invoice_gard'}"/>
                         <separator colspan="4" string="Pickings Related"/>
-                        <field colspan="4" name="picking_ids" nolabel="1" widget="one2many_list" context="{'tree_view_ref': 'gard_order_history.stock_picking_view_tree'}"/>
+                        <field colspan="4" name="picking_ids" nolabel="1" widget="one2many_list" context="{'tree_view_ref': 'gard_order_history.view_stock_picking_tree'}"/>
                     </page>
-                </page>
+                </xpath>
 
             </field>
         </record>

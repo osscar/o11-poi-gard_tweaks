@@ -2,6 +2,38 @@
 <openerp>
     <data>
 
+        <record id="view_invoice_supplier_tree" model="ir.ui.view">
+            <field name="name">invoice.supplier.tree.gard_order_history</field>
+            <field name="model">account.invoice</field>
+            <field name="view_mode">tree</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+
+                <tree decoration-danger="state in 'open' and (residual_signed &gt; 0) and date_due &lt; current_date" decoration-success="state == 'paid'" string="Invoices">
+                    <field name="state" widget="label_selection"
+                        options="{
+                            'classes': {
+                                'draft': 'primary',
+                                'none': 'danger',
+                                'open': 'warning',
+                                'paid': 'success',
+                                'cancel': 'default'
+                                }}"/>
+                    <field name="estado_fac"/>
+                    <field name="date_due"/>
+                    <field name="date_invoice"/>
+                    <field name="reference"/>
+                    <field name="cc_nro"/>
+                    <field name="origin"/>
+                    <field name="partner_id"/>
+                    <field name="currency_id"/>
+                    <field name="residual_signed"/>
+                    <field name="amount_total_signed"/>
+                </tree>
+
+            </field>
+        </record>
+
         <record id="purchase_order_form" model="ir.ui.view" >
             <field name="name">purchase.order.form.inherit.gard_order_history</field>
             <field name="model">purchase.order</field>
@@ -9,26 +41,44 @@
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="arch" type="xml">
 
-            <page string="Deliveries &amp; Invoices" position="after">
+            <xpath expr="//notebook[last()]" position="inside">
                 <page string="History">
                     <separator colspan="4" string="Invoices Related"/>
-                    <field colspan="4" name="invoice_ids" nolabel="1" widget="one2many_list">
-                        <tree colors="red:state in 'open' and (residual &gt; 0) and date_due &lt; current_date;blue:state == 'draft';black:state in ('proforma','proforma2','open');gray:state == 'cancel';green: state == 'paid'" fonts="bold: state in 'open' and (residual &gt; 0) and date_due &lt; current_date">
-                            <field name="state"/>
-                            <field name="date_due"/>
-                            <field name="date_invoice"/>
-                            <field name="supplier_invoice_number"/>
-                            <field name="origin"/>
-                            <field name="partner_id"/>
-                            <field name="currency_id"/>
-                            <field name="residual"/>
-                            <field name="amount_total"/>
-                        </tree>
-                    </field>
+                    <field colspan="4" name="invoice_ids" nolabel="1" context="{'tree_view_ref': 'gard_order_history.view_invoice_supplier_tree', 'form_view_ref': 'account.invoice_supplier_form'}"/>
                     <separator colspan="4" string="Pickings Related"/>
                     <field colspan="4" name="picking_ids" nolabel="1" widget="one2many_list" context="{'tree_view_ref': 'gard_order_history.stock_picking_view_tree'}"/>
                 </page>
-            </page>
+            </xpath>
+
+            </field>
+        </record>
+
+        <!-- TO DO: had to inherit custom view to xpath and extend options' attributes to colorize fields -->
+        <!-- optimally this should be added in primary view -->
+        <!-- but the JSON syntax doesn't bode well with conditions against field 'values' -->
+        <record id="view_invoice_tree_inherit" model="ir.ui.view">
+            <field name="name">invoice.tree.inherit.gard_order_history</field>
+            <field name="model">account.invoice</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="gard_order_history.view_invoice_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//tree/field[@name='estado_fac']" position="attributes">
+                    <attribute name="options">{
+                        "bg_color": "
+                            silver: state in 'paid' and estado_fac in 'A';
+                            lightcoral: state not in ('paid','cancel') and estado_fac in 'A'
+                            "
+                    }</attribute>
+                </xpath>
+
+                <xpath expr="//tree/field[@name='residual_signed']" position="attributes">
+                    <attribute name="options">{
+                        "bg_color": "
+                            lightcoral: (state in 'open') and (residual_signed &gt; 0) and (date_due &lt; current_date)
+                            "
+                    }</attribute>
+                </xpath>
 
             </field>
         </record>
