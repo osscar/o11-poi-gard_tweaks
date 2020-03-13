@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="res.config.settings" id="sale_config_settings">
+        <field name="sale_pricelist_setting" eval="'formula'"/>     <!-- multi_sale_pl -->
+        <field name="group_product_pricelist" eval="'False'"/>      <!-- related groups -->
+        <field name="group_sale_pricelist" eval="'True'"/>          <!-- related groups -->
+        <field name="group_pricelist_item" eval="'True'"/>          <!-- related groups -->
+        <field name="group_product_variant" eval="'True'"/>         <!-- related groups -->
+    </record>
+
+    <function model="res.config.settings" name="execute">
+        <value eval="[ref('sale_config_settings')]"/>
+        <value eval="{}"/>
+    </function>
+
+</odoo>
+

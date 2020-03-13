@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="assets_backend" name="gard_sale_price assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/gard_sale_price_js/static/src/js/product_prices_widget.js"></script>
+            </xpath>
+        </template>
+    </data>
+</openerp>

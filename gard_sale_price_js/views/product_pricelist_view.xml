@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<odoo>
+
+        <!-- Search Views -->
+        <record id="product_pricelist_item_view_search" model="ir.ui.view">
+            <field name="name">product.pricelist.item.view.search</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="arch" type="xml">
+
+                <search string="Pricelist Items Search">
+                    <field name="name" filter_domain="['|','|','|',('name','ilike',self),('product_id','ilike',self),('pricelist_id','ilike',self),('partner_ids','ilike',self)]"/>
+                    <field name="product_id"/>
+                    <field name="pricelist_id"/>
+                    <field name="partner_ids"/>
+                    <filter string="Partner Rules" name="partner_rules" domain="[('partner_ids', '!=', False)]" context="{}"/>
+                    <filter string="Active" name="active_pricelist_true" domain="[('active_pricelist', '=', True)]" context="{}"/>
+                        <filter string="Archived" name="active_pricelist_false" domain="[('active_pricelist', '=', False)]" context="{}"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Product" name="group_product_id" context="{'group_by':'product_id'}"/>
+                        <filter string="Pricelist" name="group_pricelist_id" context="{'group_by':'pricelist_id'}"/>
+                        <filter string="Partner" name="group_partner_id" context="{'group_by':'partner_ids'}"/>
+                        <filter string="Active" name="group_active_pricelist" context="{'group_by':'active_pricelist'}"/>
+                        <filter string="Product Internal Reference" name="group_product_default_code" context="{'group_by':'product_default_code'}"/>
+                    </group>
+               </search>
+
+            </field>
+        </record>
+
+        <record id="product_pricelist_view_search" model="ir.ui.view">
+            <field name="name">product.pricelist.view.search.inherit.gard_sale_price_js</field>
+            <field name="model">product.pricelist</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="product.product_pricelist_view_search"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="filter_domain">['|','|',('name','ilike',self),('item_ids','ilike',self),('partner_ids','ilike',self)]</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="item_ids"/>
+                    <field name="partner_ids"/>
+                    <filter string="Partner Rules" name="partner_rules" domain="[('partner_ids', '!=', False)]" context="{}"/>
+                    <filter string="All" name="active_all" domain="['|', ('active', '=', True), ('active', '=', False)]"/>
+                </xpath>
+
+                <xpath expr="//filter[@name='inactive']" position="before">
+                    <group expand="0" string="Group By">
+                        <filter string="Partner" name="group_partner_id"  context="{'group_by':'partner_ids'}"/>
+                        <filter string="Active" name="group_active" context="{'group_by':'active'}"/>
+                    </group>
+                </xpath>
+               <!-- </search> -->
+
+            </field>
+        </record>
+
+        <!-- Views -->
+        <!-- Custom pricelist item tree view for product template view -->
+        <record id="product_pricelist_view" model="ir.ui.view">
+            <field name="name">product.pricelist.form.inherit.gard_sale_price_js</field>
+            <field name="model">product.pricelist</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="product.product_pricelist_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='item_ids']" position="replace">
+                    <field name="item_ids" context="{'tree_view_ref' : 'gard_sale_price_js.product_pricelist_item_view_tree'}"/>
+                </xpath>
+
+                <xpath expr="//div[2]" position="after">
+                    <field name="partner_ids" widget="many2many_tags" placeholder="Select partners."/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Custom pricelist item tree view for product template view -->
+        <record id="product_pricelist_item_sale_view_tree" model="ir.ui.view">
+            <field name="name">product.pricelist.item.sale.view.tree.gard_sale_price_js</field>
+            <field name="model">product.pricelist.item</field>
+            <!-- <field name="view_mode">tree</field>
+            <field name="type">tree</field> -->
+            <field name="arch" type="xml">
+
+                <tree string="Pricelist Items" create="0" edit="0" delete="0" editable="bottom">
+                    <!-- colors="orangered:partner_ids not False" -->
+
+                    <field invisible="1" name="active_pricelist"/>
+                    <field invisible="1" name="product_default_code"/>
+                    <field colspan="4" name="name"/>
+                    <field name="min_quantity"/>
+                    <field name="sale_price"/>
+                    <field name="unit_price"/>
+                    <!-- <field name="customer_savings"/> -->
+                    <field name="pricelist_id" widget="label_selection"/>
+                    <field name="partner_ids" widget="many2many_tags"/>
+                </tree>
+
+            </field>
+        </record>
+
+        <record id="product_pricelist_item_view_tree" model="ir.ui.view">
+            <field name="name">product.pricelist.item.product.tree.gard_sale_price_js</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+
+                <!-- TO DO: decoration & colors -->
+                <tree string="Pricelist Items" class="collapsed" colors="gray:active_version == False; orangered:partner_ids" fonts="italic: active_version == False">
+                <!-- <tree string="Pricelist Items" colors="orangered:partner_ids)"> -->
+                    <field invisible="1" name="active_pricelist"/>
+                    <field name="product_default_code"/>
+                    <field colspan="4" name="name"/>
+                    <field name="min_quantity"/>
+                    <field name="sale_price"/>
+                    <field name="unit_price"/>
+                    <!-- <field name="customer_savings"/> -->
+                    <field name="pricelist_id"/>
+                    <!-- <field name="partner_ids"/> -->
+                    <field name="partner_ids" widget="many2many_tags"/>
+                </tree>
+
+            </field>
+        </record>
+
+        <record id="product_pricelist_item_form_view" model="ir.ui.view">
+            <field name="name">product.pricelist.item.form.inherit.gard_sale_price_js</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="mode">extension</field>
+            <field name="priority">15</field>
+            <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+            <field name="arch" type="xml">
+
+                <!-- add some fields -->
+                <xpath expr="//group[1]" position="after">
+                    <separator/>
+                    <group col="2">
+                        <field name="active_pricelist"/>
+                        <field name="sale_price"/>
+                        <field name="unit_price"/>
+                        <!-- <field name="customer_savings"/> -->
+                        <field name="partner_ids" widget="many2many_tags"/>
+                        <!-- colors="orangered:partner_ids not False" -->
+                        <field name="pricelist_id"/>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Action Customizations -->
+        <record id="product_pricelist_item_action_view_tree" model="ir.actions.act_window">
+            <field name="name">Pricelist Items</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.pricelist.item</field>
+            <field name="view_id" ref="gard_sale_price_js.product_pricelist_item_view_tree"/>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+            <!-- <field name="context">{'group_by':'product_id'}</field> -->
+            <field name="search_view_id" ref="gard_sale_price_js.product_pricelist_item_view_search"/>
+        </record>
+
+        <record id="product.product_pricelist_action2_tree" model="ir.actions.act_window.view">
+            <!-- <field eval="1" name="sequence"/> -->
+            <!-- <field name="context">{'search_default_active_true': 1}</field> -->
+            <field name="view_mode">tree</field>
+            <field name="search_view_id" ref="gard_sale_price_js.product_pricelist_view_search"/>
+            <field name="act_window_id" ref="product.product_pricelist_action2"/>
+        </record>
+
+        <record id="product_pricelist_item_action_sale" model="ir.actions.act_window">
+            <field name="name">Pricelist Items</field>
+            <field name="res_model">product.pricelist.item</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product_pricelist_item_sale_view_tree"/>
+            <field name="context">{'search_default_group_product_default_code': 1}</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Menu Customizations -->
+        <menuitem
+            id="product_pricelist_item_menu_action"
+            name="Pricelist Items"
+            parent="sale.product_menu_catalog"
+            action="product_pricelist_item_action_view_tree"
+            sequence="20"/>
+
+
+<!-- TO DO: menu security groups -->
+        <!-- <record id="base.menu_base_config" model="ir.ui.menu">
+          <field name="groups_id" eval="[(4,ref('base.group_sale_salesman'))]"/>
+        </record>
+
+        <record id="product.menu_product_pricelist_main" model="ir.ui.menu">
+          <field name="groups_id" eval="[(4,ref('base.group_sale_salesman'))]"/>
+        </record>
+
+        <record id="product.menu_product_pricelist_action" model="ir.ui.menu">
+          <field name="groups_id" eval="[(6,0,[ref('product.group_sale_pricelist')])]"/>
+          <field name="groups_id" eval="[(6,0,[ref('gard_tweaks.group_pricelist_manager')])]"/>
+        </record>
+
+        <record id="product.menu_product_pricelist_action2" model="ir.ui.menu">
+          <field name="groups_id" eval="[(6,0,[ref('product.group_sale_pricelist')])]"/>
+          <field name="groups_id" eval="[(6,0,[ref('gard_tweaks.group_pricelist_manager')])]"/>
+        </record>
+
+        <record id="product.menu_product_price_type" model="ir.ui.menu">
+          <field name="groups_id" eval="[(6,0,[ref('product.group_sale_pricelist')])]"/>
+          <field name="groups_id" eval="[(6,0,[ref('gard_tweaks.group_pricelist_manager')])]"/>
+        </record>
+ -->
+
+</odoo>

@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<odoo>
+
+        <record id="product_template_tree_view" model="ir.ui.view">
+            <field name="name">product.template.product.tree.inherit.gard_sale_price</field>
+            <field name="model">product.template</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+
+                <!-- product pricelist items button -->
+                <xpath expr="//field[@name='default_code']" position="before">
+                    <field name="item_ids" invisible="1"/>
+                    <button name="get_pricelist_items" type="object"
+                        context="{'xml_id':'product_pricelist_item_action_sale'}"
+                        attrs="{'invisible':[('item_ids', '=', [])]}"
+                        icon="fa-2x fa-tags fa-gard-icon-orange" string="Pricelist Items"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="product_template_form_view" model="ir.ui.view">
+            <field name="name">product.template.common.form.inherit.gard_sale_price</field>
+            <field name="model">product.template</field>
+            <!-- <field name="mode">extension</field> -->
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+
+                <!-- product pricelist items tab -->
+                <xpath expr="/form//page[@name='sales']//field[@name='item_ids']" position="replace">
+                    <field name="item_ids" nolabel="1"
+                        context="{'default_base':'list_price', 'default_applied_on' :'1_product'}">
+                        <tree string="Pricelist Items" editable="bottom">
+                            <!-- colors="orangered:partner_ids not False" -->
+
+                            <!-- <field invisible="1" name="active_version"/> -->
+                            <field name="product_default_code" widget="label_selection"/>
+                            <field colspan="4" name="name"/>
+                            <field name="min_quantity"/>
+                            <field name="sale_price"/>
+                            <field name="unit_price"/>
+                            <!-- <field name="customer_savings"/> -->
+                            <field name="pricelist_id"/>
+                            <field name="partner_ids" widget="many2many_tags"/>
+                        </tree>
+                    </field>
+                </xpath>
+
+            </field>
+        </record>
+
+         <record id="product_product_tree_view" model="ir.ui.view">
+            <field name="name">product.product.tree.inherit.gard_sale_price_js</field>
+            <field name="model">product.product</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+
+                <!-- product pricelist items button -->
+                <xpath expr="//field[@name='default_code']" position="before">
+                    <field name="product_prices_widget" colspan="2" nolabel="1" widget="product_prices"/>
+                    <field name="pricelist_item_ids" invisible="1"/>
+                    <button name="get_pricelist_items" type="object"
+                        context="{'xml_id':'product_pricelist_item_action_sale'}"
+                        attrs="{'invisible':[('pricelist_item_ids', '=', [])]}"
+                        icon="fa-2x fa-tags fa-gard-icon-orange" string="Pricelist Items"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- <record id="product_normal_form_view" model="ir.ui.view">
+            <field name="name">product.normal.form.inherit.gard_sale_price</field>
+            <field name="model">product.product</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+
+                product pricelist items tab
+                <page name="sales" position="after">
+                    <page string="Sale Pricelist">
+                        <field name="pricelist_item_ids" context="{'tree_view_ref' : 'gard_sale_price.product_pricelist_item_sale_view_tree'}" widget="one2many_list"/>
+                    </page>
+                </page>
+
+            </field>
+        </record> -->
+
+
+        <!-- Actions -->
+
+        <!-- Menus -->
+
+</odoo>

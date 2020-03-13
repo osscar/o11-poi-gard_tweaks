@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+
+    <t t-name="ShowProductPricesInfo">
+        <table style="width:100%;">
+            <t t-foreach="lines" t-as="line">
+                <tr>
+                <!-- <t t-if="!outstanding"> -->
+                <t>
+                    <td>
+                        <a role="button" tabindex="0" class="js_product_prices_info fa fa-info-circle" t-att-index="line.index" style="margin-right:5px;"></a>
+                        <!-- <a role="button" tabindex="0" class="js_product_prices_info fa fa-info-circle" style="margin-right:5px;"></a> -->
+                    </td>
+                </t>
+                </tr>
+            </t>
+        </table>
+    </t>
+
+    <t t-name="PricesPopOver">
+        <t t-name="product_prices_line">
+                <thead><tr>
+                    <td class="cell_action"></td>
+                    <td class="cell-title" colspan="2">
+                        <span class="cell_item_name"><t t-if="data.partner_name" t-esc="data.partner_name" /><t t-if="data.partner_name === undefined" t-esc="data.account_code" /></span>
+                        <span class="cell_last_time_entries_checked" t-if="data.last_time_entries_checked">Last Reconciliation : <t t-esc="data.last_time_entries_checked" /></span>
+                    </td>
+                    <td class="cell_title_account_code" colspan="2"><t t-esc="data.account_code" /></td>
+                    <td class="cell_info_popover"></td>
+                </tr></thead>
+            </t>
+        </t>
+
+
+        <div>
+            <table>
+            <tr>
+                <td>
+                    <table>
+                        <tbody class="tbody_matched_lines"></tbody>
+                    <td style="text-align:right;"><t t-esc="name"/></td>
+                    <td style="text-align:right;"><t t-esc="min_quantity"/></td>
+                    <td style="text-align:right;">
+                        <t t-if="position === 'before'">
+                            <t t-esc="currency"/>
+                        </t>
+                        <t t-esc="sale_price"></t>
+                        <t t-if="position === 'after'">
+                            <t t-esc="currency"/>
+                        </t>
+                    </td>
+                    <td style="text-align:right;">
+                        <t t-if="position === 'before'">
+                            <t t-esc="currency"/>
+                        </t>
+                        <t t-esc="unit_price"></t>
+                        <t t-if="position === 'after'">
+                            <t t-esc="currency"/>
+                        </t>
+                    </td>
+                    <td style="text-align:right;"><t t-esc="pricelist_id"/></td>
+                    <td style="text-align:right;"><t t-esc="partner_ids"/></td>
+                </tr>
+            </table>
+        </div>
+        <!-- <button class="btn btn-xs btn-primary js_unreconcile_payment pull-left" t-att-payment-id="payment_id" style="margin-top:5px; margin-bottom:5px;">Unreconcile</button>
+        <button class="btn btn-xs btn-default js_open_payment pull-right" t-att-move-id="move_id" style="margin-top:5px; margin-bottom:5px;">Open Payment</button> -->
+    </t>
+
+</templates>

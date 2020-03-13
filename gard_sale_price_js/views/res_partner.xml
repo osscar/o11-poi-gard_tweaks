@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<openerp>
-    <data>
+<odoo>
 
-        <!-- View Customizations -->
-        <!--  -->
+        <!-- Search Views -->
+
+        <!-- Views -->
         <record id="view_partner_property_form" model="ir.ui.view">
             <field name="name">res.partner.product.property.inherit.inherit.gard_sale_price</field>
             <field name="model">res.partner</field>
@@ -13,17 +13,16 @@
 
                 <!-- add some fields -->
                 <xpath expr="//group[@name='sale']" position="before">
-                    <group string="Pricelist Versions" colspan="2">
-                        <field name="price_version_ids" widget="many2many_tags" nolabel="1"/>
+                    <group string="Pricelists" colspan="2">
+                        <field name="pricelist_ids" widget="many2many_tags" nolabel="1"/>
                     </group>
                 </xpath>
 
             </field>
         </record>
 
-        <!-- Action Customizations -->
+        <!-- Actions -->
 
-        <!-- Menu Customizations -->
+        <!-- Menus -->
 
-    </data>
-</openerp>
+</odoo>

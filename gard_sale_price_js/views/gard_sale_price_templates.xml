@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <template id="assets_backend" name="gard_sale_price assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/gard_sale_price_js/static/src/css/gard_sale_price.css"/>
+            </xpath>
+        </template>
+
+</odoo>
