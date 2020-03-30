@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="res.config.settings" id="sale_config_settings_gard_product_price">
+        <field name="sale_pricelist_setting" eval="'formula'"/>
+        <field name="group_product_pricelist" eval="'False'"/>
+        <field name="group_sale_pricelist" eval="'True'"/>
+        <field name="group_pricelist_item" eval="'True'"/>
+        <field name="group_product_variant" eval="'True'"/>
+    </record>
+
+    <function model="res.config.settings" name="execute">
+        <value eval="[ref('sale_config_settings_gard_product_price')]"/>
+        <value eval="{}"/>
+    </function>
+
+</odoo>
+

@@ -1,0 +1,243 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * gard_product_price
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-03-29 23:49+0000\n"
+"PO-Revision-Date: 2020-03-29 23:49+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_active_pricelist
+#: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_search
+#: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_view_search
+msgid "Active"
+msgstr "Activo"
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_product_active_pricelist_item_ids
+msgid "Active Pricelist Item"
+msgstr "Regla de precio activa"
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_product_active_item_ids
+#: model:ir.model.fields,field_description:gard_product_price.field_product_template_active_item_ids
+msgid "Active Pricelist Items"
+msgstr "Reglas de precio activas"
+
+#. module: gard_product_price
+#: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_view_search
+msgid "All"
+msgstr "Todos"
+
+#. module: gard_product_price
+#: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_search
+msgid "Archived"
+msgstr "Archivado"
+
+#. module: gard_product_price
+#: model:ir.model,name:gard_product_price.model_res_partner
+msgid "Contact"
+msgstr "Contactos"
+
+#. module: gard_product_price
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_product_cost
+msgid "Cost price based on product Standard Price."
+msgstr "Precio de costo basado en el precio estandar del producto."
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_description
+#: model:ir.ui.view,arch_db:gard_product_price.product_product_prices_view_form
+msgid "Description"
+msgstr "Descripción"
+
+#. module: gard_product_price
+#: model:res.groups,name:gard_product_price.group_gard_product_price_manager
+msgid "GARD Pricelist Manager"
+msgstr "GARD Administrador de tarifas"
+
+#. module: gard_product_price
+#: model:res.groups,comment:gard_product_price.group_gard_product_price_manager
+msgid "GARD custom group for pricelist management."
+msgstr "GARD grupo personalizado para la administracion de tarifas."
+
+#. module: gard_product_price
+#: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_search
+#: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_view_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: gard_product_price
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_active_pricelist
+msgid "If unchecked, it will allow you to hide the pricelist without removing it."
+msgstr "Si no está marcado, la tarifa podrá ocultarse sin eliminarla."
+
+#. module: gard_product_price
+#: code:addons/gard_product_price/models/product_pricelist.py:47
+#: code:addons/gard_product_price/models/product_pricelist.py:60
+#, python-format
+msgid "Input Error"
+msgstr "Error de entrada"
+
+#. module: gard_product_price
+#: model:ir.ui.view,arch_db:gard_product_price.product_product_prices_view_form
+msgid "Min."
+msgstr "Min."
+
+#. module: gard_product_price
+#: code:addons/gard_product_price/models/product_pricelist.py:48
+#, python-format
+msgid "Minimum quantity may not be 0. Setting minimum quantity to 1. Please change accordingly."
+msgstr "Cantidad minima no puede ser 0. Se esta definiendo automaticamente a 1. Por favor cambie la cantidad acordemente."
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_net_sale_margin
+msgid "Net Sale Margin"
+msgstr "Margén de venta neto"
+
+#. module: gard_product_price
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_net_sale_margin
+msgid "Net sale margin for current item (factored with sale margin exclusion percent)."
+msgstr "Margén de venta para la regla actual (factorizado con porcentaje de exclusión de margén de venta)."
+
+#. module: gard_product_price
+#: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_search
+#: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_view_search
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: gard_product_price
+#: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_search
+#: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_view_search
+msgid "Partner Rules"
+msgstr "Reglas de empresa"
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_partner_ids
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_partner_ids
+msgid "Partners"
+msgstr "Empresas"
+
+#. module: gard_product_price
+#: model:ir.model,name:gard_product_price.model_product_pricelist
+#: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_search
+msgid "Pricelist"
+msgstr "Tarifa"
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_sale_order_line_pricelist_item_count
+msgid "Pricelist Item Count"
+msgstr "Conteo de regla de precio"
+
+#. module: gard_product_price
+#: model:ir.actions.act_window,name:gard_product_price.product_pricelist_item_action_view_tree
+#: model:ir.ui.menu,name:gard_product_price.product_pricelist_item_menu_action
+#: model:ir.ui.view,arch_db:gard_product_price.product_kanban_view
+#: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_tree
+#: model:ir.ui.view,arch_db:gard_product_price.product_product_prices_view_form
+#: model:ir.ui.view,arch_db:gard_product_price.product_product_tree_view
+#: model:ir.ui.view,arch_db:gard_product_price.product_template_kanban_view
+#: model:ir.ui.view,arch_db:gard_product_price.product_template_tree_view
+#: model:ir.ui.view,arch_db:gard_product_price.view_order_form
+msgid "Pricelist Items"
+msgstr "Reglas de precio"
+
+#. module: gard_product_price
+#: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_search
+msgid "Pricelist Items Search"
+msgstr "Busqueda de reglas de precio"
+
+#. module: gard_product_price
+#: model:ir.model,name:gard_product_price.model_product_pricelist_item
+msgid "Pricelist item"
+msgstr "Regla de precio"
+
+#. module: gard_product_price
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_description
+msgid "Pricelist item description."
+msgstr "Descripcion de la regla de precio."
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_res_partner_pricelist_ids
+#: model:ir.model.fields,field_description:gard_product_price.field_res_users_pricelist_ids
+#: model:ir.ui.view,arch_db:gard_product_price.view_partner_property_form
+msgid "Pricelists"
+msgstr "Tarifas"
+
+#. module: gard_product_price
+#: model:ir.model,name:gard_product_price.model_product_product
+#: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_search
+msgid "Product"
+msgstr "Producto"
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_product_default_code_7730
+#: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_search
+msgid "Product Code"
+msgstr "Código de producto"
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_product_cost
+msgid "Product Cost"
+msgstr "Costo de producto"
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_product_default_code
+msgid "Product Internal Reference"
+msgstr "Referencia interna del producto"
+
+#. module: gard_product_price
+#: model:ir.model,name:gard_product_price.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: gard_product_price
+#: code:addons/gard_product_price/models/product_pricelist.py:61
+#, python-format
+msgid "Product cost may not be 0. Please update product cost."
+msgstr "Precio de costo del producto no puede ser 0. Por favor actualize el precio de costo del producto."
+
+#. module: gard_product_price
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_product_default_code
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_product_default_code_7730
+msgid "Product default code."
+msgstr "Codigo por defecto del producto."
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_sale_margin_exclusion_percent
+msgid "Sale Margin Exclusion Percent"
+msgstr "Porcentaje de exclusión (margén de venta)"
+
+#. module: gard_product_price
+#: model:ir.ui.view,arch_db:gard_product_price.product_product_prices_view_form
+msgid "Sale Price"
+msgstr "Precio de venta"
+
+#. module: gard_product_price
+#: model:ir.model,name:gard_product_price.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea de orden de ventas"
+
+#. module: gard_product_price
+#: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_view
+msgid "Select partners."
+msgstr "Seleccione las empresas."
+
+#. module: gard_product_price
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_sale_margin_exclusion_percent
+msgid "Specify the sale margin exclusion percent (in decimal form)."
+msgstr "Especifique el porcentaje de exclusión del margén de venta (en formato decimal)."
+
+#. module: gard_product_price
+#: model:ir.ui.view,arch_db:gard_product_price.product_product_prices_view_form
+msgid "Unit Price"
+msgstr "Precio unitario"
+
