@@ -1,0 +1,13 @@
+.fa-gard-icon-orange {
+  color: orangered;
+}
+.label-price {
+    font-size: 80%;
+    line-height: 2;
+    background-color: SeaGreen;
+    margin-right:10px;
+}
+.label-price[href]:hover,
+.label-price[href]:focus {
+  background-color: #c9302c;
+}
