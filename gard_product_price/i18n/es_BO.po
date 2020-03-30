@@ -6,14 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-29 23:49+0000\n"
-"PO-Revision-Date: 2020-03-29 23:49+0000\n"
+"POT-Creation-Date: 2020-03-30 12:05+0000\n"
+"PO-Revision-Date: 2020-03-30 12:05+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_sale_margin_excl
+msgid "% Excl."
+msgstr "% Excl."
 
 #. module: gard_product_price
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_active_pricelist
@@ -50,8 +55,8 @@ msgstr "Contactos"
 
 #. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_product_cost
-msgid "Cost price based on product Standard Price."
-msgstr "Precio de costo basado en el precio estandar del producto."
+msgid "Cost price based on product's Standard Price."
+msgstr "Precio de costo basado en el precio estándar del producto."
 
 #. module: gard_product_price
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_description
@@ -60,14 +65,14 @@ msgid "Description"
 msgstr "Descripción"
 
 #. module: gard_product_price
-#: model:res.groups,name:gard_product_price.group_gard_product_price_manager
+#: model:res.groups,name:gard_product_price.group_product_price_manager
 msgid "GARD Pricelist Manager"
-msgstr "GARD Administrador de tarifas"
+msgstr "Administrador de tarifas GARD"
 
 #. module: gard_product_price
-#: model:res.groups,comment:gard_product_price.group_gard_product_price_manager
+#: model:res.groups,comment:gard_product_price.group_product_price_manager
 msgid "GARD custom group for pricelist management."
-msgstr "GARD grupo personalizado para la administracion de tarifas."
+msgstr "Grupo personalizado GARD para la administración de tarifas."
 
 #. module: gard_product_price
 #: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_search
@@ -96,17 +101,17 @@ msgstr "Min."
 #: code:addons/gard_product_price/models/product_pricelist.py:48
 #, python-format
 msgid "Minimum quantity may not be 0. Setting minimum quantity to 1. Please change accordingly."
-msgstr "Cantidad minima no puede ser 0. Se esta definiendo automaticamente a 1. Por favor cambie la cantidad acordemente."
+msgstr "Cantidad mínima no puede ser 0. Se esta definiendo automáticamente a 1. Por favor cambie la cantidad como corresponde."
 
 #. module: gard_product_price
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_net_sale_margin
 msgid "Net Sale Margin"
-msgstr "Margén de venta neto"
+msgstr "Margen de venta neto"
 
 #. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_net_sale_margin
-msgid "Net sale margin for current item (factored with sale margin exclusion percent)."
-msgstr "Margén de venta para la regla actual (factorizado con porcentaje de exclusión de margén de venta)."
+msgid "Net sale margin for current item (factored with sale margin exclusion)."
+msgstr "Margen de venta neto para la regla actual (factorizado con el % de exclusión)."
 
 #. module: gard_product_price
 #: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_search
@@ -179,7 +184,7 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: gard_product_price
-#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_product_default_code_7730
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_product_default_code_7746
 #: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_search
 msgid "Product Code"
 msgstr "Código de producto"
@@ -203,23 +208,23 @@ msgstr "Plantilla de producto"
 #: code:addons/gard_product_price/models/product_pricelist.py:61
 #, python-format
 msgid "Product cost may not be 0. Please update product cost."
-msgstr "Precio de costo del producto no puede ser 0. Por favor actualize el precio de costo del producto."
+msgstr "Precio de costo del producto no puede ser 0. Por favor actualice el precio de costo del producto."
 
 #. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_product_default_code
-#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_product_default_code_7730
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_product_default_code_7746
 msgid "Product default code."
-msgstr "Codigo por defecto del producto."
-
-#. module: gard_product_price
-#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_sale_margin_exclusion_percent
-msgid "Sale Margin Exclusion Percent"
-msgstr "Porcentaje de exclusión (margén de venta)"
+msgstr "Código del producto."
 
 #. module: gard_product_price
 #: model:ir.ui.view,arch_db:gard_product_price.product_product_prices_view_form
 msgid "Sale Price"
 msgstr "Precio de venta"
+
+#. module: gard_product_price
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_sale_margin_excl
+msgid "Sale margin exclusion percent (in decimal form). Specify a value between greater than 0 and less than 1."
+msgstr "Porcentaje de exclusión del margen de venta (en formato decimal). Especifique un valor mayor a 0 y menor a 1."
 
 #. module: gard_product_price
 #: model:ir.model,name:gard_product_price.model_sale_order_line
@@ -230,11 +235,6 @@ msgstr "Línea de orden de ventas"
 #: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_view
 msgid "Select partners."
 msgstr "Seleccione las empresas."
-
-#. module: gard_product_price
-#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_sale_margin_exclusion_percent
-msgid "Specify the sale margin exclusion percent (in decimal form)."
-msgstr "Especifique el porcentaje de exclusión del margén de venta (en formato decimal)."
 
 #. module: gard_product_price
 #: model:ir.ui.view,arch_db:gard_product_price.product_product_prices_view_form

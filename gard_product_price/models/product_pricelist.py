@@ -30,7 +30,7 @@ class ProductPricelistItem(models.Model):
             fields.remove('sale_price')
             fields.remove('unit_price')
             fields.remove('net_sale_margin')
-            fields.remove('sale_margin_exclusion_percent')
+            fields.remove('sale_margin_excl')
             fields.remove('product_cost')
         return super(
             ProductPricelistItem, self).read_group(
@@ -49,11 +49,11 @@ class ProductPricelistItem(models.Model):
             }
 
     @api.one
-    @api.depends('sale_price', 'sale_margin_exclusion_percent', 'min_quantity')
+    @api.depends('sale_price', 'sale_margin_excl', 'min_quantity')
     def _calc_net_sale_margin(self):
         if self.product_cost > 0:
             self.net_sale_margin = (
-                (self.unit_price * self.sale_margin_exclusion_percent) / self.product_cost) - 1
+                (self.unit_price * self.sale_margin_excl) / self.product_cost) - 1
         else:
             self.net_sale_magin = 0
             return {
@@ -62,11 +62,11 @@ class ProductPricelistItem(models.Model):
             }
 
     @api.one
-    @api.constrains('sale_margin_exclusion_percent')
+    @api.constrains('sale_margin_excl')
     def _check_margin_exclusion_percent(self):
-        if self.sale_margin_exclusion_percent == 0 or self.sale_margin_exclusion_percent > 1:
+        if self.sale_margin_excl == 0 or self.sale_margin_excl > 1:
             raise ValidationError(
-                "Sale margin exclusion percent must be greater than 0 and less than 1.")
+                "Sale margin exclusion must be greater than 0 and less than 1.")
 
     active_pricelist = fields.Boolean(
         related='pricelist_id.active',
@@ -100,18 +100,18 @@ class ProductPricelistItem(models.Model):
         string='Net Sale Margin',
         compute='_calc_net_sale_margin',
         readonly=True,
-        help='Net sale margin for current item (factored with sale margin exclusion percent).')
+        help='Net sale margin for current item (factored with sale margin exclusion).')
 
     product_cost = fields.Float(
         related='product_id.standard_price',
         string="Product Cost",
         readonly=True,
-        help='Cost price based on product Standard Price.')
+        help='Cost price based on product\'s Standard Price.')
 
-    sale_margin_exclusion_percent = fields.Float(
-        string='Sale Margin Exclusion Percent',
+    sale_margin_excl = fields.Float(
+        string='% Excl.',
         default=1.00,
-        help='Specify the sale margin exclusion percent (in decimal form).')
+        help='Sale margin exclusion percent (in decimal form). Specify a value between greater than 0 and less than 1.')
 
     partner_ids = fields.Many2many(
         related='pricelist_id.partner_ids',

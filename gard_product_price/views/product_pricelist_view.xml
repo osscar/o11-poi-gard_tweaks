@@ -106,9 +106,9 @@
                 <field name="min_quantity"/>
                 <field name="sale_price"/>
                 <field name="unit_price"/>
-                <field name="net_sale_margin" groups="gard_product_price.group_gard_product_price_manager"/>
-                <field name="sale_margin_exclusion_percent" groups="gard_product_price.group_gard_product_price_manager"/>
-                <field name="product_cost" groups="gard_product_price.group_gard_product_price_manager"/>
+                <field name="net_sale_margin" groups="gard_product_price.group_product_price_manager"/>
+                <field name="sale_margin_excl" groups="gard_product_price.group_product_price_manager"/>
+                <field name="product_cost" groups="gard_product_price.group_product_price_manager"/>
                 <!-- <field name="customer_savings"/> --> <!-- TO DO -->
                 <field name="pricelist_id"/>
                 <field name="partner_ids" widget="many2many_tags"/>
@@ -125,22 +125,25 @@
         <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//group[1]" position="after">
-                <separator/>
-                <group col="2">
+            <xpath expr="/form//group" position="inside">
+                <group>
                     <field invisible="1" name="currency_id"/>
                     <field name="active_pricelist"/>
                     <field name="description"/>
+                </group>
+                <group>
                     <field name="sale_price"/>
                     <field name="unit_price"/>
-                    <separator/>
-                    <field name="net_sale_margin" groups="gard_product_price.group_gard_product_price_manager"/>
-                    <field name="sale_margin_exclusion_percent" groups="gard_product_price.group_gard_product_price_manager"/>
-                    <field name="product_cost" groups="gard_product_price.group_gard_product_price_manager"/>
-                    <separator/>
                     <!-- <field name="customer_savings"/> --> <!-- TO DO -->
+                </group>
+                <group>
                     <field name="partner_ids" widget="many2many_tags"/>
                     <field name="pricelist_id"/>
+                </group>
+                <group groups="gard_product_price.group_product_price_manager">
+                    <field name="net_sale_margin"/>
+                    <field name="sale_margin_excl"/>
+                    <field name="product_cost"/>
                 </group>
             </xpath>
 
