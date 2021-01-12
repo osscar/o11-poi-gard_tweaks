@@ -55,11 +55,14 @@
             <field name="inherit_id" ref="account.invoice_supplier_tree"/>
             <field name="arch" type="xml">
 
+                <xpath expr="//tree/field[@name='state']" position="after">
+                    <field name="estado_fac"/>
+                </xpath>
+
                 <xpath expr="//tree" position="attributes">
                     <attribute name="decoration-danger">(state in 'open') and (residual_signed &gt; 0) and (date_due &lt; current_date)</attribute>
-                    <!-- TO DO: needs 'estado_fac' field added to view -->
-                    <!-- <attribute name="decoration-danger">state not in ('paid','cancel') and estado_fac in 'A'</attribute> -->
-                    <!-- <attribute name="decoration-success">state in 'paid' and estado_fac in 'V'</attribute> -->
+                    <attribute name="decoration-danger">state not in ('paid','cancel') and estado_fac in 'A'</attribute>
+                    <attribute name="decoration-success">state in 'paid' and estado_fac in 'V'</attribute>
                 </xpath>
 
                 <xpath expr="//tree/field[@name='state']" position="attributes">
@@ -73,21 +76,17 @@
                             'cancel': 'default'
                             },
                     }</attribute>
-                    <!-- TO DO: needs 'estado_fac' field added to view -->
-                    <!--         "bg_color": "
-                    lightcoral: (state in 'open') and (residual_signed &gt; 0) and (date_due &lt; current_date)
-                    " -->
+
                 </xpath>
 
-                <!-- TO DO: needs 'estado_fac' field added to view -->
-                <!-- <xpath expr="//tree/field[@name='estado_fac']" position="attributes">
+                <xpath expr="//tree/field[@name='estado_fac']" position="attributes">
                     <attribute name="options">{
                         "bg_color": "
                             silver: state in 'paid' and estado_fac in 'A';
                             lightcoral: state not in ('paid','cancel') and estado_fac in 'A'
                             "
                     }</attribute>
-                </xpath> -->
+                </xpath>
 
                 <xpath expr="//tree/field[@name='residual_signed']" position="attributes">
                     <attribute name="options">{
