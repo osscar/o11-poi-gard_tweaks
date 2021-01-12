@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <!-- Search Views -->
+
+        <!-- Views -->
+
+        <record model="ir.ui.view" id="sale_margin_sale_order">
+            <field name="name">sale.order.margin.view.form.gard_sale_product_margin</field>
+            <field name="model">sale.order</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="sale_margin.sale_margin_sale_order"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='margin']" position="replace">
+                    <!-- add custom security group to field -->
+                    <field name="margin" groups="gard_sale_product_margin.group_sale_margin_view"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sale_margin_sale_order_line">
+            <field name="name">sale.order.line.margin.view.form.gard_sale_product_margin</field>
+            <field name="model">sale.order</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='order_line']/form//field[@name='purchase_price']" position="replace">
+                    <!-- add custom security group to field -->
+                    <field name="purchase_price" readonly="1" groups="gard_sale_product_margin.group_sale_margin_view"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sale_margin_sale_order_line_form">
+            <field name="name">sale.order.line.tree.margin.view.form.gard_sale_product_margin</field>
+            <field name="model">sale.order</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line_form"/>
+            <field name="arch" type="xml">
+
+               <xpath expr="//field[@name='order_line']/tree//field[@name='purchase_price']" position="replace">
+                    <!-- add custom security group to field -->
+                    <field name="purchase_price" readonly="1" groups="gard_sale_product_margin.group_sale_margin_view"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Actions -->
+
+        <!-- Menus -->
+
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <!-- Search Views -->
+
+        <!-- Views -->
+
+        <!-- Actions -->
+
+        <!-- Menus -->
+        <!-- add security group to "Product Margins" report -->
+        <menuitem
+            action="product_margin.product_margin_act_window"
+            id="product_margin.menu_action_product_margin"
+            name="Product Margins"
+            sequence="20"
+            groups="gard_sale_product_margin.group_sale_margin_view"
+            parent="account.account_reports_management_menu"
+        />
+
+</odoo>
