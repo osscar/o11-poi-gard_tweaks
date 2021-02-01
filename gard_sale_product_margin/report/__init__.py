@@ -16,6 +16,6 @@
 #    GENERAL PUBLIC LICENSE (LGPL v3) along with this program.
 #    If not, see <http://www.gnu.org/licenses/>.
 #
-##############################################################################
-from . import models
-from . import report
+###############################################################################
+
+from . import sale_report

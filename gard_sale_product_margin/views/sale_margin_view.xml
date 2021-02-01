@@ -5,7 +5,7 @@
         <!-- Views -->
 
         <record model="ir.ui.view" id="sale_margin_sale_order">
-            <field name="name">sale.order.margin.view.form.gard_sale_product_margin</field>
+            <field name="name">sale.order.margin.view.form.inherit.gard_sale_product_margin</field>
             <field name="model">sale.order</field>
             <field name="mode">extension</field>
             <field name="priority">10</field>
@@ -21,7 +21,7 @@
         </record>
 
         <record model="ir.ui.view" id="sale_margin_sale_order_line">
-            <field name="name">sale.order.line.margin.view.form.gard_sale_product_margin</field>
+            <field name="name">sale.order.line.margin.view.form.inherit.gard_sale_product_margin</field>
             <field name="model">sale.order</field>
             <field name="mode">extension</field>
             <field name="priority">10</field>
@@ -37,7 +37,7 @@
         </record>
 
         <record model="ir.ui.view" id="sale_margin_sale_order_line_form">
-            <field name="name">sale.order.line.tree.margin.view.form.gard_sale_product_margin</field>
+            <field name="name">sale.order.line.tree.margin.view.form.inherit.gard_sale_product_margin</field>
             <field name="model">sale.order</field>
             <field name="mode">extension</field>
             <field name="priority">10</field>
@@ -51,6 +51,24 @@
 
             </field>
         </record>
+
+        <record model="ir.ui.view" id="view_order_form">
+            <field name="name">view.order.form.inherit.gard_sale_product_margin</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='order_line']/form//field[@name='purchase_price']" position="after">
+                    <field name="margin_factor" readonly="1" groups="gard_sale_product_margin.group_sale_margin_view"/>
+                </xpath>
+
+                <xpath expr="//field[@name='order_line']/tree//field[@name='purchase_price']" position="after">
+                    <field name="margin_factor" readonly="1" groups="gard_sale_product_margin.group_sale_margin_view"/>
+                </xpath>
+
+            </field>
+        </record>
+
 
         <!-- Actions -->
 

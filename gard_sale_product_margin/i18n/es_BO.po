@@ -25,3 +25,10 @@ msgstr "Ver margenes de venta GARD"
 #: model:res.groups,comment:gard_sale_product_margin.group_sale_margin_view
 msgid "GARD custom group for sale margin viewability."
 msgstr "Grupo personalizado GARD para visualizar margenes de venta."
+
+#. module: sale_margin
+#: model:ir.model.fields,field_description:sale_margin.field_sale_order_line_margin
+#: model:ir.model.fields,field_description:sale_margin.field_sale_order_margin
+#: model:ir.model.fields,field_description:sale_margin.field_sale_report_margin
+msgid "Margin Factor"
+msgstr "Factor de Margen"
