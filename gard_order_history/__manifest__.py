@@ -49,6 +49,7 @@ tree views.
     ],
     'demo': [],
     'data': [
+        'data/account_data.xml',
         'views/account_view.xml',
         'views/purchase_view.xml',
         'views/sale_view.xml',

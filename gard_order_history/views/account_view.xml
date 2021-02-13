@@ -126,6 +126,7 @@
                     <field name="currency_id"/>
                     <field name="residual_signed"/>
                     <field name="amount_total_signed"/>
+                    <field name="payment_ids" widget="many2many_tags"/>
                 </tree>
 
             </field>
