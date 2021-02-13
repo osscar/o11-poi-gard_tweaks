@@ -9,16 +9,18 @@ import odoo.addons.decimal_precision as dp
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    margin_factor = fields.Float(compute='_product_margin_factor', digits=dp.get_precision('Product Price'))
+    margin_factor = fields.Float(string='Margin Factor', compute='_product_margin_factor', digits=dp.get_precision('Product Price'), store=True)
 
-    @api.depends('purchase_price', 'price_unit')
+    @api.depends('product_id', 'purchase_price', 'product_uom_qty', 'price_unit', 'price_subtotal')
     def _product_margin_factor(self):
         for line in self:
-            if line.price_unit == 0:
-                line.margin_factor = 1
+            currency = line.order_id.pricelist_id.currency_id
+            if line.price_subtotal == 0:
+                line.margin_factor = -1
+            elif line.purchase_price == 0:
+                line.margin_factor = line.price_subtotal
             else:
-                currency = line.order_id.pricelist_id.currency_id
-                line.margin_factor = currency.round(line.purchase_price / line.price_unit)
+                line.margin_factor = line.price_subtotal / (line.purchase_price * line.product_uom_qty)
 
     @api.onchange('product_id')
     def check_pricelist(self):
