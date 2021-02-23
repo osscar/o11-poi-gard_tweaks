@@ -100,7 +100,7 @@
                     decoration-danger="(state in 'done' and estado_fac not in 'V') or (state in 'confirmed' and cc_fecha &lt; current_date)"
                     decoration-success="state in 'done' and estado_fac in 'V'" edit="false">
                     <field name="rendition_id"/>
-                    <field name="move_id"/>
+                    <field name="rendition_move_id"/>
                     <field name="cc_fecha"/>
                     <field name="account_id"/>
                     <field name="account_analytic_id"/>
