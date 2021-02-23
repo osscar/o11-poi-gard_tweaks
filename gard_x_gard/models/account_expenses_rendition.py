@@ -27,3 +27,5 @@ class AccountExpensesRenditionInvoice(models.Model):
     _inherit = 'account.expenses.rendition.invoice'
 
     rendition_move_id = fields.Many2one(related='rendition_id.move_id', string="Asiento")
+    payment_request_id = fields.Many2one(related='rendition_id.payment_request_id', string="Solicitud de Pago")
+    state = fields.Selection(related='rendition_id.state', string='Estado doc', readonly=True, store=True, default='draft')

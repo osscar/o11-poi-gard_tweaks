@@ -7,9 +7,10 @@
             <field name="arch" type="xml">
 
                 <search string="Payments">
-                    <field name="name" filter_domain="['|', '|', '|', ('name','ilike',self),
-                        ('cc_nro','ilike',self), ('rendition_id','ilike',self), ('partner_id','ilike',self)]" string="Nombre"/>
+                    <field name="name" filter_domain="['|', '|', '|', '|', ('name','ilike',self),
+                        ('cc_nro','ilike',self), ('payment_request_id','ilike',self), ('rendition_id','ilike',self), ('partner_id','ilike',self)]" string="Nombre"/>
                     <separator/>
+                    <field name="payment_request_id"/>
                     <field name="rendition_id"/>
                     <field name="cc_nro"/>
                     <field name="cc_aut"/>
@@ -18,11 +19,15 @@
                     <field name="account_id"/>
                     <field name="taxes_ids"/>
                     <separator/>
-                    <filter string="Validado" domain="[('estado_fac','=','V')]" name='estado_fac_V'/>
-                    <filter string="Anulado" domain="[('estado_fac','=','A')]" name='estado_fac_A'/>
+                    <filter string="SIN validado" domain="[('estado_fac','=','V')]" name='estado_fac_V'/>
+                    <filter string="SIN anulado" domain="[('estado_fac','=','A')]" name='estado_fac_A'/>
+                    <filter string="Rendicion realizada" domain="[('state','=','done')]" name='state_done'/>
+                    <filter string="Rendicion cancelada" domain="[('state','=','cancel')]" name='state_cancel'/>
                     <separator/>
+                    <filter string="Solicitud de pago" domain="[]" context="{'group_by': 'payment_request_id'}"/>
                     <filter string="Rendición" domain="[]" context="{'group_by': 'rendition_id'}"/>
                     <filter string="Estado SIN" domain="[]" context="{'group_by': 'estado_fac'}"/>
+                    <filter string="Estado Rendicion" domain="[]" context="{'group_by': 'state'}"/>
                     <filter string="Cuenta" domain="[]" context="{'group_by': 'account_id'}"/>
                     <filter string="Cuenta analítica" domain="[]" context="{'group_by': 'account_analytic_id'}"/>
                     <filter string="Tipo de compra" domain="[]" context="{'group_by': 'tipo_com'}"/>
@@ -48,7 +53,7 @@
                         </div>
                         <group>
                             <group string="Control SIN">
-                                <field name="cc_nro" invisible="1" string="Nr.Fact."/>
+                                <field name="cc_nro" string="Nr.Fact."/>
                                 <field name="cc_aut" widget="mask" data-inputmask-alias="integer"/>
                                 <field name="cc_cod" widget="mask" data-inputmask-mask="##-##-##-##-##" data-inputmask-placeholder=""/>
                                 <field name="nit" widget="mask" data-inputmask-alias="integer"/>
@@ -80,6 +85,7 @@
                                     <field name="invoice_type"/>
                                 </group>
                                 <group string="Documentos relacionados">
+                                    <field name="payment_request_id"/>
                                     <field name="rendition_id"/>
                                     <field name="rendition_move_id"/>
                                 </group>
@@ -97,8 +103,9 @@
 
                 <tree decoration-info="state=='draft'"
                     decoration-muted="state=='cancel'"
-                    decoration-danger="(state in 'done' and estado_fac not in 'V') or (state in 'confirmed' and cc_fecha &lt; current_date)"
+                    decoration-danger="(state in 'done' and estado_fac not in 'V') or (state in 'cancel' and estado_fac in 'V') or (state in 'confirmed' and cc_fecha &lt; current_date)"
                     decoration-success="state in 'done' and estado_fac in 'V'" edit="false">
+                    <field name="payment_request_id"/>
                     <field name="rendition_id"/>
                     <field name="rendition_move_id"/>
                     <field name="cc_fecha"/>
