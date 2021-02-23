@@ -38,11 +38,14 @@ This module tweaks the following:
     'images': [],
     'depends': [
         'poi_x_gard',
+        'poi_payment_request',
+        'poi_bol_payment_request',
         'account',
     ],
     'category': 'Other',
     'data': [
         'views/account_payment_view.xml',
+        'views/account_expenses_rendition_view.xml',
     ],
     'demo': [],
     'license': 'AGPL-3',
