@@ -37,11 +37,9 @@ class AccountExpensesRendition(models.Model):
     @api.multi
     def copy(self, default=None):
         self.ensure_one()
-        seq = self.env['ir.sequence']
-        code = seq.next_by_code('expenses.rendition') or '/'
         if default is None:
             default = {}
-        default.update({'name': code})
+        default.update({'name': False})
         return super(AccountExpensesRendition, self).copy(default)
 
     @api.multi
