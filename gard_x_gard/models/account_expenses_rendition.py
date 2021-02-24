@@ -20,12 +20,50 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api, _
+from odoo import models, fields, modules, api, _
 from odoo.exceptions import Warning, ValidationError, UserError
 
+class AccountExpensesRendition(models.Model):
+    _inherit = 'account.expenses.rendition'
+
+    state = fields.Selection([('draft','Draft'),
+                              ('confirmed','Confirmed'),
+                              ('done','Done'),
+                              ('cancel', 'Canceled')],
+                              'State', default='draft', track_visibility='always')
+    rendition_invoice_ids = fields.One2many('account.expenses.rendition.invoice',
+        'rendition_id','Invoices', copy=True, track_visibility='always')
+
+    @api.multi
+    def copy(self, default=None):
+        self.ensure_one()
+        seq = self.env['ir.sequence']
+        code = seq.next_by_code('expenses.rendition') or '/'
+        if default is None:
+            default = {}
+        default.update({'name': code})
+        return super(AccountExpensesRendition, self).copy(default)
+
+    @api.multi
+    def write(self, vals):
+        if any(state != 'draft' for state in set(self.mapped('state'))):
+            raise UserError(_("Edit allowed only in draft state."))
+        else:
+            return super().write(vals)
+
 class AccountExpensesRenditionInvoice(models.Model):
-    _inherit = 'account.expenses.rendition.invoice'
+    _name = 'account.expenses.rendition.invoice'
+    _inherit = ['account.expenses.rendition.invoice', 'mail.thread']
 
     rendition_move_id = fields.Many2one(related='rendition_id.move_id', string="Asiento")
-    payment_request_id = fields.Many2one(related='rendition_id.payment_request_id', string="Solicitud de Pago")
-    state = fields.Selection(related='rendition_id.state', string='Estado doc', readonly=True, store=True, default='draft')
+    payment_request_id = fields.Many2one(related='rendition_id.payment_request_id',
+        string="Solicitud de Pago")
+    state = fields.Selection(related='rendition_id.state', string='Estado doc',
+        readonly=True, store=True, default='draft', track_visibility='always')
+
+    @api.multi
+    def write(self, vals):
+        if any(state != 'draft' for state in set(self.mapped('state'))):
+            raise UserError(_("Edit allowed only in draft state."))
+        else:
+            return super().write(vals)
