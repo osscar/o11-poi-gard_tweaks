@@ -12,7 +12,9 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def write(self, vals):
-        if any(state != 'draft' for state in set(self.mapped('state'))):
+        # if any((state == 'paid' for state in set(self.mapped('state')))):
+        if any(state == 'paid' for state in set(self.mapped('state'))
+            if not self.env.user.has_group('gard_x_gard.group_account_edit')):
             raise UserError(_("Edit allowed only in draft state."))
         else:
             return super().write(vals)
