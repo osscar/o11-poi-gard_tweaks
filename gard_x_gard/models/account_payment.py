@@ -24,8 +24,8 @@ class AccountPayment(models.Model):
         _logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
         _logger.debug('Allow reconcile: %s', move_reconcile)
         _logger.debug('Allow calculate cash: %s', calculate_cash)
-        if any(state != 'draft' for state in set(self.mapped('state'))
-            if not (account_edit or (cashier and calculate_cash) or move_reconcile)):
+        if any(state != 'draft' for state in set(self.mapped('state')
+            if not (account_edit or (cashier and calculate_cash) or move_reconcile))):
             raise UserError(_('Edit allowed only in draft state. [%s.%s]' % (request.params.get('model'), request.params.get('method'))))
         else:
             _logger.info('Written vals: %s' % vals)
