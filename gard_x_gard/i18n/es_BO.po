@@ -20,6 +20,18 @@ msgstr ""
 #: code:addons/gard_x_gard/models/account_expenses_rendition.py:48
 #: code:addons/gard_x_gard/models/account_expenses_rendition.py:65
 #: code:addons/gard_x_gard/models/account_payment.py:16
+#: code:addons/gard_x_gard/models/account_invoice.py:32
 #, python-format
 msgid "Edit allowed only in draft state."
 msgstr "Solo se puede editar en estado borrador."
+
+#. module: gard_x_gard
+#: model:ir.model.fields,field_description:gard_x_gard.field_accont_deposit_payment_ids
+#: model:ir.ui.view,arch_db:gard_x_gard.account_deposit_view_account_deposit_form
+msgid "Payments"
+msgstr "Pagos"
+
+#. module: gard_x_gard
+#: model:ir.model.fields,field_description:gard_x_gard.field_accont_deposit_payment_count
+msgid "# of Payments"
+msgstr "# de Pagos"

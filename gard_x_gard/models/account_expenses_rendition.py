@@ -20,8 +20,16 @@
 #
 ##############################################################################
 
-from odoo import models, fields, modules, api, _
-from odoo.exceptions import Warning, ValidationError, UserError
+import logging
+
+from odoo import api, fields, models, _
+from odoo.exceptions import RedirectWarning, UserError, ValidationError
+from odoo.http import request
+
+import odoo.addons.decimal_precision as dp
+
+_logger = logging.getLogger(__name__)
+
 
 class AccountExpensesRendition(models.Model):
     _inherit = 'account.expenses.rendition'
@@ -44,10 +52,17 @@ class AccountExpensesRendition(models.Model):
 
     @api.multi
     def write(self, vals):
-        if any(state != 'draft' for state in set(self.mapped('state'))
-            if not self.env.user.has_group('gard_x_gard.group_account_edit')):
-            raise UserError(_("Edit allowed only in draft state."))
+        action_draft = request.params.get('method') in ('action_draft')
+        action_validate = request.params.get('method') in ('action_validate')
+        action_approve = request.params.get('method') in ('action_approve')
+        group_account_edit = self.env.user.has_group('gard_x_gard.group_account_edit')
+        allow_write = action_draft or action_validate or action_approve or group_account_edit == True
+        _logger.debug('Requested params >>>>>: [%s.%s]' % (request.params.get('model'), request.params))
+        _logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
+        if any(state != 'draft' for state in set(self.mapped('state')) if allow_write == False):
+            raise UserError(_('Edit allowed only in draft state. [%s.%s]' % (request.params.get('model'), request.params.get('method'))))
         else:
+            _logger.info('Written vals: %s' % vals)
             return super().write(vals)
 
 class AccountExpensesRenditionInvoice(models.Model):
@@ -62,8 +77,15 @@ class AccountExpensesRenditionInvoice(models.Model):
 
     @api.multi
     def write(self, vals):
-        if any(state != 'draft' for state in set(self.mapped('state'))
-            if not self.env.user.has_group('gard_x_gard.group_account_edit')):
-            raise UserError(_("Edit allowed only in draft state."))
+        group_account_edit = self.env.user.has_group('gard_x_gard.group_account_edit')
+        # group_cashier = self.env.user.has_group('gard_x_gard.group_cashier')
+        allow_write = group_account_edit == True
+        _logger.debug('Requested params list >>>: [%s.%s]' % (request.params.get('model'), request.params))
+        _logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
+        # _logger.debug('Allow reconcile: %s', move_reconcile)
+        # _logger.debug('Allow calculate cash: %s', calculate_cash)
+        if any(state != 'draft' for state in set(self.mapped('state')) if allow_write == False):
+            raise UserError(_('Edit allowed only in draft state. [%s.%s]' % (request.params.get('model'), request.params.get('method'))))
         else:
+            _logger.info('Written vals: %s' % vals)
             return super().write(vals)

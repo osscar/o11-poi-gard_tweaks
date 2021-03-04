@@ -17,14 +17,19 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def write(self, vals):
+        action_invoice_open = request.params.get('method') in 'action_invoice_open'
+        action_validate_invoice_payment = request.params.get('method') in 'action_validate_invoice_payment'
         invoice_refund = request.params.get('method') in 'invoice_refund'
         move_reconcile = request.params.get('method') in ('assign_outstanding_credit', 'remove_move_reconcile')
         group_account_edit = self.env.user.has_group('gard_x_gard.group_account_edit')
+        allow_write = action_validate_invoice_payment or action_invoice_open or invoice_refund or move_reconcile or group_account_edit == True
         _logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
         _logger.debug('Allow invoice_refund method: %s', invoice_refund)
-        if any(state != 'draft' for state in set(self.mapped('state')
-            if not (group_account_edit or invoice_refund or move_reconcile))):
+        _logger.debug('Allow move_reconcile method: %s', move_reconcile)
+        _logger.debug('Allow write: %s', allow_write)
+        _logger.debug('state >>>>: %s', self.mapped('state'))
+        if any(state != 'draft' for state in set(self.mapped('state')) if allow_write == False):
             raise UserError(_('Edit allowed only in draft state. [%s.%s]' % (request.params.get('model'), request.params.get('method'))))
         else:
-            _logger.info('Written vals: %s', vals)
             return super().write(vals)
+            _logger.info('Written vals: %s', vals)

@@ -19,13 +19,13 @@ class AccountPayment(models.Model):
     def write(self, vals):
         move_reconcile = request.params.get('method') in ('assign_outstanding_credit', 'remove_move_reconcile')
         calculate_cash = request.params.get('method') in ('calculate_cash')
-        account_edit = self.env.user.has_group('gard_x_gard.group_account_edit')
-        cashier = self.env.user.has_group('gard_x_gard.group_cashier')
+        group_account_edit = self.env.user.has_group('gard_x_gard.group_account_edit')
+        group_cashier = self.env.user.has_group('gard_x_gard.group_cashier')
+        allow_write = move_reconcile or (group_cashier and calculate_cash) or group_account_edit == True
         _logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
         _logger.debug('Allow reconcile: %s', move_reconcile)
         _logger.debug('Allow calculate cash: %s', calculate_cash)
-        if any(state != 'draft' for state in set(self.mapped('state')
-            if not (account_edit or (cashier and calculate_cash) or move_reconcile))):
+        if any(state != 'draft' for state in set(self.mapped('state')) if allow_write == False):
             raise UserError(_('Edit allowed only in draft state. [%s.%s]' % (request.params.get('model'), request.params.get('method'))))
         else:
             _logger.info('Written vals: %s' % vals)
