@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-05 14:20+0000\n"
-"PO-Revision-Date: 2021-03-05 14:20+0000\n"
+"POT-Creation-Date: 2021-03-05 20:15+0000\n"
+"PO-Revision-Date: 2021-03-05 20:15+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,47 +21,65 @@ msgid "# of Payments"
 msgstr "# Pagos"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
 msgid "<strong>Amount cashed BOB:</strong>"
 msgstr "<strong>Monto recaudado BOB:</strong>"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
 msgid "<strong>Amount cashed USD:</strong>"
 msgstr "<strong>Monto recaudado USD:</strong>"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
 msgid "<strong>Communication:</strong>"
 msgstr "<strong>Comunicación:</strong>"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
 msgid "<strong>Company:</strong>"
 msgstr "<strong>Compañía:</strong>"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
 msgid "<strong>Date:</strong>"
 msgstr "<strong>Fecha:</strong>"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
 msgid "<strong>Depositor:</strong>"
 msgstr "<strong>Depositante:</strong>"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
+msgid "<strong>Invoice Origin Ref.:</strong>"
+msgstr "<strong>Origin Factura Ref.:</strong>"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
 msgid "<strong>Journals:</strong>"
 msgstr "<strong>Diarios:</strong>"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
+msgid "<strong>Payment Count</strong>"
+msgstr "<strong>Cantidad de Pagos</strong>"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
 msgid "<strong>Printed by:</strong>"
 msgstr "<strong>Impreso por:</strong>"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
 msgid "<strong>Trans. #:</strong>"
 msgstr "<strong>Trans. #:</strong>"
 
@@ -77,12 +95,17 @@ msgid "Amount"
 msgstr "Importe"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
-msgid "Amount Bs"
-msgstr "Importe Bs"
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
+msgid "Amount BOB"
+msgstr "Importe BOB"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
+msgid "Amount Cashed"
+msgstr "Monto Recaudado"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
 msgid "Amount USD"
 msgstr "Importe USD"
 
@@ -92,12 +115,27 @@ msgid "Asiento"
 msgstr "Asiento"
 
 #. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
+msgid "Bank"
+msgstr "Banco"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
+msgid "Bank Account"
+msgstr "Cuenta bancaria"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
+msgid "Cash Journal"
+msgstr "Diario de efectivo"
+
+#. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_search
 msgid "Cashier"
 msgstr "Cajero"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
 msgid "Check Ref."
 msgstr "Cheque Ref."
 
@@ -112,7 +150,7 @@ msgid "Control SIN"
 msgstr "Control SIN"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
 msgid "Created by"
 msgstr "Creado por"
 
@@ -127,19 +165,30 @@ msgid "Cuenta analítica"
 msgstr "Cuenta analítica"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
 msgid "Date"
 msgstr "Fecha"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
-msgid "Deposit Payment Report"
-msgstr "Reporte Pagos de Deposito"
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
+msgid "Date Cashed"
+msgstr "Fecha recaudado"
 
 #. module: gard_x_gard
-#: model:ir.actions.report,name:gard_x_gard.report_deposit_payments
-msgid "Deposit Payments"
-msgstr "Pagos de deposito"
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
+msgid "Deposit Lines"
+msgstr "Lineas de deposito"
+
+#. module: gard_x_gard
+#: model:ir.actions.report,name:gard_x_gard.action_report_deposit_slip
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
+msgid "Deposit Slip"
+msgstr "Boleta de deposito"
+
+#. module: gard_x_gard
+#: model:ir.actions.report,name:gard_x_gard.action_report_deposit_summary
+msgid "Deposit Summary"
+msgstr "Resumen de deposito"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_form
@@ -151,6 +200,11 @@ msgstr "Desc."
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_search
 msgid "Description"
 msgstr "Descripción"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
+msgid "Destination Journal"
+msgstr "Diario de destino"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_form
@@ -216,8 +270,8 @@ msgstr "GARD Cajero"
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_cashier
-msgid "GARD custom group for cashier."
-msgstr "GARD grupo personalizado para cajero."
+msgid "GARD custom for cashier."
+msgstr "GARD custom for cashier."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_edit
@@ -241,12 +295,12 @@ msgid "Invoice"
 msgstr "Factura"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
 msgid "Invoice Origin Ref."
 msgstr "Origen Factura Ref."
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
 msgid "Method"
 msgstr "Metodo"
 
@@ -268,7 +322,7 @@ msgid "Nr.Poliza Import."
 msgstr "Nr.Poliza Import."
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_all_tree
 msgid "Partner"
 msgstr "Empresa"
@@ -279,7 +333,7 @@ msgid "Payment Date"
 msgstr "Fecha de pago"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
 msgid "Payment Transactions"
 msgstr "Transacciones de pago"
 
@@ -299,7 +353,7 @@ msgstr "Los pagos se utilizan para registrar movimientos de liquidez (enviar, re
 "Puede procesar esos pagos por sus propios medios o utilizando los servicios instalados."
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
 msgid "Ref."
 msgstr "Ref."
 
@@ -317,6 +371,11 @@ msgstr "Rendicion realizada"
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_search
 msgid "Rendición"
 msgstr "Rendición"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
+msgid "Resumen de Deposito"
+msgstr "Resumen de Deposito"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_search
@@ -339,7 +398,7 @@ msgid "Solicitud de pago"
 msgstr "Solicitud de pago"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_payment_template
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
 msgid "State"
 msgstr "Estado"
 
@@ -360,9 +419,24 @@ msgid "Total"
 msgstr "Total"
 
 #. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
+msgid "Trans. #"
+msgstr "Trans. #"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
+msgid "Trans. Date"
+msgstr "Fecha de transaccion"
+
+#. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_search
 msgid "Transaction Date"
 msgstr "Fecha de transaccion"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
+msgid "Transfer Ref."
+msgstr "Transfer. Ref."
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_deposit

@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <!-- Report Paperformats -->
+        <record id="paperformat_us_letter_low_margin" model="report.paperformat">
+            <field name="name">US Letter (Low Margin)</field>
+            <field name="default" eval="True" />
+            <field name="format">Letter</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
         <!-- QWeb Reports -->
         <report
-            id="report_deposit_payments"
+            id="action_report_deposit_slip"
             model="account.deposit"
-            string="Deposit Payments"
+            string="Deposit Slip"
             report_type="qweb-pdf"
-            name="gard_x_gard.report_deposit_payment"
-            file="gard_x_gard.report_deposit_payment"
+            name="gard_x_gard.report_deposit_slip"
+            file="gard_x_gard.report_deposit_slip"
+            paperformat="gard_x_gard.paperformat_us_letter_low_margin"
+        />
+
+        <report
+            id="action_report_deposit_summary"
+            model="account.deposit"
+            string="Deposit Summary"
+            report_type="qweb-pdf"
+            name="gard_x_gard.report_deposit_summary"
+            file="gard_x_gard.report_deposit_summary"
+            paperformat="gard_x_gard.paperformat_us_letter_low_margin"
         />
 
     </data>

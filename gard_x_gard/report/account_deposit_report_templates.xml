@@ -1,13 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="report_deposit_payment_template">
+    <template id="report_deposit_slip_template">
         <t t-call="web.basic_layout">
             <t t-set="o" t-value="o.with_context({'lang':user.lang})"/>
             <div class="page">
-                <div class="header">
+                <div class="text-right">
                     <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
                 </div>
-                <h1>Deposit Payment Report</h1>
+                <h1>Deposit Slip</h1>
+                <h2><t t-esc="o.name"/></h2>
+                <t>[</t><t t-esc="o.state"/><t>]</t>
+                <div class="row mt32">
+                    <div class="col-xs-3">
+                        <strong>Date:</strong>
+                        <p t-esc="o.payment_date"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Depositor:</strong>
+                        <p t-esc="o.depositor"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Trans. #:</strong>
+                        <p><t t-foreach="o.payment_journal_ids" t-as="pj"><span t-esc="pj.transaction_number"/> / </t></p>
+                    </div>
+                </div>
+                <div class="row mt32">
+                    <div class="col-xs-3">
+                        <strong>Payment Count</strong>
+                        <p t-esc="o.payment_count"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Amount cashed BOB:</strong>
+                        <p t-esc="o.amount" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Amount cashed USD:</strong>
+                        <p t-esc="o.amount_usd" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id_sec}"/>
+                    </div>
+                </div>
+                <div class="row mt32">
+                    <div class="col-xs-3">
+                        <strong>Company:</strong>
+                        <p t-esc="res_company.name"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Journals:</strong>
+                        <t t-foreach="o.payment_journal_ids" t-as="pj"><span t-esc="pj.journal_id.name"/>,</t>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Printed by:</strong>
+                        <p t-esc="user.name"/>
+                    </div>
+                </div>
+                <h3>Payment Transactions</h3>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Date</th>
+                            <th>Ref.</th>
+                            <th>Partner</th>
+                            <th>Invoice Origin Ref.</th>
+                            <th>Method</th>
+                            <th>Check Ref.</th>
+                            <th>Amount BOB</th>
+                            <th>Amount USD</th>
+                            <th>State</th>
+                            <th>Created by</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="subtotalbs" t-value="0"/>
+                        <t t-set="subtotalus" t-value="0"/>
+                        <tr t-foreach="o.payment_ids" t-as="p">
+                            <td><span t-esc="p_index+1">.</span></td>
+                            <td><span t-field="p.payment_date"/></td>
+                            <td><span t-esc="p.name"/></td>
+                            <td><span t-esc="p.sudo().partner_id and p.sudo().partner_id.name or ''"/></td>
+                            <td><t t-foreach="p.invoice_ids" t-as="pi"><span t-esc="pi.origin"/>,</t></td>
+                            <td><span t-field="p.journal_id.name"/></td>
+                            <td><span t-field="p.check_number"/></td>
+                            <t t-if="p.currency_id.id==p.company_id.currency_id.id">
+                                <t t-set="subtotalbs" t-value="subtotalbs + p.amount_applied"/>
+                                <td><span t-esc="p.amount_applied" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                <td/>
+                            </t>
+                            <t t-if="p.currency_id.id!=p.company_id.currency_id.id">
+                                <t t-set="subtotalus" t-value="subtotalus + p.amount_applied"/>
+                                <td/>
+                                <td><span t-esc="p.amount_applied" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id_sec}"/></td>
+                            </t>
+                            <td><span t-field="p.state"/></td>
+                            <td><span t-field="p.create_uid.name"/></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><b><span t-esc="subtotalbs" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></b></td>
+                            <td><b><span t-esc="subtotalus" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id_sec}"/></b></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr/>
+                <hr/>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_deposit_summary_template">
+        <t t-call="web.basic_layout">
+            <t t-set="o" t-value="o.with_context({'lang':user.lang})"/>
+            <div class="page">
+                <div class="text-right">
+                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                </div>
+                <h1>Resumen de Deposito</h1>
                 <h2><t t-esc="o.name"/></h2>
                 <t>[</t><t t-esc="o.state"/><t>]</t>
                 <div class="row mt32">
@@ -25,17 +139,25 @@
                     </div>
                     <div class="col-xs-3">
                         <strong>Trans. #:</strong>
-                        <t t-foreach="o.payment_journal_ids" t-as="pj"><span t-esc="pj.transaction_number"/>,</t>
+                        <p><t t-foreach="o.payment_journal_ids" t-as="pj"><span t-esc="pj.transaction_number"/> / </t></p>
                     </div>
                 </div>
                 <div class="row mt32">
                     <div class="col-xs-3">
+                        <strong>Payment Count</strong>
+                        <p t-esc="o.payment_count"/>
+                    </div>
+                    <div class="col-xs-3">
                         <strong>Amount cashed BOB:</strong>
-                        <p t-esc="o.amount"/>
+                        <p t-esc="o.amount" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
                     </div>
                     <div class="col-xs-3">
                         <strong>Amount cashed USD:</strong>
-                        <p t-esc="o.amount_usd"/>
+                        <p t-esc="o.amount_usd" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id_sec}"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Invoice Origin Ref.:</strong>
+                        <p><t t-foreach="o.payment_ids" t-as="p"><span t-esc="p.invoice_ids.origin"/> / </t></p>
                     </div>
                 </div>
                 <div class="row mt32">
@@ -44,61 +166,50 @@
                         <p t-esc="res_company.name"/>
                     </div>
                     <div class="col-xs-3">
-                        <strong>Journals:</strong>
-                        <t t-foreach="o.payment_journal_ids" t-as="pj"><span t-esc="pj.journal_id.name"/>,</t>
-                    </div>
-                    <div class="col-xs-3">
                         <strong>Printed by:</strong>
-                        <t t-esc="user.name"/>
+                        <p t-esc="user.name"/>
                     </div>
                 </div>
-                <h3>Payment Transactions</h3>
+                <h3>Deposit Lines</h3>
                 <table class="table table-condensed">
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Ref.</th>
-                            <th>Partner</th>
-                            <th>Invoice Origin Ref.</th>
-                            <th>Method</th>
-                            <th>Check Ref.</th>
-                            <th>Amount Bs</th>
-                            <th>Amount USD</th>
-                            <th>State</th>
-                            <th>Created by</th>
+                            <th></th>
+                            <th>Cash Journal</th>
+                            <th>Amount Cashed</th>
+                            <th>Date Cashed</th>
+                            <th>Destination Journal</th>
+                            <th>Bank</th>
+                            <th>Bank Account</th>
+                            <th>Trans. #</th>
+                            <th>Trans. Date</th>
+                            <th>Transfer Ref.</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <t t-set="subtotalbs" t-value="0"/>
-                        <t t-set="subtotalus" t-value="0"/>
-                        <tr t-foreach="o.payment_ids" t-as="p">
-                            <td><span t-field="p.payment_date"/></td>
-                            <td><span t-esc="p.name"/></td>
-                            <td><span t-esc="p.sudo().partner_id and p.sudo().partner_id.name or ''"/></td>
-                            <td><t t-foreach="p.invoice_ids" t-as="pi"><span t-esc="pi.origin"/>,</t></td>
-                            <td><span t-field="p.journal_id.name"/></td>
-                            <td><span t-field="p.check_number"/></td>
-                            <t t-if="p.currency_id.id==p.company_id.currency_id.id">
-                                <t t-set="subtotalbs" t-value="p.amount_applied"/>
-                                <td><span t-esc="p.amount_applied" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
-                                <td/>
-                            </t>
-                            <t t-if="p.currency_id.id!=p.company_id.currency_id.id">
-                                <t t-set="subtotalus" t-value="subtotalus + p.amount_applied"/>
-                                <td/>
-                                <td><span t-esc="p.amount_applied" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
-                            </t>
-                            <td><span t-field="p.state"/></td>
-                            <td><span t-field="p.create_uid.name"/></td>
+                        <t t-set="total_cashed" t-value="0"/>
+                        <tr t-foreach="o.payment_journal_ids" t-as="pj">
+                            <td><span t-esc="pj_index+1">.</span></td>
+                            <td><span t-field="pj.journal_id.code"/></td>
+                            <t t-set="total_cashed" t-value="total_cashed + pj.amount" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                            <td><span t-esc="pj.amount" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                            <td><span t-esc="pj.date"/></td>
+                            <td><span t-esc="pj.destination_journal_id.code"/></td>
+                            <td><span t-field="pj.bank.name"/></td>
+                            <td><span t-field="pj.bank_account_id.account_number"/></td>
+                            <td><span t-field="pj.transaction_number"/></td>
+                            <td><span t-field="pj.transaction_date"/></td>
+                            <td><span t-field="pj.payment_depo_id"/></td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
+                            <td><b><span t-esc="total_cashed" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></b></td>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><b><span t-esc="subtotalbs"/></b></td>
-                            <td><b><span t-esc="subtotalus"/></b></td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -110,10 +221,18 @@
         </t>
     </template>
 
-    <template id="report_deposit_payment">
+    <template id="report_deposit_slip">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="gard_x_gard.report_deposit_payment_template" t-lang="user.lang"/>
+                <t t-call="gard_x_gard.report_deposit_slip_template" t-lang="user.lang"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_deposit_summary">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="gard_x_gard.report_deposit_summary_template" t-lang="user.lang"/>
             </t>
         </t>
     </template>
