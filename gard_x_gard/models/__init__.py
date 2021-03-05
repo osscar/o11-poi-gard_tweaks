@@ -4,3 +4,4 @@
 from . import account_payment
 from . import account_expenses_rendition
 from . import account_invoice
+from . import account_deposit

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- QWeb Reports -->
+        <report
+            id="report_deposit_payments"
+            model="account.deposit"
+            string="Deposit Payments"
+            report_type="qweb-pdf"
+            name="gard_x_gard.report_deposit_payment"
+            file="gard_x_gard.report_deposit_payment"
+        />
+
+    </data>
+</odoo>

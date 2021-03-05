@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_deposit_payment_template">
+        <t t-call="web.basic_layout">
+            <t t-set="o" t-value="o.with_context({'lang':user.lang})"/>
+            <div class="page">
+                <div class="header">
+                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                </div>
+                <h1>Deposit Payment Report</h1>
+                <h2><t t-esc="o.name"/></h2>
+                <t>[</t><t t-esc="o.state"/><t>]</t>
+                <div class="row mt32">
+                    <div class="col-xs-3">
+                        <strong>Date:</strong>
+                        <p t-esc="o.payment_date"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Depositor:</strong>
+                        <p t-esc="o.depositor"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Communication:</strong>
+                        <p t-esc="o.communication"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Trans. #:</strong>
+                        <t t-foreach="o.payment_journal_ids" t-as="pj"><span t-esc="pj.transaction_number"/>,</t>
+                    </div>
+                </div>
+                <div class="row mt32">
+                    <div class="col-xs-3">
+                        <strong>Amount cashed BOB:</strong>
+                        <p t-esc="o.amount"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Amount cashed USD:</strong>
+                        <p t-esc="o.amount_usd"/>
+                    </div>
+                </div>
+                <div class="row mt32">
+                    <div class="col-xs-3">
+                        <strong>Company:</strong>
+                        <p t-esc="res_company.name"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Journals:</strong>
+                        <t t-foreach="o.payment_journal_ids" t-as="pj"><span t-esc="pj.journal_id.name"/>,</t>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Printed by:</strong>
+                        <t t-esc="user.name"/>
+                    </div>
+                </div>
+                <h3>Payment Transactions</h3>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Ref.</th>
+                            <th>Partner</th>
+                            <th>Invoice Origin Ref.</th>
+                            <th>Method</th>
+                            <th>Check Ref.</th>
+                            <th>Amount Bs</th>
+                            <th>Amount USD</th>
+                            <th>State</th>
+                            <th>Created by</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="subtotalbs" t-value="0"/>
+                        <t t-set="subtotalus" t-value="0"/>
+                        <tr t-foreach="o.payment_ids" t-as="p">
+                            <td><span t-field="p.payment_date"/></td>
+                            <td><span t-esc="p.name"/></td>
+                            <td><span t-esc="p.sudo().partner_id and p.sudo().partner_id.name or ''"/></td>
+                            <td><t t-foreach="p.invoice_ids" t-as="pi"><span t-esc="pi.origin"/>,</t></td>
+                            <td><span t-field="p.journal_id.name"/></td>
+                            <td><span t-field="p.check_number"/></td>
+                            <t t-if="p.currency_id.id==p.company_id.currency_id.id">
+                                <t t-set="subtotalbs" t-value="p.amount_applied"/>
+                                <td><span t-esc="p.amount_applied" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                <td/>
+                            </t>
+                            <t t-if="p.currency_id.id!=p.company_id.currency_id.id">
+                                <t t-set="subtotalus" t-value="subtotalus + p.amount_applied"/>
+                                <td/>
+                                <td><span t-esc="p.amount_applied" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                            </t>
+                            <td><span t-field="p.state"/></td>
+                            <td><span t-field="p.create_uid.name"/></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><b><span t-esc="subtotalbs"/></b></td>
+                            <td><b><span t-esc="subtotalus"/></b></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr/>
+                <hr/>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_deposit_payment">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="gard_x_gard.report_deposit_payment_template" t-lang="user.lang"/>
+            </t>
+        </t>
+    </template>
+
+</odoo>
