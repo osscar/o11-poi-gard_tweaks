@@ -26,6 +26,21 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="view_account_deposit_tree">
+            <field name="name">account.deposit.tree.inherit.gard_x_gard</field>
+            <field name="model">account.deposit</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="poi_x_gard.view_account_deposit_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='amount_usd']" position="after">
+                    <field name="payment_count"/>
+                </xpath>
+
+            </field>
+        </record>
+
         <!-- Actions -->
 
         <!-- Menus -->

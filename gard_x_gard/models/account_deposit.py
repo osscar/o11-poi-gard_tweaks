@@ -27,7 +27,7 @@ class AccountDeposit(models.Model):
 
     def _get_payments(self):
         for deposit in self:
-            payment_ids = self.env['account.payment'].search([('deposit_id', '=', self.id)])
+            payment_ids = self.env['account.payment'].search([('deposit_id', '=', deposit.id)])
             deposit.update({
                 'payment_ids': payment_ids.ids,
                 'payment_count': len(set(payment_ids.ids)),
