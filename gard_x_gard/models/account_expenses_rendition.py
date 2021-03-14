@@ -55,8 +55,9 @@ class AccountExpensesRendition(models.Model):
         action_draft = request.params.get('method') in ('action_draft')
         action_validate = request.params.get('method') in ('action_validate')
         action_approve = request.params.get('method') in ('action_approve')
+        action_cancel = request.params.get('method') in ('action_cancel')
         group_account_edit = self.env.user.has_group('gard_x_gard.group_account_edit')
-        allow_write = action_draft or action_validate or action_approve or group_account_edit == True
+        allow_write = action_draft or action_validate or action_approve or actione_cancel or group_account_edit == True
         _logger.debug('Requested params >>>>>: [%s.%s]' % (request.params.get('model'), request.params))
         _logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
         if any(state != 'draft' for state in set(self.mapped('state')) if allow_write == False):

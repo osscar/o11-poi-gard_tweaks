@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_internal_consumption_slip_template">
+        <t t-call="web.basic_layout">
+            <t t-set="o" t-value="o.with_context({'lang':user.lang})"/>
+            <div class="page" t-if="o.is_internal_consumption == True">
+                <div class="text-right">
+                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                    <span t-field="o.company_id.razon"/>
+                </div>
+                <h1>Boleta de Consumo Interno</h1>
+                <h2><t t-esc="o.name"/></h2>
+                <t>[</t><t t-esc="o.state"/><t>]</t>
+                <div class="row mt32">
+                    <div class="col-xs-3">
+                        <strong>Date:</strong>
+                        <p t-esc="o.confirmation_date"/>
+                    </div>
+                    <div class="col-xs-4">
+                        <strong>Printed by:</strong>
+                        <p t-esc="user.name"/>
+                    </div>
+                </div>
+                <h3>Order Lines</h3>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th width="15%">Product</th>
+                            <th width="10%">Quantity</th>
+                            <th width="10%">Route</th>
+                            <th width="10%">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="total" t-value="0"/>
+                        <tr t-foreach="o.order_line" t-as="ol">
+                            <td><span t-esc="ol_index+1">.</span></td>
+                            <td><span t-field="ol.product_id"/></td>
+                            <td><span t-field="ol.product_uom_qty"/></td>
+                            <td><span t-field="ol.route_id"/></td>
+                            <t t-set="total" t-value="total + ol.price_total"/>
+                            <td><span t-field="ol.price_total"/></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><b><span t-esc="total" t-options="{'widget': 'monetary', 'display_currency': o.pricelist_id.currency_id}"/></b></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>Invoices (_)</h3>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th width="10%">Number</th>
+                            <th width="15%">State</th>
+                            <th width="10%">Estado SIN</th>
+                            <th width="10%">Date</th>
+                            <th width="10%">Total</th>
+                            <th width="10%">Payments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="o.invoice_ids" t-as="inv">
+                            <td><span t-field="inv.number"/></td>
+                            <td><span t-field="inv.state"/></td>
+                            <td><span t-field="inv.estado_fac"/></td>
+                            <td><span t-field="inv.date"/></td>
+                            <td><span t-field="inv.amount_total_signed"/></td>
+                            <td><span t-field="inv.payment_ids"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>Pickings (_)</h3>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th width="10%">Ref.</th>
+                            <th width="15%">State</th>
+                            <th width="10%">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="o.picking_ids" t-as="pick">
+                            <td><span t-field="pick.name"/></td>
+                            <td><span t-field="pick.state"/></td>
+                            <td><span t-field="pick.date"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row mt32" style="font-size:20px;">
+                    <div class="col-xs-5">
+                        <strong>Requestor:</strong>
+                    </div>
+                    <div style="width:49%;text-align:left;float:left;padding-left:3px;">
+                        <p style="margin:0;padding:0;">
+                            <strong>.......................................</strong>
+                        </p>
+                        </br>
+                        <p t-esc="o.ic_request_user_id.name"/>
+                    </div>
+                </div>
+                <div class="row mt32" style="font-size:20px;">
+                    <div class="col-xs-5">
+                        <strong>Reason:</strong>
+                        <p t-esc="o.ic_reason"/>
+                    </div>
+                </div>
+                <div class="row mt32" style="font-size:20px;">
+                    <div class="col-xs-5">
+                        <strong>VoB:</strong>
+                    </div>
+                    <div style="width:49%;text-align:left;float:left;padding-left:3px;">
+                        <p style="margin:0;padding:0;">
+                            <strong>.......................................</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_internal_consumption_slip">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="gard_internal_consumption.report_internal_consumption_slip_template" t-lang="user.lang"/>
+            </t>
+        </t>
+    </template>
+
+</odoo>

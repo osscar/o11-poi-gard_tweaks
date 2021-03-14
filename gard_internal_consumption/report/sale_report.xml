@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- QWeb Reports -->
+        <report
+            string="Internal Consumption Slip"
+            id="action_report_internal_consumption_slip"
+            model="sale.order"
+            report_type="qweb-pdf"
+            name="gard_internal_consumption.report_internal_consumption_slip"
+            file="gard_internal_consumption.report_internal_consumption_slip"
+            paperformat="poi_x_gard.paperformat_euro_pos_gard_ticket"
+        />
+    </data>
+</odoo>
