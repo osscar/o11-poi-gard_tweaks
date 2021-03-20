@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <!-- Search Views -->
+
+        <!-- Views -->
+        <record model="ir.ui.view" id="view_account_journal_form">
+            <field name="name">account.journal.form.inherit.gard_x_gard</field>
+            <field name="model">account.journal</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//sheet/group[1]/group[last()]" position="after">
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Actions -->
+
+        <!-- Menus -->
+
+</odoo>

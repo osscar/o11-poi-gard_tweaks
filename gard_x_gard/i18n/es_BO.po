@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-12 18:06+0000\n"
-"PO-Revision-Date: 2021-03-12 18:06+0000\n"
+"POT-Creation-Date: 2021-03-20 15:00+0000\n"
+"PO-Revision-Date: 2021-03-20 15:00+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -221,6 +221,7 @@ msgid "Desc."
 msgstr "Desc."
 
 #. module: gard_x_gard
+#: model:ir.model.fields,field_description:gard_x_gard.field_account_journal_note
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_search
 msgid "Description"
 msgstr "Descripción"
@@ -238,8 +239,8 @@ msgid "Documentos relacionados"
 msgstr "Documentos relacionados"
 
 #. module: gard_x_gard
-#: code:addons/gard_x_gard/models/account_expenses_rendition.py:63
-#: code:addons/gard_x_gard/models/account_expenses_rendition.py:88
+#: code:addons/gard_x_gard/models/account_expenses_rendition.py:64
+#: code:addons/gard_x_gard/models/account_expenses_rendition.py:89
 #: code:addons/gard_x_gard/models/account_invoice.py:32
 #: code:addons/gard_x_gard/models/account_payment.py:30
 #, python-format
@@ -326,6 +327,11 @@ msgid "Invoice Origin Ref."
 msgstr "Origen Factura Ref."
 
 #. module: gard_x_gard
+#: model:ir.model,name:gard_x_gard.model_account_journal
+msgid "Journal"
+msgstr "Diario"
+
+#. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
 msgid "Method"
 msgstr "Metodo"
@@ -389,6 +395,16 @@ msgstr "Los pagos se utilizan para registrar movimientos de liquidez (enviar, re
 "Puede procesar esos pagos por sus propios medios o utilizando los servicios instalados."
 
 #. module: gard_x_gard
+#: model:ir.model,name:gard_x_gard.model_procurement_group
+msgid "Procurement Requisition"
+msgstr "Petición de abastecimiento"
+
+#. module: gard_x_gard
+#: model:ir.model,name:gard_x_gard.model_sale_order
+msgid "Quotation"
+msgstr "Cotización"
+
+#. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
 msgid "Ref."
 msgstr "Ref."
@@ -424,6 +440,26 @@ msgid "SIN validado"
 msgstr "SIN validado"
 
 #. module: gard_x_gard
+#: model:ir.model,name:gard_x_gard.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea de orden de ventas"
+
+#. module: gard_x_gard
+#: model:ir.model.fields,help:gard_x_gard.field_account_journal_is_internal_consumption_journal
+msgid "Selected if this is an internal consumption journal."
+msgstr "Selected if this is an internal consumption journal."
+
+#. module: gard_x_gard
+#: model:ir.model.fields,help:gard_x_gard.field_stock_move_is_internal_consumption
+msgid "Selected if this is an internal consumption move."
+msgstr "Selected if this is an internal consumption move."
+
+#. module: gard_x_gard
+#: model:ir.model.fields,help:gard_x_gard.field_sale_order_is_intcon_auth
+msgid "Selected if this is an internal consumption sale."
+msgstr "Selected if this is an internal consumption sale."
+
+#. module: gard_x_gard
 #: model:ir.model.fields,field_description:gard_x_gard.field_account_expenses_rendition_invoice_payment_request_id
 msgid "Solicitud de Pago"
 msgstr "Solicitud de Pago"
@@ -437,6 +473,16 @@ msgstr "Solicitud de pago"
 #: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
 msgid "State"
 msgstr "Estado"
+
+#. module: gard_x_gard
+#: model:ir.model.fields,field_description:gard_x_gard.field_sale_order_state_internal_consumption
+msgid "Status"
+msgstr "Estado"
+
+#. module: gard_x_gard
+#: model:ir.model,name:gard_x_gard.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_form
@@ -470,6 +516,11 @@ msgid "Transaction Date"
 msgstr "Fecha de transaccion"
 
 #. module: gard_x_gard
+#: model:ir.model,name:gard_x_gard.model_stock_picking
+msgid "Transfer"
+msgstr "Transferir"
+
+#. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
 msgid "Transfer Ref."
 msgstr "Transfer. Ref."
@@ -478,6 +529,11 @@ msgstr "Transfer. Ref."
 #: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
 msgid "Type"
 msgstr "Tipo"
+
+#. module: gard_x_gard
+#: model:ir.model,name:gard_x_gard.model_stock_warehouse
+msgid "Warehouse"
+msgstr "Almacén"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_deposit
