@@ -56,6 +56,7 @@ This module tweaks the following:
         'views/account_expenses_rendition_view.xml',
         'views/account_deposit_view.xml',
         # 'views/account_payment_request_view.xml',
+        'views/stock_view.xml',
     ],
     'demo': [],
     'license': 'AGPL-3',
