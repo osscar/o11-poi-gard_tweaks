@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_picking_form" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit.gard_stock_force_date</field>
+            <field name="model">stock.picking</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+
+                <!-- add force_date field to form view -->
+                <field name="scheduled_date" position="after">
+                    <field name="force_date" groups="gard_stock_force_date.group_stock_force_date" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                </field>
+
+            </field>
+        </record>
+    </data>
+</odoo>
