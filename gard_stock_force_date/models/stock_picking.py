@@ -14,7 +14,7 @@ _logger = logging.getLogger(__name__)
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    force_date = fields.Datetime('Force Date')
+    force_date = fields.Datetime('Force Date', copy=False)
 
     @api.multi
     def action_done(self):
