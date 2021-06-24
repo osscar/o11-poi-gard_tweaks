@@ -9,3 +9,4 @@ from . import account_deposit
 # from . import account_payment_request
 # from . import account_cash_movement
 from . import stock_warehouse
+from . import sale
