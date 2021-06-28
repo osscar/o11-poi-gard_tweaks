@@ -162,5 +162,39 @@
             </field>
         </record>
 
+        <record id="view_account_payment_tree" model="ir.ui.view">
+            <field name="name">account.payment.tree.gard_order_history</field>
+            <field name="model">account.payment</field>
+            <field name="view_mode">tree</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+
+                <tree decoration-info="state=='draft'" decoration-muted="state=='reconciled'" edit="false">
+                    <field name="state" widget="label_selection"
+                        options="{
+                            'classes': {
+                                'draft': 'primary',
+                                'open': 'warning',
+                                'posted': 'success',
+                                'reconciled': 'success',
+                                'cancel': 'default'
+                                }}"/>
+                    <field name="payment_date"/>
+                    <field name="partner_id" string="Partner"/>
+                    <field name="name"/>
+                    <field name="journal_id"/>
+                    <field name="payment_method_id"/>
+                    <field name="amount" sum="Amount"/>
+                    <field name="communication"/>
+                    <field name="transaction_number"/>
+                    <field name="transaction_date"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="partner_type" invisible="1"/>
+                </tree>
+
+            </field>
+        </record>
+
+
     </data>
 </openerp>

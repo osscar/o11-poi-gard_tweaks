@@ -1,34 +1,79 @@
-# Translation for WARA:
-# This file contains translations for the following module:
-#	* gard_sale_price
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * gard_order_history
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-30 13:11+0000\n"
-"PO-Revision-Date: 2017-11-30 13:11+0000\n"
-"Last-Translator: squid\n"
-"Language-Team: GARD\n"
-"Language: es_BO\n"
+"POT-Creation-Date: 2021-06-28 20:19+0000\n"
+"PO-Revision-Date: 2021-06-28 20:19+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: \n"
 
-#. module: sale
+#. module: gard_order_history
+#: model:ir.ui.view,arch_db:gard_order_history.view_account_payment_tree
+msgid "Amount"
+msgstr "Importe"
+
+#. module: gard_order_history
+#: model:ir.ui.view,arch_db:gard_order_history.purchase_order_form
 #: model:ir.ui.view,arch_db:gard_order_history.view_order_form
 msgid "History"
 msgstr "Historial"
 
 #. module: gard_order_history
+#: model:ir.model,name:gard_order_history.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: gard_order_history
+#: model:ir.model.fields,field_description:gard_order_history.field_sale_order_invoice_payment_ids
 #: model:ir.ui.view,arch_db:gard_order_history.view_order_form
+msgid "Invoice Payments"
+msgstr "Pagos de Factura"
+
+#. module: gard_order_history
+#: model:ir.ui.view,arch_db:gard_order_history.view_invoice_supplier_tree
+#: model:ir.ui.view,arch_db:gard_order_history.view_invoice_tree
+msgid "Invoices"
+msgstr "Facturas"
+
+#. module: gard_order_history
 #: model:ir.ui.view,arch_db:gard_order_history.purchase_order_form
+#: model:ir.ui.view,arch_db:gard_order_history.view_order_form
 msgid "Invoices Related"
 msgstr "Facturas Relacionadas"
 
 #. module: gard_order_history
-#: model:ir.ui.view,arch_db:gard_order_history.view_order_form
+#: model:ir.ui.view,arch_db:gard_order_history.view_account_payment_tree
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: gard_order_history
+#: model:mail.message.subtype,description:gard_order_history.mt_payments
+#: model:mail.message.subtype,name:gard_order_history.mt_payments
+#: model:mail.message.subtype,name:gard_order_history.mt_payments_update
+msgid "Payments updated"
+msgstr "Pagos actualizados"
+
+#. module: gard_order_history
+#: model:ir.ui.view,arch_db:gard_order_history.vpicktree
+msgid "Picking list"
+msgstr "Albarán"
+
+#. module: gard_order_history
 #: model:ir.ui.view,arch_db:gard_order_history.purchase_order_form
+#: model:ir.ui.view,arch_db:gard_order_history.view_order_form
 msgid "Pickings Related"
 msgstr "Albaranes Relacionados"
+
+#. module: gard_order_history
+#: model:ir.model,name:gard_order_history.model_sale_order
+msgid "Quotation"
+msgstr "Presupuesto"
+

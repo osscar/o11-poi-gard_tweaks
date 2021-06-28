@@ -13,6 +13,8 @@
                     <page string="History" name="page_history">
                         <separator colspan="4" string="Invoices Related"/>
                         <field colspan="4" name="invoice_ids" nolabel="1" context="{'tree_view_ref': 'gard_order_history.view_invoice_tree', 'form_view_ref': 'poi_x_gard.account_invoice_gard'}"/>
+                        <separator colspan="4" string="Invoice Payments"/>
+                        <field colspan="4" name="invoice_payment_ids" nolabel="1" context="{'tree_view_ref': 'gard_order_history.view_account_payment_tree'}"/>
                         <separator colspan="4" string="Pickings Related"/>
                         <field colspan="4" name="picking_ids" nolabel="1" widget="one2many_list" context="{'tree_view_ref': 'gard_order_history.view_stock_picking_tree'}"/>
                     </page>
