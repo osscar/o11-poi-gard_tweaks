@@ -15,7 +15,13 @@ import odoo.addons.decimal_precision as dp
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    team_id = fields.Many2one('crm.team', 'Sales Channel', change_default=False, default=False, required=True, copy=False, track_visibility='onchange')
+    team_id = fields.Many2one('crm.team', 'Sales Channel', change_default=False, default=False, track_visibility='onchange')
+
+    @api.depends('state')
+    def _check_team_id(self):
+        for order in self:
+            if not team_id:
+                raise ValidationError(_('Please select a sales channel.'))
 
     @api.multi
     def write(self, values):
