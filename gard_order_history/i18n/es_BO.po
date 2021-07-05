@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-05 14:34+0000\n"
-"PO-Revision-Date: 2021-07-05 14:34+0000\n"
+"POT-Creation-Date: 2021-07-05 16:27+0000\n"
+"PO-Revision-Date: 2021-07-05 16:27+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr "Factura"
 #: model:ir.ui.view,arch_db:gard_order_history.view_order_form
 #: model:ir.ui.view,arch_db:gard_order_history.view_order_history_form
 msgid "Invoice Payments"
-msgstr "Pagos de factura"
+msgstr "Pagos de Factura"
 
 #. module: gard_order_history
 #: model:ir.ui.view,arch_db:gard_order_history.view_invoice_supplier_tree
@@ -52,7 +52,7 @@ msgstr "Facturas"
 #: model:ir.ui.view,arch_db:gard_order_history.view_order_form
 #: model:ir.ui.view,arch_db:gard_order_history.view_order_history_form
 msgid "Invoices Related"
-msgstr "Facturas relacionadas"
+msgstr "Facturas Relacionadas"
 
 #. module: gard_order_history
 #: model:ir.model.fields,field_description:gard_order_history.field_account_payment_journal_code
@@ -86,7 +86,7 @@ msgstr "Albarán"
 #: model:ir.ui.view,arch_db:gard_order_history.view_order_form
 #: model:ir.ui.view,arch_db:gard_order_history.view_order_history_form
 msgid "Pickings Related"
-msgstr "Albaranes relacionados"
+msgstr "Albaranes Relacionados"
 
 #. module: gard_order_history
 #: model:ir.model,name:gard_order_history.model_sale_order
@@ -94,9 +94,15 @@ msgid "Quotation"
 msgstr "Presupuesto"
 
 #. module: gard_order_history
+#: code:addons/gard_order_history/models/sale.py:31
+#, python-format
+msgid "Sale Order History"
+msgstr "Historial pedidos de venta"
+
+#. module: gard_order_history
 #: model:ir.ui.view,arch_db:gard_order_history.view_order_history_form
 msgid "Sales Order"
-msgstr "Pedido de venta"
+msgstr "Pedido de Venta"
 
 #. module: gard_order_history
 #: model:ir.model.fields,help:gard_order_history.field_account_payment_journal_code

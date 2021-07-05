@@ -28,7 +28,7 @@ class SaleOrder(models.Model):
     @api.multi
     def button_order_history(self):
         return {
-            'name': 'Sale Order History',
+            'name': _('Sale Order History'),
             'res_model': 'sale.order',
             'type': 'ir.actions.act_window',
             'view_type': 'form',
