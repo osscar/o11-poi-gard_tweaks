@@ -1,6 +1,229 @@
 <?xml version="1.0"?>
-<openerp>
+<odoo>
     <data>
+
+        <record id="view_order_history_form" model="ir.ui.view">
+            <field name="name">sale.order.history.form</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+
+                <form string="Sales Order">
+                    <script>
+                        $(document).ready(function(){
+                        <!-- $(".modal-header").hide(); -->
+                        $(".modal-footer").hide();
+                        });
+                    </script>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <notebook>
+                        <page string="History" name="page_history">
+                            <group>
+                                <separator colspan="4" string="Invoices Related"/>
+                                <field colspan="4" name="invoice_ids" nolabel="1" readonly="1">
+                                    <!-- context="{'tree_view_ref': 'gard_order_history.view_invoice_tree'}"/> -->
+                                    <kanban class="o_kanban_mobile">
+                                     <!-- default_group_by="state"> -->
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="state"/>
+                                        <field name="estado_fac"/>
+                                        <field name="date_due"/>
+                                        <field name="date_invoice"/>
+                                        <field name="number"/>
+                                        <field name="cc_nro"/>
+                                        <field name="origin"/>
+                                        <field name="partner_id"/>
+                                        <field name="residual_signed"/>
+                                        <field name="amount_total_signed"/>
+                                        <field name="payment_ids"/>
+                                        <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                                <div class="row">
+                                                    <div class="col-xs-6">
+                                                        <strong><span><t t-esc="record.partner_id.value"/></span></strong>
+                                                    </div>
+                                                    <div class="col-xs-6 pull-right text-right">
+                                                        <i class="fa fa-clock-o"/> <b><field name="date_invoice"/></b>
+                                                        <br/>
+                                                        <i class="fa fa-money"/> <field name="amount_total_signed" widget="monetary"/>
+                                                        <br/>
+                                                        <strong><field name="residual_signed" widget="monetary"/></strong>
+                                                        <div class="o_kanban_tags_section">
+                                                            <field name="payment_ids"/>
+                                                        </div>
+                                                    </div>
+                                                    <br/>
+                                                    <div class="col-xs-6">
+                                                        <t t-if="record.partner_invoice_id.value"> <field name="partner_invoice_id"/> </t>
+                                                    </div>
+                                                    <br/>
+                                                    <br/>
+                                                    <div class="col-xs-6">
+                                                        <span><b><t t-esc="record.origin.value"/></b></span>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6">
+                                                        <span><b>
+                                                            <b><t t-esc="record.number.value"/></b>
+                                                        <br/>
+                                                        [<t t-esc="record.cc_nro.raw_value"/>]
+                                                    </b></span>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-xs-6 pull-right text-right">
+                                                        <span>
+                                                            <field name="estado_fac" widget="kanban_label_selection"
+                                                                options="{'classes': {'V': 'success', 'A': 'default', 'na': 'default', 'N': 'default',
+                                                                    'E': 'danger', 'C': 'warning'}}"/>
+                                                            <field name="state" widget="kanban_label_selection"
+                                                                options="{'classes': {'draft': 'default', 'cancel': 'default', 'none': 'danger',
+                                                                    'proforma': 'warning', 'proforma2': 'warning', 'open': 'warning', 'paid': 'success'}}"/>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                                <separator colspan="4" string="Invoice Payments"/>
+                                <field colspan="4" name="invoice_payment_ids" nolabel="1" readonly="1">
+                                 <!-- context="{'tree_view_ref': 'gard_order_history.view_account_payment_tree'}"/> -->
+                                    <kanban class="o_kanban_mobile" default_group_by="journal_type">
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="state"/>
+                                        <field name="payment_date"/>
+                                        <field name="partner_id"/>
+                                        <field name="name"/>
+                                        <field name="journal_code"/>
+                                        <field name="journal_type"/>
+                                        <field name="amount"/>
+                                        <field name="communication"/>
+                                        <field name="analytic_account_id"/>
+                                        <field name="move_name"/>
+                                        <field name="transaction_number"/>
+                                        <field name="transaction_date"/>
+                                        <field name="invoice_ids"/>
+                                        <field name="create_uid"/>
+                                        <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                                <div class="row">
+                                                    <div class="col-xs-6">
+                                                        <span>
+                                                            <t t-esc="record.journal_type.value"/> [<field name="journal_code"/>]
+                                                        </span>
+                                                        <br/>
+                                                        <strong><span><t t-esc="record.partner_id.value"/></span></strong>
+                                                        <br/>
+                                                        <br/>
+                                                        <strong><span><t t-esc="record.name.value"/></span></strong>
+                                                    </div>
+                                                    <div class="col-xs-6 pull-right text-right">
+                                                        <i class="fa fa-clock-o"/> <b><field name="payment_date"/></b>
+                                                        <br/>
+                                                        <i class="fa fa-money"/> <b><field name="amount" widget="monetary"/></b>
+                                                        <div class="o_kanban_tags_section">
+                                                            <field name="invoice_ids"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 text-muted">
+                                                        <span><t t-esc="record.communication.value"/></span>
+                                                    </div>
+                                                    <div class="col-xs-6 text-muted">
+                                                        <t t-if="record.journal_type.raw_value == 'bank'">
+                                                            <field name="bank_account_id"/>
+                                                            <br/>
+                                                            <field name="transaction_date"/>
+                                                            <br/>
+                                                            <b>[<field name="transaction_number"/>]</b>
+                                                        </t>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 text-muted">
+                                                        <span><t t-esc="record.analytic_account_id.value"/></span>
+                                                    </div>
+                                                    <br/>
+                                                    <div class="col-xs-6 pull-right text-right text-muted">
+                                                        <span>
+                                                            <field name="state" widget="kanban_label_selection"
+                                                                options="{'classes': {'draft': 'default', 'posted': 'primary',
+                                                                    'sent': 'danger', 'reconciled': 'success'}}"/>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                                <separator colspan="4" string="Pickings Related"/>
+                                <field colspan="4" name="picking_ids" nolabel="1" readonly="1">
+                                    <!-- context="{'tree_view_ref': 'gard_order_history.view_stock_picking_tree'}"/> -->
+                                    <kanban class="o_kanban_mobile">
+                                        <field name="name"/>
+                                        <field name="partner_id"/>
+                                        <field name="origin"/>
+                                        <field name="location_id"/>
+                                        <field name="location_dest_id"/>
+                                        <field name="state"/>
+                                        <field name="date"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <strong><span><t t-esc="record.partner_id.value"/></span></strong>
+                                                            <br/>
+                                                            <br/>
+                                                        </div>
+                                                        <div class="col-xs-6 pull-right text-right">
+                                                            <i class="fa fa-clock-o"/> <b><field name="date"/></b>
+                                                            <!-- <span class="pull-right text-right"><t t-esc="record.date.value and record.date.value.split(' ')[0] or False"/></span> -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <strong><span><t t-esc="record.origin.value"/></span></strong>
+                                                            <br/>
+                                                            <strong><span><t t-esc="record.name.value"/></span></strong>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <field name="location_id"/>
+                                                            <br/>
+                                                            <field name="location_dest_id"/>
+                                                        </div>
+                                                        <div class="col-xs-6 pull-right text-right text-muted">
+                                                            <field name="state" widget="kanban_label_selection" options="{'classes':
+                                                                {'draft': 'default', 'cancel': 'default', 'none': 'danger', 'waiting': 'warning',
+                                                                    'confirmed': 'warning', 'partially_available': 'warning', 'done': 'success'}}"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                </form>
+
+            </field>
+        </record>
 
         <record id="view_order_form" model="ir.ui.view">
             <field name="name">sale.order.form.inherit.gard_order_history</field>
@@ -23,5 +246,60 @@
             </field>
         </record>
 
+        <!-- <record id="view_sale_order_kanban" model="ir.ui.view">
+            <field name="name">sale.order.kanban.inherit.gard_order_history</field>
+            <field name="model">sale.order</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="sale.view_sale_order_kanban"/>
+            <field name="arch" type="xml">
+
+
+
+            </field>
+        </record>
+
+        <record id="view_order_tree" model="ir.ui.view">
+            <field name="name">sale.order.tree.inherit.gard_order_history</field>
+            <field name="model">sale.order</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//tree/field[1]" position="before">
+                    <field name="invoice_ids" invisible="1"/>
+                    <field name="invoice_payment_ids" invisible="1"/>
+                    <button name="button_invoices" type='object'
+                        attrs="{'invisible':['|', ('invoice_ids', '=', [])]}"
+                        icon="fa-2x fa-pencil-square-o fa-gard-icon-orange" string="Invoices"/>
+                    <button name="button_invoice_payments" type='object'
+                        attrs="{'invisible':['|', ('invoice_payment_ids', '=', [])]}"
+                        icon="fa-2x fa-usd fa-gard-icon-orange" string="Invoice Payments"/>
+                </xpath>
+
+            </field>
+        </record> -->
+
+        <record id="view_quotation_tree" model="ir.ui.view">
+            <field name="name">sale.quotation.tree.inherit.gard_order_history</field>
+            <field name="model">sale.order</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//tree/field[1]" position="before">
+                    <field name="invoice_ids" invisible="1"/>
+                    <field name="invoice_payment_ids" invisible="1"/>
+                    <button name="button_order_history" type='object'
+                        attrs="{'invisible':['|', '|', '|', ('invoice_ids', '=', []), ('invoice_ids', '=', [])]}"
+                        icon="fa-2x fa-info-circle fa-gard-icon-orange" string="Invoices"/>
+
+                    <!-- <button name="button_invoice_payments" type='object'
+                        attrs="{'invisible':['|', ('invoice_payment_ids', '=', [])]}"
+                        icon="fa-2x fa-usd fa-gard-icon-orange" string="Invoice Payments"/> -->
+                </xpath>
+
+            </field>
+        </record>
+
     </data>
-</openerp>
+</odoo>

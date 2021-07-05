@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-import logging
+# import logging
 
-import datetime
 from odoo import models, fields, api, exceptions, _
 
-_logger = logging.getLogger(__name__)
+from lxml import etree
+import json
+
+# _logger = logging.getLogger(__name__)
 
 
 class SaleOrder(models.Model):
@@ -21,5 +23,36 @@ class SaleOrder(models.Model):
         for order in self:
             if order.invoice_ids:
                 order.invoice_payment_ids = order.mapped('invoice_ids').mapped('payment_ids')
-                _logger.debug('>>>>: %s', (order.invoice_payment_ids))
+                # _logger.debug('>>>>: %s', (order.invoice_payment_ids))
+
+    @api.multi
+    def button_order_history(self):
+        return {
+            'name': 'Sale Order History',
+            'res_model': 'sale.order',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': self.env.ref('gard_order_history.view_order_history_form').id,
+            'context': {'turn_view_readonly': True},
+            'res_id': self.id,
+            'target': 'new',
+        }
+
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type=False, toolbar=False, submenu=False):
+        context = self._context
+        res = super(SaleOrder, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
+                                                           submenu=submenu)
+
+        if context.get('turn_view_readonly'):  # Check for context value
+            doc = etree.XML(res['arch'])
+            if view_type == 'form':            # Applies only for form view
+                for node in doc.xpath("//field"):   # All the view fields to readonly
+                    node.set('readonly', '1')
+                    node.set('modifiers', json.dumps({"readonly": True}))
+
+                res['arch'] = etree.tostring(doc)
+        return res
 
