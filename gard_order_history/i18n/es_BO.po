@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-28 20:19+0000\n"
-"PO-Revision-Date: 2021-06-28 20:19+0000\n"
+"POT-Creation-Date: 2021-07-05 14:34+0000\n"
+"PO-Revision-Date: 2021-07-05 14:34+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,9 @@ msgstr "Importe"
 #. module: gard_order_history
 #: model:ir.ui.view,arch_db:gard_order_history.purchase_order_form
 #: model:ir.ui.view,arch_db:gard_order_history.view_order_form
+#: model:ir.ui.view,arch_db:gard_order_history.view_order_history_form
+#: model:ir.ui.view,arch_db:gard_order_history.view_order_tree
+#: model:ir.ui.view,arch_db:gard_order_history.view_quotation_tree
 msgid "History"
 msgstr "Historial"
 
@@ -34,8 +37,9 @@ msgstr "Factura"
 #. module: gard_order_history
 #: model:ir.model.fields,field_description:gard_order_history.field_sale_order_invoice_payment_ids
 #: model:ir.ui.view,arch_db:gard_order_history.view_order_form
+#: model:ir.ui.view,arch_db:gard_order_history.view_order_history_form
 msgid "Invoice Payments"
-msgstr "Pagos de Factura"
+msgstr "Pagos de factura"
 
 #. module: gard_order_history
 #: model:ir.ui.view,arch_db:gard_order_history.view_invoice_supplier_tree
@@ -46,13 +50,24 @@ msgstr "Facturas"
 #. module: gard_order_history
 #: model:ir.ui.view,arch_db:gard_order_history.purchase_order_form
 #: model:ir.ui.view,arch_db:gard_order_history.view_order_form
+#: model:ir.ui.view,arch_db:gard_order_history.view_order_history_form
 msgid "Invoices Related"
-msgstr "Facturas Relacionadas"
+msgstr "Facturas relacionadas"
+
+#. module: gard_order_history
+#: model:ir.model.fields,field_description:gard_order_history.field_account_payment_journal_code
+msgid "Journal Type"
+msgstr "Tipo diario"
 
 #. module: gard_order_history
 #: model:ir.ui.view,arch_db:gard_order_history.view_account_payment_tree
 msgid "Partner"
 msgstr "Empresa"
+
+#. module: gard_order_history
+#: model:ir.model,name:gard_order_history.model_account_payment
+msgid "Payments"
+msgstr "Pagos"
 
 #. module: gard_order_history
 #: model:mail.message.subtype,description:gard_order_history.mt_payments
@@ -69,11 +84,22 @@ msgstr "Albarán"
 #. module: gard_order_history
 #: model:ir.ui.view,arch_db:gard_order_history.purchase_order_form
 #: model:ir.ui.view,arch_db:gard_order_history.view_order_form
+#: model:ir.ui.view,arch_db:gard_order_history.view_order_history_form
 msgid "Pickings Related"
-msgstr "Albaranes Relacionados"
+msgstr "Albaranes relacionados"
 
 #. module: gard_order_history
 #: model:ir.model,name:gard_order_history.model_sale_order
 msgid "Quotation"
 msgstr "Presupuesto"
+
+#. module: gard_order_history
+#: model:ir.ui.view,arch_db:gard_order_history.view_order_history_form
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: gard_order_history
+#: model:ir.model.fields,help:gard_order_history.field_account_payment_journal_code
+msgid "The journal entries of this journal will be named using this prefix."
+msgstr "Los asientos de este diario será nombrados usando este prefijo."
 
