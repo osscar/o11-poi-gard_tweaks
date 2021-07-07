@@ -253,10 +253,6 @@
             <field name="inherit_id" ref="sale.view_order_tree"/>
             <field name="arch" type="xml">
 
-                <xpath expr="//tree/field[last()]" position="after">
-                    <field name="invoice_status" attrs="{'invisible': [('invoice_status', '=', 'no')]}"/>
-                </xpath>
-
                 <xpath expr="//tree/field[1]" position="before">
                     <button name="button_order_history" type='object'
                         attrs="{'invisible':[('state', '=', 'draft')]}"
