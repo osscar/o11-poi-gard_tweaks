@@ -42,6 +42,7 @@ This module tweaks the following:
         'poi_cash_movements',
         'poi_payment_request',
         'poi_x_gard',
+        'sale',
         'web',
     ],
     'category': 'Other',
