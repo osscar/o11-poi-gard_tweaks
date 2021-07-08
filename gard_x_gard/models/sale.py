@@ -47,14 +47,11 @@ class SaleOrderLine(models.Model):
 
     @api.multi
     def write(self, values):
-        action_auth_intcon = request.params.get('method') in 'action_auth_internal_consumption'
-        action_confirm = request.params.get('method') in 'action_confirm'
-        action_cancel = request.params.get('method') in 'action_cancel'
-        action_draft = request.params.get('method') in 'action_draft'
-        allow_write = action_auth_intcon or action_confirm or action_cancel or action_draft
+        immediate_transfer_process = request.params.get('method') in 'immediate.transfer.process'
+        allow_write = immediate_transfer_process
         # _logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
         # _logger.debug('state >>>>: %s', self.mapped('state'))
-        # _logger.info('values: %s', values)
+        # _logger.info('self: %s', self)
         if any(state != 'draft' for state in set(self.mapped('state')) if not allow_write):
             raise UserError(_('Edit allowed only in draft state. [%s.%s]' % (request.params.get('model'), request.params.get('method'))))
         else:
