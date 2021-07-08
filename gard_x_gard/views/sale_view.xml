@@ -4,6 +4,21 @@
         <!-- Search Views -->
 
         <!-- Views -->
+        <record model="ir.ui.view" id="view_order_form">
+            <field name="name">sale.order.form.inherit.gard_x_gard</field>
+            <field name="model">sale.order</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='team_id']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+
         <record model="ir.ui.view" id="view_order_tree">
             <field name="name">sale.order.tree.inherit.gard_x_gard</field>
             <field name="model">sale.order</field>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-# import logging
+import logging
 
 from odoo import api, fields, models, _
 from odoo.exceptions import RedirectWarning, UserError, ValidationError
@@ -9,7 +9,7 @@ from odoo.http import request
 
 import odoo.addons.decimal_precision as dp
 
-# _logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class SaleOrder(models.Model):
@@ -17,11 +17,11 @@ class SaleOrder(models.Model):
 
     team_id = fields.Many2one('crm.team', 'Sales Channel', change_default=False, default=False, track_visibility='onchange')
 
-    @api.depends('state')
-    def _check_team_id(self):
-        for order in self:
-            if not team_id:
-                raise ValidationError(_('Please select a sales channel.'))
+    # @api.depends('state')
+    # def _check_team_id(self):
+    #     if not self.team_id:
+    #         _logger.info('team_id: %s', self.team_id)
+    #         raise ValidationError(_('Please select a sales channel.'))
 
     @api.multi
     def write(self, values):
