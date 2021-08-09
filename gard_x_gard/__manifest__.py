@@ -53,6 +53,7 @@ This module tweaks the following:
         'security/gard_x_gard_security.xml',
 
         'views/account_view.xml',
+        'views/account_invoice_view.xml',
         'views/account_payment_view.xml',
         'views/account_expenses_rendition_view.xml',
         'views/account_deposit_view.xml',

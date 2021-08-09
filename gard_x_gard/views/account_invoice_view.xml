@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <!-- Search Views -->
+
+        <!-- Views -->
+        <record model="ir.ui.view" id="invoice_supplier_form">
+            <field name="name">account.invoice.supplier.form.inherit.gard_x_gard</field>
+            <field name="model">account.invoice</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='action_invoice_open']" position="attributes">
+                    <attribute name="confirm">Please check all the data before validating. Validate?</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="invoice_form">
+            <field name="name">account.invoice.form.inherit.gard_x_gard</field>
+            <field name="model">account.invoice</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='action_invoice_open']" position="attributes">
+                    <attribute name="confirm">Please check all the data before validating. Validate?</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Actions -->
+
+        <!-- Menus -->
+
+</odoo>
