@@ -39,14 +39,15 @@ class ProductPricelistItem(models.Model):
 
     @api.depends('sale_price', 'min_quantity')
     def _calc_unit_price(self):
-        if self.min_quantity > 0:
-            self.unit_price = self.sale_price / self.min_quantity
-        else:
-            self.min_quantity = 1
-            return {
-                'warning': {'title': _('Input Error'),
-                            'message': _('Minimum quantity may not be 0. Setting minimum quantity to 1. Please change accordingly.'), },
-            }
+        for item in self:
+            if item.min_quantity > 0:
+                item.unit_price = item.sale_price / item.min_quantity
+            else:
+                item.min_quantity = 1
+                return {
+                    'warning': {'title': _('Input Error'),
+                                'message': _('Minimum quantity may not be 0. Setting minimum quantity to 1. Please change accordingly.'), },
+                }
 
     @api.one
     @api.depends('sale_price', 'sale_margin_excl', 'min_quantity')
