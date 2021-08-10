@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-20 15:00+0000\n"
-"PO-Revision-Date: 2021-03-20 15:00+0000\n"
+"POT-Creation-Date: 2021-08-09 18:55+0000\n"
+"PO-Revision-Date: 2021-08-09 18:55+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,79 +21,6 @@ msgid "# of Payments"
 msgstr "# Pagos"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_summary_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "<strong>Amount cashed BOB:</strong>"
-msgstr "<strong>Monto recaudado BOB:</strong>"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_summary_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "<strong>Amount cashed USD:</strong>"
-msgstr "<strong>Monto recaudado USD:</strong>"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "<strong>Communication:</strong>"
-msgstr "<strong>Comunicación:</strong>"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "<strong>Company:</strong>"
-msgstr "<strong>Compañía:</strong>"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_summary_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "<strong>Date:</strong>"
-msgstr "<strong>Fecha:</strong>"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "<strong>Depositor:</strong>"
-msgstr "<strong>Depositante:</strong>"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "<strong>Invoice Origin Ref.:</strong>"
-msgstr "<strong>Origin Factura Ref.:</strong>"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_summary_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "<strong>Payment Count</strong>"
-msgstr "<strong>Cantidad de Pagos</strong>"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_summary_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "<strong>Printed by:</strong>"
-msgstr "<strong>Impreso por:</strong>"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "<strong>Trans. #:</strong>"
-msgstr "<strong>Trans. #:</strong>"
-
-#. module: gard_x_gard
-#: model:ir.model,name:gard_x_gard.model_account_payment_request_type
-msgid "Account Payment Request Types"
-msgstr "Tipos de solicitud Pago"
-
-#. module: gard_x_gard
-#: model:ir.model,name:gard_x_gard.model_account_payment_request
-msgid "Account Payment Requests"
-msgstr "Solicitudes de Pago"
-
-#. module: gard_x_gard
 #: model:ir.actions.act_window,name:gard_x_gard.action_account_payments_all
 #: model:ir.ui.menu,name:gard_x_gard.menu_action_account_payments_all
 msgid "All Payments"
@@ -105,45 +32,9 @@ msgid "Amount"
 msgstr "Importe"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-msgid "Amount BOB"
-msgstr "Importe BOB"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_summary_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "Amount Cashed"
-msgstr "Monto Recaudado"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-msgid "Amount USD"
-msgstr "Importe USD"
-
-#. module: gard_x_gard
 #: model:ir.model.fields,field_description:gard_x_gard.field_account_expenses_rendition_invoice_rendition_move_id
 msgid "Asiento"
 msgstr "Asiento"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "Bank"
-msgstr "Banco"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "Bank Account"
-msgstr "Cuenta bancaria"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_summary_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "Cash Journal"
-msgstr "Diario de efectivo"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_search
@@ -151,74 +42,9 @@ msgid "Cashier"
 msgstr "Cajero"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-msgid "Check Ref."
-msgstr "Cheque Ref."
-
-#. module: gard_x_gard
 #: model:ir.actions.act_window,help:gard_x_gard.action_account_payments_all
 msgid "Click to register a payment"
 msgstr "Pulse para registrar un pago"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_form
-msgid "Control SIN"
-msgstr "Control SIN"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-msgid "Created by"
-msgstr "Creado por"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_search
-msgid "Cuenta"
-msgstr "Cuenta"
-
-#. module: gard_x_gard
-#: model:ir.model.fields,field_description:gard_x_gard.field_account_payment_request_type_account_analytic_id
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_search
-msgid "Cuenta analítica"
-msgstr "Cuenta analítica"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-msgid "Date"
-msgstr "Fecha"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "Date Cashed"
-msgstr "Fecha recaudado"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_summary_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "Deposit Lines"
-msgstr "Lineas de deposito"
-
-#. module: gard_x_gard
-#: model:ir.actions.report,name:gard_x_gard.action_report_deposit_slip
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-msgid "Deposit Slip"
-msgstr "Boleta de deposito"
-
-#. module: gard_x_gard
-#: model:ir.actions.report,name:gard_x_gard.action_report_deposit_slip_summary
-msgid "Deposit Slip Summary"
-msgstr "Resumen boleta de deposito"
-
-#. module: gard_x_gard
-#: model:ir.actions.report,name:gard_x_gard.action_report_deposit_summary
-msgid "Deposit Summary"
-msgstr "Resumen de deposito"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_form
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_tree
-msgid "Desc."
-msgstr "Desc."
 
 #. module: gard_x_gard
 #: model:ir.model.fields,field_description:gard_x_gard.field_account_journal_note
@@ -227,41 +53,15 @@ msgid "Description"
 msgstr "Descripción"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_summary_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "Destination Journal"
-msgstr "Diario de destino"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_form
-msgid "Documentos relacionados"
-msgstr "Documentos relacionados"
-
-#. module: gard_x_gard
 #: code:addons/gard_x_gard/models/account_expenses_rendition.py:64
 #: code:addons/gard_x_gard/models/account_expenses_rendition.py:89
 #: code:addons/gard_x_gard/models/account_invoice.py:32
-#: code:addons/gard_x_gard/models/account_payment.py:30
+#: code:addons/gard_x_gard/models/account_payment.py:29
+#: code:addons/gard_x_gard/models/sale.py:37
+#: code:addons/gard_x_gard/models/sale.py:56
 #, python-format
 msgid "Edit allowed only in draft state. [%s.%s]"
 msgstr "Solo se puede editar en estado borrador. [%s.%s]"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_search
-msgid "Estado Rendicion"
-msgstr "Estado Rendicion"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_search
-msgid "Estado SIN"
-msgstr "Estado SIN"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_form
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_tree
-msgid "Exento total"
-msgstr "Exento total"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_expenses_rendition
@@ -274,18 +74,6 @@ msgid "Expenses Rendition Invoices"
 msgstr "Facturas de Rendición de Gastos"
 
 #. module: gard_x_gard
-#: model:ir.actions.act_window,name:gard_x_gard.action_account_expenses_rendition_invoice
-#: model:ir.ui.menu,name:gard_x_gard.menu_action_account_expenses_rendition_invoice
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_form
-msgid "Facturas de rendición"
-msgstr "Facturas de rendición"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_search
-msgid "Fecha de factura"
-msgstr "Fecha de factura"
-
-#. module: gard_x_gard
 #: model:res.groups,name:gard_x_gard.group_account_edit
 msgid "GARD Accounting Edit"
 msgstr "GARD Edicion Contabilidad"
@@ -293,12 +81,12 @@ msgstr "GARD Edicion Contabilidad"
 #. module: gard_x_gard
 #: model:res.groups,name:gard_x_gard.group_cashier
 msgid "GARD Cashier"
-msgstr "GARD Cajero"
+msgstr "GARD Cashier"
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_cashier
-msgid "GARD custom for cashier."
-msgstr "GARD custom for cashier."
+msgid "GARD custom group for cashier."
+msgstr "GARD grupo personalizado para cajero."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_edit
@@ -306,25 +94,9 @@ msgid "GARD custom group for special permission to edit information in posted re
 msgstr "GARD grupo personalizado para permisos especiales en documentos confirmados."
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_form
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_tree
-msgid "ICE total"
-msgstr "ICE total"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_form
-msgid "Información"
-msgstr "Información"
-
-#. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_invoice
 msgid "Invoice"
 msgstr "Factura"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-msgid "Invoice Origin Ref."
-msgstr "Origen Factura Ref."
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_journal
@@ -332,39 +104,12 @@ msgid "Journal"
 msgstr "Diario"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-msgid "Method"
-msgstr "Metodo"
+#: model:ir.model.fields,field_description:gard_x_gard.field_sale_order_line_date_order_id
+#: model:ir.ui.view,arch_db:gard_x_gard.view_sales_order_line_filter
+msgid "Order Date"
+msgstr "Fecha orden"
 
 #. module: gard_x_gard
-#: model:ir.model.fields,field_description:gard_x_gard.field_account_payment_request_type_journal_id
-msgid "Método de Pago"
-msgstr "Método de Pago"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_search
-msgid "Nombre"
-msgstr "Nombre"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_form
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_tree
-msgid "Nr.Fact."
-msgstr "Nr.Fact."
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_form
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_tree
-msgid "Nr.Poliza Import."
-msgstr "Nr.Poliza Import."
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.page_number_layout_footer
-msgid "Page:"
-msgstr "Pagina:"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_all_tree
 msgid "Partner"
 msgstr "Empresa"
@@ -375,15 +120,8 @@ msgid "Payment Date"
 msgstr "Fecha de pago"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-msgid "Payment Transactions"
-msgstr "Transacciones de pago"
-
-#. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_payment
 #: model:ir.model.fields,field_description:gard_x_gard.field_account_deposit_payment_ids
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_deposit_form
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_search
 msgid "Payments"
 msgstr "Pagos"
 
@@ -395,140 +133,31 @@ msgstr "Los pagos se utilizan para registrar movimientos de liquidez (enviar, re
 "Puede procesar esos pagos por sus propios medios o utilizando los servicios instalados."
 
 #. module: gard_x_gard
-#: model:ir.model,name:gard_x_gard.model_procurement_group
-msgid "Procurement Requisition"
-msgstr "Petición de abastecimiento"
+#: model:ir.ui.view,arch_db:gard_x_gard.invoice_form
+#: model:ir.ui.view,arch_db:gard_x_gard.invoice_supplier_form
+msgid "Please check all the data before validating. Validate?"
+msgstr "Revise todos los datos antes de validar, ¿validar?"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_sale_order
 msgid "Quotation"
-msgstr "Cotización"
+msgstr "Presupuesto"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-msgid "Ref."
-msgstr "Ref."
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_search
-msgid "Rendicion cancelada"
-msgstr "Rendicion cancelada"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_search
-msgid "Rendicion realizada"
-msgstr "Rendicion realizada"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_search
-msgid "Rendición"
-msgstr "Rendición"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "Resumen de Deposito"
-msgstr "Resumen de Deposito"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_search
-msgid "SIN anulado"
-msgstr "SIN anulado"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_search
-msgid "SIN validado"
-msgstr "SIN validado"
+#: model:ir.actions.act_window,name:gard_x_gard.action_sale_order_lines
+#: model:ir.ui.menu,name:gard_x_gard.menu_sale_order_lines_action
+msgid "Sale Order Lines"
+msgstr "Lineas de venta"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Línea de orden de ventas"
-
-#. module: gard_x_gard
-#: model:ir.model.fields,help:gard_x_gard.field_account_journal_is_internal_consumption_journal
-msgid "Selected if this is an internal consumption journal."
-msgstr "Selected if this is an internal consumption journal."
-
-#. module: gard_x_gard
-#: model:ir.model.fields,help:gard_x_gard.field_stock_move_is_internal_consumption
-msgid "Selected if this is an internal consumption move."
-msgstr "Selected if this is an internal consumption move."
-
-#. module: gard_x_gard
-#: model:ir.model.fields,help:gard_x_gard.field_sale_order_is_intcon_auth
-msgid "Selected if this is an internal consumption sale."
-msgstr "Selected if this is an internal consumption sale."
-
-#. module: gard_x_gard
-#: model:ir.model.fields,field_description:gard_x_gard.field_account_expenses_rendition_invoice_payment_request_id
-msgid "Solicitud de Pago"
-msgstr "Solicitud de Pago"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_search
-msgid "Solicitud de pago"
-msgstr "Solicitud de pago"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-msgid "State"
-msgstr "Estado"
-
-#. module: gard_x_gard
-#: model:ir.model.fields,field_description:gard_x_gard.field_sale_order_state_internal_consumption
-msgid "Status"
-msgstr "Estado"
-
-#. module: gard_x_gard
-#: model:ir.model,name:gard_x_gard.model_stock_move
-msgid "Stock Move"
-msgstr "Movimiento de existencias"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_form
-msgid "Tipo"
-msgstr "Tipo"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_search
-msgid "Tipo de compra"
-msgstr "Tipo de compra"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_form
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_tree
-msgid "Total"
-msgstr "Total"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "Trans. #"
-msgstr "Trans. #"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "Trans. Date"
-msgstr "Fecha de transaccion"
+msgstr "Líneas de venta"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_search
 msgid "Transaction Date"
 msgstr "Fecha de transaccion"
-
-#. module: gard_x_gard
-#: model:ir.model,name:gard_x_gard.model_stock_picking
-msgid "Transfer"
-msgstr "Transferir"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_summary_template
-msgid "Transfer Ref."
-msgstr "Transfer. Ref."
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_slip_template
-msgid "Type"
-msgstr "Tipo"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_stock_warehouse
@@ -539,10 +168,4 @@ msgstr "Almacén"
 #: model:ir.model,name:gard_x_gard.model_account_deposit
 msgid "account.deposit"
 msgstr "account.deposit"
-
-#. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_form
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_expenses_rendition_invoice_tree
-msgid "desc total"
-msgstr "desc total"
 
