@@ -40,6 +40,7 @@
                     <field name="journal_id"/>
                     <field name="payment_method_id"/>
                     <field name="deposit_id" groups="gard_x_gard.group_account_edit"/>
+                    <field name="cash_movement_id" groups="gard_x_gard.group_account_edit"/>
                     <field name="transaction_date"/>
                     <field name="transaction_number"/>
                     <field name="partner_id" string="Partner"/>
@@ -61,6 +62,8 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//field[@name='payment_method_id']" position="after">
+                    <field name="deposit_id" groups="gard_x_gard.group_account_edit"/>
+                    <field name="cash_movement_id" groups="gard_x_gard.group_account_edit"/>
                     <field name="transaction_date"/>
                     <field name="transaction_number"/>
                 </xpath>
@@ -78,7 +81,8 @@
 
                 <xpath expr="/form/sheet/group/group[last()]" position="after">
                     <group>
-                        <field name="deposit_id" readonly="1" groups="gard_x_gard.group_account_edit"/>
+                        <field name="deposit_id" readonly="1"/>
+                        <field name="cash_movement_id" readonly="1"/>
                     </group>
                 </xpath>
 
