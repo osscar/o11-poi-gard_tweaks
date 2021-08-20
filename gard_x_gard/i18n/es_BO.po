@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-09 18:55+0000\n"
-"PO-Revision-Date: 2021-08-09 18:55+0000\n"
+"POT-Creation-Date: 2021-08-20 22:50+0000\n"
+"PO-Revision-Date: 2021-08-20 22:50+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -37,6 +37,11 @@ msgid "Asiento"
 msgstr "Asiento"
 
 #. module: gard_x_gard
+#: model:res.groups,name:gard_x_gard.group_cashier
+msgid "Cajero ventas"
+msgstr "Cajero ventas"
+
+#. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_search
 msgid "Cashier"
 msgstr "Cajero"
@@ -53,8 +58,6 @@ msgid "Description"
 msgstr "Descripción"
 
 #. module: gard_x_gard
-#: code:addons/gard_x_gard/models/account_expenses_rendition.py:64
-#: code:addons/gard_x_gard/models/account_expenses_rendition.py:89
 #: code:addons/gard_x_gard/models/account_invoice.py:32
 #: code:addons/gard_x_gard/models/account_payment.py:29
 #: code:addons/gard_x_gard/models/sale.py:37
@@ -66,12 +69,12 @@ msgstr "Solo se puede editar en estado borrador. [%s.%s]"
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_expenses_rendition
 msgid "Expenses Rendition"
-msgstr "Rendición de Gastos"
+msgstr "Rendición de gastos"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_expenses_rendition_invoice
 msgid "Expenses Rendition Invoices"
-msgstr "Facturas de Rendición de Gastos"
+msgstr "Facturas de rendición de gastos"
 
 #. module: gard_x_gard
 #: model:res.groups,name:gard_x_gard.group_account_edit
@@ -79,14 +82,9 @@ msgid "GARD Accounting Edit"
 msgstr "GARD Edicion Contabilidad"
 
 #. module: gard_x_gard
-#: model:res.groups,name:gard_x_gard.group_cashier
-msgid "GARD Cashier"
-msgstr "GARD Cashier"
-
-#. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_cashier
-msgid "GARD custom group for cashier."
-msgstr "GARD grupo personalizado para cajero."
+msgid "GARD custom for cashier."
+msgstr "GARD custom for cashier."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_edit
@@ -141,7 +139,7 @@ msgstr "Revise todos los datos antes de validar, ¿validar?"
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_sale_order
 msgid "Quotation"
-msgstr "Presupuesto"
+msgstr "Cotización"
 
 #. module: gard_x_gard
 #: model:ir.actions.act_window,name:gard_x_gard.action_sale_order_lines
@@ -152,7 +150,12 @@ msgstr "Lineas de venta"
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Líneas de venta"
+msgstr "Línea de orden de ventas"
+
+#. module: gard_x_gard
+#: model:ir.model.fields,field_description:gard_x_gard.field_account_expenses_rendition_invoice_payment_request_id
+msgid "Solicitud de Pago"
+msgstr "Solicitud de pago"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_search
