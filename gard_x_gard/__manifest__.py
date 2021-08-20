@@ -38,26 +38,17 @@ This module tweaks the following:
     'images': [],
     'depends': [
         'account',
-        'poi_bol_payment_request',
-        'poi_cash_movements',
-        'poi_payment_request',
         'poi_x_gard',
         'sale',
         'web',
     ],
     'category': 'Other',
     'data': [
-        'report/account_deposit_report.xml',
-        'report/account_deposit_report_templates.xml',
-
         'security/gard_x_gard_security.xml',
 
         'views/account_view.xml',
         'views/account_invoice_view.xml',
         'views/account_payment_view.xml',
-        'views/account_expenses_rendition_view.xml',
-        'views/account_deposit_view.xml',
-        # 'views/account_payment_request_view.xml',
         'views/sale_view.xml',
         'views/stock_view.xml',
     ],
