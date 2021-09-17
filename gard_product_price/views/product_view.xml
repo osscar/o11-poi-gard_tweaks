@@ -68,9 +68,8 @@
                                 <field invisible="1" name="product_default_code"/>
                                 <field colspan="4" name="description"/>
                                 <field name="min_quantity"/>
-                                <field name="sale_price"/>
-                                <field name="unit_price"/>
-                                <!-- <field name="customer_savings"/> -->
+                                <field name="price_sale" force_save="1"/>
+                                <field name="price_unit" force_save="1"/>
                                 <field name="pricelist_id" widget="label_selection"/>
                                 <field name="partner_ids" widget="many2many_tags"/>
                             </tree>
@@ -80,8 +79,8 @@
                                 <field invisible="1" name="product_default_code"/>
                                 <field name="description"/>
                                 <field name="min_quantity"/>
-                                <field name="sale_price"/>
-                                <field name="unit_price"/>
+                                <field name="price_sale" force_save="1"/>
+                                <field name="price_unit" force_save="1"/>
                                 <field name="currency_id"/>
                                 <!-- <field name="customer_savings"/> -->
                                 <field name="pricelist_id"/>
@@ -117,10 +116,10 @@
                                                                     <field name="min_quantity"/>
                                                                 </td>
                                                                 <td>
-                                                                    <field name="sale_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                                                    <field name="price_sale" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                                                 </td>
                                                                 <td>
-                                                                    <field name="unit_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                                                    <field name="price_unit" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                                                 </td>
                                                             </tr>
                                                         </tbody>

@@ -104,11 +104,11 @@
                 <field name="product_default_code"/>
                 <field colspan="4" name="description"/>
                 <field name="min_quantity"/>
-                <field name="sale_price"/>
-                <field name="unit_price"/>
-                <field name="net_sale_margin" groups="gard_product_price.group_product_price_manager"/>
-                <field name="sale_margin_excl" groups="gard_product_price.group_product_price_manager"/>
-                <field name="product_cost" groups="gard_product_price.group_product_price_manager"/>
+                <field name="price_sale" force_save="1"/>
+                <field name="price_unit" force_save="1"/>
+                <field name="margin_sale_net" groups="gard_product_price.group_product_price_manager" force_save="1"/>
+                <field name="margin_sale_excl" groups="gard_product_price.group_product_price_manager"/>
+                <field name="product_cost" groups="gard_product_price.group_product_price_manager" force_save="1"/>
                 <!-- <field name="customer_savings"/> --> <!-- TO DO -->
                 <field name="pricelist_id"/>
                 <field name="partner_ids" widget="many2many_tags"/>
@@ -125,6 +125,14 @@
         <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
         <field name="arch" type="xml">
 
+            <!-- <xpath expr="//form" position="inside">
+                <div class="oe_button_box" name="button_box">
+                    <button class="oe_stat_button" type="object" name="toggle_active" icon="fa-archive">
+                        <field name="active_pricelist" widget="boolean_button" options='{"terminology": "archive"}'/>
+                    </button>
+                </div>
+            </xpath> -->
+
             <xpath expr="/form//group" position="inside">
                 <group>
                     <field invisible="1" name="currency_id"/>
@@ -132,8 +140,9 @@
                     <field name="description"/>
                 </group>
                 <group>
-                    <field name="sale_price"/>
-                    <field name="unit_price"/>
+                    <field name="price_sale" force_save="1"/>
+                    <!-- attrs={'readonly': [('','','')]} -->
+                    <field name="price_unit" force_save="1"/>
                     <!-- <field name="customer_savings"/> --> <!-- TO DO -->
                 </group>
                 <group>
@@ -141,10 +150,16 @@
                     <field name="pricelist_id"/>
                 </group>
                 <group groups="gard_product_price.group_product_price_manager">
-                    <field name="net_sale_margin"/>
-                    <field name="sale_margin_excl"/>
-                    <field name="product_cost"/>
+                    <field name="margin_sale_net" force_save="1"/>
+                    <field name="margin_sale_excl"/>
+                    <field name="product_cost" force_save="1"/>
                 </group>
+            </xpath>
+
+            <xpath expr="/form/group[2]/group/div/div[2]" position="replace">
+                <div attrs="{'invisible':[('compute_price', 'not in', ['percentage', 'percentage_surcharge'])]}">
+                    <field name="percent_price" nolabel="1" class="oe_inline"/>%%
+                </div>
             </xpath>
 
         </field>

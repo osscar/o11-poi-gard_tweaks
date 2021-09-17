@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
-import logging
+# import logging
+
 import datetime
 from odoo import models, fields, api, exceptions, _
+
+# _logger = logging.getLogger(__name__)
 
 
 class ProductProduct(models.Model):
@@ -14,8 +17,12 @@ class ProductProduct(models.Model):
 
     @api.one
     def _get_active_pricelist_items(self):
-        self.active_pricelist_item_ids = self.pricelist_item_ids.filtered(
-            lambda item: item.active_pricelist == True)
+        pricelist_item_ids = self.pricelist_item_ids.filtered(
+            lambda item: item.active_pricelist)
+        pricelist_item_ids += self.env['product.pricelist.item'].search(
+            [('applied_on', '=', '3_global')]).filtered(
+            lambda item: item.active_pricelist)
+        self.active_pricelist_item_ids = pricelist_item_ids
 
     @api.multi
     def button_product_pricelist_items(self):
