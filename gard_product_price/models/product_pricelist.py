@@ -23,6 +23,11 @@ class ProductPricelist(models.Model):
         help='Product default code.',
         readonly=True)
 
+    is_hidden = fields.Boolean(
+        string="Hide items",
+        default=False,
+        help='Don\'t show items in product price. Helpful when using pricelist solely for calculation purposes on other pricelists.')
+
     @api.multi
     def _compute_price_rule(self, products_qty_partner, date=False, uom_id=False):
         res = super(ProductPricelist, self)._compute_price_rule(
@@ -228,6 +233,11 @@ class ProductPricelistItem(models.Model):
         related='pricelist_id.active',
         string="Active",
         readonly=True)
+
+    is_hidden = fields.Boolean(
+        related='pricelist_id.is_hidden',
+        string="Hide item",
+        help='Don\'t show item in product price.')
 
     product_default_code = fields.Char(
         related='product_id.default_code',
