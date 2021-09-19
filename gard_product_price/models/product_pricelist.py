@@ -110,11 +110,11 @@ class ProductPricelist(models.Model):
             # if Public user try to access standard price from website sale, need to call price_compute.
             # TDE SURPRISE: product can actually be a template
             price = product.price_compute('list_price')[product.id]
-            _logger.debug('cup lst price >>>: %s', price)
+            # _logger.debug('cup lst price >>>: %s', price)
 
             price_uom = self.env['product.uom'].browse([qty_uom_id])
             for rule in items:
-                _logger.debug('cup rule >>>: %s %s', rule.id, rule.description)
+                # _logger.debug('cup rule >>>: %s %s', rule.id, rule.description)
                 if rule.min_quantity and qty_in_product_uom < rule.min_quantity:
                     continue
                 if is_product_template:
