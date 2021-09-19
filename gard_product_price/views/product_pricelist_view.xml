@@ -78,6 +78,12 @@
         <field name="arch" type="xml">
 
             <xpath expr="//div[2]" position="after">
+                <group name="options">
+                    <field name="is_hidden"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//field[@name='company_id']" position="after">
                 <field name="partner_ids" widget="many2many_tags" placeholder="Select partners."/>
             </xpath>
 
@@ -137,6 +143,7 @@
                 <group>
                     <field invisible="1" name="currency_id"/>
                     <field name="active_pricelist"/>
+                    <field name="is_hidden"/>
                     <field name="description"/>
                 </group>
                 <group>
