@@ -82,6 +82,9 @@ class ProductPricelist(models.Model):
 
         item_ids = [x[0] for x in self._cr.fetchall()]
         items = self.env['product.pricelist.item'].browse(item_ids)
+        if self._context.get('item_ids'):
+            item_ids = [self._context.get('item_ids', [])]
+            items = item_ids
         results = {}
         for product, qty, partner in products_qty_partner:
             # _logger.debug('product >>>: %s', product)
@@ -107,9 +110,11 @@ class ProductPricelist(models.Model):
             # if Public user try to access standard price from website sale, need to call price_compute.
             # TDE SURPRISE: product can actually be a template
             price = product.price_compute('list_price')[product.id]
+            _logger.debug('cup lst price >>>: %s', price)
 
             price_uom = self.env['product.uom'].browse([qty_uom_id])
             for rule in items:
+                _logger.debug('cup rule >>>: %s %s', rule.id, rule.description)
                 if rule.min_quantity and qty_in_product_uom < rule.min_quantity:
                     continue
                 if is_product_template:
@@ -135,17 +140,21 @@ class ProductPricelist(models.Model):
 
                 if rule.base == 'pricelist' and rule.base_pricelist_id:
                     price_tmp = rule.base_pricelist_id._compute_price_rule([(product, qty, partner)], date, uom_id)[product.id][0]  # TDE: 0 = price, 1 = rule
+                    # _logger.debug('cup pricelist price_tmp >>>: %s', price_tmp)
                     price = rule.base_pricelist_id.currency_id.compute(price_tmp, self.currency_id, round=False)
+                    # _logger.debug('cup pricelist price >>>: %s', price)
                 else:
                     # if base option is public price take sale price else cost price of product
                     # price_compute returns the price in the context UoM, i.e. qty_uom_id
                     price = product.price_compute(rule.base)[product.id]
+                    # _logger.debug('cup pricelist else price >>>: %s', price)
 
                 convert_to_price_uom = (lambda price: product.uom_id._compute_price(price, price_uom))
 
                 if price is not False:
                     if rule.compute_price == 'percentage_surcharge':
                         price = (price + (price * (rule.percent_price / 100))) or 0.0
+                        # _logger.debug('cup percentage_surcharge price >>>: %s', price)
                     suitable_rule = rule
                 break
             # Final price conversion into pricelist currency
@@ -153,8 +162,10 @@ class ProductPricelist(models.Model):
                 if suitable_rule.base == 'standard_price':
                     # The cost of the product is always in the company currency
                     price = product.cost_currency_id.compute(price, self.currency_id, round=False)
+                    # _logger.debug('cup standard_price price >>>: %s', price)
                 else:
                     price = product.currency_id.compute(price, self.currency_id, round=False)
+                    # _logger.debug('cup standard_price else price >>>: %s', price)
 
             results[product.id] = (price, suitable_rule and suitable_rule.id or False)
 
@@ -194,13 +205,15 @@ class ProductPricelistItem(models.Model):
                         # _logger.debug('call if active_id >>>: %s', active_id)
                         # _logger.debug('call if active_model >>>: %s', active_model)
                         product = self.env[active_model].search([('id', '=', active_id)])
+                        # _logger.debug('>>>: %s', product)
                 elif item.applied_on == '1_product':
                     product = item.product_tmpl_id
                 elif item.applied_on == '0_product_variant':
                     product = item.product_id
             if product:
-                price = item.pricelist_id.get_product_price(
+                price = item.pricelist_id.with_context(item_ids=item).get_product_price(
                     product, quantity, partner, date=False, uom_id=False)
+                # _logger.debug('>>>: %s', price)
                 product_cost = product['standard_price']
                 price_sale = price * item.min_quantity
                 price_unit = price
@@ -237,6 +250,7 @@ class ProductPricelistItem(models.Model):
     is_hidden = fields.Boolean(
         related='pricelist_id.is_hidden',
         string="Hide item",
+        default=False,
         help='Don\'t show item in product price.')
 
     product_default_code = fields.Char(
