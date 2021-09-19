@@ -177,7 +177,7 @@ class ProductPricelistItem(models.Model):
     _inherit = 'product.pricelist.item'
     _defaults = {'base': 1}
 
-    pricelist_id = fields.Many2one(required=True)
+    # pricelist_id = fields.Many2one(required=True)
 
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
