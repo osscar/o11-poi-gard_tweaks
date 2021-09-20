@@ -191,6 +191,11 @@ class ProductPricelistItem(models.Model):
         return super(ProductPricelistItem, self).read_group(domain, fields, groupby, offset=offset,
                                                             limit=limit, orderby=orderby, lazy=lazy)
 
+    @api.onchange('compute_price')
+    def onchange_compute_price(self):
+        for item in self:
+            item.base == 'standard_price'
+
     @api.depends('min_quantity', 'percent_price', 'fixed_price', 'compute_price', 'applied_on')
     def _calc_price_unit(self):
         for item in self:
@@ -211,6 +216,8 @@ class ProductPricelistItem(models.Model):
                 elif item.applied_on == '0_product_variant':
                     product = item.product_id
             if product:
+                if not item.pricelist_id:
+                    continue
                 price = item.pricelist_id.with_context(item_ids=item).get_product_price(
                     product, quantity, partner, date=False, uom_id=False)
                 # _logger.debug('>>>: %s', price)

@@ -77,16 +77,23 @@
         <field name="inherit_id" ref="product.product_pricelist_view"/>
         <field name="arch" type="xml">
 
+            <!-- added security  group -->
+            <xpath expr="//sheet" position="attributes">
+                <attribute name="groups">gard_product_price.group_product_price_manager</attribute>
+            </xpath>
+
             <xpath expr="//div[2]" position="after">
                 <group name="options">
                     <field name="is_hidden"/>
                 </group>
             </xpath>
 
+            <!-- added partners -->
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="partner_ids" widget="many2many_tags" placeholder="Select partners."/>
             </xpath>
 
+            <!-- added redirect to custom view -->
             <xpath expr="//field[@name='item_ids']" position="replace">
                 <field name="item_ids" context="{'tree_view_ref' : 'gard_product_price.product_pricelist_item_view_tree'}"/>
             </xpath>
@@ -101,7 +108,7 @@
         <field name="arch" type="xml">
 
             <!-- TO DO: decoration & colors -->
-            <tree string="Pricelist Items" decoration-danger="partner_ids">
+            <tree string="Pricelist Items" decoration-danger="partner_ids" default_order='description asc, min_quantity desc'>
                 <field invisible="1" name="active_pricelist"/>
                 <field invisible="1" name="currency_id"/>
                 <field invisible="1" name="name"/>
@@ -129,6 +136,8 @@
         <field name="mode">extension</field>
         <field name="priority">15</field>
         <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+        <!-- added security  group -->
+        <field name="groups_id" eval="[(4, ref('group_product_price_manager'))]"/>
         <field name="arch" type="xml">
 
             <!-- <xpath expr="//form" position="inside">
@@ -138,6 +147,16 @@
                     </button>
                 </div>
             </xpath> -->
+
+            <!-- mode base field -->
+            <xpath expr="//field[@name='base']" position="attributes">
+            </xpath>
+
+            <xpath expr="//form/group[2]" position="after">
+                <group>
+                    <field name="base" colspan="6"/>
+                </group>
+            </xpath>
 
             <xpath expr="/form//group" position="inside">
                 <group>
@@ -191,11 +210,6 @@
     </record>
 
     <!-- Menus -->
-    <menuitem
-        id="product_pricelist_item_menu_action"
-        name="Pricelist Items"
-        parent="sale.product_menu_catalog"
-        action="product_pricelist_item_action_view_tree"
-        sequence="20"/>
+
 
 </odoo>

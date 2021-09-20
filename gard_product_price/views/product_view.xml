@@ -61,8 +61,8 @@
                         <field name="default_code" widget="label_selection" class="label label-price" nolabel="1"/>
                         <field name="name" nolabel="1" readonly="1"/>
                         <separator/>
-                        <field name="active_pricelist_item_ids" mode="tree,kanban">
-                            <tree string="Pricelist Items" decoration-danger="partner_ids" create="0" edit="0" delete="0" editable="bottom">
+                        <field name="active_pricelist_item_ids" mode="tree,kanban" readonly="1">
+                            <tree string="Pricelist Items" decoration-danger="partner_ids" default_order='description asc, min_quantity desc'>
                                 <field invisible="1" name="active_pricelist"/>
                                 <field invisible="1" name="currency_id"/>
                                 <field invisible="1" name="product_default_code"/>

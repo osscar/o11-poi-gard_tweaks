@@ -39,5 +39,16 @@
     <!-- Actions -->
 
     <!-- Menus -->
+    <menuitem
+        id="menu_product_pricelist_main"
+        groups="gard_product_price.group_product_price_manager"/>
+
+    <menuitem
+        id="product_pricelist_item_menu_action"
+        name="Pricelist Items"
+        parent="sale.product_menu_catalog"
+        action="product_pricelist_item_action_view_tree"
+        groups="gard_product_price.group_product_price_manager"
+        sequence="20"/>
 
 </odoo>
