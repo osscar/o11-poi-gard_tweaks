@@ -39,11 +39,15 @@ This module tweaks the following:
     'depends': [
         'account',
         'poi_x_gard',
+        'poi_bol_base',
         'sale',
         'web',
     ],
     'category': 'Other',
     'data': [
+        'report/account_report.xml',
+        'report/account_report_templates.xml',
+
         'security/gard_x_gard_security.xml',
 
         'views/account_view.xml',
