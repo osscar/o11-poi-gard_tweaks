@@ -46,7 +46,8 @@ and viewability, including:
     ],
     'demo': [],
     'data': [
-        'views/gard_static_resources_templates.xml',
+        'views/report_templates.xml',
+        'views/webclient_templates.xml',
     ],
     'qweb': [
     ],

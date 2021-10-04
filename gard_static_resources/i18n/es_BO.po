@@ -1,0 +1,28 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * gard_static_resources
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-10-04 18:17+0000\n"
+"PO-Revision-Date: 2021-10-04 18:17+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: gard_static_resources
+#: model:ir.ui.view,arch_db:gard_static_resources.external_layout_background_gard
+msgid "Page:\n"
+"                        <span class=\"page\"/>\n"
+"                        of\n"
+"                        <span class=\"topage\"/>"
+msgstr "Página:\n"
+"                        <span class=\"page\"/>\n"
+"                        de\n"
+"                        <span class=\"topage\"/>"
+

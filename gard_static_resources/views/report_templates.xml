@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_assets_common" name="gard_static_resources report_assets" inherit_id="web.report_assets_common">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/gard_static_resources/static/src/less/layout_background.less"/>
+        </xpath>
+    </template>
+
+    <template id="external_layout_background_gard" inherit_id="web.external_layout_background">
+        <xpath expr="//div[@class='header o_background_header']" position="replace">
+            <div class="header">
+            <div class="row">
+                <div class="col-xs-3 mb4">
+                    <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 64px;"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6" name="company_address">
+                    <ul class="list-inline">
+                        <li t-if="company.name"><span t-field="company.name"/></li>
+                        <li t-if="company.nit"><t t-esc="'NIT '"/><span t-field="company.nit"/></li>
+                        <br/>
+                        <li t-if="company.website"><span t-field="company.website"/></li>
+                        <br/>
+                        <li t-if="company.city"><span t-field="company.city"/> - <span t-field="company.country_id"/></li>
+                        <!-- <li t-if="company.country_id"></li> -->
+                    </ul>
+                     <!-- style="border-bottom: 1px solid black; display:inline-block;" -->
+                </div>
+            </div>
+        </div>
+        </xpath>
+        <xpath expr="//div[@class='article o_report_layout_background']" position="replace">
+            <div class="article o_report_layout_background_gard">
+                <t t-raw="0" />
+            </div>
+        </xpath>
+        <xpath expr="//div[@class='footer o_background_footer']" position="replace">
+            <div class="footer o_background_footer">
+                <div class="text-center" style="border-top: 1px solid black">
+                    <div t-field="company.report_footer" style="margin: 15px 0"/>
+                    <div class="text-muted">
+                        Page:
+                        <span class="page"/>
+                        of
+                        <span class="topage"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>
