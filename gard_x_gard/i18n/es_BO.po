@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-20 22:50+0000\n"
-"PO-Revision-Date: 2021-08-20 22:50+0000\n"
+"POT-Creation-Date: 2021-10-04 18:19+0000\n"
+"PO-Revision-Date: 2021-10-04 18:19+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,31 @@ msgstr ""
 #: model:ir.model.fields,field_description:gard_x_gard.field_account_deposit_payment_count
 msgid "# of Payments"
 msgstr "# Pagos"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "<span>(Expresado en Bs.)</span>"
+msgstr "<span>(Expresado en Bs.)</span>"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "<strong>COMPROBANTE N°:</strong>"
+msgstr "<strong>COMPROBANTE N°:</strong>"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "<strong>TOTALES:</strong>"
+msgstr "<strong>TOTALES:</strong>"
+
+#. module: gard_x_gard
+#: model:ir.actions.report,name:gard_x_gard.report_account_move_multi
+msgid "Account Move Voucher (multi)"
+msgstr "Comprobante de asiento (multi)"
+
+#. module: gard_x_gard
+#: model:res.groups,name:gard_x_gard.group_account_edit
+msgid "Accounting Edit"
+msgstr "Accounting Edit"
 
 #. module: gard_x_gard
 #: model:ir.actions.act_window,name:gard_x_gard.action_account_payments_all
@@ -37,19 +62,45 @@ msgid "Asiento"
 msgstr "Asiento"
 
 #. module: gard_x_gard
-#: model:res.groups,name:gard_x_gard.group_cashier
-msgid "Cajero ventas"
-msgstr "Cajero ventas"
+#: model:ir.actions.report,name:gard_x_gard.action_report_invoice_return_gard
+msgid "Boleta de Devolución"
+msgstr "Boleta de Devolución"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "Bs."
+msgstr "Bs."
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_search
+#: model:res.groups,name:gard_x_gard.group_cashier
 msgid "Cashier"
 msgstr "Cajero"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "Cheque Girado a:"
+msgstr "Cheque Girado a:"
 
 #. module: gard_x_gard
 #: model:ir.actions.act_window,help:gard_x_gard.action_account_payments_all
 msgid "Click to register a payment"
 msgstr "Pulse para registrar un pago"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "Cuenta"
+msgstr "Cuenta"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "Debe"
+msgstr "Debe"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "Debe USD"
+msgstr "Debe USD"
 
 #. module: gard_x_gard
 #: model:ir.model.fields,field_description:gard_x_gard.field_account_journal_note
@@ -58,8 +109,18 @@ msgid "Description"
 msgstr "Descripción"
 
 #. module: gard_x_gard
+#: model:ir.model.fields,field_description:gard_x_gard.field_report_gard_x_gard_report_account_move_multi_t_display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "Divisa:"
+msgstr "Divisa:"
+
+#. module: gard_x_gard
 #: code:addons/gard_x_gard/models/account_invoice.py:32
-#: code:addons/gard_x_gard/models/account_payment.py:29
+#: code:addons/gard_x_gard/models/account_payment.py:31
 #: code:addons/gard_x_gard/models/sale.py:37
 #: code:addons/gard_x_gard/models/sale.py:56
 #, python-format
@@ -67,29 +128,54 @@ msgid "Edit allowed only in draft state. [%s.%s]"
 msgstr "Solo se puede editar en estado borrador. [%s.%s]"
 
 #. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "Etiqueta"
+msgstr "Etiqueta"
+
+#. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_expenses_rendition
 msgid "Expenses Rendition"
-msgstr "Rendición de gastos"
+msgstr "Rendición de Gastos"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_expenses_rendition_invoice
 msgid "Expenses Rendition Invoices"
-msgstr "Facturas de rendición de gastos"
+msgstr "Facturas de Rendición de Gastos"
 
 #. module: gard_x_gard
-#: model:res.groups,name:gard_x_gard.group_account_edit
-msgid "GARD Accounting Edit"
-msgstr "GARD Edicion Contabilidad"
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "Fecha:"
+msgstr "Fecha:"
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_cashier
-msgid "GARD custom for cashier."
-msgstr "GARD custom for cashier."
+msgid "GARD custom group for cashier."
+msgstr "GARD grupo personalizado para cajero."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_edit
 msgid "GARD custom group for special permission to edit information in posted records."
 msgstr "GARD grupo personalizado para permisos especiales en documentos confirmados."
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "Haber"
+msgstr "Haber"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "Haber USD"
+msgstr "Haber USD"
+
+#. module: gard_x_gard
+#: model:ir.model.fields,field_description:gard_x_gard.field_report_gard_x_gard_report_account_move_multi_t_id
+msgid "ID"
+msgstr "ID"
+
+#. module: gard_x_gard
+#: model:ir.actions.report,name:gard_x_gard.action_report_picking_gard
+msgid "Ingreso"
+msgstr "Ingreso"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_invoice
@@ -100,6 +186,26 @@ msgstr "Factura"
 #: model:ir.model,name:gard_x_gard.model_account_journal
 msgid "Journal"
 msgstr "Diario"
+
+#. module: gard_x_gard
+#: model:ir.model.fields,field_description:gard_x_gard.field_report_gard_x_gard_report_account_move_multi_t___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "Numero de Cheque:"
+msgstr "Numero de Cheque:"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "Numero de Cuenta:"
+msgstr "Numero de Cuenta:"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "Numero de Factura:"
+msgstr "Numero de Factura:"
 
 #. module: gard_x_gard
 #: model:ir.model.fields,field_description:gard_x_gard.field_sale_order_line_date_order_id
@@ -139,7 +245,17 @@ msgstr "Revise todos los datos antes de validar, ¿validar?"
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_sale_order
 msgid "Quotation"
-msgstr "Cotización"
+msgstr "Presupuesto"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "Referencia:"
+msgstr "Referencia:"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "SON:"
+msgstr "SON:"
 
 #. module: gard_x_gard
 #: model:ir.actions.act_window,name:gard_x_gard.action_sale_order_lines
@@ -153,14 +269,39 @@ msgid "Sales Order Line"
 msgstr "Línea de orden de ventas"
 
 #. module: gard_x_gard
+#: model:ir.actions.report,name:gard_x_gard.action_report_picking_gard_out
+msgid "Salida"
+msgstr "Salida"
+
+#. module: gard_x_gard
 #: model:ir.model.fields,field_description:gard_x_gard.field_account_expenses_rendition_invoice_payment_request_id
 msgid "Solicitud de Pago"
-msgstr "Solicitud de pago"
+msgstr "Solicitud de Pago"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "TOTALES:"
+msgstr "TOTALES:"
+
+#. module: gard_x_gard
+#: model:ir.actions.report,name:gard_x_gard.action_report_sale_order_gard
+msgid "Ticket Venta"
+msgstr "Ticket Venta"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "Tipo de Cambio:"
+msgstr "Tipo de Cambio:"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_search
 msgid "Transaction Date"
 msgstr "Fecha de transaccion"
+
+#. module: gard_x_gard
+#: model:ir.actions.report,name:gard_x_gard.action_report_picking_gard_internal
+msgid "Transferencia Interna"
+msgstr "Transferencia Interna"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_stock_warehouse
@@ -171,4 +312,14 @@ msgstr "Almacén"
 #: model:ir.model,name:gard_x_gard.model_account_deposit
 msgid "account.deposit"
 msgstr "account.deposit"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
+msgid "de"
+msgstr "de"
+
+#. module: gard_x_gard
+#: model:ir.model,name:gard_x_gard.model_report_gard_x_gard_report_account_move_multi_t
+msgid "report.gard_x_gard.report_account_move_multi_t"
+msgstr "report.gard_x_gard.report_account_move_multi_t"
 
