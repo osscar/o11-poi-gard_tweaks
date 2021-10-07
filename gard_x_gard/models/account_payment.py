@@ -15,18 +15,27 @@ _logger = logging.getLogger(__name__)
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
 
+    # account_payment.write method customization to implement write restrictions
     @api.multi
     def write(self, vals):
-        move_reconcile = request.params.get('method') in ('assign_outstanding_credit', 'remove_move_reconcile')
+        process_reconciliations = request.params.get(
+            'method') in ('process_reconciliations')
+        move_reconcile = request.params.get('method') in (
+            'assign_outstanding_credit', 'remove_move_reconcile')
         calculate_cash = request.params.get('method') in ('calculate_cash')
-        group_account_edit = self.env.user.has_group('gard_x_gard.group_account_edit')
+        cancel = request.params.get('method') in ('cancel')
+        action_draft = request.params.get('method') in ('action_draft')
+        # post = request.params.get('method') in ('post')
         group_cashier = self.env.user.has_group('gard_x_gard.group_cashier')
-        allow_write = move_reconcile or (group_cashier and calculate_cash) or group_account_edit == True
-        _logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
-        _logger.debug('Allow reconcile: %s', move_reconcile)
-        _logger.debug('Allow calculate cash: %s', calculate_cash)
+        group_account_edit = self.env.user.has_group(
+            'gard_x_gard.group_account_edit')
+        allow_write = move_reconcile or (
+            group_cashier and calculate_cash) or cancel or action_draft or process_reconciliations or group_account_edit
+        _logger.debug('acc_pay write Requested params method >>>: [%s.%s]' % (
+            request.params.get('model'), request.params.get('method')))
         if any(state != 'draft' for state in set(self.mapped('state')) if allow_write == False):
-            raise UserError(_('Edit allowed only in draft state. [%s.%s]' % (request.params.get('model'), request.params.get('method'))))
+            raise UserError(_('Edit allowed only in draft state. [%s.%s]' % (
+                request.params.get('model'), request.params.get('method'))))
         else:
             _logger.info('Written vals: %s' % vals)
             return super().write(vals)
