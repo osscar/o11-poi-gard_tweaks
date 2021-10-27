@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- QWeb Reports -->
+        <record id="paperformat_euro_pos_gard_ticket" model="report.paperformat">
+            <field name="name">Ticket Picking</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">74</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">1</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">35</field>
+            <field name="dpi">130</field>
+        </record>
+        <report
+                string="Ingreso"
+                id="action_report_picking_gard"
+                model="stock.picking"
+                report_type="qweb-pdf"
+                name="poi_x_gard.report_picking_gard"
+                file="poi_x_gard.report_picking_gard"
+                print_report_name="'Ingreso - %s - %s' % (object.partner_id.name or '', object.name)"
+                paperformat="poi_x_gard.paperformat_euro_pos_gard_ticket"
+        />
+        <report
+                string="Transferencia Interna"
+                id="action_report_picking_gard_internal"
+                model="stock.picking"
+                report_type="qweb-pdf"
+                name="poi_x_gard.report_picking_gard_internal"
+                file="poi_x_gard.report_picking_gard_internal"
+                print_report_name="'TransferenciaInterna - %s' % (object.name)"
+                paperformat="poi_x_gard.paperformat_euro_pos_gard_ticket"
+        />
+        <report
+                string="Salida"
+                id="action_report_picking_gard_out"
+                model="stock.picking"
+                report_type="qweb-pdf"
+                name="poi_x_gard.report_picking_gard_out"
+                file="poi_x_gard.report_picking_gard_out"
+                print_report_name="'Despacho - %s - %s' % (object.partner_id.name or '', object.name)"
+                paperformat="poi_x_gard.paperformat_euro_pos_gard_ticket"
+        />
+        <report
+                string="Ticket Venta"
+                id="action_report_sale_order_gard"
+                model="sale.order"
+                report_type="qweb-pdf"
+                name="poi_x_gard.report_saleorder_gard"
+                file="poi_x_gard.report_saleorder_gard"
+                print_report_name="'Ticket de Venta - %s - %s' % (object.partner_id.name or '', object.name)"
+                paperformat="poi_x_gard.paperformat_euro_pos_gard_ticket"
+        />
+
+        <report
+                string="Boleta de Devolución"
+                id="action_report_invoice_return_gard"
+                model="account.invoice"
+                report_type="qweb-pdf"
+                name="poi_x_gard.report_return_invoice_document_d"
+                file="poi_x_gard.report_return_invoice_document_d"
+                print_report_name="'Despacho - %s - %s' % (object.partner_id.name or '', object.name)"
+                paperformat="poi_x_gard.paperformat_euro_pos_gard_ticket"
+        />
+    </data>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- QWeb Reports -->
+        <report file="gard_x_gard.account_move"
+            id="report_account_move_multi"
+            menu="True"
+            model="account.move"
+            name="gard_x_gard.report_account_move_multi_t"
+            report_type="qweb-pdf"
+            string="Account Move Voucher (multi)"/>
+
+    </data>
+</odoo>
