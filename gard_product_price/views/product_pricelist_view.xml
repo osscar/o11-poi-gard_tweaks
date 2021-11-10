@@ -155,8 +155,13 @@
             <xpath expr="//form/group[2]" position="after">
                 <group>
                     <field name="base" colspan="6"/>
+                    <field name="base_pricelist_id" attrs="{'required': [('base','=', 'pricelist')]}"/>
                 </group>
             </xpath>
+
+            <xpath expr="//field[@name='base_pricelist_id']" position="replace">
+            </xpath>
+            
 
             <xpath expr="/form//group" position="inside">
                 <group>
