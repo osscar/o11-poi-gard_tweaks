@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#   * gard_x_gard
+#	* gard_x_gard
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-04 18:19+0000\n"
-"PO-Revision-Date: 2021-10-04 18:19+0000\n"
+"POT-Creation-Date: 2022-04-08 14:29+0000\n"
+"PO-Revision-Date: 2022-04-08 14:29+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -41,11 +41,6 @@ msgid "Account Move Voucher (multi)"
 msgstr "Comprobante de asiento (multi)"
 
 #. module: gard_x_gard
-#: model:res.groups,name:gard_x_gard.group_account_edit
-msgid "Accounting Edit"
-msgstr "Accounting Edit"
-
-#. module: gard_x_gard
 #: model:ir.actions.act_window,name:gard_x_gard.action_account_payments_all
 #: model:ir.ui.menu,name:gard_x_gard.menu_action_account_payments_all
 msgid "All Payments"
@@ -72,8 +67,12 @@ msgid "Bs."
 msgstr "Bs."
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_search
 #: model:res.groups,name:gard_x_gard.group_cashier
+msgid "Cajero ventas"
+msgstr "Cajero ventas"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_search
 msgid "Cashier"
 msgstr "Cajero"
 
@@ -120,7 +119,7 @@ msgstr "Divisa:"
 
 #. module: gard_x_gard
 #: code:addons/gard_x_gard/models/account_invoice.py:32
-#: code:addons/gard_x_gard/models/account_payment.py:31
+#: code:addons/gard_x_gard/models/account_payment.py:38
 #: code:addons/gard_x_gard/models/sale.py:37
 #: code:addons/gard_x_gard/models/sale.py:56
 #, python-format
@@ -148,9 +147,29 @@ msgid "Fecha:"
 msgstr "Fecha:"
 
 #. module: gard_x_gard
+#: model:res.groups,name:gard_x_gard.group_account_edit
+msgid "GARD Accounting Edit"
+msgstr "GARD Edicion Contabilidad"
+
+#. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_cashier
-msgid "GARD custom group for cashier."
-msgstr "GARD grupo personalizado para cajero."
+msgid "GARD custom for cashier."
+msgstr "GARD custom for cashier."
+
+#. module: gard_x_gard
+#: model:res.groups,comment:gard_x_gard.group_product_manager
+msgid "GARD custom group for product manager."
+msgstr "GARD custom group for product manager."
+
+#. module: gard_x_gard
+#: model:res.groups,comment:gard_x_gard.group_account_invoice_purchase
+msgid "GARD custom group for purchase billing."
+msgstr "GARD custom group for purchase billing."
+
+#. module: gard_x_gard
+#: model:res.groups,comment:gard_x_gard.group_account_invoice_sale
+msgid "GARD custom group for sales billing."
+msgstr "GARD custom group for sales billing."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_edit
@@ -238,14 +257,28 @@ msgstr "Los pagos se utilizan para registrar movimientos de liquidez (enviar, re
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.invoice_form
-#: model:ir.ui.view,arch_db:gard_x_gard.invoice_supplier_form
 msgid "Please check all the data before validating. Validate?"
 msgstr "Revise todos los datos antes de validar, ¿validar?"
 
 #. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.invoice_supplier_form
+msgid "Please revise the inputed data and check that the correct journal has been selected. Validate?"
+msgstr "Asegurese que el diario correcto este seleccionado, y revise los datos introducidos. ¿Validar?"
+
+#. module: gard_x_gard
+#: model:res.groups,name:gard_x_gard.group_product_manager
+msgid "Product Manager"
+msgstr "Administrador de productos"
+
+#. module: gard_x_gard
+#: model:res.groups,name:gard_x_gard.group_account_invoice_purchase
+msgid "Purchase Billing"
+msgstr "Facturacion compras"
+
+#. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_sale_order
 msgid "Quotation"
-msgstr "Presupuesto"
+msgstr "Cotización"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
@@ -262,6 +295,11 @@ msgstr "SON:"
 #: model:ir.ui.menu,name:gard_x_gard.menu_sale_order_lines_action
 msgid "Sale Order Lines"
 msgstr "Lineas de venta"
+
+#. module: gard_x_gard
+#: model:res.groups,name:gard_x_gard.group_account_invoice_sale
+msgid "Sales Billing"
+msgstr "Sales Billing"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_sale_order_line

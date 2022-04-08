@@ -12,8 +12,45 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//button[@name='action_invoice_open']" position="attributes">
-                    <attribute name="confirm">Please check all the data before validating. Validate?</attribute>
+                    <attribute name="confirm">Please revise the inputed data and check that the correct journal has been selected. Validate?</attribute>
                 </xpath>
+
+                <xpath expr="//button[@name='action_invoice_open']" position="attributes">
+                    <attribute name="confirm">Please revise the inputed data and check that the correct journal has been selected. Validate?</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line_ids']//field[@name='account_id']" position="attributes">
+                    <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='tax_line_ids']//field[@name='account_id']" position="attributes">
+                    <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line_ids']//field[@name='account_id']" position="attributes">
+                    <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
+                </xpath>
+
+                <xpath expr="//page[@name='other_info']//field[@name='move_id']" position="attributes">
+                    <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
+                </xpath>
+
+                <xpath expr="//page[@name='other_info']//field[@name='journal_id']" position="attributes">
+                    <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
+                </xpath>
+
+                <xpath expr="//notebook/page[2]//field[@name='account_id']" position="attributes">
+                    <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
+                </xpath>
+
+                <!-- move 'journal_id' field to main group tag -->
+                <xpath expr="//field[@name='journal_id']" position="after">
+                </xpath>
+
+                <xpath expr="//field[@name='company_currency_id']" position="after">
+                    <field name="journal_id" groups="account.group_account_user" options="{'no_create': True}" 
+                        attrs="{'readonly':[('move_name','!=',False)]}"/>
+                </xpath>                
 
             </field>
         </record>
@@ -36,5 +73,6 @@
         <!-- Actions -->
 
         <!-- Menus -->
+
 
 </odoo>
