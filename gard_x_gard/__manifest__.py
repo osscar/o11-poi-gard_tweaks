@@ -38,23 +38,38 @@ This module tweaks the following:
     'images': [],
     'depends': [
         'account',
+        'crm',
+        'crm_livechat',
         'poi_x_gard',
         'poi_bol_base',
         'sale',
+        'sale_crm',
         'web',
+        'website',
+        'website_crm',
+        'website_sale',
+        'website_theme_flexible',
     ],
     'category': 'Other',
     'data': [
+        # 'data/fetchmail.server.csv',
+        #'data/res_config_data.xml',
+
         'report/account_report_views.xml',
         'report/account_report_templates.xml',
 
+        #'res/res.lang.csv',
+
         'security/gard_x_gard_security.xml',
+        'security/ir.model.access.csv',
 
         'views/account_view.xml',
         'views/account_invoice_view.xml',
         'views/account_payment_view.xml',
+        #'views/res_company_view.xml',
         'views/sale_view.xml',
         'views/stock_view.xml',
+        #'views/website_templates.xml',
     ],
     'demo': [],
     'license': 'AGPL-3',

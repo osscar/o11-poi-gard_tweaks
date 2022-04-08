@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-08 14:29+0000\n"
-"PO-Revision-Date: 2022-04-08 14:29+0000\n"
+"POT-Creation-Date: 2022-04-08 22:57+0000\n"
+"PO-Revision-Date: 2022-04-08 22:57+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -55,11 +55,6 @@ msgstr "Importe"
 #: model:ir.model.fields,field_description:gard_x_gard.field_account_expenses_rendition_invoice_rendition_move_id
 msgid "Asiento"
 msgstr "Asiento"
-
-#. module: gard_x_gard
-#: model:ir.actions.report,name:gard_x_gard.action_report_invoice_return_gard
-msgid "Boleta de Devolución"
-msgstr "Boleta de Devolución"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
@@ -177,6 +172,11 @@ msgid "GARD custom group for special permission to edit information in posted re
 msgstr "GARD grupo personalizado para permisos especiales en documentos confirmados."
 
 #. module: gard_x_gard
+#: model:res.groups,comment:gard_x_gard.group_stock_logistics
+msgid "GARD custom group for stock logistics."
+msgstr "GARD grupo personalizado para logistica de almacen."
+
+#. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
 msgid "Haber"
 msgstr "Haber"
@@ -192,11 +192,6 @@ msgid "ID"
 msgstr "ID"
 
 #. module: gard_x_gard
-#: model:ir.actions.report,name:gard_x_gard.action_report_picking_gard
-msgid "Ingreso"
-msgstr "Ingreso"
-
-#. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_invoice
 msgid "Invoice"
 msgstr "Factura"
@@ -210,6 +205,11 @@ msgstr "Diario"
 #: model:ir.model.fields,field_description:gard_x_gard.field_report_gard_x_gard_report_account_move_multi_t___last_update
 msgid "Last Modified on"
 msgstr "Última modificación en"
+
+#. module: gard_x_gard
+#: model:res.groups,name:gard_x_gard.group_stock_logistics
+msgid "Logistics"
+msgstr "Logistica"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
@@ -263,7 +263,7 @@ msgstr "Revise todos los datos antes de validar, ¿validar?"
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.invoice_supplier_form
 msgid "Please revise the inputed data and check that the correct journal has been selected. Validate?"
-msgstr "Asegurese que el diario correcto este seleccionado, y revise los datos introducidos. ¿Validar?"
+msgstr "Please revise the inputed data and check that the correct journal has been selected. Validate?"
 
 #. module: gard_x_gard
 #: model:res.groups,name:gard_x_gard.group_product_manager
@@ -278,7 +278,7 @@ msgstr "Facturacion compras"
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_sale_order
 msgid "Quotation"
-msgstr "Cotización"
+msgstr "Cotizacion"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
@@ -299,17 +299,12 @@ msgstr "Lineas de venta"
 #. module: gard_x_gard
 #: model:res.groups,name:gard_x_gard.group_account_invoice_sale
 msgid "Sales Billing"
-msgstr "Sales Billing"
+msgstr "Facturacion ventas"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Línea de orden de ventas"
-
-#. module: gard_x_gard
-#: model:ir.actions.report,name:gard_x_gard.action_report_picking_gard_out
-msgid "Salida"
-msgstr "Salida"
 
 #. module: gard_x_gard
 #: model:ir.model.fields,field_description:gard_x_gard.field_account_expenses_rendition_invoice_payment_request_id
@@ -322,11 +317,6 @@ msgid "TOTALES:"
 msgstr "TOTALES:"
 
 #. module: gard_x_gard
-#: model:ir.actions.report,name:gard_x_gard.action_report_sale_order_gard
-msgid "Ticket Venta"
-msgstr "Ticket Venta"
-
-#. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
 msgid "Tipo de Cambio:"
 msgstr "Tipo de Cambio:"
@@ -335,11 +325,6 @@ msgstr "Tipo de Cambio:"
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_search
 msgid "Transaction Date"
 msgstr "Fecha de transaccion"
-
-#. module: gard_x_gard
-#: model:ir.actions.report,name:gard_x_gard.action_report_picking_gard_internal
-msgid "Transferencia Interna"
-msgstr "Transferencia Interna"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_stock_warehouse
