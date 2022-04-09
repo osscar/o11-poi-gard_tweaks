@@ -1,27 +1,71 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-        <!-- Search Views -->
 
-        <!-- Views -->
-        <record model="ir.ui.view" id="view_account_journal_form">
-            <field name="name">account.journal.form.inherit.gard_x_gard</field>
-            <field name="model">account.journal</field>
-            <field name="mode">extension</field>
-            <field name="priority">10</field>
-            <field name="inherit_id" ref="account.view_account_journal_form"/>
-            <field name="arch" type="xml">
+    <!-- Search Views -->
 
-                <xpath expr="//sheet/group[1]/group[last()]" position="after">
-                    <group>
-                        <field name="note"/>
-                    </group>
-                </xpath>
+    <!-- Views -->
+    <record model="ir.ui.view" id="view_account_journal_form">
+        <field name="name">account.journal.form.inherit.gard_x_gard</field>
+        <field name="model">account.journal</field>
+        <field name="mode">extension</field>
+        <field name="priority">10</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
 
-            </field>
-        </record>
+            <xpath expr="//sheet/group[1]/group[last()]" position="after">
+                <group>
+                    <field name="note"/>
+                </group>
+            </xpath>
 
-        <!-- Actions -->
+        </field>
+    </record>
 
-        <!-- Menus -->
+    <!-- Actions -->
+
+    <!-- Menus -->
+    <record model='ir.ui.menu' id='account.menu_finance_payables'>
+        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
+    </record>
+
+    <record model='ir.ui.menu' id='account.menu_finance_payables_documents'>
+        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
+    </record>
+
+    <record model='ir.ui.menu' id='account.menu_finance_receivables'>
+        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_sale'))]"/>
+    </record>
+
+    <record model='ir.ui.menu' id='account.menu_finance_receivables_documents'>
+        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_sale')), (4, ref('poi_payment_request.group_payment_request'))]"/>
+    </record>
+
+    <record model='ir.ui.menu' id='account.account_reports_business_intelligence_menu'>
+        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase')), (4, ref('gard_x_gard.group_account_invoice_sale'))]"/>
+    </record>
+
+    <record model='ir.ui.menu' id='poi_bank.menu_action_payment_transfer_form'>
+        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase')), (4, ref('gard_x_gard.group_account_invoice_sale'))]"/>
+    </record>
+
+    <record model='ir.ui.menu' id='poi_account_prepayment.menu_action_account_prepayments_payable'>
+        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
+    </record>
+
+    <record model='ir.ui.menu' id='account.menu_finance'>
+        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
+    </record>
+
+    <record model='ir.ui.menu' id='account_reports.menu_action_followups'>
+        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_sale'))]"/>
+    </record>
+
+    <record model='ir.ui.menu' id='poi_account_prepayment.menu_action_account_prepayments_receivable'>
+        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_sale'))]"/>
+    </record>
+
+    <record model='ir.ui.menu' id='poi_x_gard.menu_action_account_deposits_receivable'>
+        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_cashier'))]"/>
+    </record>
 
 </odoo>
