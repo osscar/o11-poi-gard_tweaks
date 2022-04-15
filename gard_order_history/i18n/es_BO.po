@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#   * gard_order_history
+#	* gard_order_history
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-05 16:27+0000\n"
-"PO-Revision-Date: 2021-07-05 16:27+0000\n"
+"POT-Creation-Date: 2022-04-15 21:38+0000\n"
+"PO-Revision-Date: 2022-04-15 21:38+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -77,7 +77,7 @@ msgid "Payments updated"
 msgstr "Pagos actualizados"
 
 #. module: gard_order_history
-#: model:ir.ui.view,arch_db:gard_order_history.vpicktree
+#: model:ir.ui.view,arch_db:gard_order_history.vpicktree_inherit
 msgid "Picking list"
 msgstr "Albarán"
 
@@ -91,7 +91,7 @@ msgstr "Albaranes Relacionados"
 #. module: gard_order_history
 #: model:ir.model,name:gard_order_history.model_sale_order
 msgid "Quotation"
-msgstr "Presupuesto"
+msgstr "Cotización"
 
 #. module: gard_order_history
 #: code:addons/gard_order_history/models/sale.py:31

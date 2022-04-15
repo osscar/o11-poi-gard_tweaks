@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-08 22:57+0000\n"
-"PO-Revision-Date: 2022-04-08 22:57+0000\n"
+"POT-Creation-Date: 2022-04-15 21:32+0000\n"
+"PO-Revision-Date: 2022-04-15 21:32+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -154,17 +154,17 @@ msgstr "GARD custom for cashier."
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_product_manager
 msgid "GARD custom group for product manager."
-msgstr "GARD custom group for product manager."
+msgstr "Grupo personalizado para product manager."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_invoice_purchase
 msgid "GARD custom group for purchase billing."
-msgstr "GARD custom group for purchase billing."
+msgstr "Grupo personalizado para purchase billing."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_invoice_sale
 msgid "GARD custom group for sales billing."
-msgstr "GARD custom group for sales billing."
+msgstr "Grupo personalizado para sales billing."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_edit
@@ -243,6 +243,11 @@ msgid "Payment Date"
 msgstr "Fecha de pago"
 
 #. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_search
+msgid "Payment Type"
+msgstr "Tipo de pago"
+
+#. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_payment
 #: model:ir.model.fields,field_description:gard_x_gard.field_account_deposit_payment_ids
 msgid "Payments"
@@ -263,7 +268,7 @@ msgstr "Revise todos los datos antes de validar, ¿validar?"
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.invoice_supplier_form
 msgid "Please revise the inputed data and check that the correct journal has been selected. Validate?"
-msgstr "Please revise the inputed data and check that the correct journal has been selected. Validate?"
+msgstr "Asegurese que el diario correcto este seleccionado, y revise los datos introducidos. ¿Validar?"
 
 #. module: gard_x_gard
 #: model:res.groups,name:gard_x_gard.group_product_manager
@@ -278,12 +283,20 @@ msgstr "Facturacion compras"
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_sale_order
 msgid "Quotation"
-msgstr "Cotizacion"
+msgstr "Cotización"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
 msgid "Referencia:"
 msgstr "Referencia:"
+
+#. module: gard_x_gard
+#: model:ir.model.fields,field_description:gard_x_gard.field_stock_move_requested_by
+#: model:ir.model.fields,field_description:gard_x_gard.field_stock_picking_requested_by
+#: model:ir.ui.view,arch_db:gard_x_gard.view_move_search_inherit
+#: model:ir.ui.view,arch_db:gard_x_gard.view_picking_internal_search_inherit
+msgid "Requested By"
+msgstr "Solocitado por"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
@@ -299,7 +312,7 @@ msgstr "Lineas de venta"
 #. module: gard_x_gard
 #: model:res.groups,name:gard_x_gard.group_account_invoice_sale
 msgid "Sales Billing"
-msgstr "Facturacion ventas"
+msgstr "Sales Billing"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_sale_order_line
@@ -310,6 +323,11 @@ msgstr "Línea de orden de ventas"
 #: model:ir.model.fields,field_description:gard_x_gard.field_account_expenses_rendition_invoice_payment_request_id
 msgid "Solicitud de Pago"
 msgstr "Solicitud de Pago"
+
+#. module: gard_x_gard
+#: model:ir.model,name:gard_x_gard.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
@@ -325,6 +343,21 @@ msgstr "Tipo de Cambio:"
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_search
 msgid "Transaction Date"
 msgstr "Fecha de transaccion"
+
+#. module: gard_x_gard
+#: model:ir.model,name:gard_x_gard.model_stock_picking
+msgid "Transfer"
+msgstr "Transferir"
+
+#. module: gard_x_gard
+#: model:ir.model.fields,help:gard_x_gard.field_stock_move_requested_by
+msgid "User that requested this move."
+msgstr "Usuario que solicito este movimiento."
+
+#. module: gard_x_gard
+#: model:ir.model.fields,help:gard_x_gard.field_stock_picking_requested_by
+msgid "User that requested this transfer."
+msgstr "Usuario que solicito esta transferencia."
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_stock_warehouse
