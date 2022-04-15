@@ -24,6 +24,7 @@
                     <filter string="Payment Date" domain="[]" context="{'group_by': 'payment_date'}"/>
                     <filter string="Transaction Date" domain="[]" context="{'group_by': 'transaction_date'}"/>
                     <filter string="Cashier" domain="[]" context="{'group_by': 'cashier_id'}"/>
+                    <filter string="Payment Type" domain="[]" context="{'group_by': 'payment_type'}"/>
                 </xpath>
 
             </field>
@@ -98,9 +99,12 @@
             <field name="inherit_id" ref="account.view_account_supplier_payment_tree"/>
             <field name="arch" type="xml">
 
-                <xpath expr="//field[@name='payment_method_id']" position="after">
+                <xpath expr="//field[@name='journal_id']" position="after">
+                    <field name="payment_type"/>
                     <field name="transaction_date"/>
                     <field name="transaction_number"/>
+                </xpath>
+                <xpath expr="//field[@name='payment_method_id']" position="replace">
                 </xpath>
 
             </field>

@@ -1,15 +1,87 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
         <!-- Search Views -->
+        <record model="ir.ui.view" id="view_move_search_inherit">
+            <field name="name">stock.move.search.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="stock.view_move_search"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[last()]" position="after">
+                    <field name="requested_by" string="Requested By" filter_domain="[('requested_by','ilike', self)]"/>
+                </xpath>
+
+                <xpath expr="//group/filter[last()]" position="after">
+                    <filter string="Requested By" domain="[]" context="{'group_by':'requested_by'}"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_picking_internal_search_inherit">
+            <field name="name">stock.picking.internal.search.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[last()]" position="after">
+                    <field name="requested_by" string="Requested By" filter_domain="[('requested_by','ilike', self)]"/>
+                </xpath>
+
+                <xpath expr="//group/filter[last()]" position="after">
+                    <filter string="Requested By" domain="[]" context="{'group_by':'requested_by'}"/>
+                </xpath>
+
+            </field>
+        </record>
+
 
         <!-- Views -->
-        <record model="ir.ui.view" id="view_picking_form">
-            <field name="name">stock.picking.form.inherit.gard_x_gard</field>
+        <record model="ir.ui.view" id="view_move_form_inherit">
+            <field name="name">stock.move.form.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//group[@name='origin_grp']/field[last()]" position="after">
+                    <field name="requested_by" readonly="1"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_move_tree_inherit">
+            <field name="name">stock.move.tree.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="stock.view_move_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[last()]" position="after">
+                    <field name="requested_by" readonly="1"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_picking_form_inherit">
+            <field name="name">stock.picking.form.inherit</field>
             <field name="model">stock.picking</field>
             <field name="mode">extension</field>
             <field name="priority">10</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='group_id']" position="after">
+                    <field name="requested_by" readonly="1"/>
+                </xpath>
 
                 <xpath expr="//form/sheet//field[@name='scheduled_date']" position="after">
                     <field name="date_done" readonly="1"/>
@@ -34,8 +106,46 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="vpicktree_inherit">
+            <field name="name">stock.vpicktree.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="gard_order_history.vpicktree_inherit"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[last()]" position="after">
+                    <field name="requested_by" readonly="1"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_stock_picking_tree_inherit">
+            <field name="name">stock.picking.tree.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="gard_order_history.view_stock_picking_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[last()]" position="after">
+                    <field name="requested_by" readonly="1"/>
+                </xpath>
+
+            </field>
+        </record>
+
         <!-- Actions -->
 
         <!-- Menus -->
+        <record model='ir.ui.menu' id='poi_purchase_imports.menu_stock_location_history'>
+            <field name="groups_id" eval="[(4, ref('gard_x_gard.group_stock_logistics'))]"/>
+        </record>
+        
+        <record model='ir.ui.menu' id='stock_account.menu_valuation'>
+            <field name="groups_id" eval="[(4, ref('gard_x_gard.group_stock_logistics'))]"/>
+        </record>
+
 
 </odoo>
