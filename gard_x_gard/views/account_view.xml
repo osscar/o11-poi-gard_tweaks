@@ -2,6 +2,26 @@
 <odoo>
 
     <!-- Search Views -->
+    <record model="ir.ui.view" id="view_account_move_line_filter">
+        <field name="name">account.move.line.search.inherit.gard_x_gard</field>
+        <field name="model">account.move.line</field>
+        <field name="mode">extension</field>
+        <field name="priority">10</field>
+        <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+        <field name="arch" type="xml">
+
+          <xpath expr="//field[@name='name']" position="replace">
+              <group>
+                  <field name="name" filter_domain="['|', '|', ('name','ilike',self), ('ref','ilike',self)], ('move_id','ilike',self)]" string="Move"/>
+              </group>
+          </xpath>
+
+          <xpath expr="//field[@name='name']" position="after">
+                  <field name="move_id"/>
+          </xpath>
+
+        </field>
+    </record>
 
     <!-- Views -->
     <record model="ir.ui.view" id="view_account_journal_form">
