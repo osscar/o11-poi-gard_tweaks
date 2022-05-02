@@ -218,12 +218,12 @@ msgstr "ID"
 #. module: gard_x_gard
 #: selection:stock.move,move_type:0
 msgid "In"
-msgstr "In"
+msgstr "Ingreso"
 
 #. module: gard_x_gard
 #: selection:stock.move,move_type:0
 msgid "Internal"
-msgstr "Internal"
+msgstr "Interno"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_invoice
@@ -279,7 +279,7 @@ msgstr "Fecha orden"
 #. module: gard_x_gard
 #: selection:stock.move,move_type:0
 msgid "Out"
-msgstr "Out"
+msgstr "Egreso"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_all_tree
