@@ -10,11 +10,16 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//field[last()]" position="after">
-                    <field name="requested_by" string="Requested By" filter_domain="[('requested_by','ilike', self)]"/>
+                    <field name="requested_by" string="Requested By" filter_domain="[('requested_by', 'ilike', self)]"/>
+                    <field name="requested_by" string="Move Type" filter_domain="[('move_type', 'ilike', self)]"/>
                 </xpath>
-
+                <xpath expr="//filter[@name='outgoing']" position="after">
+                    <filter string="Accountable" name="is_accountable" domain="[('move_type', '!=', 'is_internal')]" help="Stock moves that should have accounting entries."/>
+                    <filter string="Accounted" name="is_accounted" domain="[('account_move_ids', '!=', False)]" help="Stock moves with accounting entries."/>
+                </xpath>
                 <xpath expr="//group/filter[last()]" position="after">
-                    <filter string="Requested By" domain="[]" context="{'group_by':'requested_by'}"/>
+                    <filter string="Move Type" domain="[]" context="{'group_by': 'move_type'}"/>
+                    <filter string="Requested By" domain="[]" context="{'group_by': 'requested_by'}"/>
                 </xpath>
 
             </field>
@@ -31,7 +36,6 @@
                 <xpath expr="//field[last()]" position="after">
                     <field name="requested_by" string="Requested By" filter_domain="[('requested_by','ilike', self)]"/>
                 </xpath>
-
                 <xpath expr="//group/filter[last()]" position="after">
                     <filter string="Requested By" domain="[]" context="{'group_by':'requested_by'}"/>
                 </xpath>
@@ -52,6 +56,9 @@
                 <xpath expr="//group[@name='origin_grp']/field[last()]" position="after">
                     <field name="requested_by" readonly="1"/>
                 </xpath>
+                <xpath expr="//field[@name='location_dest_id']" position="after">
+                    <field name="move_type" readonly="1"/>
+                </xpath>
 
             </field>
         </record>
@@ -64,6 +71,9 @@
             <field name="inherit_id" ref="stock.view_move_tree"/>
             <field name="arch" type="xml">
 
+                <xpath expr="//field[@name='location_dest_id']" position="after">
+                    <field name="move_type" readonly="1"/>
+                </xpath>
                 <xpath expr="//field[last()]" position="after">
                     <field name="requested_by" readonly="1"/>
                 </xpath>
@@ -82,23 +92,18 @@
                 <xpath expr="//field[@name='group_id']" position="after">
                     <field name="requested_by" readonly="1"/>
                 </xpath>
-
                 <xpath expr="//form/sheet//field[@name='scheduled_date']" position="after">
                     <field name="date_done" readonly="1"/>
                 </xpath>
-
                 <xpath expr="//form/sheet//field[@name='move_lines']//field[@name='date_expected']" position="after">
                     <field name="date" readonly="1" invisible ="0"/>
                 </xpath>
-
                 <xpath expr="//form/sheet//field[@name='location_id']" position="replace">
                     <field name="location_id" groups="stock.group_stock_multi_locations" domain="['|', ('company_id', '=', company_id), ('company_id', '=', False)]"/>
                 </xpath>
-
                 <xpath expr="//form/sheet//field[@name='location_dest_id']" position="replace">
                     <field name="location_dest_id" groups="stock.group_stock_multi_locations" domain="['|', ('company_id', '=', company_id), ('company_id', '=', False)]"/>
                 </xpath>
-
                 <xpath expr="//form/sheet//field[@name='move_lines']//field[@name='date_expected']" position="attributes">
                     <attribute name="readonly">1</attribute>
                     <attribute name="invisible">0</attribute>
@@ -142,7 +147,7 @@
         <record model='ir.ui.menu' id='poi_purchase_imports.menu_stock_location_history'>
             <field name="groups_id" eval="[(4, ref('gard_x_gard.group_stock_logistics'))]"/>
         </record>
-        
+
         <record model='ir.ui.menu' id='stock_account.menu_valuation'>
             <field name="groups_id" eval="[(4, ref('gard_x_gard.group_stock_logistics'))]"/>
         </record>

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-15 21:32+0000\n"
-"PO-Revision-Date: 2022-04-15 21:32+0000\n"
+"POT-Creation-Date: 2022-05-02 23:10+0000\n"
+"PO-Revision-Date: 2022-05-02 23:10+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:gard_x_gard.field_account_deposit_payment_count
 msgid "# of Payments"
 msgstr "# Pagos"
+
+#. module: gard_x_gard
+#: model:ir.model.fields,help:gard_x_gard.field_stock_move_move_type
+msgid "* In: Incoming stock (accountable).\n"
+"* Out: Outgoing stock (accountable).\n"
+"* Dropship: Dropshipped (accountable).\n"
+"* Dropship: Returned dropship (accountable).\n"
+"* Internal: Internal moves (not accountable)."
+msgstr "* In: Incoming stock (accountable).\n"
+"* Out: Outgoing stock (accountable).\n"
+"* Dropship: Dropshipped (accountable).\n"
+"* Dropship: Returned dropship (accountable).\n"
+"* Internal: Internal moves (not accountable)."
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
@@ -39,6 +52,21 @@ msgstr "<strong>TOTALES:</strong>"
 #: model:ir.actions.report,name:gard_x_gard.report_account_move_multi
 msgid "Account Move Voucher (multi)"
 msgstr "Comprobante de asiento (multi)"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.view_move_search_inherit
+msgid "Accountable"
+msgstr "Contabilizable"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.view_move_search_inherit
+msgid "Accounted"
+msgstr "Contabilizado"
+
+#. module: gard_x_gard
+#: model:res.groups,name:gard_x_gard.group_account_edit
+msgid "Accounting Edit"
+msgstr "Edicion contable"
 
 #. module: gard_x_gard
 #: model:ir.actions.act_window,name:gard_x_gard.action_account_payments_all
@@ -62,12 +90,8 @@ msgid "Bs."
 msgstr "Bs."
 
 #. module: gard_x_gard
-#: model:res.groups,name:gard_x_gard.group_cashier
-msgid "Cajero ventas"
-msgstr "Cajero ventas"
-
-#. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_search
+#: model:res.groups,name:gard_x_gard.group_cashier
 msgid "Cashier"
 msgstr "Cajero"
 
@@ -113,6 +137,11 @@ msgid "Divisa:"
 msgstr "Divisa:"
 
 #. module: gard_x_gard
+#: selection:stock.move,move_type:0
+msgid "Dropship"
+msgstr "Dropship"
+
+#. module: gard_x_gard
 #: code:addons/gard_x_gard/models/account_invoice.py:32
 #: code:addons/gard_x_gard/models/account_payment.py:38
 #: code:addons/gard_x_gard/models/sale.py:37
@@ -142,29 +171,24 @@ msgid "Fecha:"
 msgstr "Fecha:"
 
 #. module: gard_x_gard
-#: model:res.groups,name:gard_x_gard.group_account_edit
-msgid "GARD Accounting Edit"
-msgstr "GARD Edicion Contabilidad"
-
-#. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_cashier
-msgid "GARD custom for cashier."
-msgstr "GARD custom for cashier."
+msgid "GARD custom group for cashier."
+msgstr "GARD grupo personalizado para cajero."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_product_manager
 msgid "GARD custom group for product manager."
-msgstr "Grupo personalizado para product manager."
+msgstr "GARD custom group for product manager."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_invoice_purchase
 msgid "GARD custom group for purchase billing."
-msgstr "Grupo personalizado para purchase billing."
+msgstr "GARD custom group for purchase billing."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_invoice_sale
 msgid "GARD custom group for sales billing."
-msgstr "Grupo personalizado para sales billing."
+msgstr "GARD custom group for sales billing."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_edit
@@ -192,6 +216,16 @@ msgid "ID"
 msgstr "ID"
 
 #. module: gard_x_gard
+#: selection:stock.move,move_type:0
+msgid "In"
+msgstr "In"
+
+#. module: gard_x_gard
+#: selection:stock.move,move_type:0
+msgid "Internal"
+msgstr "Internal"
+
+#. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_invoice
 msgid "Invoice"
 msgstr "Factura"
@@ -210,6 +244,16 @@ msgstr "Última modificación en"
 #: model:res.groups,name:gard_x_gard.group_stock_logistics
 msgid "Logistics"
 msgstr "Logistica"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.view_account_move_line_filter
+msgid "Move"
+msgstr "Movimiento"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.view_move_search_inherit
+msgid "Move Type"
+msgstr "Tipo movimiento"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
@@ -231,6 +275,11 @@ msgstr "Numero de Factura:"
 #: model:ir.ui.view,arch_db:gard_x_gard.view_sales_order_line_filter
 msgid "Order Date"
 msgstr "Fecha orden"
+
+#. module: gard_x_gard
+#: selection:stock.move,move_type:0
+msgid "Out"
+msgstr "Out"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_all_tree
@@ -299,6 +348,11 @@ msgid "Requested By"
 msgstr "Solocitado por"
 
 #. module: gard_x_gard
+#: selection:stock.move,move_type:0
+msgid "Returned Dropship"
+msgstr "Returned Dropship"
+
+#. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
 msgid "SON:"
 msgstr "SON:"
@@ -330,6 +384,16 @@ msgid "Stock Move"
 msgstr "Movimiento de existencias"
 
 #. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.view_move_search_inherit
+msgid "Stock moves that should have accounting entries."
+msgstr "Stock moves that should have accounting entries."
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.view_move_search_inherit
+msgid "Stock moves with accounting entries."
+msgstr "Stock moves with accounting entries."
+
+#. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
 msgid "TOTALES:"
 msgstr "TOTALES:"
@@ -348,6 +412,11 @@ msgstr "Fecha de transaccion"
 #: model:ir.model,name:gard_x_gard.model_stock_picking
 msgid "Transfer"
 msgstr "Transferir"
+
+#. module: gard_x_gard
+#: model:ir.model.fields,field_description:gard_x_gard.field_stock_move_move_type
+msgid "Type"
+msgstr "Tipo"
 
 #. module: gard_x_gard
 #: model:ir.model.fields,help:gard_x_gard.field_stock_move_requested_by
@@ -378,4 +447,3 @@ msgstr "de"
 #: model:ir.model,name:gard_x_gard.model_report_gard_x_gard_report_account_move_multi_t
 msgid "report.gard_x_gard.report_account_move_multi_t"
 msgstr "report.gard_x_gard.report_account_move_multi_t"
-
