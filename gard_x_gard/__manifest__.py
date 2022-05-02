@@ -43,6 +43,8 @@ This module tweaks the following:
         'poi_x_gard',
         'poi_bol_base',
         'sale',
+        'stock',
+        'stock_account',
         #'sale_crm',
         'web',
         #'website',
