@@ -15,7 +15,8 @@
                 </xpath>
                 <xpath expr="//filter[@name='outgoing']" position="after">
                     <filter string="Accountable" name="is_accountable" domain="[('move_type', '!=', 'is_internal')]" help="Stock moves that should have accounting entries."/>
-                    <filter string="Accounted" name="is_accounted" domain="[('account_move_ids', '!=', False)]" help="Stock moves with accounting entries."/>
+                    <filter string="Accounted" name="is_accounted_true" domain="[('account_move_ids', '!=', False)]" help="Accountable stock moves with accounting entries."/>
+                    <filter string="Not Accounted" name="is_accounted_false" domain="[('account_move_ids', '!=', True)]" help="Accountable stock moves without accounting entries."/>
                 </xpath>
                 <xpath expr="//group/filter[last()]" position="after">
                     <filter string="Move Type" domain="[]" context="{'group_by': 'move_type'}"/>
