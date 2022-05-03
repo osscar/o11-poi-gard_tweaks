@@ -283,7 +283,7 @@ msgstr "No contabilizable"
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_move_search_inherit
 msgid "Not Accounted"
-msgstr "Not Contabilizado"
+msgstr "No Contabilizado"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
