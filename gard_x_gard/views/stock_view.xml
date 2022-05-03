@@ -14,11 +14,13 @@
                     <field name="requested_by" string="Move Type" filter_domain="[('move_type', 'ilike', self)]"/>
                 </xpath>
                 <xpath expr="//filter[@name='outgoing']" position="after">
-                    <filter string="Accountable" name="is_accountable" domain="[('move_type', '!=', 'is_internal')]" help="Stock moves that should have accounting entries."/>
-                    <filter string="Accounted" name="is_accounted_true" domain="[('account_move_ids', '!=', False)]" help="Accountable stock moves with accounting entries."/>
-                    <filter string="Not Accounted" name="is_accounted_false" domain="[('account_move_ids', '!=', True)]" help="Accountable stock moves without accounting entries."/>
+                    <filter string="Accountable" name="is_accountable_true" domain="[('is_accountable', '=', True)]" help="Stock moves that should have accounting entries."/>
+                    <filter string="Not Accountable" name="is_accountable_false" domain="[('is_accountable', '=', True)]" help="Stock moves that should not have accounting entries."/>
+                    <filter string="Accounted" name="is_accounted_true" domain="[('account_move_ids', '!=', False), ('is_accountable', '!=', False)]" help="Accountable stock moves with accounting entries."/>
+                    <filter string="Not Accounted" name="is_accounted_false" domain="[('account_move_ids', '=', False)]" help="Accountable stock moves without accounting entries."/>
                 </xpath>
                 <xpath expr="//group/filter[last()]" position="after">
+                    <filter string="Date" domain="[]" context="{'group_by': 'date'}"/>
                     <filter string="Move Type" domain="[]" context="{'group_by': 'move_type'}"/>
                     <filter string="Requested By" domain="[]" context="{'group_by': 'requested_by'}"/>
                 </xpath>
@@ -77,6 +79,7 @@
                 </xpath>
                 <xpath expr="//field[last()]" position="after">
                     <field name="requested_by" readonly="1"/>
+                    <field name="is_accountable" readonly="1"/>
                 </xpath>
 
             </field>
