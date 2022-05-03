@@ -16,6 +16,8 @@ class StockMove(models.Model):
     _inherit = 'stock.move'
     _order = 'date desc'
 
+    is_accountable = fields.Boolean('Accountable', compute='_get_move_type',
+        copy=False, readonly=True, store=True)
     move_type = fields.Selection([
         ('is_in', 'In'), ('is_out', 'Out'),
         ('is_dropshipped', 'Dropship'),
@@ -23,11 +25,11 @@ class StockMove(models.Model):
         ('is_internal', 'Internal')], string='Type',
         compute='_get_move_type', copy=False,
         index=True, store=True, readonly=True,
-        help="* In: Incoming stock (accountable).\n"
-             "* Out: Outgoing stock (accountable).\n"
-             "* Dropship: Dropshipped (accountable).\n"
-             "* Dropship: Returned dropship (accountable).\n"
-             "* Internal: Internal moves (not accountable).")
+        help="* In: Incoming stock.\n"
+             "* Out: Outgoing stock.\n"
+             "* Dropship: Dropshipped.\n"
+             "* Dropship: Returned dropship.\n"
+             "* Internal: Internal moves.")
 
     requested_by = fields.Many2one(
         'res.users', 'Requested By', readonly=True,
@@ -55,11 +57,18 @@ class StockMove(models.Model):
     @api.multi
     def _get_move_type(self):
         for move in self:
+            is_accountable = False
             find_move_type = ["_is_in", "_is_out", "_is_dropshipped", "_is_dropshipped_returned", "_is_internal"]
             # _logger.debug('find_move_type >>>: %s', find_move_type)
 
             for move_type in find_move_type:
-                # _logger.debug('move_type >>>: %s', move_type)
-                if getattr(move, move_type)() == True:
+                _logger.debug('move_type >>>: %s', move_type)
+                move_type_bool = getattr(move, move_type)()
+                _logger.debug('move_type_bool >>>: %s', move_type_bool)
+                if move_type_bool == True:
+                    # _logger.debug('_is_internal >>>: %s', move_type == '_is_internal')
+                    if move_type != '_is_internal':
+                        is_accountable = True
                     move.move_type = move_type[1:]
+                    move.is_accountable = is_accountable
                     # _logger.debug('move_type compute >>>: %s', move_type)
