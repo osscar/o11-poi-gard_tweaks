@@ -21,8 +21,11 @@ class AccountInvoice(models.Model):
         action_validate_invoice_payment = request.params.get('method') in 'action_validate_invoice_payment'
         invoice_refund = request.params.get('method') in 'invoice_refund'
         move_reconcile = request.params.get('method') in ('assign_outstanding_credit', 'remove_move_reconcile')
+        payment_post = request.params.get('model', 'method') in ('account.payment', 'post' )
+        # _logger.debug('payment_post funct: %s' % request.params.get('model', 'method'))
+        # _logger.debug('payment_post: %s' % payment_post)
         group_account_edit = self.env.user.has_group('gard_x_gard.group_account_edit')
-        allow_write = action_validate_invoice_payment or action_invoice_open or invoice_refund or move_reconcile or group_account_edit
+        allow_write = action_validate_invoice_payment or action_invoice_open or invoice_refund or move_reconcile or payment_post or group_account_edit
         _logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
         _logger.debug('Allow invoice_refund method: %s', invoice_refund)
         _logger.debug('Allow move_reconcile method: %s', move_reconcile)
