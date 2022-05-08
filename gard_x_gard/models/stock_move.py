@@ -17,14 +17,13 @@ class StockMove(models.Model):
     _order = 'date desc'
 
     is_accountable = fields.Boolean('Accountable', compute='_get_move_type',
-        copy=False, readonly=True, store=True)
+        copy=False, index=True, readonly=True)
     move_type = fields.Selection([
         ('is_in', 'In'), ('is_out', 'Out'),
         ('is_dropshipped', 'Dropship'),
         ('is_dropshipped_returned', 'Returned Dropship'),
         ('is_internal', 'Internal')], string='Type',
-        compute='_get_move_type', copy=False,
-        index=True, store=True, readonly=True,
+        compute='_get_move_type', copy=False, index=True, readonly=True,
         help="* In: Incoming stock.\n"
              "* Out: Outgoing stock.\n"
              "* Dropship: Dropshipped.\n"
@@ -50,25 +49,49 @@ class StockMove(models.Model):
         return res
 
     def _is_internal(self):
+        # _logger.debug('_is_internal self.location_id >>>: %s', self.location_id._should_be_valued())
+        # _logger.debug('_is_internal self.location_dest_id >>>: %s', self.location_dest_id._should_be_valued())
+        # _logger.debug('_is_internal ?? >>>: %s', self.location_id._should_be_valued() and self.location_dest_id._should_be_valued())
         if self.location_id._should_be_valued() and self.location_dest_id._should_be_valued():
             return True
         return False
 
+    @api.depends('move_type', 'is_accountable')
     @api.multi
     def _get_move_type(self):
         for move in self:
             is_accountable = False
-            find_move_type = ["_is_in", "_is_out", "_is_dropshipped", "_is_dropshipped_returned", "_is_internal"]
-            # _logger.debug('find_move_type >>>: %s', find_move_type)
+            move_type = False
+            if move._is_in():
+                move_type = 'is_in'
+                is_accountable = True
+            if move._is_out():
+                move_type = 'is_out'
+                is_accountable = True
+            if move._is_dropshipped():
+                move_type = 'is_dropshipped'
+                is_accountable = True
+            if move._is_dropshipped_returned():
+                move_type = 'is_dropshipped_returned'
+                is_accountable = True
+            if move._is_internal():
+                move_type = 'is_internal'
+                is_accountable = False
+            move.move_type = move_type
+            move.is_accountable = is_accountable
 
-            for move_type in find_move_type:
-                _logger.debug('move_type >>>: %s', move_type)
-                move_type_bool = getattr(move, move_type)()
-                _logger.debug('move_type_bool >>>: %s', move_type_bool)
-                if move_type_bool == True:
-                    # _logger.debug('_is_internal >>>: %s', move_type == '_is_internal')
-                    if move_type != '_is_internal':
-                        is_accountable = True
-                    move.move_type = move_type[1:]
-                    move.is_accountable = is_accountable
-                    # _logger.debug('move_type compute >>>: %s', move_type)
+            # revise this code - has bugs, above used instead until resolved; this is shorter
+            # find_move_type = ['_is_in', '_is_out', '_is_dropshipped', '_is_dropshipped_returned', '_is_internal']
+            # # _logger.debug('find_move_type >>>: %s', find_move_type)
+            #
+            # for move_type in find_move_type:
+            #     _logger.debug('move_type >>>: %s' % move_type)
+            #     move_type_bool = getattr(move, move_type)()
+            #     _logger.debug('move_type_bool >>>: %s' % move_type_bool)
+            #     if move_type_bool == True:
+            #         # _logger.debug('_is_internal >>>: %s', move_type == '_is_internal')
+            #         if move_type != '_is_internal':
+            #             is_accountable = True
+            #         move.move_type = move_type[1:]
+            #         move.is_accountable = is_accountable
+            #         _logger.debug('move_type compute >>>: %s', move_type)
