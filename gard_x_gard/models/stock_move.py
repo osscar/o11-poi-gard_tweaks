@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import logging
+# import logging
 
 from odoo import api, fields, models, _
 # from odoo.exceptions import RedirectWarning, UserError, ValidationError
@@ -9,7 +9,7 @@ from odoo.http import request
 
 # import odoo.addons.decimal_precision as dp
 
-_logger = logging.getLogger(__name__)
+# _logger = logging.getLogger(__name__)
 
 
 class StockMove(models.Model):
@@ -18,9 +18,11 @@ class StockMove(models.Model):
 
     is_accountable = fields.Boolean(
         'Accountable',
+        compute='_is_accountable',
         copy=False,
         store=True,
-        readonly=True)
+        readonly=True
+    )
     move_type = fields.Selection([
         ('is_in', 'In'), ('is_out', 'Out'),
         ('is_dropshipped', 'Dropship'),
@@ -35,7 +37,6 @@ class StockMove(models.Model):
              "* Dropship: Dropshipped.\n"
              "* Dropship: Returned dropship.\n"
              "* Internal: Internal moves.")
-
     requested_by = fields.Many2one(
         'res.users', 'Requested By', readonly=True,
         help="User that requested this move.")
@@ -57,15 +58,11 @@ class StockMove(models.Model):
             return True
         return False
 
-    @api.depends('location_id', 'location_dest_id')
+    @api.depends('state', 'location_id', 'location_dest_id')
     def _get_move_type(self):
         for move in self:
-            is_accountable = False
             move_type_id = None
-            _logger.debug('move.id >>>: %s', move.id)
-            _logger.debug('is_accountable for move >>>: %s' % is_accountable)
-            _logger.debug('move_type_id for move >>>: %s' % move_type_id)
-            # revise this code - may have bugs
+            # _logger.debug('move.id >>>: %s', move.id)
             find_move_type = [
                 '_is_in',
                 '_is_out',
@@ -73,22 +70,19 @@ class StockMove(models.Model):
                 '_is_dropshipped_returned',
                 '_is_internal'
             ]
-            # _logger.debug('find_move_type >>>: %s', find_move_type)
             for move_type in find_move_type:
-                _logger.debug('move_type >>>: %s' % move_type)
+                # _logger.debug('move_type >>>: %s' % move_type)
                 move_type_bool = getattr(move, move_type)()
-                _logger.debug('move_type_bool >>>: %s' % move_type_bool)
-                # mtype_same_use = move.location_id.usage in move.location_dest_id.usage
-                # _logger.debug('mtype_same_use >>>: %s' % mtype_same_use)
-                # _logger.debug('mtype l usage >>>: %s' % move.location_id.usage)
-                # _logger.debug('mtype l_dest usage >>>: %s' % move.location_dest_id.usage)
-                # _logger.debug('is_accountable >>>: %s' % is_accountable)
                 if move_type_bool:
                     move_type_id = move_type[1:]
-                    _logger.debug('move_type_id >>>: %s' % move_type_id)
-                    if move_type != ('_is_internal'):
-                        is_accountable = True
-            _logger.debug('move_type_id end >>>: %s' % move_type_id)
-            _logger.debug('is_accountable end >>>: %s' % is_accountable)
+            # _logger.debug('move_type_id end >>>: %s' % move_type_id)
             move.move_type = move_type_id
-            move.write({'is_accountable': is_accountable})
+
+    @api.depends('state', 'move_type')
+    def _is_accountable(self):
+        for move in self:
+            is_accountable = False
+            if move.move_type:
+                if move.move_type != 'is_internal':
+                    is_accountable = True
+            move.is_accountable = is_accountable
