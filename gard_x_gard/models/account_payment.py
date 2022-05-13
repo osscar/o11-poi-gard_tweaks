@@ -25,12 +25,12 @@ class AccountPayment(models.Model):
         calculate_cash = request.params.get('method') in ('calculate_cash')
         cancel = request.params.get('method') in ('cancel')
         action_draft = request.params.get('method') in ('action_draft')
+        acc_pay_req_write = request.params.get('model') in ('account.payment.request') and request.params.get('method') in ('write')
         # post = request.params.get('method') in ('post')
         group_cashier = self.env.user.has_group('gard_x_gard.group_cashier')
         group_account_edit = self.env.user.has_group(
             'gard_x_gard.group_account_edit')
-        allow_write = move_reconcile or (
-            group_cashier and calculate_cash) or cancel or action_draft or process_reconciliations or group_account_edit
+        allow_write = move_reconcile or (group_cashier and calculate_cash) or cancel or action_draft or process_reconciliations or group_account_edit or acc_pay_req_write
         _logger.debug('acc_pay write Requested params method >>>: [%s.%s]' % (
             request.params.get('model'), request.params.get('method')))
         if any(state != 'draft' for state in set(self.mapped('state')) if allow_write == False):
