@@ -1,26 +1,26 @@
 # -*- coding: utf-8 -*-
 
-import logging
+# import logging
 
 from odoo import models, fields, api, exceptions, _
 
 # from lxml import etree
 # import json
 
-_logger = logging.getLogger(__name__)
+# _logger = logging.getLogger(__name__)
 
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    landed_cost_ids = fields.Many2many('stock.landed.cost', string='Landed Costs Journal Entries',
+    landed_cost_ids = fields.Many2many('stock.landed.cost', string='Landed Costs',
                                        compute='_get_landed_cost_ids', copy=False, readonly=True, track_visibility='onchange')
-    invoice_cost_ids = fields.Many2many('account.invoice', string='Cost Invoices Journal Entries',
+    invoice_cost_ids = fields.Many2many('account.invoice', string='Cost Invoices',
                                        compute='_get_invoice_cost_ids', copy=False, readonly=True, track_visibility='onchange')
     invoice_am_ids = fields.Many2many('account.move', string='Purchase Invoices Journal Entries',
                                       compute='_get_account_move_ids', copy=False, readonly=True, track_visibility='onchange')
     invoice_cost_am_ids = fields.Many2many('account.move', string='Cost Invoices Journal Entries',
-                                      compute='_get_account_move_ids', copy=False, readonly=True, track_visibility='onchange')
+                                      compute='_get_account_move_ids', domain="", readonly=True, track_visibility='onchange')
     picking_am_ids = fields.Many2many('account.move', string='Pickings Journal Entries',
                                       compute='_get_account_move_ids', copy=False, readonly=True, track_visibility='onchange')
     landed_cost_am_ids = fields.Many2many('account.move', string='Landed Costs Journal Entries',
@@ -49,6 +49,8 @@ class PurchaseOrder(models.Model):
                 # _logger.debug('>>>>: %s', (order.invoice_payment_ids))
                 landed_cost_ids = slc_model.search(
                     [('picking_ids', 'in', picking_ids.id)])
+                for lc in landed_cost_ids:
+                    landed_cost_ids = lc
                 # _logger.debug('>>>>: %s', (landed_cost_ids))
         order.landed_cost_ids = landed_cost_ids
 
@@ -79,7 +81,7 @@ class PurchaseOrder(models.Model):
                 invoice_cost_am_ids = order.mapped('invoice_cost_ids').mapped(
                     'move_id')
                 order.invoice_am_ids = invoice_am_ids
-                order.invoice_cost_am_ids = invoice_cost_am_ids
+                order.invoice_cost_am_ids = invoice_cost_am_ids.filtered(lambda ic: ic.id != [invoice_am_ids])
             if order.picking_ids:
                 picking_ids = order.mapped('picking_ids')
                 pick_sm_ids = picking_ids.mapped('move_lines')
@@ -88,11 +90,11 @@ class PurchaseOrder(models.Model):
                         [('ref', '=', pick.name)])
                     for aml in picking_aml_ids:
                         picking_am_ids=aml.mapped('move_id')
-                order.picking_am_ids=picking_am_ids
+                order.picking_am_ids = picking_am_ids
             if order.landed_cost_ids:
                 landed_cost_ids=order.mapped('landed_cost_ids')
                 landed_cost_am_ids=landed_cost_ids.mapped('account_move_id')
-                order.landed_cost_am_ids=landed_cost_am_ids
+                order.landed_cost_am_ids = landed_cost_am_ids
 
     @ api.depends('invoice_am_ids', 'picking_am_ids', 'landed_cost_am_ids')
     def _compute_account_results(self):
@@ -117,5 +119,3 @@ class PurchaseOrder(models.Model):
                 sum_lc_am += lc_am.amount
                 self.balance_lcost_am = sum_lc_am
             self.balance_invc_lcost = sum_invc_am - sum_lc_am
-        # for inv_cost in self.invoice_ids:
-        #     self.balance_inv_cost_landed_cost = sum(inv_cost.amount) - sum(inv_cost.amount)
