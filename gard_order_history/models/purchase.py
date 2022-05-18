@@ -46,8 +46,11 @@ class PurchaseOrder(models.Model):
 
     @api.model
     def _recompute_fields(self):
-        for order in self:
-            order.recompute()
+        # for order in self:
+        model = self.env['purchase.order']
+        self.env.add_todo(model._fields['landed_cost_ids'], model.search([]))
+        # model.recompute()
+        model.recompute()
         return True
 
     @api.multi
@@ -73,7 +76,7 @@ class PurchaseOrder(models.Model):
                 for pick in picking_ids:
                     landed_cost_ids = lc_model.search(
                         [('picking_ids', 'in', pick.id)])
-                    _logger.debug('>>>>: %s', (landed_cost_ids))
+                    # _logger.debug('>>>>: %s', (landed_cost_ids))
             order.landed_cost_ids = landed_cost_ids
 
     @api.multi
