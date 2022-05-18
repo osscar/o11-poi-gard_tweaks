@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-17 15:56+0000\n"
-"PO-Revision-Date: 2022-05-17 12:03-0400\n"
+"POT-Creation-Date: 2022-05-18 00:12+0000\n"
+"PO-Revision-Date: 2022-05-17 20:13-0400\n"
 "Last-Translator: squid <n.hartmann@gmail.com>\n"
 "Language-Team: English <none@none.com>\n"
 "MIME-Version: 1.0\n"
@@ -117,7 +117,7 @@ msgstr "FCompra  ="
 #. module: gard_order_history
 #: model:ir.model.fields,field_description:gard_order_history.field_purchase_order_balance_inv_stock_cost
 msgid "PInvs - Picks  ="
-msgstr "FCompra - Albaranes  ="
+msgstr "FCompra - Albs  ="
 
 #. module: gard_order_history
 #: model:ir.ui.view,arch_db:gard_order_history.view_account_payment_tree

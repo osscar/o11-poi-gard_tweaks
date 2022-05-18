@@ -53,7 +53,6 @@
             <field colspan="4" name="picking_ids" readonly="1" nolabel="1" widget="one2many_list" context="{'tree_view_ref': 'gard_order_history.stock_picking_view_tree'}"/>
             <separator colspan="4" string="Landed Costs"/>
             <field colspan="4" name="landed_cost_ids" readonly="1"/>
-            <!-- nolabel="1" widget="one2many_list" context="{'tree_view_ref': 'gard_order_history.stock_picking_view_tree'}"/> -->
           </page>
           <page name="account_history" string="Accounting History">
             <group name="account_results">
