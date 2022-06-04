@@ -54,30 +54,9 @@
             <separator colspan="4" string="Landed Costs"/>
             <field colspan="4" name="landed_cost_ids" readonly="1"/>
           </page>
-          <page name="account_history" string="Accounting History">
-            <group name="account_results">
-              <group>
-                <field name="balance_inv_stock_cost" readonly="1"/>
-                <!-- <separator colspan="4" nolabel="1"/> -->
-                <field name="balance_inv_am" readonly="1"/>
-                <field name="balance_pick_am" readonly="1"/>
-              </group>
-              <group>
-                <field name="balance_invc_lcost" readonly="1"/>
-                <!-- <separator colspan="4" nolabel="1"/> -->
-                <field name="balance_invc_am" readonly="1"/>
-                <field name="balance_lcost_am" readonly="1"/>
-              </group>
-            </group>
-            <separator colspan="4" string="Purchase Invoices Journal Entries"/>
-            <field colspan="4" readonly="1" name="invoice_am_ids" nolabel="1" mode="tree"/>
-            <separator colspan="4" string="Cost Invoices Journal Entries"/>
-            <field colspan="4" readonly="1" name="invoice_cost_am_ids" nolabel="1" mode="tree"/>
-            <separator colspan="4" string="Pickings Journal Entries"/>
-            <field colspan="4" readonly="1" name="picking_am_ids" nolabel="1" mode="tree"/>
-            <separator colspan="4" string="Landed Costs Journal Entries"/>
-            <field colspan="4" readonly="1" name="landed_cost_am_ids" nolabel="1" mode="tree"/>
-          </page>
+          <!-- <page name="account_history" string="Accounting History">
+
+          </page> -->
         </xpath>
 
       </field>
