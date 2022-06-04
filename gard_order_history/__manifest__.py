@@ -47,10 +47,11 @@ tree views.
         'stock',
         'web_tree_dynamic_colored_field',
     ],
+    # 'post_init_hook': 'post_init_hook',
     'demo': [],
     'data': [
         'data/account_data.xml',
-        'data/config_data.xml',
+        # 'data/config_data.xml',
 
         'views/account_view.xml',
         'views/purchase_view.xml',

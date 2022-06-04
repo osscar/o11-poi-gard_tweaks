@@ -2,7 +2,7 @@
 <odoo>
 
   <data>
-    <function model="purchase.order" name="_recompute_fields"/>
+    <!-- <function model="purchase.order" name="_recompute_fields"/> -->
   </data>
 
 </odoo>

@@ -21,53 +21,26 @@ class PurchaseOrder(models.Model):
                                        compute='_get_landed_cost_ids', copy=False,
                                        readonly=True, track_visibility='onchange')
                                        # store=True, readonly=True, track_visibility='onchange')
-    invoice_am_ids = fields.Many2many('account.move', string='Purchase Invoices Journal Entries',
-                                      compute='_get_account_move_ids', copy=False,
-                                      readonly=True, track_visibility='onchange')
-                                      # store=True, readonly=True, track_visibility='onchange')
-    invoice_cost_am_ids = fields.Many2many('account.move', string='Cost Invoices Journal Entries',
-                                           compute='_get_account_move_ids', copy=False,
-                                           readonly=True, track_visibility='onchange')
-                                           # store=True, readonly=True, track_visibility='onchange')
-    picking_am_ids = fields.Many2many('account.move', string='Pickings Journal Entries',
-                                      compute='_get_account_move_ids', copy=False,
-                                      readonly=True, track_visibility='onchange')
-                                      # store=True, readonly=True, track_visibility='onchange')
-    landed_cost_am_ids = fields.Many2many('account.move', string='Landed Costs Journal Entries',
-                                          compute='_get_account_move_ids', copy=False,
-                                          readonly=True, track_visibility='onchange')
-                                          # store=True, readonly=True, track_visibility='onchange')
-    balance_inv_am = fields.Float(
-        string='PInvoices  =',
-        # store=True,
-        compute='_compute_account_results')
-    balance_invc_am = fields.Float(
-        string='CInvoices  =',
-         # store=True,
-         compute='_compute_account_results')
-    balance_pick_am = fields.Float(
-        string='Picks  =',
-         # store=True,
-         compute='_compute_account_results')
-    balance_lcost_am = fields.Float(
-        string='LCosts  =',
-         # store=True,
-         compute='_compute_account_results')
-    balance_inv_stock_cost = fields.Float(
-        string='PInvs - Picks  =',
-         # store=True,
-         compute='_compute_account_results')
-    balance_invc_lcost = fields.Float(
-        string='CInvs - LCosts  =',
-         # store=True,
-         compute='_compute_account_results')
 
-    @api.model
-    def _recompute_fields(self):
-        return True
+    #  TO DO: search for pickings in group_id of PurchaseOrder
+    # @api.depends('order_line.move_ids.returned_move_ids',
+    #              'order_line.move_ids.state',
+    #              'order_line.move_ids.picking_id')
+    # def _compute_picking(self):
+    #     res = super(PurchaseOrder, self)._compute_picking()
+    #     for order in self:
+    #         pickings = self.env['stock.picking']
+    #         for line in order.order_line:
+    #             # We keep a limited scope on purpose. Ideally, we should also use move_orig_ids and
+    #             # do some recursive search, but that could be prohibitive if not done correctly.
+    #             group_id_moves = pickings.search([]).filtered(lambda pick: pick.group_id.name == order.name)
+    #             pickings |= group_id_moves
+    #         order.picking_ids = pickings
+    #         # order.picking_count = len(pickings)
+    #     return res
 
     @api.multi
-    @api.depends('invoice_ids')
+    @api.depends('invoice_ids', 'landed_cost_ids')
     def _get_invoice_cost_ids(self):
         invoice_cost_ids = []
         for order in self:
@@ -75,87 +48,18 @@ class PurchaseOrder(models.Model):
                 invoice_model = self.env['account.invoice']
                 invoice_cost_ids = invoice_model.search(
                     [('origin', '=', order.name)]).filtered(lambda ic: ic not in order.invoice_ids)
-                # for ic in invoice_cost_ids.filtered(lambda ic: ic not in order.invoice_ids):
-                #     invoice_cost_ids = ic
             order.invoice_cost_ids = invoice_cost_ids
-            # if order.invoice_cost_am_ids:
-            #     for invc_am in order.invoice_cost_am_ids:
-            #         sum_invc_am += invc_am.amount
-            #         # _logger.debug('>>>> sum_invc_am: %s', (sum_invc_am))
-            #         order.balance_invc_am = sum_invc_am
 
     @api.multi
-    @api.depends('picking_ids', 'invoice_cost_ids')
+    @api.depends('picking_ids')
     def _get_landed_cost_ids(self):
-        landed_cost_ids = []
+        # landed_cost_ids = self.env['stock.landed.cost']
+        lc_model = self.env['stock.landed.cost']
         for order in self:
             if order.picking_ids:
-                lc_model = self.env['stock.landed.cost']
+                pick_model = self.env['stock.picking']
                 picking_ids = order.mapped('picking_ids')
                 for pick in picking_ids:
                     landed_cost_ids = lc_model.search(
                         [('picking_ids', 'in', pick.id)])
-                    # _logger.debug('>>>>: %s', (landed_cost_ids))
-            order.landed_cost_ids = landed_cost_ids
-
-    @api.multi
-    @api.depends('invoice_ids', 'invoice_cost_ids', 'picking_ids', 'landed_cost_ids')
-    def _get_account_move_ids(self):
-        model_aml = self.env['account.move.line']
-        invoice_am_ids = []
-        picking_am_ids = []
-        landed_cost_am_ids = []
-        for order in self:
-            if order.invoice_ids:
-                invoice_am_ids = order.mapped('invoice_ids').mapped(
-                    'move_id')
-                invoice_cost_am_ids = order.mapped('invoice_cost_ids').mapped(
-                    'move_id')
-                order.invoice_am_ids = invoice_am_ids
-                order.invoice_cost_am_ids = invoice_cost_am_ids
-            if order.picking_ids:
-                picking_ids = order.mapped('picking_ids')
-                pick_sm_ids = picking_ids.mapped('move_lines')
-                for pick in picking_ids:
-                    picking_aml_ids = model_aml.search(
-                        [('ref', '=', pick.name)])
-                    for aml in picking_aml_ids:
-                        picking_am_ids = aml.mapped('move_id')
-                order.picking_am_ids = picking_am_ids
-            if order.landed_cost_ids:
-                landed_cost_ids = order.mapped('landed_cost_ids')
-                landed_cost_am_ids = landed_cost_ids.mapped('account_move_id')
-                order.landed_cost_am_ids = landed_cost_am_ids
-
-    @ api.depends('invoice_am_ids', 'picking_am_ids', 'landed_cost_am_ids')
-    def _compute_account_results(self):
-        balance_cost_inv_landed_cost = 0
-        sum_inv_am = 0
-        sum_pick_am = 0
-        sum_invc_am = 0
-        sum_lc_am = 0
-        for order in self:
-            if order.invoice_am_ids:
-                for inv_am in order.invoice_am_ids:
-                    sum_inv_am += inv_am.amount
-                    # _logger.debug('>>>> sum_inv_am: %s', (sum_inv_am))
-                    order.balance_inv_am = sum_inv_am
-            if order.picking_am_ids:
-                for pick_am in order.picking_am_ids:
-                    sum_pick_am += pick_am.amount
-                    # _logger.debug('>>>> sum_pick_am: %s', (sum_pick_am))
-                    order.balance_pick_am = sum_pick_am
-            if order.invoice_am_ids and order.picking_am_ids:
-                order.balance_inv_stock_cost = sum_inv_am - sum_pick_am
-            if order.invoice_cost_am_ids:
-                for invc_am in order.invoice_cost_am_ids:
-                    sum_invc_am += invc_am.amount
-                    # _logger.debug('>>>> sum_invc_am: %s', (sum_invc_am))
-                    order.balance_invc_am = sum_invc_am
-            if order.landed_cost_am_ids:
-                for lc_am in order.landed_cost_am_ids:
-                    sum_lc_am += lc_am.amount
-                    # _logger.debug('>>>> sum_lc_am: %s', (sum_lc_am))
-                    order.balance_lcost_am = sum_lc_am
-            if order.invoice_cost_am_ids and order.landed_cost_am_ids:
-                order.balance_invc_lcost = sum_invc_am - sum_lc_am
+                    order.landed_cost_ids = landed_cost_ids
