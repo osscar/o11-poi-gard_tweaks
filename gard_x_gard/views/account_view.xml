@@ -1,91 +1,126 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <!-- Search Views -->
-    <record model="ir.ui.view" id="view_account_move_line_filter">
-        <field name="name">account.move.line.search.inherit.gard_x_gard</field>
-        <field name="model">account.move.line</field>
-        <field name="mode">extension</field>
-        <field name="priority">10</field>
-        <field name="inherit_id" ref="account.view_account_move_line_filter"/>
-        <field name="arch" type="xml">
+  <!-- Search Views -->
+  <record model="ir.ui.view" id="view_account_move_line_filter">
+    <field name="name">account.move.line.search.inherit.gard_x_gard</field>
+    <field name="model">account.move.line</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='name']" position="replace">
+        <group>
+          <field name="name" filter_domain="['|', '|', ('name','ilike',self), ('ref','ilike',self)], ('move_id','ilike',self)]" string="Move"/>
+        </group>
+      </xpath>
+      <xpath expr="//field[@name='name']" position="after">
+        <field name="move_id"/>
+      </xpath>
+    </field>
+  </record>
 
-          <xpath expr="//field[@name='name']" position="replace">
-              <group>
-                  <field name="name" filter_domain="['|', '|', ('name','ilike',self), ('ref','ilike',self)], ('move_id','ilike',self)]" string="Move"/>
-              </group>
-          </xpath>
+  <!-- Views -->
+  <record model="ir.ui.view" id="view_account_journal_form">
+    <field name="name">account.journal.form.inherit.gard_x_gard</field>
+    <field name="model">account.journal</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="account.view_account_journal_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet/group[1]/group[last()]" position="after">
+        <group>
+          <field name="note"/>
+        </group>
+      </xpath>
+    </field>
+  </record>
 
-          <xpath expr="//field[@name='name']" position="after">
-                  <field name="move_id"/>
-          </xpath>
+  <!-- Actions -->
 
-        </field>
-    </record>
+  <!-- Menus -->
+  <!-- Accounting Configuration -->
+  <record model='ir.ui.menu' id='account.menu_finance_configuration'>
+    <!-- added purchse invoice group to allow access to analytic accouting -->
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
+  </record>
+  <record model='ir.ui.menu' id='account.account_account_menu'>
+    <!-- restrict access -->
+    <field name="groups_id" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+  </record>
+  <record model='ir.ui.menu' id='account.account_management_menu'>
+    <!-- restrict access -->
+    <field name="groups_id" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+  </record>
+  <record model='ir.ui.menu' id='account.menu_action_currency_form'>
+    <!-- restrict access -->
+    <field name="groups_id" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+  </record>
+  <record model='ir.ui.menu' id='account.menu_account_reports'>
+    <!-- restrict access -->
+    <field name="groups_id" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+  </record>
+  <record model='ir.ui.menu' id='poi_bol_base.menu_finance_local_config'>
+    <!-- restrict access -->
+    <field name="groups_id" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+  </record>
+  <record model='ir.ui.menu' id='poi_payment_request.poi_account_payment_request_configuration_menu'>
+    <!-- restrict access -->
+    <field name="groups_id" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+  </record>
+  <record model='ir.ui.menu' id='poi_payment_request.menu_action_expenses_rendition_invoice_type'>
+    <!-- restrict access -->
+    <field name="groups_id" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+  </record>
+  <record model='ir.ui.menu' id='payment.root_payment_menu'>
+    <!-- restrict access -->
+    <field name="groups_id" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+  </record>
 
-    <!-- Views -->
-    <record model="ir.ui.view" id="view_account_journal_form">
-        <field name="name">account.journal.form.inherit.gard_x_gard</field>
-        <field name="model">account.journal</field>
-        <field name="mode">extension</field>
-        <field name="priority">10</field>
-        <field name="inherit_id" ref="account.view_account_journal_form"/>
-        <field name="arch" type="xml">
+  payment.root_payment_menu
 
-            <xpath expr="//sheet/group[1]/group[last()]" position="after">
-                <group>
-                    <field name="note"/>
-                </group>
-            </xpath>
-
-        </field>
-    </record>
-
-    <!-- Actions -->
-
-    <!-- Menus -->
-    <record model='ir.ui.menu' id='account.menu_finance_payables'>
-        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
-    </record>
-
-    <record model='ir.ui.menu' id='account.menu_finance_payables_documents'>
-        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
-    </record>
-
-    <record model='ir.ui.menu' id='account.menu_finance_receivables'>
-        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_sale'))]"/>
-    </record>
-
-    <record model='ir.ui.menu' id='account.menu_finance_receivables_documents'>
-        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_sale')), (4, ref('poi_payment_request.group_payment_request'))]"/>
-    </record>
-
-    <record model='ir.ui.menu' id='account.account_reports_business_intelligence_menu'>
-        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase')), (4, ref('gard_x_gard.group_account_invoice_sale'))]"/>
-    </record>
-
-    <record model='ir.ui.menu' id='poi_bank.menu_action_payment_transfer_form'>
-        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase')), (4, ref('gard_x_gard.group_account_invoice_sale'))]"/>
-    </record>
-
-    <record model='ir.ui.menu' id='poi_account_prepayment.menu_action_account_prepayments_payable'>
-        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
-    </record>
-
-    <record model='ir.ui.menu' id='account.menu_finance'>
-        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
-    </record>
-
-    <record model='ir.ui.menu' id='account_reports.menu_action_followups'>
-        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_sale'))]"/>
-    </record>
-
-    <record model='ir.ui.menu' id='poi_account_prepayment.menu_action_account_prepayments_receivable'>
-        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_sale'))]"/>
-    </record>
-
-    <record model='ir.ui.menu' id='poi_x_gard.menu_action_account_deposits_receivable'>
-        <field name="groups_id" eval="[(4, ref('gard_x_gard.group_cashier'))]"/>
-    </record>
+  <!-- Analytic Accounting -->
+  <!-- <record model='ir.ui.menu' id='account.menu_analytic_accounting'>
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
+  </record>
+  <record model='ir.ui.menu' id='account.action_account_analytic_account_form'>
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
+  </record>
+  <record model='ir.ui.menu' id='account.account_analytic_tag_menu'>
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
+  </record> -->
+  <record model='ir.ui.menu' id='account.menu_finance_payables'>
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
+  </record>
+  <record model='ir.ui.menu' id='account.menu_finance_payables_documents'>
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
+  </record>
+  <record model='ir.ui.menu' id='account.menu_finance_receivables'>
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_sale'))]"/>
+  </record>
+  <record model='ir.ui.menu' id='account.menu_finance_receivables_documents'>
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_sale')), (4, ref('poi_payment_request.group_payment_request'))]"/>
+  </record>
+  <record model='ir.ui.menu' id='account.account_reports_business_intelligence_menu'>
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase')), (4, ref('gard_x_gard.group_account_invoice_sale'))]"/>
+  </record>
+  <record model='ir.ui.menu' id='poi_bank.menu_action_payment_transfer_form'>
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase')), (4, ref('gard_x_gard.group_account_invoice_sale'))]"/>
+  </record>
+  <record model='ir.ui.menu' id='poi_account_prepayment.menu_action_account_prepayments_payable'>
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
+  </record>
+  <record model='ir.ui.menu' id='account.menu_finance'>
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
+  </record>
+  <record model='ir.ui.menu' id='account_reports.menu_action_followups'>
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_sale'))]"/>
+  </record>
+  <record model='ir.ui.menu' id='poi_account_prepayment.menu_action_account_prepayments_receivable'>
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_sale'))]"/>
+  </record>
+  <record model='ir.ui.menu' id='poi_x_gard.menu_action_account_deposits_receivable'>
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_cashier'))]"/>
+  </record>
 
 </odoo>
