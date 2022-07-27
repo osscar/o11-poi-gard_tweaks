@@ -140,16 +140,11 @@
         <field name="groups_id" eval="[(4, ref('group_product_price_manager'))]"/>
         <field name="arch" type="xml">
 
-            <!-- <xpath expr="//form" position="inside">
-                <div class="oe_button_box" name="button_box">
-                    <button class="oe_stat_button" type="object" name="toggle_active" icon="fa-archive">
-                        <field name="active_pricelist" widget="boolean_button" options='{"terminology": "archive"}'/>
-                    </button>
-                </div>
-            </xpath> -->
-
-            <!-- mode base field -->
-            <xpath expr="//field[@name='base']" position="attributes">
+            <!-- mod base field colspan -->
+            <xpath expr="//field[@name='base']" position="replace">
+            </xpath>
+            <!-- replace base_pricelist_id field -->
+            <xpath expr="//field[@name='base_pricelist_id']" position="replace">
             </xpath>
 
             <xpath expr="//form/group[2]" position="after">
@@ -158,10 +153,6 @@
                     <field name="base_pricelist_id" attrs="{'required': [('base','=', 'pricelist')]}"/>
                 </group>
             </xpath>
-
-            <xpath expr="//field[@name='base_pricelist_id']" position="replace">
-            </xpath>
-            
 
             <xpath expr="/form//group" position="inside">
                 <group>
