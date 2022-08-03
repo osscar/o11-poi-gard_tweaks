@@ -60,6 +60,10 @@
                 <xpath expr="//field[@name='order_id']" position="after">
                     <field name="date_order_id"/>
                 </xpath>
+                <!-- add price_unit column -->
+                <xpath expr="//field[@name='price_subtotal']" position="before">
+                    <field name="price_unit"/>
+                </xpath>
 
             </field>
         </record>
