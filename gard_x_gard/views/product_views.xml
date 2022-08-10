@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- Search Views -->
+
+        <!-- Views -->
+        <record model="ir.ui.view" id="product_product_tree_view">
+            <field name="name">product.product.tree.inherit.gard_x_gard</field>
+            <field name="model">product.product</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+
+                <!-- remove fields -->
+                <xpath expr="//field[@name='barcode']" position="replace">
+                </xpath>
+                
+                <!-- add fields -->
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="description"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_product_tree_kardex_view">
+            <field name="name">product.product.kardex.tree.inherit.gard_x_gard</field>
+            <field name="model">product.product</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="poi_kardex_valorado.product_product_tree_kardex_view"/>
+            <field name="arch" type="xml">
+
+                <!-- remove fields -->
+                <xpath expr="//field[@name='qty_moves']" position="replace">
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Actions -->
+
+        <!-- Menus -->
+
+    </data>
+</odoo>
