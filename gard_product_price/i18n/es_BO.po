@@ -1,24 +1,22 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#   * gard_product_price
+# 	* gard_product_price
+# squid <n.hartmann@gmail.com>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-17 23:31+0000\n"
-"PO-Revision-Date: 2021-09-17 23:31+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2022-08-21 22:12+0000\n"
+"PO-Revision-Date: 2022-08-21 18:23-0400\n"
+"Last-Translator: squid <n.hartmann@gmail.com>\n"
+"Language-Team: English <none@none.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
-
-#. module: gard_product_price
-#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_margin_sale_excl
-msgid "% Excl."
-msgstr "% Excl."
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en\n"
+"X-Generator: Gtranslator 41.0\n"
 
 #. module: gard_product_price
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_active_pricelist
@@ -54,15 +52,35 @@ msgid "Contact"
 msgstr "Contactos"
 
 #. module: gard_product_price
-#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_product_cost
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_cost_product
 msgid "Cost price based on product's Standard Price."
-msgstr "Precio de costo basado en el PRecio Estandar del producto."
+msgstr "Precio de costo basado en el precio de costo del producto."
 
 #. module: gard_product_price
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_description
 #: model:ir.ui.view,arch_db:gard_product_price.product_product_prices_view_form
 msgid "Description"
 msgstr "Descripción"
+
+#. module: gard_product_price
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_is_hidden
+msgid "Don't show item in product price."
+msgstr "No mostrar regla en la vista de precios del producto."
+
+#. module: gard_product_price
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_is_hidden
+msgid ""
+"Don't show items in product price. Helpful when using pricelist solely for "
+"calculation purposes on other pricelists."
+msgstr ""
+"No mostrar regla en la vista de precios del producto. Esto es util cuado la "
+"lista de precio es solamente utilizada para realizar calculos sobre los que "
+"otras listas se basaran."
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_margin_sale_excl
+msgid "Excl. %"
+msgstr "Excl. %"
 
 #. module: gard_product_price
 #: model:res.groups,name:gard_product_price.group_product_price_manager
@@ -81,12 +99,23 @@ msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_is_hidden
+msgid "Hide item"
+msgstr "No mostrar"
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_is_hidden
+msgid "Hide items"
+msgstr "No mostrar"
+
+#. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_active_pricelist
-msgid "If unchecked, it will allow you to hide the pricelist without removing it."
+msgid ""
+"If unchecked, it will allow you to hide the pricelist without removing it."
 msgstr "Si no está marcado, la tarifa podrá ocultarse sin eliminarla."
 
 #. module: gard_product_price
-#: code:addons/gard_product_price/models/product_pricelist.py:216
+#: code:addons/gard_product_price/models/product_pricelist.py:296
 #, python-format
 msgid "Input Error"
 msgstr "Error de entrada"
@@ -98,13 +127,48 @@ msgstr "Min."
 
 #. module: gard_product_price
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_margin_sale_net
-msgid "Net Sale Margin"
-msgstr "Margen de venta neto"
+msgid "Net Sale Margin %"
+msgstr "Margen neto de venta %"
+
+#. module: gard_product_price
+#: code:addons/gard_product_price/models/product_pricelist.py:297
+#, python-format
+msgid "Net sale margin calculation will be set to 0 when product cost is 0."
+msgstr ""
+"Calculo del margen neto de venta se configurara como 0 cuando el precio de "
+"costo del producto sea 0."
 
 #. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_margin_sale_net
-msgid "Net sale margin for current item (factored with sale margin exclusion)."
-msgstr "Net sale margin for current item (factored with sale margin exclusion)."
+msgid "Net sale margin for current item (factored by sale margin exclusion)."
+msgstr "Margen neto de venta (factorizado por el margen de venta excluido)."
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_price_pack
+msgid "Package Sale Price"
+msgstr "Precio de venta (paquete)"
+
+#. module: gard_product_price
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_price_pack
+msgid "Package Sale Price for current item."
+msgstr "Precio de venta (paquete) de la regla actual."
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_product_uom_pack_id
+#: model:ir.model.fields,field_description:gard_product_price.field_product_template_uom_pack_id
+msgid "Package Unit of Measure"
+msgstr "UdM paquete"
+
+#. module: gard_product_price
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_uom_pack_id
+msgid "Package Unit of Measure to factor package price."
+msgstr "UdM del paquete para factorizar precio por paquete."
+
+#. module: gard_product_price
+#: model:ir.model.fields,help:gard_product_price.field_product_product_uom_pack_id
+#: model:ir.model.fields,help:gard_product_price.field_product_template_uom_pack_id
+msgid "Package Unit of Measure."
+msgstr "UdM (paquete)."
 
 #. module: gard_product_price
 #: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_search
@@ -183,7 +247,7 @@ msgid "Product Code"
 msgstr "Código de producto"
 
 #. module: gard_product_price
-#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_product_cost
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_cost_product
 msgid "Product Cost"
 msgstr "Costo de producto"
 
@@ -198,12 +262,6 @@ msgid "Product Template"
 msgstr "Plantilla de producto"
 
 #. module: gard_product_price
-#: code:addons/gard_product_price/models/product_pricelist.py:217
-#, python-format
-msgid "Product cost may not be 0. Please update product cost."
-msgstr "Precio de costo del producto no puede ser 0. Por favor actualize el precio de costo del producto."
-
-#. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_product_default_code
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_product_default_code_7730
 msgid "Product default code."
@@ -216,14 +274,14 @@ msgid "Sale Price"
 msgstr "Precio de venta"
 
 #. module: gard_product_price
-#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_margin_sale_excl
-msgid "Sale margin exclusion percent (in decimal form). Specify a value between greater than 0 and less than 1."
-msgstr "Porcentaje de exclusión del margen de venta (en formato decimal). Especifique un valor mayor a 0 y menor a 1."
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_price_sale
+msgid "Sale Price for current item."
+msgstr "Precio de venta de la regla actual."
 
 #. module: gard_product_price
-#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_price_sale
-msgid "Sale price for current item."
-msgstr "Precio de venta para el producto actual."
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_margin_sale_excl
+msgid "Sale margin exclusion percent."
+msgstr "Porcentaje de margen de venta excluido."
 
 #. module: gard_product_price
 #: model:ir.model,name:gard_product_price.model_sale_order_line
@@ -243,6 +301,15 @@ msgstr "Precio unitario"
 
 #. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_price_unit
-msgid "Unit price for current item."
-msgstr "Unit price for current item."
+msgid "Unit Price for current item."
+msgstr "Precio unitario de la regla actual."
 
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_uom_pack_id
+msgid "Uom Pack"
+msgstr "UdM (paquete)"
+
+#. module: gard_product_price
+#: model:ir.ui.menu,name:gard_product_price.menu_product_pricelist_main
+msgid "menu_product_pricelist_main"
+msgstr "menu_product_pricelist_main"

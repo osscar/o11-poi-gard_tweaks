@@ -108,7 +108,7 @@
         <field name="arch" type="xml">
 
             <!-- TO DO: decoration & colors -->
-            <tree string="Pricelist Items" decoration-danger="partner_ids" default_order='description asc, min_quantity desc'>
+            <tree string="Pricelist Items" decoration-danger="partner_ids" default_order='description asc, min_quantity asc'>
                 <field invisible="1" name="active_pricelist"/>
                 <field invisible="1" name="currency_id"/>
                 <field invisible="1" name="name"/>
@@ -119,9 +119,11 @@
                 <field name="min_quantity"/>
                 <field name="price_sale" force_save="1"/>
                 <field name="price_unit" force_save="1"/>
+                <field name="price_pack" attrs="{'invisible':[('product_tmpl_id', '=', False), ('product_id', '=', False)]}"/>
+                <field name="uom_pack_id" attrs="{'invisible':[('product_tmpl_id', '=', False), ('product_id', '=', False)]}"/>
                 <field name="margin_sale_net" groups="gard_product_price.group_product_price_manager" force_save="1"/>
                 <field name="margin_sale_excl" groups="gard_product_price.group_product_price_manager"/>
-                <field name="product_cost" groups="gard_product_price.group_product_price_manager" force_save="1"/>
+                <field name="cost_product" groups="gard_product_price.group_product_price_manager" force_save="1"/>
                 <!-- <field name="customer_savings"/> --> <!-- TO DO -->
                 <field name="pricelist_id"/>
                 <field name="partner_ids" widget="many2many_tags"/>
@@ -166,6 +168,11 @@
                     <!-- attrs={'readonly': [('','','')]} -->
                     <field name="price_unit" force_save="1"/>
                     <!-- <field name="customer_savings"/> --> <!-- TO DO -->
+                    <!-- <div class="pack_price" attrs="{'invisible':[('product_tmpl_id', '=', False), ('product_id', '=', False)]}">
+                        Package Price <field name="price_pack" width="50%"/> <field name="uom_pack_id" width="50%"/>
+                    </div> -->
+                    <field name="price_pack"/>
+                    <field name="uom_pack_id"/>
                 </group>
                 <group>
                     <field name="partner_ids" widget="many2many_tags"/>
@@ -174,13 +181,14 @@
                 <group groups="gard_product_price.group_product_price_manager">
                     <field name="margin_sale_net" force_save="1"/>
                     <field name="margin_sale_excl"/>
-                    <field name="product_cost" force_save="1"/>
+                    <field name="cost_product" force_save="1"/>
                 </group>
             </xpath>
 
             <xpath expr="/form/group[2]/group/div/div[2]" position="replace">
                 <div attrs="{'invisible':[('compute_price', 'not in', ['percentage', 'percentage_surcharge'])]}">
-                    <field name="percent_price" nolabel="1" class="oe_inline"/>%%
+                    <field name="percent_price" nolabel="1" class="oe_inline"/>
+                    <!-- %% -->
                 </div>
             </xpath>
 
