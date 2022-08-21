@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 # import logging
-from itertools import chain
 
-from odoo import models, fields, api, exceptions, _
+from itertools import chain
+from odoo import models, fields, api, _
+
 import odoo.addons.decimal_precision as dp
 
 from odoo.exceptions import UserError, ValidationError
@@ -32,7 +33,7 @@ class ProductPricelist(models.Model):
     def _compute_price_rule(self, products_qty_partner, date=False, uom_id=False):
         res = super(ProductPricelist, self)._compute_price_rule(
             products_qty_partner, date=False, uom_id=False)
-
+        
         self.ensure_one()
         if not date:
             date = self._context.get('date') or fields.Date.context_today(self)
@@ -114,9 +115,13 @@ class ProductPricelist(models.Model):
 
             price_uom = self.env['product.uom'].browse([qty_uom_id])
             for rule in items:
-                # _logger.debug('cup rule >>>: %s %s', rule.id, rule.description)
                 if rule.min_quantity and qty_in_product_uom < rule.min_quantity:
-                    continue
+                    # bypass min_qty restrict for gard_product_price.product_pricelist_item_tree_view
+                    if item_ids:
+                        pass
+                    else:
+                        # _logger.debug('cup rule call not item_ids >>>: %s', item_ids)
+                        continue
                 if is_product_template:
                     if rule.product_tmpl_id and product.id != rule.product_tmpl_id.id:
                         continue
@@ -152,7 +157,9 @@ class ProductPricelist(models.Model):
                 convert_to_price_uom = (lambda price: product.uom_id._compute_price(price, price_uom))
 
                 if price is not False:
-                    if rule.compute_price == 'percentage_surcharge':
+                    if rule.compute_price == 'fixed':
+                        price = convert_to_price_uom(rule.fixed_price)
+                    elif rule.compute_price == 'percentage_surcharge':
                         price = (price + (price * (rule.percent_price / 100))) or 0.0
                         # _logger.debug('cup percentage_surcharge price >>>: %s', price)
                     suitable_rule = rule
@@ -177,77 +184,129 @@ class ProductPricelistItem(models.Model):
     _inherit = 'product.pricelist.item'
     _defaults = {'base': 1}
 
-    # pricelist_id = fields.Many2one(required=True)
-
-    @api.model
-    def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-        if 'product_default_code' or 'product_id' or 'product_tmpl_id' in groupby:
-            fields.remove('min_quantity')
-            fields.remove('price_sale')
-            fields.remove('price_unit')
-            fields.remove('margin_sale_net')
-            fields.remove('margin_sale_excl')
-            fields.remove('product_cost')
-        return super(ProductPricelistItem, self).read_group(domain, fields, groupby, offset=offset,
-                                                            limit=limit, orderby=orderby, lazy=lazy)
+    # UNNECESSARY with current setup
+    # @api.model
+    # def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
+    #     if 'product_default_code' or 'product_id' or 'product_tmpl_id' in groupby:
+    #         fields.remove('min_quantity')
+    #         fields.remove('price_sale')
+    #         fields.remove('price_unit')
+    #         fields.remove('margin_sale_net')
+    #         fields.remove('margin_sale_excl')
+    #         fields.remove('cost_product')
+    #     return super(ProductPricelistItem, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
 
     @api.onchange('compute_price')
     def onchange_compute_price(self):
         for item in self:
             item.base == 'standard_price'
 
-    @api.depends('min_quantity', 'percent_price', 'fixed_price', 'compute_price', 'applied_on')
+    @api.onchange('product_tmpl_id', 'product_id')
+    def onchange_product(self):
+        for item in self:
+            item.description = item.product_tmpl_id.display_name or item.product_id.display_name
+    
+    @api.depends('product_tmpl_id',
+                 'product_tmpl_id.uom_pack_id', 
+                 'product_id',
+                 'product_id.uom_pack_id')
+    @api.one
+    def _compute_uom_pack_id(self):
+        self.ensure_one()
+        # _logger.debug('c_uom_pack call >>>: %s', self)
+        product = False
+        # check if product is set
+        if self.applied_on == '1_product':
+            product = self.product_tmpl_id
+        if self.applied_on == '0_product_variant':
+            product = self.product_id
+        # set standard price for product            
+        if product:
+            # _logger.debug('c_uom_pack if upack >>>: %s', product.uom_pack_id)
+            self.uom_pack_id = product.uom_pack_id
+    
+    @api.depends('applied_on',
+                 'product_tmpl_id',
+                 'product_id',
+                 'base',
+                 'base_pricelist_id',
+                 'compute_price',
+                 'min_quantity',
+                 'uom_pack_id')
+    @api.multi
     def _calc_price_unit(self):
+        # TO DO: on-the-fly compute crashes on dummy record (NewId).
+        # find a way to compute or add User/ValidationError to
+        # warn user when editing rules from pricelist instead of item.
+        # ¿¿ assign empty value to void dummy record NewId error ??
         for item in self:
             product = False
-            active_id = self.env.context.get('active_id')
-            active_model = self.env.context.get('active_model')
             quantity = item.min_quantity
             partner = False
-            if item.applied_on:
-                if item.applied_on == '3_global':
-                    if active_id and active_model in ('product.product', 'product.template'):
-                        # _logger.debug('call if active_id >>>: %s', active_id)
-                        # _logger.debug('call if active_model >>>: %s', active_model)
-                        product = self.env[active_model].search([('id', '=', active_id)])
-                        # _logger.debug('>>>: %s', product)
-                elif item.applied_on == '1_product':
-                    product = item.product_tmpl_id
-                elif item.applied_on == '0_product_variant':
-                    product = item.product_id
+            if item.applied_on == '1_product':
+                product = item.product_tmpl_id
+            if item.applied_on == '0_product_variant':
+                product = item.product_id
             if product:
-                if not item.pricelist_id:
-                    continue
                 price = item.pricelist_id.with_context(item_ids=item).get_product_price(
                     product, quantity, partner, date=False, uom_id=False)
-                # _logger.debug('>>>: %s', price)
-                product_cost = product['standard_price']
-                price_sale = price * item.min_quantity
-                price_unit = price
+                pack_factor = item.uom_pack_id.factor_inv
+                item.price_unit = price
+                item.price_sale = price * quantity
+                item.price_pack = price * pack_factor
+                # _logger.debug('_cp price prod_int_ref >>>: %s', product.default_code)
+                # _logger.debug('_cp pack_factor >>>: %s', pack_factor)
+                # _logger.debug('_cp price >>>: %s', price)
 
-                item.product_cost = product_cost
-                item.price_sale = price_sale
-                item.price_unit = price_unit
-
+    @api.depends('product_tmpl_id', 
+                 'product_id')
     @api.one
-    @api.depends('price_sale', 'margin_sale_excl', 'min_quantity')
+    def _compute_cost_product(self):
+        self.ensure_one()
+        product = False
+        # check if product is set
+        if self.applied_on == '1_product':
+            product = self.product_tmpl_id
+        if self.applied_on == '0_product_variant':
+            product = self.product_id
+        # set standard price for product            
+        if product:
+            if product.standard_price == 0:
+                valuation = sum([variant._sum_remaining_values()[0] for variant in product])
+                # _logger.debug('cost_product product_tmpl_id >>>: %s', self.product_tmpl_id)
+                # _logger.debug('cost_product product_id >>>: %s', self.product_id)
+                # _logger.debug('cost_product val >>>: %s', valuation)
+                qty_available = product.with_context(company_owned=True).qty_available
+                if qty_available:
+                    standard_price = valuation / qty_available
+                self.cost_product = standard_price
+            else:
+                # _logger.debug('cost_product val else >>>: %s', self)
+                # _logger.debug('cost_product val else prod.sp >>>: %s', product.default_code)
+                # _logger.debug('cost_product val else prod.sp >>>: %s', product.standard_price)
+                self.cost_product = product.standard_price
+
+    @api.depends('cost_product', 'margin_sale_excl')
+    @api.one
     def _calc_margin_sale_net(self):
-        if self.product_cost and self.price_unit:
-            self.margin_sale_net = (
-                (self.price_unit - (self.price_unit * self.margin_sale_excl)) / self.product_cost)
-        else:
-            self.margin_sale_net = 0.0
+        self.ensure_one()
+        if self.cost_product == 0.0:
+            # _logger.debug('margin_sale if call >>>: %s', self)
             return {
                 'warning': {'title': _('Input Error'),
-                            'message': _('Product cost may not be 0. Please update product cost.'), },
+                            'message': _('Net sale margin calculation will be set to 0 when product cost is 0.'), },
             }
+        else:
+            margin_sale_net = (self.price_unit * (100 - (self.margin_sale_excl % 100))) % self.cost_product
+            self.margin_sale_net = ((margin_sale_net) - 1) * 100
 
-    @api.one
-    @api.constrains('margin_sale_excl')
-    def _check_margin_exclusion_percent(self):
-        if self.margin_sale_excl == 0 or self.margin_sale_excl > 1:
-            raise ValidationError(
-                "Sale margin exclusion must be greater than 0 and less than 1.")
+    # exclusion constrain no longer necessary with new equation logic
+    # REMOVE after testing
+    # @api.constrains('margin_sale_excl')
+    # def _check_margin_exclusion_percent(self):
+    #     if 0 >= self.margin_sale_excl >= 1:
+    #         raise ValidationError(
+    #             "Sale margin exclusion must be greater than or equal 0 and less than or equal to 1.")
 
     active_pricelist = fields.Boolean(
         related='pricelist_id.active',
@@ -264,50 +323,67 @@ class ProductPricelistItem(models.Model):
         related='product_id.default_code',
         string="Product Code",
         help='Product default code.',
-        readonly=True, store=True)
+        readonly=True)
 
     description = fields.Char(
         string='Description',
         help='Pricelist item description.')
-
-    price_sale = fields.Monetary(
-        string='Sale Price',
-        currency_field='currency_id',
-        compute='_calc_price_unit',
-        readonly=True,
-        help='Sale price for current item.')
-
-    price_unit = fields.Monetary(
-        string='Unit Price',
-        currency_field='currency_id',
-        compute='_calc_price_unit',
-        readonly=True,
-        # store=True,
-        help='Unit price for current item.')
-
-    margin_sale_net = fields.Float(
-        string='Net Sale Margin',
-        compute='_calc_margin_sale_net',
-        readonly=True,
-        help='Net sale margin for current item (factored with sale margin exclusion).')
-
-    product_cost = fields.Float(
-        string="Product Cost",
-        compute='_calc_price_unit',
-        readonly=True,
-        help='Cost price based on product\'s Standard Price.')
-
-    margin_sale_excl = fields.Float(
-        string='% Excl.',
-        default=1.00,
-        help='Sale margin exclusion percent (in decimal form). Specify a value between greater than 0 and less than 1.')
-
+    
     partner_ids = fields.Many2many(
         related='pricelist_id.partner_ids',
         string="Partners")
+    
+    uom_pack_id = fields.Many2one(
+        'product.uom', 
+        compute='_compute_uom_pack_id', 
+        readonly=True, 
+        help="Package Unit of Measure to factor package price.")
 
     compute_price = fields.Selection([
         ('fixed', 'Fix Price'),
         ('percentage', 'Percentage (discount)'),
         ('percentage_surcharge', 'Percentage (surcharge)'),
         ('formula', 'Formula')], index=True, default='percentage_surcharge')
+
+    price_unit = fields.Monetary(
+        string='Unit Price',
+        currency_field='currency_id',
+        compute='_calc_price_unit',
+        readonly=True,
+        store=True,
+        help='Unit Price for current item.')
+
+    price_sale = fields.Monetary(
+        string='Sale Price',
+        currency_field='currency_id',
+        compute='_calc_price_unit',
+        readonly=True,
+        store=True,
+        help='Sale Price for current item.')
+
+    price_pack = fields.Monetary(
+        string='Package Sale Price',
+        currency_field='currency_id',
+        compute='_calc_price_unit',
+        readonly=True,
+        store=True,
+        help='Package Sale Price for current item.')
+
+    cost_product = fields.Float(
+        string="Product Cost",
+        compute='_compute_cost_product',
+        readonly=True,
+        store=True,
+        help='Cost price based on product\'s Standard Price.')
+
+    margin_sale_net = fields.Float(
+        string='Net Sale Margin %',
+        compute='_calc_margin_sale_net',
+        readonly=True,
+        store=True,
+        help='Net sale margin for current item (factored by sale margin exclusion).')
+
+    margin_sale_excl = fields.Float(
+        string='Excl. %',
+        default=16.00,
+        help='Sale margin exclusion percent.')
