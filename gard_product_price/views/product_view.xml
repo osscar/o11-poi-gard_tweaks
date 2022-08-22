@@ -68,8 +68,10 @@
                                 <field invisible="1" name="product_default_code"/>
                                 <field colspan="4" name="description"/>
                                 <field name="min_quantity"/>
-                                <field name="price_sale" force_save="1"/>
+                                <!-- <field name="price_sale" force_save="1"/> -->
                                 <field name="price_unit" force_save="1"/>
+                                <field name="price_pack" force_save="1"/>
+                                <field name="uom_pack_id"/>
                                 <field name="pricelist_id" widget="label_selection"/>
                                 <field name="partner_ids" widget="many2many_tags"/>
                             </tree>
