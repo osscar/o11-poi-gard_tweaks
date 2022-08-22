@@ -119,8 +119,8 @@
                 <field name="min_quantity"/>
                 <field name="price_sale" force_save="1"/>
                 <field name="price_unit" force_save="1"/>
-                <field name="price_pack" attrs="{'invisible':[('product_tmpl_id', '=', False), ('product_id', '=', False)]}"/>
-                <field name="uom_pack_id" attrs="{'invisible':[('product_tmpl_id', '=', False), ('product_id', '=', False)]}"/>
+                <field name="price_pack" force_save="1"/>
+                <field name="uom_pack_id"/>
                 <field name="margin_sale_net" groups="gard_product_price.group_product_price_manager" force_save="1"/>
                 <field name="margin_sale_excl" groups="gard_product_price.group_product_price_manager"/>
                 <field name="cost_product" groups="gard_product_price.group_product_price_manager" force_save="1"/>
@@ -171,7 +171,7 @@
                     <!-- <div class="pack_price" attrs="{'invisible':[('product_tmpl_id', '=', False), ('product_id', '=', False)]}">
                         Package Price <field name="price_pack" width="50%"/> <field name="uom_pack_id" width="50%"/>
                     </div> -->
-                    <field name="price_pack"/>
+                    <field name="price_pack" force_save="1"/>
                     <field name="uom_pack_id"/>
                 </group>
                 <group>
