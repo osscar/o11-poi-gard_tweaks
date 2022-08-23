@@ -13,7 +13,7 @@
                 <!-- add route propagator -->
                 <xpath expr="//field[@name='order_line']" position="before">
                     <group name="line_options">
-                        <field name="route_id" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <field name="route_id" attrs="{'invisible': [('state', '!=', 'draft')]}" options="{'no_create_edit': True}"/>
                     </group>
                 </xpath>
                 <!-- require team_id -->

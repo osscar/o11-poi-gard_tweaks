@@ -3,6 +3,7 @@
 
 # import logging
 
+from email.policy import default
 from odoo import api, fields, models, _
 from odoo.exceptions import RedirectWarning, UserError, ValidationError
 from odoo.http import request
@@ -22,7 +23,8 @@ class SaleOrder(models.Model):
                               track_visibility='onchange')
     route_id = fields.Many2one('stock.location.route', 
                                string='Propagate Route', 
-                               domain=[('sale_selectable', '=', True)])
+                               domain=[('sale_selectable', '=', True)],
+                               ondelete='restrict')
 
     # propagate route over sale order lines
     @api.onchange('route_id')
@@ -30,6 +32,15 @@ class SaleOrder(models.Model):
     def _propagate_route_id(self):
         for line in self.order_line:
             line.route_id = self.route_id
+
+    # unnecessary validation: procurement rule validation takes care of this
+    # @api.multi
+    # def _action_confirm(self):
+    #     res = super(SaleOrder, self)._action_confirm()
+    #     for line in self.mapped('order_line'):
+    #         if not line.route_id :
+    #             raise ValidationError(_("Please select appropriate routes for all sale ordr lines."))
+    #     return res
 
     # @api.depends('state')
     # def _check_team_id(self):
@@ -58,20 +69,15 @@ class SaleOrder(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    def _get_default_route_id(self):
-        domain = [('sale_selectable', '=', True)]
-        return self.env['stock.location.route'].search(domain, limit=1, order='id').id
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        self.route_id = self.order_id.route_id
 
     date_order_id = fields.Datetime('Order Date', 
                                     related='order_id.date_order', 
                                     store=True, 
                                     readonly=True, 
                                     index=True)
-    route_id = fields.Many2one('stock.location.route', 
-                               string='Route', 
-                               default=_get_default_route_id,
-                               domain=[('sale_selectable', '=', True)], 
-                               ondelete='restrict')
 
     @api.multi
     def write(self, values):
