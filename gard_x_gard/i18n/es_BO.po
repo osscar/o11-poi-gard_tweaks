@@ -1,19 +1,22 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* gard_x_gard
+# 	* gard_x_gard
+# squid <n.hartmann@gmail.com>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-03 02:07+0000\n"
-"PO-Revision-Date: 2022-05-03 02:07+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2022-08-23 15:58+0000\n"
+"PO-Revision-Date: 2022-08-23 12:02-0400\n"
+"Last-Translator: squid <n.hartmann@gmail.com>\n"
+"Language-Team: English <none@none.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en\n"
+"X-Generator: Gtranslator 41.0\n"
 
 #. module: gard_x_gard
 #: model:ir.model.fields,field_description:gard_x_gard.field_account_deposit_payment_count
@@ -22,16 +25,18 @@ msgstr "# Pagos"
 
 #. module: gard_x_gard
 #: model:ir.model.fields,help:gard_x_gard.field_stock_move_move_type
-msgid "* In: Incoming stock.\n"
+msgid ""
+"* In: Incoming stock.\n"
 "* Out: Outgoing stock.\n"
 "* Dropship: Dropshipped.\n"
 "* Dropship: Returned dropship.\n"
 "* Internal: Internal moves."
-msgstr "* In: Incoming stock.\n"
-"* Out: Outgoing stock.\n"
+msgstr ""
+"* Entrada: Existencias entrantes.\n"
+"* Salida: Existencias salientes.\n"
 "* Dropship: Dropshipped.\n"
-"* Dropship: Returned dropship.\n"
-"* Internal: Internal moves."
+"* Dropship: Devolucion dropship.\n"
+"* Interno: Movimientos internos."
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
@@ -62,12 +67,12 @@ msgstr "Contabilizable"
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_move_search_inherit
 msgid "Accountable stock moves with accounting entries."
-msgstr "Accountable stock moves with accounting entries."
+msgstr "Moviemientos de existencias contabilizables con registros contables."
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_move_search_inherit
 msgid "Accountable stock moves without accounting entries."
-msgstr "Accountable stock moves without accounting entries."
+msgstr "Moviemientos de existencias contabilizables con registros contables."
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_move_search_inherit
@@ -157,10 +162,10 @@ msgid "Dropship"
 msgstr "Dropship"
 
 #. module: gard_x_gard
-#: code:addons/gard_x_gard/models/account_invoice.py:32
+#: code:addons/gard_x_gard/models/account_invoice.py:35
 #: code:addons/gard_x_gard/models/account_payment.py:38
-#: code:addons/gard_x_gard/models/sale.py:37
-#: code:addons/gard_x_gard/models/sale.py:56
+#: code:addons/gard_x_gard/models/sale.py:62
+#: code:addons/gard_x_gard/models/sale.py:90
 #, python-format
 msgid "Edit allowed only in draft state. [%s.%s]"
 msgstr "Solo se puede editar en estado borrador. [%s.%s]"
@@ -212,8 +217,16 @@ msgstr "GARD custom group for sales billing."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_edit
-msgid "GARD custom group for special permission to edit information in posted records."
-msgstr "GARD grupo personalizado para permisos especiales en documentos confirmados."
+msgid ""
+"GARD custom group for special permission to edit information in posted "
+"records."
+msgstr ""
+"GARD grupo personalizado para permisos especiales en documentos confirmados."
+
+#. module: gard_x_gard
+#: model:res.groups,comment:gard_x_gard.group_stock_account
+msgid "GARD custom group for stock accouting."
+msgstr "GARD custom group for stock accouting."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_stock_logistics
@@ -243,7 +256,7 @@ msgstr "In"
 #. module: gard_x_gard
 #: selection:stock.move,move_type:0
 msgid "Internal"
-msgstr "Internal"
+msgstr "Interno"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_invoice
@@ -309,7 +322,7 @@ msgstr "Fecha orden"
 #. module: gard_x_gard
 #: selection:stock.move,move_type:0
 msgid "Out"
-msgstr "Out"
+msgstr "Salida"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_all_tree
@@ -334,10 +347,16 @@ msgstr "Pagos"
 
 #. module: gard_x_gard
 #: model:ir.actions.act_window,help:gard_x_gard.action_account_payments_all
-msgid "Payments are used to register liquidity movements (send, collect or transfer money).\n"
-"                  You can then process those payments by your own means or by using installed facilities."
-msgstr "Los pagos se utilizan para registrar movimientos de liquidez (enviar, recibir o transferir dinero).\n"
-"Puede procesar esos pagos por sus propios medios o utilizando los servicios instalados."
+msgid ""
+"Payments are used to register liquidity movements (send, collect or transfer "
+"money).\n"
+"                  You can then process those payments by your own means or "
+"by using installed facilities."
+msgstr ""
+"Los pagos se utilizan para registrar movimientos de liquidez (enviar, "
+"recibir o transferir dinero).\n"
+"Puede procesar esos pagos por sus propios medios o utilizando los servicios "
+"instalados."
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.invoice_form
@@ -346,13 +365,22 @@ msgstr "Revise todos los datos antes de validar, ¿validar?"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.invoice_supplier_form
-msgid "Please revise the inputed data and check that the correct journal has been selected. Validate?"
-msgstr "Asegurese que el diario correcto este seleccionado, y revise los datos introducidos. ¿Validar?"
+msgid ""
+"Please revise the inputed data and check that the correct journal has been "
+"selected. Validate?"
+msgstr ""
+"Asegurese que el diario correcto este seleccionado, y revise los datos "
+"introducidos. ¿Validar?"
 
 #. module: gard_x_gard
 #: model:res.groups,name:gard_x_gard.group_product_manager
 msgid "Product Manager"
 msgstr "Administrador de productos"
+
+#. module: gard_x_gard
+#: model:ir.model.fields,field_description:gard_x_gard.field_sale_order_route_id
+msgid "Propagate Route"
+msgstr "Propagar ruta"
 
 #. module: gard_x_gard
 #: model:res.groups,name:gard_x_gard.group_account_invoice_purchase
@@ -407,6 +435,11 @@ msgstr "Línea de orden de ventas"
 #: model:ir.model.fields,field_description:gard_x_gard.field_account_expenses_rendition_invoice_payment_request_id
 msgid "Solicitud de Pago"
 msgstr "Solicitud de Pago"
+
+#. module: gard_x_gard
+#: model:res.groups,name:gard_x_gard.group_stock_account
+msgid "Stock Accounting"
+msgstr "Contabilidad de Almacenes"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_stock_move
