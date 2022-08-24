@@ -231,6 +231,7 @@ class ProductPricelistItem(models.Model):
                  'base',
                  'base_pricelist_id',
                  'compute_price',
+                 'percent_price',
                  'min_quantity',
                  'uom_pack_id')
     @api.multi
