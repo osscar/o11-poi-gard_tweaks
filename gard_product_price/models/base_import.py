@@ -42,6 +42,7 @@ class Import(models.TransientModel):
             'uom_pack_id'
         ]
         if res_model == 'product.pricelist.item' and any(fields in pl_item_comp_fields for fields in fields):
+            data, import_fields = self._convert_import_data(fields, options)
             for line in data:
                 recompute_items = []
                 product = False
@@ -50,12 +51,12 @@ class Import(models.TransientModel):
                 item_ids = self.env[res_model].search([('id', '=', extid_2_id)])
                 if dryrun == False:
                     for item in item_ids:
-                        _logger.debug('for item call item >>>: %s', item)
+                        # _logger.debug('for item call item >>>: %s', item)
                         if item.applied_on == '1_product':
                             product = item.product_tmpl_id
                         if item.applied_on == '0_product_variant':
                             product = item.product_id
-                        _logger.debug('for item call product >>>: %s', product)
+                        # _logger.debug('for item call product >>>: %s', product)
                     if product:
                         rel_item_ids = item_ids.search(['|', ('product_tmpl_id', '=', product.id), ('product_id', '=', product.id)])
                         recompute_items = rel_item_ids
