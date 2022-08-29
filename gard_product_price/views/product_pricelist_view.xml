@@ -127,6 +127,7 @@
                 <!-- <field name="customer_savings"/> --> <!-- TO DO -->
                 <field name="pricelist_id"/>
                 <field name="partner_ids" widget="many2many_tags"/>
+                <field name="date_update"/>
             </tree>
 
         </field>
@@ -155,7 +156,10 @@
                     <field name="base_pricelist_id" attrs="{'required': [('base','=', 'pricelist')]}"/>
                 </group>
             </xpath>
-
+            <!-- add date_update field: also used for recomputation of items with related base_pricelist_id -->
+            <xpath expr="//field[@name='date_end']" position="after">
+                <field name="date_update"/>
+            </xpath>
             <xpath expr="/form//group" position="inside">
                 <group>
                     <field invisible="1" name="currency_id"/>
