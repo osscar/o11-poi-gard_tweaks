@@ -37,6 +37,16 @@
     </record>
 
     <!-- Actions -->
+    <!-- unsued for now: triggered by base_import do method -->
+    <!-- call pricelist item calc_unit_price method to recompute ALL pricelist items -->
+    <!-- <record id="category_python_action" model="ir.actions.server">
+        <field name="name">Recompute Pricelist Items</field>
+        <field name="model_id" ref="product.model_product_pricelist_items"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = model._calc_unit_price()
+        </field>
+    </record> -->
 
     <!-- Menus -->
     <menuitem
@@ -50,5 +60,14 @@
         action="product_pricelist_item_action_view_tree"
         groups="gard_product_price.group_product_price_manager"
         sequence="20"/>
+
+        <!-- unsued for now: triggered by base_import do method -->
+        <!-- <menuitem
+        id="product_pricelist_item_recompute_menu_action"
+        name="Recompute Pricelist Items"
+        parent="sale.product_menu_catalog"
+        action="product_pricelist_item_action_view_tree"
+        groups="gard_product_price.group_product_price_manager"
+        sequence="20"/> -->
 
 </odoo>

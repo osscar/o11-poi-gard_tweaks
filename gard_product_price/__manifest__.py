@@ -46,6 +46,7 @@ JS script on web/static/src/js in render_tag function.)
     'images': [],
     'depends': [
         'base',
+        'base_import',
         'product',
         'sale',
         'sale_stock',
@@ -55,7 +56,9 @@ JS script on web/static/src/js in render_tag function.)
     'data': [
         'security/gard_product_price_security.xml',
         'security/ir.model.access.csv',
+
         'data/gard_product_price_data.xml',
+
         'views/product_template_view.xml',
         'views/product_view.xml',
         'views/product_pricelist_view.xml',

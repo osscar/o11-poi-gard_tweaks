@@ -3,7 +3,7 @@
 
 from itertools import chain
 from odoo import models, fields, api, _
-
+from datetime import datetime
 import odoo.addons.decimal_precision as dp
 
 from odoo.exceptions import UserError, ValidationError
@@ -184,6 +184,32 @@ class ProductPricelistItem(models.Model):
     _inherit = 'product.pricelist.item'
     _defaults = {'base': 1}
 
+    @api.multi
+    def write(self, vals):
+        # _logger.debug('write call self >>>: %s', self)
+        # _logger.debug('write call vals >>>: %s', vals)
+        res = super(ProductPricelistItem, self).write(vals)
+        # force recompute by updating date_update field on related base_pricelist_id items
+        # this does not seem to have an effect wahen items are mod'd via csv import
+        price_unit = vals.get('price_unit')
+        if price_unit:
+            for item in self:
+                # self.date_update = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                recompute_items = []
+                if self.applied_on == '1_product':
+                    product = self.product_tmpl_id
+                if self.applied_on == '0_product_variant':
+                    product = self.product_id
+                # _logger.debug('write call item >>>: %s', item)
+                rel_pricelist_items = item.search(['|', ('product_tmpl_id', '=', product.id), ('product_id', '=', product.id)])
+                recompute_items = rel_pricelist_items
+                # _logger.debug('write call recomp items >>>: %s', recompute_items)
+                if recompute_items:
+                    for r_item in recompute_items:
+                        # _logger.debug('write call r_item >>>: %s', r_item)
+                        r_item.write({'date_update': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+        return res
+
     # UNNECESSARY with current setup
     # @api.model
     # def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
@@ -233,6 +259,7 @@ class ProductPricelistItem(models.Model):
                  'compute_price',
                  'percent_price',
                  'min_quantity',
+                 'date_update',
                  'uom_pack_id')
     @api.multi
     def _calc_price_unit(self):
@@ -255,9 +282,11 @@ class ProductPricelistItem(models.Model):
                 item.price_unit = price
                 item.price_sale = price * quantity
                 item.price_pack = price * pack_factor
-                # _logger.debug('_cp price prod_int_ref >>>: %s', product.default_code)
-                # _logger.debug('_cp pack_factor >>>: %s', pack_factor)
-                # _logger.debug('_cp price >>>: %s', price)
+                item.date_update = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                # _logger.debug('_cpu price prod_int_ref >>>: %s', product.default_code)
+                # _logger.debug('_cpu pack_factor >>>: %s', pack_factor)
+                # _logger.debug('_cpu price >>>: %s', price)
+    
 
     @api.depends('product_tmpl_id', 
                  'product_id')
@@ -313,39 +342,41 @@ class ProductPricelistItem(models.Model):
         related='pricelist_id.active',
         string="Active",
         readonly=True)
-
     is_hidden = fields.Boolean(
         related='pricelist_id.is_hidden',
         string="Hide item",
         default=False,
         help='Don\'t show item in product price.')
-
     product_default_code = fields.Char(
         related='product_id.default_code',
         string="Product Code",
         help='Product default code.',
         readonly=True)
-
     description = fields.Char(
         string='Description',
         help='Pricelist item description.')
-    
     partner_ids = fields.Many2many(
         related='pricelist_id.partner_ids',
         string="Partners")
-    
+    date_update = fields.Datetime(
+        'Updated Date', 
+        compute='_calc_price_unit',
+        copy=False,
+        readonly=True,
+        store=True,
+        help="Date item was last updated.")
     uom_pack_id = fields.Many2one(
         'product.uom', 
         compute='_compute_uom_pack_id', 
         readonly=True, 
         help="Package Unit of Measure to factor package price.")
-
-    compute_price = fields.Selection([
-        ('fixed', 'Fix Price'),
+    compute_price = fields.Selection(
+        [('fixed', 'Fix Price'),
         ('percentage', 'Percentage (discount)'),
         ('percentage_surcharge', 'Percentage (surcharge)'),
-        ('formula', 'Formula')], index=True, default='percentage_surcharge')
-
+        ('formula', 'Formula')], 
+        index=True, 
+        default='percentage_surcharge')
     price_unit = fields.Monetary(
         string='Unit Price',
         currency_field='currency_id',
@@ -353,7 +384,6 @@ class ProductPricelistItem(models.Model):
         readonly=True,
         store=True,
         help='Unit Price for current item.')
-
     price_sale = fields.Monetary(
         string='Sale Price',
         currency_field='currency_id',
@@ -361,7 +391,6 @@ class ProductPricelistItem(models.Model):
         readonly=True,
         store=True,
         help='Sale Price for current item.')
-
     price_pack = fields.Monetary(
         string='Package Sale Price',
         currency_field='currency_id',
@@ -369,21 +398,18 @@ class ProductPricelistItem(models.Model):
         readonly=True,
         store=True,
         help='Package Sale Price for current item.')
-
     cost_product = fields.Float(
         string="Product Cost",
         compute='_compute_cost_product',
         readonly=True,
         store=True,
         help='Cost price based on product\'s Standard Price.')
-
     margin_sale_net = fields.Float(
         string='Net Sale Margin %',
         compute='_calc_margin_sale_net',
         readonly=True,
         store=True,
         help='Net sale margin for current item (factored by sale margin exclusion).')
-
     margin_sale_excl = fields.Float(
         string='Excl. %',
         default=16.00,
