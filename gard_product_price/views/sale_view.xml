@@ -9,9 +9,18 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
 
-            <!-- product pricelist items button -->
+            <!-- move and add pricelist propagator -->
+            <xpath expr="//field[@name='pricelist_id']" position="replace"></xpath>
+            <xpath expr="//field[@name='order_line']" position="before">
+                <group name="line_options">
+                    <field name="pricelist_id" attrs="{'invisible': [('state', '!=', 'draft')]}" options="{'no_create_edit': True}"/>
+                </group>
+            </xpath>
             <xpath expr="/form//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                <!-- so line pricelist_id -->
+                <field name="pricelist_id"/>
                 <field name="pricelist_item_count" invisible="1"/>
+                <!-- product pricelist items button -->
                 <button
                     name="button_product_pricelist_items"
                     type='object'
@@ -20,6 +29,8 @@
                     string="Pricelist Items"/>
             </xpath>
             <xpath expr="//kanban" position="inside">
+                <!-- so line pricelist_id -->
+                <field name="pricelist_id"/>
                 <field name="pricelist_item_count" invisible="1"/>
             </xpath>
             <xpath expr="/form//field[@name='order_line']/kanban/templates/t//div" position="inside">
