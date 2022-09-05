@@ -259,7 +259,7 @@ class ProductPricelistItem(models.Model):
                  'compute_price',
                  'percent_price',
                  'min_quantity',
-                #  'date_update',
+                 'date_update',
                  'uom_pack_id')
     @api.multi
     def _calc_price_unit(self):
@@ -282,7 +282,7 @@ class ProductPricelistItem(models.Model):
                 item.price_unit = price
                 item.price_sale = price * quantity
                 item.price_pack = price * pack_factor
-                item.date_update = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                # item.date_update = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 # _logger.debug('_cpu price prod_int_ref >>>: %s', product.default_code)
                 # _logger.debug('_cpu pack_factor >>>: %s', pack_factor)
                 # _logger.debug('_cpu price >>>: %s', price)
