@@ -57,7 +57,7 @@
 
                 <!-- place 'origin' field after 'number' field -->
                 <xpath expr="//h1/div" position="after">
-                    [<field name="origin"/>]
+                    [<field name="origin" readonly="1"/>]
                 </xpath>
 
             </field>
