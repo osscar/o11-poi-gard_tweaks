@@ -73,10 +73,6 @@ class SaleOrder(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    @api.onchange('product_id')
-    def _onchange_product_id(self):
-        self.route_id = self.order_id.route_id
-
     date_order_id = fields.Datetime('Order Date', 
                                     related='order_id.date_order', 
                                     store=True, 
@@ -85,6 +81,7 @@ class SaleOrderLine(models.Model):
 
     @api.multi
     def write(self, values):
+        # write restrictions when not in draft
         immediate_transfer_process = request.params.get('method') in 'immediate.transfer.process'
         allow_write = immediate_transfer_process
         # _logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
@@ -95,3 +92,7 @@ class SaleOrderLine(models.Model):
         else:
             return super().write(values)
             # _logger.info('Written values: %s', values)
+
+    @api.onchange('product_id')
+    def _onchange_product_id_propagate_route(self):
+        self.route_id = self.order_id.route_id
