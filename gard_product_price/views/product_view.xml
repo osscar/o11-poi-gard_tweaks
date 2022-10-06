@@ -68,10 +68,10 @@
                                 <field invisible="1" name="product_default_code"/>
                                 <field colspan="4" name="description"/>
                                 <field name="min_quantity"/>
-                                <!-- <field name="price_sale" force_save="1"/> -->
                                 <field name="price_unit" force_save="1"/>
                                 <field name="price_pack" force_save="1"/>
-                                <field name="uom_pack_id"/>
+                                <field name="uom_pack_id" force_save="1"/>
+                                <field name="global_uom_pack_id" force_save="1"/>
                                 <field name="pricelist_id" widget="label_selection"/>
                                 <field name="partner_ids" widget="many2many_tags"/>
                             </tree>
@@ -81,10 +81,11 @@
                                 <field invisible="1" name="product_default_code"/>
                                 <field name="description"/>
                                 <field name="min_quantity"/>
-                                <field name="price_sale" force_save="1"/>
                                 <field name="price_unit" force_save="1"/>
+                                <field name="price_pack" force_save="1"/>
+                                <field name="uom_pack_id" force_save="1"/>
+                                <field name="global_uom_pack_id" force_save="1"/>
                                 <field name="currency_id"/>
-                                <!-- <field name="customer_savings"/> -->
                                 <field name="pricelist_id"/>
                                 <field name="partner_ids"/>
                                 <templates>
@@ -105,8 +106,10 @@
                                                             <tr>
                                                                 <th>Description</th>
                                                                 <th>Min.</th>
-                                                                <th>Sale Price</th>
                                                                 <th>Unit Price</th>
+                                                                <th>Pack Price</th>
+                                                                <th>Pack UoM</th>
+                                                                <th>Global Pack UoM</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -118,10 +121,18 @@
                                                                     <field name="min_quantity"/>
                                                                 </td>
                                                                 <td>
-                                                                    <field name="price_sale" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                                                    <field name="price_unit" widget="monetary" options="{'currency_field': 'currency_id'}" force_save="1"/>
                                                                 </td>
                                                                 <td>
-                                                                    <field name="price_unit" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                                                    <field name="price_pack" widget="monetary" options="{'currency_field': 'currency_id'}" force_save="1"/>
+                                                                </td>
+                                                                <td>
+                                                                    <field name="uom_pack_id" force_save="1"/>
+                                                                </td>
+                                                                <td>
+                                                                    <field name="global_uom_pack_id" force_save="1"/>
+                                                                </td>
+                                                                <td>
                                                                 </td>
                                                             </tr>
                                                         </tbody>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+            id="action_report_pricelist" 
+            string="Pricelist" 
+            model="product.product" 
+            report_type="qweb-pdf" 
+            name="gard_product_price.report_pricelist" 
+            file="gard_product_price.report_pricelist"
+            menu="False"/>
+    </data>
+</odoo>
