@@ -117,14 +117,12 @@
                 <field name="product_default_code"/>
                 <field colspan="4" name="description"/>
                 <field name="min_quantity"/>
-                <field name="price_sale" force_save="1"/>
                 <field name="price_unit" force_save="1"/>
                 <field name="price_pack" force_save="1"/>
-                <field name="uom_pack_id"/>
+                <field name="uom_pack_id" force_save="1"/>
                 <field name="margin_sale_net" groups="gard_product_price.group_product_price_manager" force_save="1"/>
                 <field name="margin_sale_excl" groups="gard_product_price.group_product_price_manager"/>
                 <field name="cost_product" groups="gard_product_price.group_product_price_manager" force_save="1"/>
-                <!-- <field name="customer_savings"/> --> <!-- TO DO -->
                 <field name="pricelist_id"/>
                 <field name="partner_ids" widget="many2many_tags"/>
                 <field name="date_update"/>
@@ -168,15 +166,9 @@
                     <field name="description"/>
                 </group>
                 <group>
-                    <field name="price_sale" force_save="1"/>
-                    <!-- attrs={'readonly': [('','','')]} -->
                     <field name="price_unit" force_save="1"/>
-                    <!-- <field name="customer_savings"/> --> <!-- TO DO -->
-                    <!-- <div class="pack_price" attrs="{'invisible':[('product_tmpl_id', '=', False), ('product_id', '=', False)]}">
-                        Package Price <field name="price_pack" width="50%"/> <field name="uom_pack_id" width="50%"/>
-                    </div> -->
                     <field name="price_pack" force_save="1"/>
-                    <field name="uom_pack_id"/>
+                    <field name="uom_pack_id" force_save="1"/>
                 </group>
                 <group>
                     <field name="partner_ids" widget="many2many_tags"/>

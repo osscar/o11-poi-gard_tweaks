@@ -54,7 +54,7 @@ class ProductProduct(models.Model):
     @api.multi
     def button_product_pricelist_items(self):
         product_id = self.id
-
+        self.env['product.pricelist.item']._compute_uom_pack_id()
         return {
             'name': 'Pricelist Items',
             'res_model': 'product.product',

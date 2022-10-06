@@ -59,11 +59,16 @@ JS script on web/static/src/js in render_tag function.)
 
         'data/gard_product_price_data.xml',
 
+        'report/product_reports.xml',
+        'report/product_pricelist_templates.xml',
+
         'views/product_template_view.xml',
         'views/product_view.xml',
         'views/product_pricelist_view.xml',
         'views/res_partner.xml',
         'views/sale_view.xml',
+
+        'wizard/product_price_list_views.xml',
     ],
     'qweb': [
     ],

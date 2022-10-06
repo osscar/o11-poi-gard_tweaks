@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_pricelist">
+        <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <div class="page">
+                    <h2>Price List</h2>
+
+                    <div class="row mt32 mb32">
+                        <div class="col-xs-3">
+                            <strong>Price List Name</strong>:<br/>
+                            <span t-esc="data['pricelist'].name"/>
+                        </div>
+                        <div class="col-xs-3">
+                            <strong>Currency</strong>:<br/>
+                            <span t-esc="data['pricelist'].currency_id.name"/>
+                        </div>
+                        <div class="col-xs-3">
+                            <strong>Print date</strong>:<br/>
+                            <t t-esc="datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')"/>
+                        </div>
+                    </div>
+
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <td>
+                                    <strong>Description</strong>
+                                </td>
+                                <td>
+                                    <strong>Min. Qty.</strong>
+                                </td>
+                                <td>
+                                    <strong>Price Unit</strong>
+                                </td>
+                                <td>
+                                    <strong>Price Pack</strong>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="data['pricelist_data']" t-as="pl_data">
+                                <tr t-foreach="pl_data['items_data']" t-as="item">
+                                    <td>
+                                        <span t-esc="pl_data['items_data'][item]['product']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="pl_data['items_data'][item]['min_quantity']"/>
+                                        <span t-esc="pl_data['items_data'][item]['price_uom_unit']"/>
+                                    </td>
+                                    <td>
+                                        <strong><span t-esc="pl_data['items_data'][item]['price_unit']"/>
+                                        <span t-esc="data['pricelist'].currency_id.name"/></strong>
+                                        <span t-esc="pl_data['items_data'][item]['price_uom_unit']"/>
+                                    </td>
+                                    <td>
+                                    <strong><span t-esc="pl_data['items_data'][item]['price_pack']"/>
+                                        <span t-esc="data['pricelist'].currency_id.name"/></strong>
+                                        <span t-esc="pl_data['items_data'][item]['price_uom_pack']"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
