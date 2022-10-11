@@ -119,6 +119,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,graph,pivot</field>
             <field name="help" type="html">
+            <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_edit'))]"/>
                 <p class="oe_view_nocontent_create">
                   Click to register a payment
                 </p><p>
@@ -145,6 +146,6 @@
         <!-- Menus -->
         <!-- add security group to "Product Margins" report -->
         <menuitem action="action_account_payment_all" id="menu_action_account_payment_all"
-            parent="account.menu_finance_entries_management" sequence="20"/>
+            parent="account.menu_finance_entries_management" groups="gard_x_gard.group_account_edit" sequence="20"/>
 
 </odoo>
