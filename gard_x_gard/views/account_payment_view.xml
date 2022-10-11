@@ -130,7 +130,7 @@
         <record model="ir.actions.act_window.view" id="action_account_payments_all_form">
             <field name="sequence" eval="2"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="account.view_account_payment_form"/>
+            <field name="view_id" ref="view_account_payment_form"/>
             <field name="act_window_id" ref="action_account_payments_all"/>
         </record>
 
