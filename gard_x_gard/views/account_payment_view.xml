@@ -34,6 +34,7 @@
         <record id="view_account_payment_all_tree" model="ir.ui.view">
             <field name="name">account.payment.all.tree</field>
             <field name="model">account.payment</field>
+            <field name="priority" eval="100"/>
             <field name="arch" type="xml">
                 <tree decoration-info="state=='draft'" decoration-muted="state=='reconciled'" edit="false">
                     <field name="payment_date"/>
@@ -111,7 +112,7 @@
         </record>
 
         <!-- Actions -->
-        <record id="action_account_payments_all" model="ir.actions.act_window">
+        <record id="action_account_payment_all" model="ir.actions.act_window">
             <field name="name">All Payments</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">account.payment</field>
@@ -127,14 +128,14 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window.view" id="action_account_payments_all_form">
+        <record model="ir.actions.act_window.view" id="action_account_payment_all_form">
             <field name="sequence" eval="2"/>
             <field name="view_mode">form</field>
             <field name="view_id" ref="view_account_payment_form"/>
             <field name="act_window_id" ref="action_account_payments_all"/>
         </record>
 
-        <record model="ir.actions.act_window.view" id="action_account_payments_all_tree">
+        <record model="ir.actions.act_window.view" id="action_account_payment_all_tree">
             <field name="sequence" eval="1"/>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="view_account_payment_all_tree"/>
