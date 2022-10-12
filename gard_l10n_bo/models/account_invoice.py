@@ -11,7 +11,6 @@ from odoo.exceptions import ValidationError
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
-    # @api.one
     @api.multi
     @api.depends("state")
     def _get_warehouse(self):
@@ -25,17 +24,10 @@ class AccountInvoice(models.Model):
                 else:
                     # set appropriate sale journal based on cc_dos.warehouse_id.journal_id
                     invoice.journal_id = invoice.cc_dos.journal_id
-                    # invoice.write({"journal_id": invoice.cc_dos.journal_id.id})
         return res
 
     @api.onchange("cc_dos")
-    # @api.one
     def _onchange_cc_dos(self):
-        # self.ensure_one()
+        # find the right journal when changing dosification on invoice
         if self.cc_dos and self.type == "out_invoice":
-            # onchange cc_dos set cc_dos sale journal
-            # self.env["account.journal"].search(
-            #     [("id", "=", self.cc_dos.journal_id.id)]
-            # )  
             self._get_warehouse()
-            # self.journal_id = self.cc_dos.journal_id
