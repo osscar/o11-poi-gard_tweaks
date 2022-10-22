@@ -355,7 +355,7 @@ class ProductPricelistItem(models.Model):
         "compute_price",
         "percent_price",
         "min_quantity",
-        "date_update",
+        # "date_update",
         "uom_pack_id",
     )
     @api.one
