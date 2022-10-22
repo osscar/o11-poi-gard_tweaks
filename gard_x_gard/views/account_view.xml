@@ -76,8 +76,11 @@
     <!-- restrict access -->
     <field name="groups_id" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
   </record>
+  <record model='ir.ui.menu' id='account.menu_action_tax_adjustment'>
+    <!-- restrict access -->
+    <field name="groups_id" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+  </record>
 
-  payment.root_payment_menu
 
   <!-- Analytic Accounting -->
   <!-- <record model='ir.ui.menu' id='account.menu_analytic_accounting'>
@@ -89,6 +92,7 @@
   <record model='ir.ui.menu' id='account.account_analytic_tag_menu'>
     <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
   </record> -->
+
   <record model='ir.ui.menu' id='account.menu_finance_payables'>
     <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
   </record>
@@ -108,6 +112,12 @@
     <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase')), (4, ref('gard_x_gard.group_account_invoice_sale'))]"/>
   </record>
   <record model='ir.ui.menu' id='poi_account_prepayment.menu_action_account_prepayments_payable'>
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
+  </record>
+  <record model='ir.ui.menu' id='account.menu_finance_entries_actions'>
+    <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
+  </record>
+  <record model='ir.ui.menu' id='account.menu_action_manual_reconciliation'>
     <field name="groups_id" eval="[(4, ref('gard_x_gard.group_account_invoice_purchase'))]"/>
   </record>
   <record model='ir.ui.menu' id='account.menu_finance'>
