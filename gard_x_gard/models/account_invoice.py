@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import logging
+# import logging
 
 from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
@@ -9,7 +9,7 @@ import odoo.addons.decimal_precision as dp
 from odoo.exceptions import RedirectWarning, UserError, ValidationError
 from odoo.http import request
 
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
 
 
 class AccountInvoice(models.Model):
@@ -75,13 +75,15 @@ class AccountInvoice(models.Model):
                     ("reference", "=", invoice.reference),
                 ]
             )
-            logger.debug("inv_rel_ref >>>>: %s", inv_rel_ref)
+            # logger.debug("invoice.reference >>>>: %s", invoice.reference)
+            # logger.debug("inv_rel_ref >>>>: %s", inv_rel_ref)
+            # logger.debug("inv_rel_ref str(len) >>>>: %s", str(len([inv for inv in inv_rel_ref])))
             reference = (
-                invoice.reference
+                (invoice.reference or "")
                 + " "
                 + "#"
                 + str(len([inv for inv in inv_rel_ref]))
             )
-            logger.debug("reference >>>>: %s", reference)
+            # logger.debug("reference >>>>: %s", reference)
             invoice['reference'] = reference
         return super().refund(date_invoice, date, description, journal_id)
