@@ -30,6 +30,9 @@ class AccountInvoice(models.Model):
         send_mail_action = (
             model in "mail.compose.message" and method in "send_mail_action"
         )
+        siat_recepcionFactura = (
+            model in "account.invoice" and method in "siat_recepcionFactura"
+        )
         # # logger.debug('payment_post funct >>>: %s', model, method)
         # logger.debug('send mail funct >>>: %s', send_mail_action)
         # logger.debug('payment_post >>>: %s' % payment_post)
@@ -42,6 +45,7 @@ class AccountInvoice(models.Model):
             or payment_post
             or group_account_edit
             or send_mail_action
+            or siat_recepcionFactura
         )
         # logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
         # logger.debug('Allow invoice_refund method: %s', invoice_refund)
