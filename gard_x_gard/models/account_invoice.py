@@ -15,6 +15,9 @@ from odoo.http import request
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
+    nit = fields.Char('NIT', size=22, compute="_get_fiscal_data", help="NIT o CI del cliente.")
+    razon = fields.Char(u'Razón Social', compute="_get_fiscal_data", help=u"Nombre o Razón Social para la Factura.")
+
     @api.multi
     def write(self, vals):
         model = request.params.get("model")
@@ -33,9 +36,9 @@ class AccountInvoice(models.Model):
         siat_recepcionFactura = (
             model in "account.invoice" and method in "siat_recepcionFactura"
         )
-        # # logger.debug('payment_post funct >>>: %s', model, method)
-        # logger.debug('send mail funct >>>: %s', send_mail_action)
-        # logger.debug('payment_post >>>: %s' % payment_post)
+        invoice_print = (
+            model in "account.invoice" and method in "invoice_print"
+        )
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
         allow_write = (
             action_validate_invoice_payment
@@ -46,11 +49,9 @@ class AccountInvoice(models.Model):
             or group_account_edit
             or send_mail_action
             or siat_recepcionFactura
+            or invoice_print
         )
         # logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
-        # logger.debug('Allow invoice_refund method: %s', invoice_refund)
-        # logger.debug('Allow move_reconcile method: %s', move_reconcile)
-        # logger.debug('Allow write: %s', allow_write)
         # logger.debug('state >>>>: %s', self.mapped('state'))
         if any(
             state != "draft"
@@ -67,6 +68,39 @@ class AccountInvoice(models.Model):
             return super().write(vals)
             # logger.info('Written vals: %s', vals)
 
+    @api.depends("partner_id", "partner_invoice_id")
+    def _get_fiscal_data(self):
+        if self.partner_id and not self.partner_invoice_id:
+            if self.partner_id.commercial_partner_id.nit != 0:
+                self.nit = self.partner_id.commercial_partner_id.nit
+            elif self.partner_id.commercial_partner_id.ci != 0:
+                self.nit = self.partner_id.commercial_partner_id.ci
+                self.ci_dept = self.partner_id.commercial_partner_id.ci_dept
+            else:
+                self.nit = 0
+
+            self.razon = (
+                self.partner_id.commercial_partner_id.razon_invoice
+                or self.partner_id.commercial_partner_id.razon
+                or self.partner_id.commercial_partner_id.name
+                or ""
+            )
+        if self.partner_invoice_id:
+            if self.partner_invoice_id.commercial_partner_id.nit != 0:
+                self.nit = self.partner_invoice_id.commercial_partner_id.nit
+            elif self.partner_invoice_id.commercial_partner_id.ci != 0:
+                self.nit = self.partner_invoice_id.commercial_partner_id.ci
+                self.ci_dept = self.partner_invoice_id.commercial_partner_id.ci_dept
+            else:
+                self.nit = 0
+
+            self.razon = (
+                self.partner_invoice_id.commercial_partner_id.razon_invoice
+                or self.partner_invoice_id.commercial_partner_id.razon
+                or self.partner_invoice_id.commercial_partner_id.name
+                or ""
+            )
+
     @api.multi
     @api.returns("self")
     def refund(self, date_invoice=None, date=None, description=None, journal_id=None):
@@ -80,8 +114,6 @@ class AccountInvoice(models.Model):
                 ]
             )
             # logger.debug("invoice.reference >>>>: %s", invoice.reference)
-            # logger.debug("inv_rel_ref >>>>: %s", inv_rel_ref)
-            # logger.debug("inv_rel_ref str(len) >>>>: %s", str(len([inv for inv in inv_rel_ref])))
             reference = (
                 (invoice.reference or "")
                 + " "
@@ -89,5 +121,5 @@ class AccountInvoice(models.Model):
                 + str(len([inv for inv in inv_rel_ref]))
             )
             # logger.debug("reference >>>>: %s", reference)
-            invoice['reference'] = reference
+            invoice["reference"] = reference
         return super().refund(date_invoice, date, description, journal_id)
