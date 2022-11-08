@@ -68,38 +68,40 @@ class AccountInvoice(models.Model):
             return super().write(vals)
             # logger.info('Written vals: %s', vals)
 
+    @api.multi
     @api.depends("partner_id", "partner_invoice_id")
     def _get_fiscal_data(self):
-        if self.partner_id and not self.partner_invoice_id:
-            if self.partner_id.commercial_partner_id.nit != 0:
-                self.nit = self.partner_id.commercial_partner_id.nit
-            elif self.partner_id.commercial_partner_id.ci != 0:
-                self.nit = self.partner_id.commercial_partner_id.ci
-                self.ci_dept = self.partner_id.commercial_partner_id.ci_dept
-            else:
-                self.nit = 0
+        for invoice in self:
+            if invoice.partner_id and not invoice.partner_invoice_id:
+                if invoice.partner_id.commercial_partner_id.nit != 0:
+                    invoice.nit = invoice.partner_id.commercial_partner_id.nit
+                elif invoice.partner_id.commercial_partner_id.ci != 0:
+                    invoice.nit = invoice.partner_id.commercial_partner_id.ci
+                    invoice.ci_dept = invoice.partner_id.commercial_partner_id.ci_dept
+                else:
+                    invoice.nit = 0
 
-            self.razon = (
-                self.partner_id.commercial_partner_id.razon_invoice
-                or self.partner_id.commercial_partner_id.razon
-                or self.partner_id.commercial_partner_id.name
-                or ""
-            )
-        if self.partner_invoice_id:
-            if self.partner_invoice_id.commercial_partner_id.nit != 0:
-                self.nit = self.partner_invoice_id.commercial_partner_id.nit
-            elif self.partner_invoice_id.commercial_partner_id.ci != 0:
-                self.nit = self.partner_invoice_id.commercial_partner_id.ci
-                self.ci_dept = self.partner_invoice_id.commercial_partner_id.ci_dept
-            else:
-                self.nit = 0
+                invoice.razon = (
+                    invoice.partner_id.commercial_partner_id.razon_invoice
+                    or invoice.partner_id.commercial_partner_id.razon
+                    or invoice.partner_id.commercial_partner_id.name
+                    or ""
+                )
+            if invoice.partner_invoice_id:
+                if invoice.partner_invoice_id.commercial_partner_id.nit != 0:
+                    invoice.nit = invoice.partner_invoice_id.commercial_partner_id.nit
+                elif invoice.partner_invoice_id.commercial_partner_id.ci != 0:
+                    invoice.nit = invoice.partner_invoice_id.commercial_partner_id.ci
+                    invoice.ci_dept = invoice.partner_invoice_id.commercial_partner_id.ci_dept
+                else:
+                    invoice.nit = 0
 
-            self.razon = (
-                self.partner_invoice_id.commercial_partner_id.razon_invoice
-                or self.partner_invoice_id.commercial_partner_id.razon
-                or self.partner_invoice_id.commercial_partner_id.name
-                or ""
-            )
+                invoice.razon = (
+                    invoice.partner_invoice_id.commercial_partner_id.razon_invoice
+                    or invoice.partner_invoice_id.commercial_partner_id.razon
+                    or invoice.partner_invoice_id.commercial_partner_id.name
+                    or ""
+                )
 
     @api.multi
     @api.returns("self")
