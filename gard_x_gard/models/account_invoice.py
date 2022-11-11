@@ -73,33 +73,33 @@ class AccountInvoice(models.Model):
     def _get_fiscal_data(self):
         for invoice in self:
             if invoice.partner_id and not invoice.partner_invoice_id:
-                if invoice.partner_id.commercial_partner_id.nit != 0:
-                    invoice.nit = invoice.partner_id.commercial_partner_id.nit
-                elif invoice.partner_id.commercial_partner_id.ci != 0:
-                    invoice.nit = invoice.partner_id.commercial_partner_id.ci
-                    invoice.ci_dept = invoice.partner_id.commercial_partner_id.ci_dept
+                if invoice.partner_id.nit != 0:
+                    invoice.nit = invoice.partner_id.nit
+                elif invoice.partner_id.ci != 0:
+                    invoice.nit = invoice.partner_id.ci
+                    invoice.ci_dept = invoice.partner_id.ci_dept
                 else:
                     invoice.nit = 0
 
                 invoice.razon = (
-                    invoice.partner_id.commercial_partner_id.razon_invoice
-                    or invoice.partner_id.commercial_partner_id.razon
-                    or invoice.partner_id.commercial_partner_id.name
+                    invoice.partner_id.razon_invoice
+                    or invoice.partner_id.razon
+                    or invoice.partner_id.name
                     or ""
                 )
             if invoice.partner_invoice_id:
-                if invoice.partner_invoice_id.commercial_partner_id.nit != 0:
-                    invoice.nit = invoice.partner_invoice_id.commercial_partner_id.nit
-                elif invoice.partner_invoice_id.commercial_partner_id.ci != 0:
-                    invoice.nit = invoice.partner_invoice_id.commercial_partner_id.ci
-                    invoice.ci_dept = invoice.partner_invoice_id.commercial_partner_id.ci_dept
+                if invoice.partner_invoice_id.nit != 0:
+                    invoice.nit = invoice.partner_invoice_id.nit
+                elif invoice.partner_invoice_id.ci != 0:
+                    invoice.nit = invoice.partner_invoice_id.ci
+                    invoice.ci_dept = invoice.partner_invoice_id.ci_dept
                 else:
                     invoice.nit = 0
 
                 invoice.razon = (
-                    invoice.partner_invoice_id.commercial_partner_id.razon_invoice
-                    or invoice.partner_invoice_id.commercial_partner_id.razon
-                    or invoice.partner_invoice_id.commercial_partner_id.name
+                    invoice.partner_invoice_id.razon_invoice
+                    or invoice.partner_invoice_id.razon
+                    or invoice.partner_invoice_id.name
                     or ""
                 )
 
