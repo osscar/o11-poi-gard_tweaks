@@ -17,16 +17,10 @@ class AccountInvoice(models.Model):
     nit = fields.Char(
         "NIT",
         size=22,
-        compute="_get_fiscal_data",
-        copy=True,
-        store=True,
         help="NIT o CI del cliente.",
     )
     razon = fields.Char(
         "Razón Social",
-        compute="_get_fiscal_data",
-        copy=True,
-        store=True,
         help="Nombre o Razón Social para la Factura.",
     )
 
