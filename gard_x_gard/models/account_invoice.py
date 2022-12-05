@@ -4,19 +4,31 @@
 # import logging
 
 from odoo import api, fields, models, _
-import odoo.addons.decimal_precision as dp
 
-from odoo.exceptions import RedirectWarning, UserError, ValidationError
+from odoo.exceptions import UserError
 from odoo.http import request
 
-# logger = logging.getLogger(__name__)
+# _logger = logging.getLogger(__name__)
 
 
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
-    nit = fields.Char('NIT', size=22, compute="_get_fiscal_data", help="NIT o CI del cliente.")
-    razon = fields.Char(u'Razón Social', compute="_get_fiscal_data", help=u"Nombre o Razón Social para la Factura.")
+    nit = fields.Char(
+        "NIT",
+        size=22,
+        compute="_get_fiscal_data",
+        copy=True,
+        store=True,
+        help="NIT o CI del cliente.",
+    )
+    razon = fields.Char(
+        "Razón Social",
+        compute="_get_fiscal_data",
+        copy=True,
+        store=True,
+        help="Nombre o Razón Social para la Factura.",
+    )
 
     @api.multi
     def write(self, vals):
@@ -36,9 +48,7 @@ class AccountInvoice(models.Model):
         siat_recepcionFactura = (
             model in "account.invoice" and method in "siat_recepcionFactura"
         )
-        invoice_print = (
-            model in "account.invoice" and method in "invoice_print"
-        )
+        invoice_print = model in "account.invoice" and method in "invoice_print"
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
         allow_write = (
             action_validate_invoice_payment
@@ -51,8 +61,8 @@ class AccountInvoice(models.Model):
             or siat_recepcionFactura
             or invoice_print
         )
-        # logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
-        # logger.debug('state >>>>: %s', self.mapped('state'))
+        # _logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
+        # _logger.debug('state >>>>: %s', self.mapped('state'))
         if any(
             state != "draft"
             for state in set(self.mapped("state"))
@@ -66,42 +76,32 @@ class AccountInvoice(models.Model):
             )
         else:
             return super().write(vals)
-            # logger.info('Written vals: %s', vals)
+            # _logger.info('Written vals: %s', vals)
 
-    @api.multi
-    @api.depends("partner_id", "partner_invoice_id")
-    def _get_fiscal_data(self):
-        for invoice in self:
-            if invoice.partner_id and not invoice.partner_invoice_id:
-                if invoice.partner_id.nit != 0:
-                    invoice.nit = invoice.partner_id.nit
-                elif invoice.partner_id.ci != 0:
-                    invoice.nit = invoice.partner_id.ci
-                    invoice.ci_dept = invoice.partner_id.ci_dept
-                else:
-                    invoice.nit = 0
+    @api.model
+    def create(self, vals):
+        # _logger.debug('vals >>>>: %s', vals)
+        if 'partner_invoice_id' in vals:
+            _logger.debug('vals[pinvid] >>>>: %s', vals['partner_invoice_id'])
+            partner_invoice_id = self.env['res.partner'].browse(vals['partner_invoice_id'])
+            if partner_invoice_id.nit != 0:
+                vals['nit'] = partner_invoice_id.nit
+            elif invoice.partner_invoice_id.ci != 0:
+                vals['nit'] = partner_invoice_id.ci
+                vals['ci_dept'] = partner_invoice_id.ci_dept
+            else:
+                vals['nit'] = 0
 
-                invoice.razon = (
-                    invoice.partner_id.razon_invoice
-                    or invoice.partner_id.razon
-                    or invoice.partner_id.name
-                    or ""
-                )
-            if invoice.partner_invoice_id:
-                if invoice.partner_invoice_id.nit != 0:
-                    invoice.nit = invoice.partner_invoice_id.nit
-                elif invoice.partner_invoice_id.ci != 0:
-                    invoice.nit = invoice.partner_invoice_id.ci
-                    invoice.ci_dept = invoice.partner_invoice_id.ci_dept
-                else:
-                    invoice.nit = 0
+            vals['razon'] = (
+                partner_invoice_id.razon_invoice
+                or partner_invoice_id.razon
+                or partner_invoice_id.name
+                or ""
+            )
+            _logger.debug('vals_pinvid >>>>: %s', vals)
 
-                invoice.razon = (
-                    invoice.partner_invoice_id.razon_invoice
-                    or invoice.partner_invoice_id.razon
-                    or invoice.partner_invoice_id.name
-                    or ""
-                )
+        ret = super(AccountInvoice, self).create(vals)
+        return ret    
 
     @api.multi
     @api.returns("self")
@@ -109,19 +109,20 @@ class AccountInvoice(models.Model):
         inv_obj = self.env["account.invoice"]
         for invoice in self:
             # create the new invoice
-            inv_rel_ref = inv_obj.search(
+            inv_rel_ref_ids = inv_obj.search(
                 [
                     ("partner_id", "=", invoice.partner_id.id),
                     ("reference", "=", invoice.reference),
                 ]
             )
-            # logger.debug("invoice.reference >>>>: %s", invoice.reference)
-            reference = (
-                (invoice.reference or "")
-                + " "
-                + "#"
-                + str(len([inv for inv in inv_rel_ref]))
-            )
-            # logger.debug("reference >>>>: %s", reference)
-            invoice["reference"] = reference
+            # _logger.debug("invoice.reference >>>>: %s", invoice.reference)
+            if inv_rel_ref_ids:
+                reference = (
+                    invoice.number
+                    + " "
+                    + "#"
+                    + str(len([inv for inv in inv_rel_ref_ids]))
+                )
+                # _logger.debug("reference >>>>: %s", reference)
+                invoice["reference"] = reference
         return super().refund(date_invoice, date, description, journal_id)
