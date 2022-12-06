@@ -6,7 +6,7 @@
             <field name="model">account.invoice.line</field>
             <field name="arch" type="xml">
                 <search string="Search Invoice Lines">
-                    <field name="invoice_id" string="Invoice" filter_domain="['|','|','|', ('invoice_id','ilike',self), ('origin','ilike',self), ('product_id', 'child_of', self), ('partner_id', 'child_of', self)]"/>
+                    <field name="invoice_id" string="Invoice" filter_domain="['|','|','|', ('invoice_id.number','ilike',self), ('invoice_id.cc_nro','ilike',self), ('origin','ilike',self), ('partner_id', 'child_of', self)]"/>
                     <!-- <field name="journal_id" /> -->
                     <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
                     <filter name="unpaid" string="Open" domain="[('state', '=', 'open')]"/>
@@ -29,7 +29,7 @@
                         <filter name="group_by_origin" string="Origin" context="{'group_by':'origin'}"/>
                         <separator/>
                         <filter name="group_by_date_invoice" string="Invoice Date" context="{'group_by':'date_invoice'}"/>
-                        <filter name="group_by_date_due" string="Invoice Due Date" context="{'group_by':'date_due'}"/>
+                        <filter name="group_by_date_due" string="Invoice Date Due" context="{'group_by':'date_due'}"/>
                     </group>
                </search>
             </field>
