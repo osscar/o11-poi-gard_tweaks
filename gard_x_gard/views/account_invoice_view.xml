@@ -6,18 +6,14 @@
             <field name="model">account.invoice.line</field>
             <field name="arch" type="xml">
                 <search string="Search Invoice Lines">
-                    <field name="invoice_id" string="Invoice" filter_domain="['|','|','|', ('invoice_id.number','ilike',self), ('invoice_id.cc_nro','ilike',self), ('origin','ilike',self), ('partner_id', 'child_of', self)]"/>
-                    <!-- <field name="journal_id" /> -->
+                    <field name="invoice_id" string="Invoice" filter_domain="['|','|','|', ('invoice_id.number','ilike',self), ('invoice_id.cc_nro','ilike',self), ('invoice_id.origin','ilike',self), ('partner_id', 'child_of', self)]"/>
+                    <field name="account_analytic_id"/>
                     <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
                     <filter name="unpaid" string="Open" domain="[('state', '=', 'open')]"/>
                     <filter name="paid" string="Paid" domain="[('state', '=', 'paid')]"/>
-                    <!-- <filter name="late" string="Overdue" domain="['&amp;', ('date_due', '&lt;', time.strftime('%%Y-%%m-%%d')), ('state', '=', 'open')]" help="Overdue invoices, maturity date passed"/> -->
                     <separator/>
                     <field name="partner_id" operator="child_of"/>
                     <field name="user_id" string="Salesperson" domain="[('share','=', False)]"/>
-                    <!-- <field name="date" string="Period"/> -->
-                    <!-- <separator/> -->
-                    <!-- <filter domain="[('user_id','=',uid)]" help="My Invoices"/> -->
                     <separator/>
                     <group expand="0" string="Group By">
                         <filter name="group_by_partner_id" string="Partner" context="{'group_by':'commercial_partner_id'}"/>
@@ -26,7 +22,7 @@
                         <filter name="group_by_invoice_id" string="Invoice" context="{'group_by':'invoice_id'}"/>
                         <filter name="group_by_state" string="Invoice State" context="{'group_by':'state'}"/>
                         <filter name="group_by_invoice_type" string="Invoice Type" context="{'group_by':'invoice_type'}"/>
-                        <filter name="group_by_origin" string="Origin" context="{'group_by':'origin'}"/>
+                        <filter name="group_by_account_analytic_id" string="Analytic Account" context="{'group_by':'account_analytic_id'}"/>
                         <separator/>
                         <filter name="group_by_date_invoice" string="Invoice Date" context="{'group_by':'date_invoice'}"/>
                         <filter name="group_by_date_due" string="Invoice Date Due" context="{'group_by':'date_due'}"/>
@@ -116,6 +112,7 @@
                     <field name="date_invoice"/>
                     <field name="date_due"/>
                     <field name="invoice_id"/>
+                    <field name="origin"/>
                     <!-- readonly="1"/> -->
                 </xpath>
                 <xpath expr="//tree/field[@name='account_id']" position="after">
