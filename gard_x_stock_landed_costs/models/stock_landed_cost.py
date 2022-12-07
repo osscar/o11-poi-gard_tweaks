@@ -1,0 +1,84 @@
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
+# import logging
+
+from odoo import api, fields, models, _
+
+# _logger = logging.getLogger(__name__)
+
+
+class LandedCost(models.Model):
+    _inherit = "stock.landed.cost"
+
+    account_analytic_id = fields.Many2one(
+        "account.analytic.account", string="Propagate Analytic Lines"
+    )
+
+    @api.one
+    def button_cost_line_create(self):
+        anl_lines = self.account_analytic_id.line_ids
+        for line in anl_lines:
+            vals = {
+                'cost_id': self.id,
+                'account_analytic_line_id': line.id,
+                'product_id': line.product_id.id,
+                'split_method': line.product_id.split_method,
+                'price_unit': line.amount * -1,
+            }
+            new_lines = self.cost_lines.create(vals)
+            new_lines.onchange_account_analytic_line_id()
+        return True
+
+    def button_cost_line_unlink(self):
+        for line in self.cost_lines:
+            line.unlink()
+        return True
+
+
+class LandedCostLine(models.Model):
+    _inherit = "stock.landed.cost.lines"
+
+    account_analytic_line_id = fields.Many2one(
+        "account.analytic.line", string="Analytic Line"
+    )
+
+    @api.onchange("product_id")
+    def onchange_product_id(self):
+        res = super(LandedCostLine, self).onchange_product_id()
+        if self.account_analytic_line_id:
+            if (
+                self.cost_id.account_journal_id.currency_id
+                != self.account_analytic_line_id.currency_id
+            ):
+                price_unit = self.account_analytic_line_id.currency_id.compute(
+                    self.account_analytic_line_id.amount,
+                    self.cost_id.account_journal_id.currency_id,
+                )
+            else:
+                price_unit = self.account_analytic_line_id.amount
+            self.price_unit = -1 * price_unit
+        return res
+
+    @api.onchange("account_analytic_line_id")
+    def onchange_account_analytic_line_id(self):
+        self.product_id = self.account_analytic_line_id.product_id
+        self.name = (
+            str(self.account_analytic_line_id.ref)
+            + " "
+            + str(self.account_analytic_line_id.name)
+        )
+        self.account_id = self.account_analytic_line_id.general_account_id
+        self.analytic_account_id = self.account_analytic_line_id.account_id
+        self.analytic_tag_ids = self.account_analytic_line_id.tag_ids
+        if (
+            self.cost_id.account_journal_id.currency_id
+            != self.account_analytic_line_id.currency_id
+        ):
+            price_unit = self.account_analytic_line_id.currency_id.compute(
+                self.account_analytic_line_id.amount,
+                self.cost_id.account_journal_id.currency_id,
+            )
+        else:
+            price_unit = self.account_analytic_line_id.amount
+        self.price_unit = price_unit * -1
