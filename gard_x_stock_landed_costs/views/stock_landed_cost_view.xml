@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <!-- Search Views -->
+
+        <!-- Views -->
+        <record model="ir.ui.view" id="view_stock_landed_cost_form">
+            <field name="name">stock.landed.cost.form.inherit.gard_x_gard</field>
+            <field name="model">stock.landed.cost</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>
+            <field name="arch" type="xml">
+
+                <!-- add fields -->
+                <xpath expr="/form//field[@name='cost_lines']" position="before">
+                    <field name="account_analytic_id" attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('state', '!=', 'draft')]}"/>
+                    <separator/>
+                    <button name="button_cost_line_create" type='object'
+                        attrs="{'invisible':['|',('state', '!=', 'draft'),('account_analytic_id', '=', False)]}"
+                        class="btn-primary" string="Propagate"/>
+                    <button name="button_cost_line_unlink" type="object"
+                        attrs="{'invisible':['|',('state', '!=', 'draft'),('cost_lines', '=', [])]}"
+                        class="btn-default" string="Clear Lines"/>
+                </xpath>
+                <xpath expr="/form//field[@name='cost_lines']/tree/field[1]" position="before">
+                    <field name="account_analytic_line_id"/>
+                </xpath>
+                
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_stock_landed_cost_tree">
+            <field name="name">stock.landed.cost.tree.inherit.gard_x_gard</field>
+            <field name="model">stock.landed.cost</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_tree"/>
+            <field name="arch" type="xml">
+
+                <!-- add fields -->
+                <xpath expr="//tree/field[1]" position="after">
+                    <field name="account_move_id"/>
+                    <field name="account_journal_id"/>
+                </xpath>
+                
+            </field>
+        </record>
+
+        <!-- Actions -->
+
+        <!-- Menus -->
+
+</odoo>
