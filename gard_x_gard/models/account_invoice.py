@@ -76,7 +76,7 @@ class AccountInvoice(models.Model):
     def create(self, vals):
         # _logger.debug('vals >>>>: %s', vals)
         if 'partner_invoice_id' in vals:
-            _logger.debug('vals[pinvid] >>>>: %s', vals['partner_invoice_id'])
+            # _logger.debug('vals[pinvid] >>>>: %s', vals['partner_invoice_id'])
             partner_invoice_id = self.env['res.partner'].browse(vals['partner_invoice_id'])
             if partner_invoice_id.nit != 0:
                 vals['nit'] = partner_invoice_id.nit
@@ -92,7 +92,7 @@ class AccountInvoice(models.Model):
                 or partner_invoice_id.name
                 or ""
             )
-            _logger.debug('vals_pinvid >>>>: %s', vals)
+            # _logger.debug('vals_pinvid >>>>: %s', vals)
 
         ret = super(AccountInvoice, self).create(vals)
         return ret    
