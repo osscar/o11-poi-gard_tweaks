@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-# import logging
+import logging
 
 from odoo import api, fields, models, _
 
-# _logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class LandedCost(models.Model):
@@ -19,13 +19,23 @@ class LandedCost(models.Model):
     def button_cost_line_create(self):
         anl_lines = self.account_analytic_id.line_ids
         for line in anl_lines:
+            _logger.debug('bclc vals >>>: %s', line)
+            if line.product_id:
+                _logger.debug('bclc if product_id vals >>>: %s', line.product_id)
+                product_id = line.product_id
+            else:
+                _logger.debug('bclc else product_id vals >>>: %s', line.product_id)
+                product_id = self.env.ref('gard_x_stock_landed_costs.product_slc_default')
+                # vals['product_id'] = self.env["product.product"].search([('id', '=', "product_category_init_1")]).id
             vals = {
                 'cost_id': self.id,
                 'account_analytic_line_id': line.id,
-                'product_id': line.product_id.id,
-                'split_method': line.product_id.split_method,
+                'product_id': product_id.id,
+                'split_method': product_id.split_method,
                 'price_unit': line.amount * -1,
             }
+            _logger.debug('bclc vals >>>: %s', vals)
+
             new_lines = self.cost_lines.create(vals)
             new_lines.onchange_account_analytic_line_id()
         return True
@@ -62,7 +72,13 @@ class LandedCostLine(models.Model):
 
     @api.onchange("account_analytic_line_id")
     def onchange_account_analytic_line_id(self):
-        self.product_id = self.account_analytic_line_id.product_id
+        if self.product_id:
+            _logger.debug('bclc if product_id vals >>>: %s', self.product_id)
+            product_id = self.product_id
+        else:
+            _logger.debug('bclc else product_id vals >>>: %s', self.product_id)
+            product_id = self.env.ref('gard_x_stock_landed_costs.product_slc_default')
+        self.product_id = product_id
         self.name = (
             str(self.account_analytic_line_id.ref)
             + " "

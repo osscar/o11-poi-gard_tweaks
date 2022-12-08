@@ -41,19 +41,14 @@ based on analytic account lines
     'depends': [
         'account',
         'analytic',
+        'gard_x_analytic',
         'gard_x_gard',
-        # 'poi_x_gard',
-        # 'poi_bol_base',
-        # 'poi_kardex_valorado',
-        # 'poi_stock_account_consolidate',
-        # 'sale',
-        # 'stock',
-        # 'stock_account',
         'stock_landed_costs',
         'stock_landed_costs_analytic',
     ],
     'category': 'Other',
     'data': [
+        'data/product_data.xml',
 
         'views/stock_landed_cost_view.xml',
     ],

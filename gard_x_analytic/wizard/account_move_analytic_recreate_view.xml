@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_account_move_analytic_recreate" model="ir.ui.view">
+            <field name="name">account.move.analytic.recreate.form</field>
+            <field name="model">account.move.analytic.recreate</field>
+            <field name="groups_id" eval="[(6,0,[ref('gard_x_gard.group_account_edit')])]"/>
+            <field name="arch" type="xml">
+                <form string="Recreate Analytic Lines">
+                    <footer>
+                        <button string="Recreate Analytic Lines" name="recreate_move_analytic_lines" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_view_account_move_analytic_recreate" model="ir.actions.act_window">
+            <field name="name">Recreate Analytic Lines</field>
+            <field name="res_model">account.move.analytic.recreate</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_account_move_analytic_recreate"/>
+            <field name="groups_id" eval="[(6,0,[ref('gard_x_gard.group_account_edit')])]"/>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="account.model_account_move" />
+        </record>
+
+    </data>
+</odoo>
