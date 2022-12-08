@@ -80,7 +80,7 @@ class AccountInvoice(models.Model):
             partner_invoice_id = self.env['res.partner'].browse(vals['partner_invoice_id'])
             if partner_invoice_id.nit != 0:
                 vals['nit'] = partner_invoice_id.nit
-            elif invoice.partner_invoice_id.ci != 0:
+            elif partner_invoice_id.ci != 0:
                 vals['nit'] = partner_invoice_id.ci
                 vals['ci_dept'] = partner_invoice_id.ci_dept
             else:
