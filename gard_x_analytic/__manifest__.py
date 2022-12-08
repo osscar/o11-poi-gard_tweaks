@@ -18,19 +18,19 @@
 #
 ##############################################################################
 {
-    'name': 'GARD x_Tweaks',
+    'name': 'GARD x_Tweaks - Analytic Accounting',
     'version': '11.01',
     'author': 'squid',
     'company': '',
     'website': 'http://wwf.comcom.com',
-    'summary': 'Tweaks for poi_Odoov11.',
+    'summary': 'Analytic Accounting Tweaks for poi_Odoov11.',
     'descrption': """
-GARD x_Tweaks
+GARD x_Tweaks - Analytic Accounting
 ==========================
 This module tweaks the following:
 
-*
-*
+* adds a wizard to call account_move_analytic_recreate write enhancement to recreate analytic lines
+* 
 *
 
 
@@ -38,46 +38,15 @@ This module tweaks the following:
     'images': [],
     'depends': [
         'account',
+        'account_move_analytic_recreate',
         'analytic',
-        #'crm',
-        #'crm_livechat',
-        'poi_x_gard',
-        'poi_bol_base',
-        'poi_kardex_valorado',
-        'poi_stock_account_consolidate',
-        'sale',
-        'stock',
-        'stock_account',
-        'stock_landed_costs',
-        'stock_landed_costs_analytic',
-        #'sale_crm',
-        'web',
-        #'website',
-        #'website_crm',
-        #'website_sale',
-        #'website_theme_flexible',
+        'gard_x_gard',
     ],
     'category': 'Other',
     'data': [
-        # 'data/fetchmail.server.csv',
-        #'data/res_config_data.xml',
+        'views/account_analytic_view.xml',
 
-        'report/account_report_views.xml',
-        'report/account_report_templates.xml',
-
-        #'res/res.lang.csv',
-
-        'security/gard_x_gard_security.xml',
-        'security/ir.model.access.csv',
-
-        'views/account_view.xml',
-        'views/account_invoice_view.xml',
-        'views/account_payment_view.xml',
-        'views/product_views.xml',
-        #'views/res_company_view.xml',
-        'views/sale_view.xml',
-        'views/stock_view.xml',
-        #'views/website_templates.xml',
+        'wizard/account_move_analytic_recreate_view.xml',
     ],
     'demo': [],
     'license': 'AGPL-3',

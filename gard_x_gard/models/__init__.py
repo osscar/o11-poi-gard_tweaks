@@ -3,7 +3,6 @@
 
 #from . import res_company
 from . import account
-from . import account_analytic_line
 from . import account_invoice
 from . import account_payment
 from . import stock_picking
