@@ -2,7 +2,7 @@
 <odoo>
         <!-- Search Views -->
         <record model="ir.ui.view" id="view_account_analytic_line_filter">
-            <field name="name">account.analytic.line.select.inherit.gard_x_gard</field>
+            <field name="name">account.analytic.line.select.inherit.gard_x_analytic</field>
             <field name="model">account.analytic.line</field>
             <field name="mode">extension</field>
             <field name="priority">10</field>
