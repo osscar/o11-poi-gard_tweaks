@@ -112,7 +112,7 @@ class AccountInvoice(models.Model):
             # _logger.debug("invoice.reference >>>>: %s", invoice.reference)
             if inv_rel_ref_ids:
                 reference = (
-                    invoice.reference
+                    invoice.reference or ""
                     + " "
                     + "#"
                     + str(len([inv for inv in inv_rel_ref_ids]))
