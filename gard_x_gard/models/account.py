@@ -15,8 +15,13 @@ _logger = logging.getLogger(__name__)
 class AccountJournal(models.Model):
     _inherit = "account.journal"
 
-    code = fields.Char(string='Short Code', size=10, required=True, help="The journal entries of this journal will be named using this prefix.")
-    note = fields.Text('Description')
+    code = fields.Char(
+        string="Short Code",
+        size=10,
+        required=True,
+        help="The journal entries of this journal will be named using this prefix.",
+    )
+    note = fields.Text("Description")
 
 
 class AccountMove(models.Model):
@@ -26,15 +31,24 @@ class AccountMove(models.Model):
     def write(self, vals):
         model = request.params.get("model")
         method = request.params.get("method")
-        # action_invoice_open = method in "action_invoice_open"
+        # account.invoice.refund.invoice_refund
+        invoice_refund = (
+            model in "account.invoice.refund" and method in "invoice_refund"
+        )
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
         fixable_automatic_asset = self.fixable_automatic_asset
-        allow_write = (
-            fixable_automatic_asset or group_account_edit
-        )
-        if any(state != 'draft' for state in set(self.mapped('state')) if allow_write == False):
-            raise UserError(_('Edit allowed only in draft state. [%s.%s]' % (
-                request.params.get('model'), request.params.get('method'))))
+        allow_write = invoice_refund or fixable_automatic_asset or group_account_edit
+        if any(
+            state != "draft"
+            for state in set(self.mapped("state"))
+            if allow_write == False
+        ):
+            raise UserError(
+                _(
+                    "Edit allowed only in draft state. [%s.%s]"
+                    % (request.params.get("model"), request.params.get("method"))
+                )
+            )
         else:
             # _logger.info('Written vals: %s' % vals)
             return super().write(vals)
