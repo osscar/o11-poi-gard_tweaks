@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-06 07:24+0000\n"
-"PO-Revision-Date: 2022-12-06 07:24+0000\n"
+"POT-Creation-Date: 2022-12-11 17:49+0000\n"
+"PO-Revision-Date: 2022-12-11 17:49+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -95,6 +95,16 @@ msgstr "Todos los pagos"
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_payment_all_tree
 msgid "Amount"
 msgstr "Importe"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.view_account_invoice_line_filter
+msgid "Analytic Account"
+msgstr "Cuenta analítica"
+
+#. module: gard_x_gard
+#: model:ir.model,name:gard_x_gard.model_account_analytic_line
+msgid "Analytic Line"
+msgstr "Línea Analítica"
 
 #. module: gard_x_gard
 #: model:ir.model.fields,field_description:gard_x_gard.field_account_expenses_rendition_invoice_rendition_move_id
@@ -215,17 +225,17 @@ msgstr "GARD custom for cashier."
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_product_manager
 msgid "GARD custom group for product manager."
-msgstr "GARD custom group for product manager."
+msgstr "Grupo personalizado GARD para administrador de producto."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_invoice_purchase
 msgid "GARD custom group for purchase billing."
-msgstr "GARD custom group for purchase billing."
+msgstr "Grupo personalizado GARD para facturacion compras."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_invoice_sale
 msgid "GARD custom group for sales billing."
-msgstr "GARD custom group for sales billing."
+msgstr "Grupo personalizado GARD para facturacion ventas."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_edit
@@ -235,7 +245,7 @@ msgstr "GARD grupo personalizado para permisos especiales en documentos confirma
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_stock_account
 msgid "GARD custom group for stock accouting."
-msgstr "GARD custom group for stock accouting."
+msgstr "Grupo personalizado GARD para contabilidad inventario."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_stock_logistics
@@ -394,11 +404,6 @@ msgid "Order Date"
 msgstr "Fecha orden"
 
 #. module: gard_x_gard
-#: model:ir.ui.view,arch_db:gard_x_gard.view_account_invoice_line_filter
-msgid "Origin"
-msgstr "Origen"
-
-#. module: gard_x_gard
 #: selection:stock.move,move_type:0
 msgid "Out"
 msgstr "Out"
@@ -483,7 +488,7 @@ msgstr "Solocitado por"
 #. module: gard_x_gard
 #: selection:stock.move,move_type:0
 msgid "Returned Dropship"
-msgstr "Returned Dropship"
+msgstr "Dropship devuelto"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
@@ -499,7 +504,7 @@ msgstr "Lineas de venta"
 #. module: gard_x_gard
 #: model:res.groups,name:gard_x_gard.group_account_invoice_sale
 msgid "Sales Billing"
-msgstr "Sales Billing"
+msgstr "Facturacion ventas"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_sale_order_line
@@ -524,7 +529,7 @@ msgstr "Solicitud de Pago"
 #. module: gard_x_gard
 #: model:res.groups,name:gard_x_gard.group_stock_account
 msgid "Stock Accounting"
-msgstr "Stock Accounting"
+msgstr "Contabilidad inventario"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_stock_move
