@@ -35,9 +35,12 @@ class AccountMove(models.Model):
         invoice_refund = (
             model in "account.invoice.refund" and method in "invoice_refund"
         )
+        action_invoice_open = (
+            model in "account.invoice" and method in "action_invoice_open"
+        )
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
         fixable_automatic_asset = self.fixable_automatic_asset
-        allow_write = invoice_refund or fixable_automatic_asset or group_account_edit
+        allow_write = invoice_refund or action_invoice_open or fixable_automatic_asset or group_account_edit
         if any(
             state != "draft"
             for state in set(self.mapped("state"))
