@@ -41,6 +41,10 @@ class AccountMove(models.Model):
         action_validate_invoice_payment = (
             model in "account.payment" and method in "action_validate_invoice_payment"
         )
+        immediate_transfer_process = (
+            method in "immediate.transfer.process"
+            # model in "stock" and 
+        )
         fixable_automatic_asset = self.fixable_automatic_asset
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
 
@@ -48,6 +52,7 @@ class AccountMove(models.Model):
             invoice_refund
             or action_invoice_open
             or action_validate_invoice_payment
+            or immediate_transfer_process
             or fixable_automatic_asset
             or group_account_edit
         )
