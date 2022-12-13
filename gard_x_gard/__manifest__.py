@@ -61,6 +61,7 @@ This module tweaks the following:
     'data': [
         # 'data/fetchmail.server.csv',
         #'data/res_config_data.xml',
+        'data/gard_x_gard_data.xml',
 
         'report/account_report_views.xml',
         'report/account_report_templates.xml',
