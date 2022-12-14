@@ -1,32 +1,11 @@
 # -*- coding: utf-8 -*-
-import logging
+# import logging
 
 # import datetime
 from odoo import models, fields, api, _
 
-_logger = logging.getLogger(__name__)
+# _logger = logging.getLogger(__name__)
 
-
-class SaleOrder(models.Model):
-    _inherit = "sale.order"
-
-    # inherited to change the field name string
-    # and help text for coherence purposes
-    pricelist_id = fields.Many2one(
-        'product.pricelist', 
-        string='Propagate Pricelist', 
-        required=True, readonly=True, 
-        states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, 
-        help="Propagate pricelist on current sales order.")
-    
-    # propagate route over sale order lines
-    @api.onchange("pricelist_id")
-    @api.multi
-    def _propagate_pricelist_id(self):
-        for line in self.order_line:
-            _logger.debug('_pic call self >>>: %s', line)
-            line.pricelist_id = self.pricelist_id
-            line._onchange_pricelist_id()
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"

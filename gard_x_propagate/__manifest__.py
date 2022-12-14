@@ -29,19 +29,24 @@ GARD x_Tweaks - Propagate Wizard
 ==========================
 This module tweaks the following:
 
-* adds propagation wizard to add products to order lines 
-* adds button to open product propagation wizard in:
-  - purchase order
-  - sale order
+* adds propagation wizard to add products to new order lines 
+    * adds button to open product propagation wizard in:
+        - purchase order
+        - sale order
+* adds propagation button to change routes on order lines:
+    - sale order
+* adds propagation button to change pricelist on order lines:
+    - sale order
 
 """,
     'images': [],
     'depends': [
-        # 'account',
-        # 'analytic',
-        # 'gard_x_analytic',
+        'account',
+        'analytic',
+        'gard_product_price',
+        'gard_x_analytic',
         'gard_x_gard',
-        'gard_x_purchase',
+        'poi_x_gard',
         'purchase',
         # 'purchase_stock_analytic',
         'sale',
@@ -50,6 +55,7 @@ This module tweaks the following:
     'category': 'Other',
     'data': [
         'wizard/product_propagate_view.xml',
+        'wizard/purchase_order_account_analytic_create_view.xml',
 
         'views/purchase_view.xml',
         'views/sale_view.xml',

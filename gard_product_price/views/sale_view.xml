@@ -10,12 +10,7 @@
         <field name="arch" type="xml">
 
             <!-- move and add pricelist propagator -->
-            <xpath expr="//field[@name='pricelist_id']" position="replace"></xpath>
-            <xpath expr="//field[@name='order_line']" position="before">
-                <group name="line_options">
-                    <field name="pricelist_id" attrs="{'invisible': [('state', '!=', 'draft')]}" options="{'no_create_edit': True}"/>
-                </group>
-            </xpath>
+            
             <xpath expr="/form//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
                 <!-- so line pricelist_id -->
                 <field name="pricelist_id"/>
