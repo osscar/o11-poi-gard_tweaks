@@ -47,6 +47,10 @@ class AccountInvoice(models.Model):
             # model in "account.invoice" and 
             method in "siat_recepcionPaqueteFactura"
         )
+        siat_validacionRecepcionPaqueteFactura = (
+            # model in "account.invoice" and 
+            method in "siat_validacionRecepcionPaqueteFactura"
+        )
         invoice_print = model in "account.invoice" and method in "invoice_print"
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
         allow_write = (
@@ -59,6 +63,7 @@ class AccountInvoice(models.Model):
             or send_mail_action
             or siat_recepcionFactura
             or siat_recepcionPaqueteFactura
+            or siat_validacionRecepcionPaqueteFactura
             or invoice_print
         )
         # _logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
