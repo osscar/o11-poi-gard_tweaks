@@ -43,7 +43,7 @@ class AccountInvoice(models.Model):
             model in "account.invoice" and method in "siat_recepcionFactura"
         )
         siat_recepcionPaqueteFactura = (
-            model in "siat.op.paquete" and method in "siat_recepcionPaqueteFactura"
+            model in "account.invoice" and method in "siat_recepcionPaqueteFactura"
         )
         invoice_print = model in "account.invoice" and method in "invoice_print"
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
