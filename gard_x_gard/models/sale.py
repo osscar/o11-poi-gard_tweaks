@@ -21,10 +21,6 @@ class SaleOrder(models.Model):
                               change_default=False, 
                               default=False, 
                               track_visibility='onchange')
-    route_id = fields.Many2one('stock.location.route', 
-                               string='Propagate Route', 
-                               domain=[('sale_selectable', '=', True)],
-                               ondelete='restrict')
 
     # propagate route over sale order lines
     @api.onchange('route_id')

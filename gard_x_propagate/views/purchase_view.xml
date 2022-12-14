@@ -13,11 +13,26 @@
 
                 <!-- add fields -->
                 <xpath expr="/form//field[@name='order_line']" position="before">
-                    <separator/>
-                    <button name="%(action_view_product_propagate)d" type="action"
-                        attrs="{'invisible':['|',('state', '!=', 'draft')]}"
-                        class="btn-primary" string="Select Products"/>
-                    <separator/>
+                    <group name="propagate" col="3">
+                        <group name="propagate_product">
+                            <button name="%(action_view_product_propagate)d" type="action"
+                            attrs="{'invisible':['|',('state', '!=', 'draft')]}"
+                            class="btn-primary" string="Select Products"/>
+                        </group>
+                        <group name="propagate_analytic">
+                            <button name="%(action_view_purchase_order_account_analytic_create)d" type="action"
+                            attrs="{'invisible':['|',('state', '!=', 'draft'),('account_analytic_id', '!=', False)]}"
+                            class="btn-primary" string="Create Analytic Account"/>
+                            <separator/>
+                            <button name="button_propagate_account_analytic_account" type='object'
+                                attrs="{'invisible':['|',('state', '!=', 'draft'),('account_analytic_id', '=', False)]}"
+                                class="btn-primary" string="Propagate Analytic"/>    
+                            <field name="account_analytic_id" attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('state', '!=', 'draft')]}"/>
+                        </group>
+                    </group>
+                    <button name="button_order_line_unlink" type="object"
+                        attrs="{'invisible':['|',('state', '!=', 'draft'),('order_line', '=', [])]}"
+                        class="btn-default" string="Clear Lines"/>
                 </xpath>
                 
             </field>
