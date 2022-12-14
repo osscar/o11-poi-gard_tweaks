@@ -38,6 +38,9 @@ class AccountMove(models.Model):
         action_invoice_open = (
             model in "account.invoice" and method in "action_invoice_open"
         )
+        assign_outstanding_credit = (
+            model in "account.invoice" and method in "assign_outstanding_credit"
+        )
         action_validate_invoice_payment = (
             model in "account.payment" and method in "action_validate_invoice_payment"
         )
@@ -58,6 +61,7 @@ class AccountMove(models.Model):
             invoice_refund
             or action_invoice_open
             or action_validate_invoice_payment
+            or assign_outstanding_credit
             or immediate_transfer_process
             or payment_post
             or process_reconciliations
