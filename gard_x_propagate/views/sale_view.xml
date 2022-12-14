@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <!-- Search Views -->
+
+        <!-- Views -->
+        <record model="ir.ui.view" id="view_order_form">
+            <field name="name">sale.order.form.inherit.gard_x_purchase</field>
+            <field name="model">sale.order</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+
+                <!-- add fields -->
+                <xpath expr="/form//field[@name='order_line']" position="before">
+                    <separator/>
+                    <button name="%(action_view_product_propagate)d" type="action"
+                        attrs="{'invisible':['|',('state', '!=', 'draft')]}"
+                        class="btn-primary" string="Select Products"/>
+                    <separator/>
+                </xpath>
+                
+            </field>
+        </record>
+
+        <!-- Actions -->
+
+        <!-- Menus -->
+
+</odoo>
