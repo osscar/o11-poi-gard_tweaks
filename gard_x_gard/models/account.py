@@ -38,12 +38,21 @@ class AccountMove(models.Model):
         action_invoice_open = (
             model in "account.invoice" and method in "action_invoice_open"
         )
+        assign_outstanding_credit = (
+            model in "account.invoice" and method in "assign_outstanding_credit"
+        )
         action_validate_invoice_payment = (
             model in "account.payment" and method in "action_validate_invoice_payment"
         )
         immediate_transfer_process = (
             method in "immediate.transfer.process"
             # model in "stock" and 
+        )
+        payment_post = (
+            model in "account.payment" and method in "post"
+        )
+        process_reconciliations = (
+            model in "account.move.line" and method in "process_reconciliations"
         )
         fixable_automatic_asset = self.fixable_automatic_asset
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
@@ -52,7 +61,10 @@ class AccountMove(models.Model):
             invoice_refund
             or action_invoice_open
             or action_validate_invoice_payment
+            or assign_outstanding_credit
             or immediate_transfer_process
+            or payment_post
+            or process_reconciliations
             or fixable_automatic_asset
             or group_account_edit
         )

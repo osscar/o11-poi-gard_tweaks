@@ -35,7 +35,9 @@ class AccountInvoice(models.Model):
             "assign_outstanding_credit",
             "remove_move_reconcile",
         )
-        payment_post = model in "account.payment" and method in "post"
+        payment_post = (
+            model in "account.payment" and method in "post"
+        )
         send_mail_action = (
             model in "mail.compose.message" and method in "send_mail_action"
         )
