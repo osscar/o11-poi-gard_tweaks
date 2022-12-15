@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-14 19:54+0000\n"
-"PO-Revision-Date: 2022-12-14 19:54+0000\n"
+"POT-Creation-Date: 2022-12-15 14:23+0000\n"
+"PO-Revision-Date: 2022-12-15 14:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -48,6 +48,7 @@ msgstr "Cancelar"
 #: model:ir.ui.view,arch_db:gard_x_propagate.view_order_form
 #: model:ir.ui.view,arch_db:gard_x_propagate.view_product_propagate
 #: model:ir.ui.view,arch_db:gard_x_propagate.view_purchase_order_account_analytic_create
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_stock_landed_cost_form
 msgid "Clear Lines"
 msgstr "Eliminar lineas"
 
@@ -98,6 +99,11 @@ msgstr "ID asitente de creacion"
 #: model:ir.model,name:gard_x_propagate.model_purchase_order_account_analytic_create
 msgid "Create analytic accounts."
 msgstr "Crear cuentas analiticas."
+
+#. module: gard_x_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_stock_landed_cost_form
+msgid "Create new cost lines from selected analytic account."
+msgstr "Crear nuevas lineas de costo en base a la cuenta analitica seleccionada."
 
 #. module: gard_x_propagate
 #: model:ir.model,name:gard_x_propagate.model_product_propagate
@@ -234,6 +240,11 @@ msgid "Propagate Analytic Account"
 msgstr "Propagar cuenta analitica"
 
 #. module: gard_x_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_stock_landed_cost_form
+msgid "Propagate Analytics"
+msgstr "Propagar analiticas"
+
+#. module: gard_x_propagate
 #: model:ir.ui.view,arch_db:gard_x_propagate.view_order_form
 msgid "Propagate Pricelist"
 msgstr "Propagar lista de precio"
@@ -283,6 +294,16 @@ msgid "Select Products"
 msgstr "Seleccionar productos"
 
 #. module: gard_x_propagate
+#: model:ir.model,name:gard_x_propagate.model_stock_landed_cost
+msgid "Stock Landed Cost"
+msgstr "Coste en destino"
+
+#. module: gard_x_propagate
+#: model:ir.model,name:gard_x_propagate.model_stock_landed_cost_lines
+msgid "Stock Landed Cost Lines"
+msgstr "Líneas de coste en destino"
+
+#. module: gard_x_propagate
 #: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_price_unit
 msgid "Unit Price"
 msgstr "Precio unitario"
@@ -290,7 +311,7 @@ msgstr "Precio unitario"
 #. module: gard_x_propagate
 #: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_wizard_id
 msgid "Wizard ID"
-msgstr "ID asistente"
+msgstr "Wizard ID"
 
 #. module: gard_x_propagate
 #: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_ids
