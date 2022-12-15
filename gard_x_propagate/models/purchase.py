@@ -11,10 +11,6 @@ from odoo import api, fields, models, _
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
-    account_analytic_id = fields.Many2one(
-        "account.analytic.account", string="Propagate Analytic Account"
-    )
-
     @api.one
     def button_propagate_account_analytic_account(self):
         account_analytic_id = self.account_analytic_id
