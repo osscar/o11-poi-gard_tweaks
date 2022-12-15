@@ -35,28 +35,26 @@ class AccountInvoice(models.Model):
             "assign_outstanding_credit",
             "remove_move_reconcile",
         )
-        payment_post = (
-            model in "account.payment" and method in "post"
-        )
+        payment_post = model in "account.payment" and method in "post"
         send_mail_action = (
             model in "mail.compose.message" and method in "send_mail_action"
         )
         siat_recepcionFactura = (
-            # model in "account.invoice" and 
-            method in "siat_recepcionFactura"
+            # model in "account.invoice" and
+            method
+            in "siat_recepcionFactura"
         )
         siat_recepcionPaqueteFactura = (
-            # model in "account.invoice" and 
-            method in "siat_recepcionPaqueteFactura"
+            # model in "account.invoice" and
+            method
+            in "siat_recepcionPaqueteFactura"
         )
         siat_validacionRecepcionPaqueteFactura = (
-            # model in "account.invoice" and 
-            method in "siat_validacionRecepcionPaqueteFactura"
+            # model in "account.invoice" and
+            method
+            in "siat_validacionRecepcionPaqueteFactura"
         )
-        action_anular = (
-            model in "siat.wiz.anulacion" and 
-            method in "action_anular"
-        )
+        action_anular = model in "siat.wiz.anulacion" and method in "action_anular"
         invoice_print = model in "account.invoice" and method in "invoice_print"
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
         allow_write = (
@@ -92,28 +90,42 @@ class AccountInvoice(models.Model):
 
     @api.model
     def create(self, vals):
+        # {'type':'out_invoice', 'journal_type': 'sale'}
+        # [('type','in',('in_invoice', 'in_refund'))
         # _logger.debug('vals >>>>: %s', vals)
-        if 'partner_invoice_id' in vals:
-            # _logger.debug('vals[pinvid] >>>>: %s', vals['partner_invoice_id'])
-            partner_invoice_id = self.env['res.partner'].browse(vals['partner_invoice_id'])
+        # if 'partner_invoice_id' in vals :
+        if "partner_invoice_id" in vals and vals["type"] in (
+            "out_invoice",
+            "out_refund",
+        ):
+            # _logger.debug("vals[pinvid] >>>>: %s", vals["partner_invoice_id"])
+            partner_invoice_id = self.env["res.partner"].browse(
+                vals["partner_invoice_id"]
+            )
             if partner_invoice_id.nit != 0:
-                vals['nit'] = partner_invoice_id.nit
+                vals["nit"] = partner_invoice_id.nit
             elif partner_invoice_id.ci != 0:
-                vals['nit'] = partner_invoice_id.ci
-                vals['ci_dept'] = partner_invoice_id.ci_dept
+                vals["nit"] = partner_invoice_id.ci
+                vals["ci_dept"] = partner_invoice_id.ci_dept
             else:
-                vals['nit'] = 0
+                vals["nit"] = 0
 
-            vals['razon'] = (
+            vals["razon"] = (
                 partner_invoice_id.razon_invoice
                 or partner_invoice_id.razon
                 or partner_invoice_id.name
                 or ""
             )
-            # _logger.debug('vals_pinvid >>>>: %s', vals)
-
+        if "partner_id" in vals and vals["type"] in ("in_invoice", "in_refund"):
+            partner_id = self.env["res.partner"].browse(vals["partner_id"])
+            if partner_id.nit != 0:
+                # _logger.debug("vals_pid nit 0 >>>>: %s", vals["nit"])
+                vals["nit"] = partner_id.nit
+                vals["razon"] = partner_id.razon or ""
+            # _logger.debug("vals_pid nit 0 >>>>: %s", vals["nit"])
+        # _logger.debug("vals_inv >>>>: %s", vals)
         ret = super(AccountInvoice, self).create(vals)
-        return ret    
+        return ret
 
     @api.multi
     @api.returns("self")
@@ -129,11 +141,8 @@ class AccountInvoice(models.Model):
             )
             # _logger.debug("invoice.reference >>>>: %s", invoice.reference)
             if inv_rel_ref_ids:
-                reference = (
-                    invoice.reference or ""
-                    + " "
-                    + "#"
-                    + str(len([inv for inv in inv_rel_ref_ids]))
+                reference = invoice.reference or "" + " " + "#" + str(
+                    len([inv for inv in inv_rel_ref_ids])
                 )
                 # _logger.debug("reference >>>>: %s", reference)
                 invoice["reference"] = reference
@@ -192,9 +201,21 @@ class AccountInvoiceLine(models.Model):
             return super().write(vals)
             # _logger.info('Written vals: %s', vals)
 
-    state = fields.Selection(string="Invoice State", store=True, related="invoice_id.state")
-    user_id = fields.Many2one(string='Invoice Salesperson', store=True, related="invoice_id.user_id")
-    date_invoice = fields.Date(string='Invoice Date', store=True, related="invoice_id.date_invoice")
-    date_due = fields.Date(string='Invoice Date Due', store=True, related="invoice_id.date_due")
-    reference = fields.Char(string='Invoice Reference', store=True, related="invoice_id.reference")
-    invoice_type = fields.Selection(related='invoice_id.type', store=True, readonly=True)
+    state = fields.Selection(
+        string="Invoice State", store=True, related="invoice_id.state"
+    )
+    user_id = fields.Many2one(
+        string="Invoice Salesperson", store=True, related="invoice_id.user_id"
+    )
+    date_invoice = fields.Date(
+        string="Invoice Date", store=True, related="invoice_id.date_invoice"
+    )
+    date_due = fields.Date(
+        string="Invoice Date Due", store=True, related="invoice_id.date_due"
+    )
+    reference = fields.Char(
+        string="Invoice Reference", store=True, related="invoice_id.reference"
+    )
+    invoice_type = fields.Selection(
+        related="invoice_id.type", store=True, readonly=True
+    )
