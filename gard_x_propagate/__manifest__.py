@@ -37,6 +37,8 @@ This module tweaks the following:
     - sale order
 * adds propagation button to change pricelist on order lines:
     - sale order
+* adds propagation button to change pricelist on landed cost lines:
+    - landed cost form
 
 """,
     'images': [],
@@ -59,6 +61,7 @@ This module tweaks the following:
 
         'views/purchase_view.xml',
         'views/sale_view.xml',
+        'views/stock_landed_cost_view.xml',
     ],
     'demo': [],
     'license': 'AGPL-3',

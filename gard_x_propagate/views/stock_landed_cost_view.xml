@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <!-- Search Views -->
+
+        <!-- Views -->
+        <record model="ir.ui.view" id="view_stock_landed_cost_form">
+            <field name="name">stock.landed.cost.form.inherit.gard_x_propagate</field>
+            <field name="model">stock.landed.cost</field>
+            <field name="mode">extension</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>
+            <field name="arch" type="xml">
+
+                <!-- add fields -->
+                <xpath expr="/form//field[@name='cost_lines']" position="before">
+                    <group name="propagate" col="3">
+                        <group name="propagate_analytic">
+                            <button name="button_cost_line_create" type='object'
+                                attrs="{'invisible':['|',('state', '!=', 'draft'),('account_analytic_id', '=', False)]}"
+                                class="btn-primary" string="Propagate Analytics" help="Create new cost lines from selected analytic account."/>
+                            <field name="account_analytic_id" attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('state', '!=', 'draft')]}"/>
+                        </group>
+                    </group>
+                    <button name="button_cost_line_unlink" type="object"
+                        attrs="{'invisible':['|',('state', '!=', 'draft'),('cost_lines', '=', [])]}"
+                        class="btn-default" string="Clear Lines"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Actions -->
+
+        <!-- Menus -->
+
+</odoo>

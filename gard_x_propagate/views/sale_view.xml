@@ -4,7 +4,7 @@
 
         <!-- Views -->
         <record model="ir.ui.view" id="view_order_form">
-            <field name="name">sale.order.form.inherit.gard_x_purchase</field>
+            <field name="name">sale.order.form.inherit.gard_x_propagate</field>
             <field name="model">sale.order</field>
             <field name="mode">extension</field>
             <field name="priority">10</field>
