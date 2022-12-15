@@ -43,6 +43,7 @@ This module tweaks the following:
         #'crm_livechat',
         'poi_x_gard',
         'poi_bol_base',
+        'poi_bol_siat',
         'poi_kardex_valorado',
         'poi_stock_account_consolidate',
         'sale',
