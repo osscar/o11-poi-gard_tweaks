@@ -78,6 +78,7 @@ This module tweaks the following:
         #'views/res_company_view.xml',
         'views/sale_view.xml',
         'views/stock_view.xml',
+        'views/stock_landed_cost_view.xml',
         #'views/website_templates.xml',
     ],
     'demo': [],

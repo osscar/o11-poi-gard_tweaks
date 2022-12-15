@@ -1,32 +1,27 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import logging
+# import logging
 
 from odoo import api, fields, models, _
 
-_logger = logging.getLogger(__name__)
+# _logger = logging.getLogger(__name__)
 
 
 class LandedCost(models.Model):
     _inherit = "stock.landed.cost"
 
-    account_analytic_id = fields.Many2one(
-        "account.analytic.account", string="Propagate Analytic Lines"
-    )
-
     @api.one
     def button_cost_line_create(self):
         anl_lines = self.account_analytic_id.line_ids
         for line in anl_lines:
-            _logger.debug('bclc vals >>>: %s', line)
+            # _logger.debug('bclc vals >>>: %s', line)
             if line.product_id:
-                _logger.debug('bclc if product_id vals >>>: %s', line.product_id)
+                # _logger.debug('bclc if product_id vals >>>: %s', line.product_id)
                 product_id = line.product_id
             else:
-                _logger.debug('bclc else product_id vals >>>: %s', line.product_id)
+                # _logger.debug('bclc else product_id vals >>>: %s', line.product_id)
                 product_id = self.env.ref('gard_x_stock_landed_costs.product_slc_default')
-                # vals['product_id'] = self.env["product.product"].search([('id', '=', "product_category_init_1")]).id
             vals = {
                 'cost_id': self.id,
                 'account_analytic_line_id': line.id,
@@ -34,7 +29,7 @@ class LandedCost(models.Model):
                 'split_method': product_id.split_method,
                 'price_unit': line.amount * -1,
             }
-            _logger.debug('bclc vals >>>: %s', vals)
+            # _logger.debug('bclc vals >>>: %s', vals)
 
             new_lines = self.cost_lines.create(vals)
             new_lines.onchange_account_analytic_line_id()
@@ -49,14 +44,11 @@ class LandedCost(models.Model):
 class LandedCostLine(models.Model):
     _inherit = "stock.landed.cost.lines"
 
-    account_analytic_line_id = fields.Many2one(
-        "account.analytic.line", string="Analytic Line"
-    )
-
     @api.onchange("product_id")
     def onchange_product_id(self):
         res = super(LandedCostLine, self).onchange_product_id()
         if self.account_analytic_line_id:
+            # convert currency if needed
             if (
                 self.cost_id.account_journal_id.currency_id
                 != self.account_analytic_line_id.currency_id
@@ -73,11 +65,13 @@ class LandedCostLine(models.Model):
     @api.onchange("account_analytic_line_id")
     def onchange_account_analytic_line_id(self):
         if self.product_id:
-            _logger.debug('bclc if product_id vals >>>: %s', self.product_id)
+            # _logger.debug('bclc if product_id vals >>>: %s', self.product_id)
             product_id = self.product_id
+        # use default product if analytic line doe not have aproduct_id assigned
         else:
-            _logger.debug('bclc else product_id vals >>>: %s', self.product_id)
+            # _logger.debug('bclc else product_id vals >>>: %s', self.product_id)
             product_id = self.env.ref('gard_x_stock_landed_costs.product_slc_default')
+        # write values to cost line fields
         self.product_id = product_id
         self.name = (
             str(self.account_analytic_line_id.ref)
@@ -87,6 +81,7 @@ class LandedCostLine(models.Model):
         self.account_id = self.account_analytic_line_id.general_account_id
         self.analytic_account_id = self.account_analytic_line_id.account_id
         self.analytic_tag_ids = self.account_analytic_line_id.tag_ids
+        # convert currency if needed
         if (
             self.cost_id.account_journal_id.currency_id
             != self.account_analytic_line_id.currency_id
