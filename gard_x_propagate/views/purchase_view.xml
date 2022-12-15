@@ -26,7 +26,7 @@
                             <separator/>
                             <button name="button_propagate_account_analytic_account" type='object'
                                 attrs="{'invisible':['|',('state', '!=', 'draft'),('account_analytic_id', '=', False)]}"
-                                class="btn-primary" string="Propagate Analytic"/>    
+                                class="btn-primary" string="Propagate Analytics"/>    
                             <field name="account_analytic_id" attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('state', '!=', 'draft')]}"/>
                         </group>
                     </group>
