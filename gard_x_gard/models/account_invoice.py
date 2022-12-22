@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-
-# import logging
+import logging
 
 from odoo import api, fields, models, _
 
 from odoo.exceptions import UserError
 from odoo.http import request
 
-# _logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class AccountInvoice(models.Model):
@@ -36,6 +35,7 @@ class AccountInvoice(models.Model):
             "remove_move_reconcile",
         )
         payment_post = model in "account.payment" and method in "post"
+        payment_cancel = model in "account.payment" and method in "cancel"
         send_mail_action = (
             model in "mail.compose.message" and method in "send_mail_action"
         )
@@ -63,6 +63,7 @@ class AccountInvoice(models.Model):
             or invoice_refund
             or move_reconcile
             or payment_post
+            or payment_cancel
             or group_account_edit
             or send_mail_action
             or siat_recepcionFactura
@@ -80,8 +81,8 @@ class AccountInvoice(models.Model):
         ):
             raise UserError(
                 _(
-                    "Edit allowed only in draft state. [%s.%s]"
-                    % (request.params.get("model"), request.params.get("method"))
+                    "(%s) Edit allowed only in draft state. [%s.%s]"
+                    % (self, request.params.get("model"), request.params.get("method"))
                 )
             )
         else:
@@ -90,38 +91,43 @@ class AccountInvoice(models.Model):
 
     @api.model
     def create(self, vals):
-        # {'type':'out_invoice', 'journal_type': 'sale'}
-        # [('type','in',('in_invoice', 'in_refund'))
-        # _logger.debug('vals >>>>: %s', vals)
-        # if 'partner_invoice_id' in vals :
-        if "partner_invoice_id" in vals and vals["type"] in (
-            "out_invoice",
-            "out_refund",
-        ):
-            # _logger.debug("vals[pinvid] >>>>: %s", vals["partner_invoice_id"])
-            partner_invoice_id = self.env["res.partner"].browse(
-                vals["partner_invoice_id"]
-            )
-            if partner_invoice_id.nit != 0:
-                vals["nit"] = partner_invoice_id.nit
-            elif partner_invoice_id.ci != 0:
-                vals["nit"] = partner_invoice_id.ci
-                vals["ci_dept"] = partner_invoice_id.ci_dept
-            else:
-                vals["nit"] = 0
+        _logger.debug('vals >>>>: %s', vals)
+        if "type" in vals:
+            if "partner_invoice_id" in vals and vals["type"] in (
+                "out_invoice",
+                "out_refund",
+            ):
+                # _logger.debug("vals[pinvid] >>>>: %s", vals["partner_invoice_id"])
+                partner_invoice_id = self.env["res.partner"].browse(
+                    vals["partner_invoice_id"]
+                )
+                if partner_invoice_id.nit != 0:
+                    vals["nit"] = partner_invoice_id.nit
+                elif partner_invoice_id.ci != 0:
+                    vals["nit"] = partner_invoice_id.ci
+                    vals["ci_dept"] = partner_invoice_id.ci_dept
+                else:
+                    vals["nit"] = 0
 
-            vals["razon"] = (
-                partner_invoice_id.razon_invoice
-                or partner_invoice_id.razon
-                or partner_invoice_id.name
-                or ""
-            )
-        if "partner_id" in vals and vals["type"] in ("in_invoice", "in_refund"):
-            partner_id = self.env["res.partner"].browse(vals["partner_id"])
-            if partner_id.nit != 0:
-                # _logger.debug("vals_pid nit 0 >>>>: %s", vals["nit"])
-                vals["nit"] = partner_id.nit
-                vals["razon"] = partner_id.razon or ""
+                vals["razon"] = (
+                    partner_invoice_id.razon_invoice
+                    or partner_invoice_id.razon
+                    or partner_invoice_id.name
+                    or ""
+                )
+            elif "partner_id" in vals and vals["type"] in ("in_invoice", "in_refund"):
+                partner_id = self.env["res.partner"].browse(vals["partner_id"])
+                if partner_id.nit != 0:
+                    # _logger.debug("vals_pid nit 0 >>>>: %s", vals["nit"])
+                    vals["nit"] = partner_id.nit
+                    vals["razon"] = partner_id.razon or ""
+        else:
+            if "partner_id" in vals:
+                partner_id = self.env["res.partner"].browse(vals["partner_id"])
+                if partner_id.nit != 0:
+                    # _logger.debug("vals_pid nit 0 >>>>: %s", vals["nit"])
+                    vals["nit"] = partner_id.nit
+                    vals["razon"] = partner_id.razon or ""
             # _logger.debug("vals_pid nit 0 >>>>: %s", vals["nit"])
         # _logger.debug("vals_inv >>>>: %s", vals)
         ret = super(AccountInvoice, self).create(vals)
