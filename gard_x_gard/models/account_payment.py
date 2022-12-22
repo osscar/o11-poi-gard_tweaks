@@ -61,8 +61,8 @@ class AccountPayment(models.Model):
         ):
             raise UserError(
                 _(
-                    "Edit allowed only in draft state. [%s.%s]"
-                    % (request.params.get("model"), request.params.get("method"))
+                    "(%s) Edit allowed only in draft state. [%s.%s]"
+                    % (self, request.params.get("model"), request.params.get("method"))
                 )
             )
         else:

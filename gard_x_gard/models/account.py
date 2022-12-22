@@ -51,6 +51,9 @@ class AccountMove(models.Model):
         payment_post = (
             model in "account.payment" and method in "post"
         )
+        payment_cancel = (
+            model in "account.payment" and method in "cancel"
+        )
         process_reconciliations = (
             model in "account.move.line" and method in "process_reconciliations"
         )
@@ -64,6 +67,7 @@ class AccountMove(models.Model):
             or assign_outstanding_credit
             or immediate_transfer_process
             or payment_post
+            or payment_cancel
             or process_reconciliations
             or fixable_automatic_asset
             or group_account_edit
@@ -75,8 +79,8 @@ class AccountMove(models.Model):
         ):
             raise UserError(
                 _(
-                    "Edit allowed only in draft state. [%s.%s]"
-                    % (request.params.get("model"), request.params.get("method"))
+                    "(%s) Edit allowed only in draft state. [%s.%s]"
+                    % (self, request.params.get("model"), request.params.get("method"))
                 )
             )
         else:
