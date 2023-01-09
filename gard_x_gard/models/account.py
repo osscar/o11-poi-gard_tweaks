@@ -29,33 +29,36 @@ class AccountMove(models.Model):
 
     @api.multi
     def write(self, vals):
-        model = request.params.get("model")
-        method = request.params.get("method")
+        req_model = request.params.get("model")
+        req_method = request.params.get("method")
         # account.invoice.refund.invoice_refund
         invoice_refund = (
-            model in "account.invoice.refund" and method in "invoice_refund"
+            req_model == "account.invoice.refund" and req_method == "invoice_refund"
         )
         action_invoice_open = (
-            model in "account.invoice" and method in "action_invoice_open"
+            req_model == "account.invoice" and req_method == "action_invoice_open"
         )
         assign_outstanding_credit = (
-            model in "account.invoice" and method in "assign_outstanding_credit"
+            req_model == "account.invoice" and req_method == "assign_outstanding_credit"
         )
         action_validate_invoice_payment = (
-            model in "account.payment" and method in "action_validate_invoice_payment"
+            req_model == "account.payment" and req_method == "action_validate_invoice_payment"
         )
         immediate_transfer_process = (
-            method in "immediate.transfer.process"
-            # model in "stock" and 
+            req_method == "immediate.transfer.process"
+            # req_model == "stock" and 
         )
         payment_post = (
-            model in "account.payment" and method in "post"
+            req_model == "account.payment" and req_method == "post"
         )
         payment_cancel = (
-            model in "account.payment" and method in "cancel"
+            req_model == "account.payment" and req_method == "cancel"
         )
         process_reconciliations = (
-            model in "account.move.line" and method in "process_reconciliations"
+            req_model == "account.move.line" and req_method == "process_reconciliations"
+        )
+        action_approve = req_model == ("account.expenses.rendition") and req_method == (
+            "action_approve"
         )
         fixable_automatic_asset = self.fixable_automatic_asset
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
@@ -70,6 +73,7 @@ class AccountMove(models.Model):
             or payment_cancel
             or process_reconciliations
             or fixable_automatic_asset
+            or action_approve
             or group_account_edit
         )
         if any(
@@ -80,7 +84,7 @@ class AccountMove(models.Model):
             raise UserError(
                 _(
                     "(%s) Edit allowed only in draft state. [%s.%s]"
-                    % (self, request.params.get("model"), request.params.get("method"))
+                    % (self, request.params.get("req_model"), request.params.get("req_method"))
                 )
             )
         else:
