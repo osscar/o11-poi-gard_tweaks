@@ -45,6 +45,7 @@ This module tweaks the following:
         'poi_bol_base',
         'poi_bol_siat',
         'poi_kardex_valorado',
+        'poi_payment_request',
         'poi_stock_account_consolidate',
         'sale',
         'stock',
