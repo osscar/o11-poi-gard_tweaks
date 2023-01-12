@@ -60,6 +60,10 @@ class AccountMove(models.Model):
         action_approve = req_model == ("account.expenses.rendition") and req_method == (
             "action_approve"
         )
+        process = req_model == ("stock.immediate.transfer") and req_method == (
+            "process"
+        )
+        # stock.immediate.transfer.process
         fixable_automatic_asset = self.fixable_automatic_asset
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
 
@@ -74,6 +78,7 @@ class AccountMove(models.Model):
             or process_reconciliations
             or fixable_automatic_asset
             or action_approve
+            or process
             or group_account_edit
         )
         if any(
@@ -84,7 +89,7 @@ class AccountMove(models.Model):
             raise UserError(
                 _(
                     "(%s) Edit allowed only in draft state. [%s.%s]"
-                    % (self, request.params.get("req_model"), request.params.get("req_method"))
+                    % (self, request.params.get("model"), request.params.get("method"))
                 )
             )
         else:
