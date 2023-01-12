@@ -63,11 +63,10 @@ class AccountMove(models.Model):
         process = req_model == ("stock.immediate.transfer") and req_method == (
             "process"
         )
-        # stock.immediate.transfer.process
         fixable_automatic_asset = self.fixable_automatic_asset
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
 
-        allow_write = (
+        allow_methods = (
             invoice_refund
             or action_invoice_open
             or action_validate_invoice_payment
@@ -79,8 +78,11 @@ class AccountMove(models.Model):
             or fixable_automatic_asset
             or action_approve
             or process
-            or group_account_edit
         )
+        allow_groups = (
+            group_account_edit
+        )
+        alloow_write = allow_methods or (allow_methods and allow_groups)
         if any(
             state != "draft"
             for state in set(self.mapped("state"))
