@@ -21,7 +21,7 @@ class LandedCost(models.Model):
                 product_id = line.product_id
             else:
                 # _logger.debug('bclc else product_id vals >>>: %s', line.product_id)
-                product_id = self.env.ref('gard_x_stock_landed_costs.product_slc_default')
+                product_id = self.env.ref('gard_x_propagate.product_slc_default')
             vals = {
                 'cost_id': self.id,
                 'account_analytic_line_id': line.id,
@@ -70,7 +70,7 @@ class LandedCostLine(models.Model):
         # use default product if analytic line doe not have aproduct_id assigned
         else:
             # _logger.debug('bclc else product_id vals >>>: %s', self.product_id)
-            product_id = self.env.ref('gard_x_stock_landed_costs.product_slc_default')
+            product_id = self.env.ref('gard_x_propagate.product_slc_default')
         # write values to cost line fields
         self.product_id = product_id
         self.name = (
