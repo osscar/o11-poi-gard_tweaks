@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import logging
+# import logging
 
 from odoo import api, fields, models, _
 from odoo.exceptions import RedirectWarning, UserError, ValidationError
@@ -9,7 +9,7 @@ from odoo.http import request
 
 import odoo.addons.decimal_precision as dp
 
-_logger = logging.getLogger(__name__)
+# _logger = logging.getLogger(__name__)
 
 
 class AccountJournal(models.Model):
@@ -82,7 +82,7 @@ class AccountMove(models.Model):
         allow_groups = (
             group_account_edit
         )
-        alloow_write = allow_methods or (allow_methods and allow_groups)
+        allow_write = allow_methods or (allow_methods and allow_groups)
         if any(
             state != "draft"
             for state in set(self.mapped("state"))
