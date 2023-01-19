@@ -57,8 +57,11 @@ class AccountMove(models.Model):
         process_reconciliations = (
             req_model == "account.move.line" and req_method == "process_reconciliations"
         )
-        action_approve = req_model == ("account.expenses.rendition") and req_method == (
+        rend_action_approve = req_model == ("account.expenses.rendition") and req_method == (
             "action_approve"
+        )
+        rend_action_cancel = req_model == ("account.expenses.rendition") and req_method == (
+            "action_cancel"
         )
         process = req_model == ("stock.immediate.transfer") and req_method == (
             "process"
@@ -76,7 +79,8 @@ class AccountMove(models.Model):
             or payment_cancel
             or process_reconciliations
             or fixable_automatic_asset
-            or action_approve
+            or rend_action_approve
+            or rend_action_cancel
             or process
         )
         allow_groups = (
