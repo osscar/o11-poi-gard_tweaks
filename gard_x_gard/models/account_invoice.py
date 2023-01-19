@@ -56,7 +56,7 @@ class AccountInvoice(models.Model):
         )
         action_anular = model in "siat.wiz.anulacion" and method in "action_anular"
         invoice_print = model in "account.invoice" and method in "invoice_print"
-        rendition_create = (
+        rendition_methods = (
             model in "account.expenses.rendition" and
             method
             in ("create","write")
@@ -76,7 +76,7 @@ class AccountInvoice(models.Model):
             or siat_validacionRecepcionPaqueteFactura
             or action_anular
             or invoice_print
-            or rendition_create
+            or rendition_methods
         )
         # _logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
         # _logger.debug('state >>>>: %s', self.mapped('state'))
