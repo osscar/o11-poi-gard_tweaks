@@ -18,37 +18,45 @@ class AccountPayment(models.Model):
     # account_payment.write method customization to implement write restrictions
     @api.multi
     def write(self, vals):
-        process_reconciliations = request.params.get("method") in (
+        req_model = request.params.get("model")
+        req_method = request.params.get("method")
+
+        process_reconciliations = req_method in (
             "process_reconciliations"
         )
-        move_reconcile = request.params.get("method") in (
+        move_reconcile = req_method in (
             "assign_outstanding_credit",
             "remove_move_reconcile",
         )
         # account.deposit allowed methods
-        calculate_cash = request.params.get("model") in (
+        calculate_cash = req_model in (
             "account.deposit"
-        ) and request.params.get("method") in ("calculate_cash")
-        action_reset = request.params.get("model") in (
+        ) and req_method in ("calculate_cash")
+        action_reset = req_model in (
             "account.deposit"
-        ) and request.params.get("method") in ("action_reset")
-        cancel_cash = request.params.get("model") in (
+        ) and req_method in ("action_reset")
+        cancel_cash = req_model in (
             "account.deposit"
-        ) and request.params.get("method") in ("cancel_cash")
-        cancel = request.params.get("method") in ("cancel")
-        action_draft = request.params.get("method") in ("action_draft")
-        acc_pay_req_write = request.params.get("model") in (
+        ) and req_method in ("cancel_cash")
+        cancel = req_method in ("cancel")
+        action_draft = req_method in ("action_draft")
+        acc_pay_req_write = req_model in (
             "account.payment.request"
-        ) and request.params.get("method") in ("write")
+        ) and req_method in ("write")
+        rend_action_cancel = req_model in (
+            "account.expenses.rendition"
+        ) and req_method in ("action_cancel")
         # post = request.params.get('method') in ('post')
         group_cashier = self.env.user.has_group("gard_x_gard.group_cashier")
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
         allow_write = (
-            move_reconcile
+            process_reconciliations
+            or move_reconcile
             or (group_cashier and (calculate_cash or action_reset or cancel_cash))
             or cancel
             or action_draft
-            or process_reconciliations
+            or acc_pay_req_write
+            or rend_action_cancel
             or group_account_edit
             or acc_pay_req_write
         )
@@ -62,7 +70,7 @@ class AccountPayment(models.Model):
             raise UserError(
                 _(
                     "(%s) Edit allowed only in draft state. [%s.%s]"
-                    % (self, request.params.get("model"), request.params.get("method"))
+                    % (self, req_model, req_method)
                 )
             )
         else:
