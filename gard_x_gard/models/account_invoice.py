@@ -59,7 +59,7 @@ class AccountInvoice(models.Model):
         rendition_create = (
             model in "account.expenses.rendition" and
             method
-            in "create"
+            in ("create","write")
         )
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
         allow_write = (
