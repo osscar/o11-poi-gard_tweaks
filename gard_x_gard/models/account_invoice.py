@@ -56,10 +56,15 @@ class AccountInvoice(models.Model):
         )
         action_anular = model in "siat.wiz.anulacion" and method in "action_anular"
         invoice_print = model in "account.invoice" and method in "invoice_print"
-        rendition_methods = (
+        rendition_create = (
             model in "account.expenses.rendition" and
             method
-            in ("create","write")
+            in ("create")
+        )
+        rendition_write = (
+            model in "account.expenses.rendition" and
+            method
+            in ("write")
         )
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
         allow_write = (
@@ -76,7 +81,8 @@ class AccountInvoice(models.Model):
             or siat_validacionRecepcionPaqueteFactura
             or action_anular
             or invoice_print
-            or rendition_methods
+            or rendition_create
+            or rendition_write
         )
         # _logger.debug('Requested params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
         # _logger.debug('state >>>>: %s', self.mapped('state'))
