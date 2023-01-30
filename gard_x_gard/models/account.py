@@ -66,6 +66,9 @@ class AccountMove(models.Model):
         process = req_model == ("stock.immediate.transfer") and req_method == (
             "process"
         )
+        inventory_action_done = req_model == ("stock.inventory") and req_method == (
+            "action_done"
+        )
         fixable_automatic_asset = self.fixable_automatic_asset
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
 
@@ -82,6 +85,7 @@ class AccountMove(models.Model):
             or rend_action_approve
             or rend_action_cancel
             or process
+            or inventory_action_done
         )
         allow_groups = (
             group_account_edit
