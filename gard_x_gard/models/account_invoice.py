@@ -27,7 +27,15 @@ class AccountInvoice(models.Model):
     def write(self, vals):
         model = request.params.get("model")
         method = request.params.get("method")
-        action_invoice_open = method in "action_invoice_open"
+        action_invoice_open = (
+            model in "account.invoice" and method in "action_invoice_open"
+        )
+        action_invoice_cancel = (
+            model in "account.invoice" and method in "action_invoice_cancel"
+        )
+        validate_nit = (
+            model in "account.invoice" and method in "validate_nit"
+        )
         action_validate_invoice_payment = method in "action_validate_invoice_payment"
         invoice_refund = method in "invoice_refund"
         move_reconcile = method in (
@@ -56,20 +64,16 @@ class AccountInvoice(models.Model):
         )
         action_anular = model in "siat.wiz.anulacion" and method in "action_anular"
         invoice_print = model in "account.invoice" and method in "invoice_print"
-        rendition_create = (
-            model in "account.expenses.rendition" and
-            method
-            in ("create")
+        rendition_create = model in "account.expenses.rendition" and method in (
+            "create"
         )
-        rendition_write = (
-            model in "account.expenses.rendition" and
-            method
-            in ("write")
-        )
+        rendition_write = model in "account.expenses.rendition" and method in ("write")
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
         allow_write = (
-            action_validate_invoice_payment
-            or action_invoice_open
+            action_invoice_open
+            or action_invoice_cancel
+            or validate_nit
+            or action_validate_invoice_payment
             or invoice_refund
             or move_reconcile
             or payment_post
@@ -103,7 +107,7 @@ class AccountInvoice(models.Model):
 
     @api.model
     def create(self, vals):
-        _logger.debug('vals >>>>: %s', vals)
+        _logger.debug("vals >>>>: %s", vals)
         if "type" in vals:
             if "partner_invoice_id" in vals and vals["type"] in (
                 "out_invoice",
