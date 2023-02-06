@@ -33,9 +33,7 @@ class AccountInvoice(models.Model):
         action_invoice_cancel = (
             model in "account.invoice" and method in "action_invoice_cancel"
         )
-        validate_nit = (
-            model in "account.invoice" and method in "validate_nit"
-        )
+        validate_nit = model in "account.invoice" and method in "validate_nit"
         action_validate_invoice_payment = method in "action_validate_invoice_payment"
         invoice_refund = method in "invoice_refund"
         move_reconcile = method in (
