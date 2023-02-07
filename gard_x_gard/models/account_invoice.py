@@ -50,6 +50,11 @@ class AccountInvoice(models.Model):
             method
             in "siat_recepcionFactura"
         )
+        siat_recepcionFactura = (
+            model in "account.invoice" and
+            method
+            in "set_exception"
+        )
         siat_recepcionPaqueteFactura = (
             # model in "account.invoice" and
             method
