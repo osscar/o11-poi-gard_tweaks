@@ -47,9 +47,13 @@ class Import(models.TransientModel):
             for line in data:
                 recompute_items = []
                 product = False
-                extid_2_id = self.env.ref(line[0]).ids
-                # _logger.debug('do call line extid_2_id >>>: %s', extid_2_id)
-                item_ids = self.env[res_model].search([('id', '=', extid_2_id)])
+                item_ids = line
+                try:
+                    extid_2_id = self.env.ref(line[0]).ids
+                    item_ids = self.env[res_model].search([('id', 'in', extid_2_id)])
+                except:
+                    continue
+                    # _logger.debug('do call line extid_2_id >>>: %s', extid_2_id)
                 for item in item_ids:
                     # _logger.debug('for item call item >>>: %s', item)
                     if item.applied_on == '1_product':
