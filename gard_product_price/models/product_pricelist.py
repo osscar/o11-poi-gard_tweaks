@@ -406,6 +406,7 @@ class ProductPricelistItem(models.Model):
                 if qty_available:
                     standard_price = valuation / qty_available
                 self.cost_product = standard_price
+                product.write({'standard_price': standard_price})
             else:
                 self.cost_product = product.standard_price
 
@@ -451,10 +452,10 @@ class ProductPricelistItem(models.Model):
     )
     date_update = fields.Datetime(
         "Updated Date",
-        compute="_calc_price_unit",
+        # compute="_calc_price_unit",
         copy=False,
         readonly=True,
-        store=True,
+        # store=True,
         help="Date item was last updated.",
     )
     uom_pack_id = fields.Many2one(
