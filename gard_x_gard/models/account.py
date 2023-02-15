@@ -31,7 +31,9 @@ class AccountMove(models.Model):
     def write(self, vals):
         req_model = request.params.get("model")
         req_method = request.params.get("method")
-        # account.invoice.refund.invoice_refund
+        post = (
+            req_model == "account.move" and req_method == "post"
+        )
         invoice_refund = (
             req_model == "account.invoice.refund" and req_method == "invoice_refund"
         )
@@ -73,7 +75,8 @@ class AccountMove(models.Model):
         group_account_edit = self.env.user.has_group("gard_x_gard.group_account_edit")
 
         allow_methods = (
-            invoice_refund
+            post
+            or invoice_refund
             or action_invoice_open
             or action_validate_invoice_payment
             or assign_outstanding_credit
