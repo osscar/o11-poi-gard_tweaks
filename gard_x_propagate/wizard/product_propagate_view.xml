@@ -12,8 +12,8 @@
                             <page name="line_ids" string="Select Products">
                                 <button name="button_product_ids_clear" type="object" attrs="{'invisible':[('product_ids', '=', [])]}" class="btn-primary" string="Clear Products"/>
                                 <separator/>
-                                <field name="product_ids" string="Select Products">
-                                    <tree edit="false">
+                                <field name="product_ids" onstring="Select Products">
+                                    <tree edit="false" create="true">
                                         <field name="default_code"/>
                                         <field name="name"/>
                                         <field name="qty_available"/>
