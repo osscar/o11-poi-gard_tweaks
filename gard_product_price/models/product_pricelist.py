@@ -389,7 +389,7 @@ class ProductPricelistItem(models.Model):
             self.price_pack = price * pack_factor
             self.product_global_id = product
 
-    @api.depends("product_tmpl_id", "product_id")
+    @api.depends("product_tmpl_id", "product_id", "product_id.stock_value")
     @api.one
     def _compute_cost_product(self):
         product = False
