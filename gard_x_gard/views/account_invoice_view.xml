@@ -68,6 +68,10 @@
                     <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
                 </xpath>
 
+                <xpath expr="//field[@name='tax_line_ids']//field[@name='tax_id']" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </xpath>
+
             </field>
         </record>
 
