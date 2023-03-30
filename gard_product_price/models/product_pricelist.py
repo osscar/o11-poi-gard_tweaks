@@ -389,7 +389,7 @@ class ProductPricelistItem(models.Model):
             self.price_pack = price * pack_factor
             self.product_global_id = product
 
-    @api.depends("product_tmpl_id", "product_id")
+    @api.depends("product_tmpl_id", "product_id", "product_id.stock_value")
     @api.one
     def _compute_cost_product(self):
         product = False
@@ -399,14 +399,15 @@ class ProductPricelistItem(models.Model):
         # get product standard price or inventory valuation
         if product:
             if product.standard_price == 0:
-                valuation = sum(
-                    [variant._sum_remaining_values()[0] for variant in product]
-                )
-                qty_available = product.with_context(company_owned=True).qty_available
+                # valuation = sum(
+                #     [variant._sum_remaining_values()[0] for variant in product]
+                # )
+                # qty_available = product.with_context(company_owned=True).qty_available
+                valuation = product.stock_value
+                qty_available = product.qty_at_date
                 if qty_available:
                     standard_price = valuation / qty_available
                 self.cost_product = standard_price
-                product.write({'standard_price': standard_price})
             else:
                 self.cost_product = product.standard_price
 
