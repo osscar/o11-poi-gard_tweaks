@@ -38,14 +38,17 @@ This module tweaks the following:
     'images': [],
     'depends': [
         'account',
+        'account_analytic_parent',
         'account_move_analytic_recreate',
         'analytic',
+        'analytic_base_department',
         'gard_x_gard',
         'stock_landed_costs',
         'stock_landed_costs_analytic',
     ],
     'category': 'Other',
     'data': [
+        'views/account_view.xml',
         'views/account_analytic_view.xml',
         'views/stock_landed_cost_view.xml',
 
