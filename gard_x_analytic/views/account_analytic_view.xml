@@ -26,23 +26,38 @@
             </field>
         </record>
 
+        <record id="view_account_analytic_account_search" model="ir.ui.view">
+            <field name="name">account.analytic.account.search.inherit.gard_x_analytic</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_search"/>
+            <field name="arch" type="xml">
+        
+              <xpath expr="//group" position="inside">
+                <filter string="Department" domain="[]" context="{'group_by':'department_id'}"/>
+                <filter string="Parent" domain="[]" context="{'group_by':'parent_id'}"/>
+              </xpath>
+        
+            </field>
+          </record>
+
         <!-- Views -->
 
         <!-- Actions -->
-        <!-- <record model="ir.actions.act_window" id="analytic.account_analytic_line_action_entries">
+        <record model="ir.actions.act_window" id="analytic.account_analytic_line_action_entries">
             <field name="context">{
-                'search_default_groupby_account_department_id':1,
-                'search_default_groupby_analytic_account_parent_id':2,
-                'search_default_groupby_general_account_id':3,
+                'search_default_groupby_account_department_id':True,
+                'search_default_groupby_analytic_account_parent_id':True,
+                'search_default_groupby_general_account_id':True,
             }</field>
         </record>
 
         <record model="ir.actions.act_window" id="analytic.action_account_analytic_account_form">
           <field name="context">{
-              'search_default_groupby_department_id':1,
-              'search_default_groupby_parent_id':2,
+              'search_default_groupby_department_id':True,
+              'search_default_groupby_parent_id':True,
           }</field>
-      </record> -->
+      </record>
+
         <!-- Menus -->
 
 </odoo>

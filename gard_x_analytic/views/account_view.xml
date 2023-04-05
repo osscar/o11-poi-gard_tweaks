@@ -2,6 +2,7 @@
 
 <odoo>
 
+  <!-- Search Views -->
   <record id="view_account_move_line_filter" model="ir.ui.view">
     <field name="name">account.move.line.filter.inherit.gard_x_analytic</field>
     <field name="model">account.move.line</field>
@@ -12,7 +13,7 @@
         <filter string="Categoría" domain="[]" context="{'group_by':'analytic_main_tag'}"/>
         <filter string="Categoría raíz" domain="[]" context="{'group_by':'analytic_main_tag_parent'}"/>
         <filter string="Analytic Account Department" domain="[]" context="{'group_by':'analytic_account_department_id'}"/>
-        <!-- <filter string="Analytic Account Parent" domain="[]" context="{'group_by':'analytic_account_parent_id'}"/> -->
+        <filter string="Analytic Account Parent" domain="[]" context="{'group_by':'analytic_account_parent_id'}"/>
       </xpath>
 
     </field>
@@ -21,9 +22,17 @@
   <!-- Actions -->
   <record model="ir.actions.act_window" id="analytic.account_analytic_line_action_entries">
     <field name="context">{
-        'search_default_groupby_analytic_account_department_id':1,
-        'search_default_groupby_analytic_account_parent_id':2,
-        'search_default_groupby_account_id':3,
+        'search_default_groupby_analytic_account_department_id':True,
+        'search_default_groupby_analytic_account_parent_id':True,
+        'search_default_groupby_account_id':True,
+    }</field>
+  </record>
+
+  <record model="ir.actions.act_window" id="analytic.action_account_analytic_account_form">
+    <field name="context">{
+        'search_default_groupby_analytic_account_department_id':True,
+        'search_default_groupby_analytic_account_parent_id':True,
+        'search_default_groupby_account_id':True,
     }</field>
   </record>
 
