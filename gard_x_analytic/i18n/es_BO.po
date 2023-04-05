@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-11 17:44+0000\n"
-"PO-Revision-Date: 2022-12-11 17:44+0000\n"
+"POT-Creation-Date: 2023-04-05 07:44+0000\n"
+"PO-Revision-Date: 2023-04-05 07:44+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,9 +21,50 @@ msgid "Account move recreate analytic lines"
 msgstr "Recrear lineas analiticas del asiento"
 
 #. module: gard_x_analytic
+#: model:ir.model.fields,field_description:gard_x_analytic.field_stock_landed_cost_account_analytic_id
+msgid "Analytic Account"
+msgstr "Cuenta analítica"
+
+#. module: gard_x_analytic
+#: model:ir.model.fields,field_description:gard_x_analytic.field_account_move_line_analytic_account_department_id
+#: model:ir.ui.view,arch_db:gard_x_analytic.view_account_move_line_filter
+msgid "Analytic Account Department"
+msgstr "Departmento analitico"
+
+#. module: gard_x_analytic
+#: model:ir.model.fields,field_description:gard_x_analytic.field_account_analytic_line_analytic_account_parent_id
+#: model:ir.model.fields,field_description:gard_x_analytic.field_account_move_line_analytic_account_parent_id
+#: model:ir.ui.view,arch_db:gard_x_analytic.view_account_analytic_line_filter
+#: model:ir.ui.view,arch_db:gard_x_analytic.view_account_move_line_filter
+msgid "Analytic Account Parent"
+msgstr "Cuenta analitica madre"
+
+#. module: gard_x_analytic
+#: model:ir.model,name:gard_x_analytic.model_account_analytic_line
+#: model:ir.model.fields,field_description:gard_x_analytic.field_stock_landed_cost_lines_account_analytic_line_id
+msgid "Analytic Line"
+msgstr "Línea analítica"
+
+#. module: gard_x_analytic
 #: model:ir.ui.view,arch_db:gard_x_analytic.view_account_move_analytic_recreate
 msgid "Cancel"
 msgstr "Cancelar"
+
+#. module: gard_x_analytic
+#: model:ir.model.fields,field_description:gard_x_analytic.field_account_analytic_line_analytic_main_tag
+#: model:ir.model.fields,field_description:gard_x_analytic.field_account_move_line_analytic_main_tag
+#: model:ir.ui.view,arch_db:gard_x_analytic.view_account_analytic_line_filter
+#: model:ir.ui.view,arch_db:gard_x_analytic.view_account_move_line_filter
+msgid "Categoría"
+msgstr "Categoría"
+
+#. module: gard_x_analytic
+#: model:ir.model.fields,field_description:gard_x_analytic.field_account_analytic_line_analytic_main_tag_parent
+#: model:ir.model.fields,field_description:gard_x_analytic.field_account_move_line_analytic_main_tag_parent
+#: model:ir.ui.view,arch_db:gard_x_analytic.view_account_analytic_line_filter
+#: model:ir.ui.view,arch_db:gard_x_analytic.view_account_move_line_filter
+msgid "Categoría raíz"
+msgstr "Categoría raíz"
 
 #. module: gard_x_analytic
 #: model:ir.model.fields,field_description:gard_x_analytic.field_account_move_analytic_recreate_create_uid
@@ -46,6 +87,11 @@ msgid "ID"
 msgstr "ID"
 
 #. module: gard_x_analytic
+#: model:ir.model,name:gard_x_analytic.model_account_move_line
+msgid "Journal Item"
+msgstr "Apunte contable"
+
+#. module: gard_x_analytic
 #: model:ir.model.fields,field_description:gard_x_analytic.field_account_move_analytic_recreate___last_update
 msgid "Last Modified on"
 msgstr "Última modificación en"
@@ -61,9 +107,24 @@ msgid "Last Updated on"
 msgstr "Última actualización en"
 
 #. module: gard_x_analytic
+#: model:ir.model,name:gard_x_analytic.model_purchase_order
+msgid "Purchase Order"
+msgstr "Pedido de compra"
+
+#. module: gard_x_analytic
 #: code:addons/gard_x_analytic/wizard/account_move_analytic_recreate.py:24
 #: model:ir.actions.act_window,name:gard_x_analytic.action_view_account_move_analytic_recreate
 #: model:ir.ui.view,arch_db:gard_x_analytic.view_account_move_analytic_recreate
 #, python-format
 msgid "Recreate Analytic Lines"
 msgstr "Recrear lineas analiticas"
+
+#. module: gard_x_analytic
+#: model:ir.model,name:gard_x_analytic.model_stock_landed_cost
+msgid "Stock Landed Cost"
+msgstr "Coste en destino"
+
+#. module: gard_x_analytic
+#: model:ir.model,name:gard_x_analytic.model_stock_landed_cost_lines
+msgid "Stock Landed Cost Lines"
+msgstr "Líneas de coste en destino"

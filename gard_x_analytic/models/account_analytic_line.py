@@ -5,6 +5,16 @@ from odoo import api, fields, models, _
 # from math import copysign
 
 
+class AccountAnalyticAccount(models.Model):
+    _inherit = "account.analytic.account"
+    # _rec_name = "move_id"
+
+    @api.onchange('parent_id')
+    def _onchange_parent_id(self):
+        parent_acc = self.parent_id
+        if parent_acc and parent_acc.department_id:
+            self.department_id = parent_acc.department_id
+
 class AccountAnalyticLine(models.Model):
     _inherit = "account.analytic.line"
     _rec_name = "move_id"
@@ -23,3 +33,19 @@ class AccountAnalyticLine(models.Model):
             ]
         lines = self.search(domain + args, limit=limit)
         return lines.name_get()
+
+    @api.one
+    @api.depends("account_id.tag_ids")
+    def _get_tag(self):
+        self.ensure_one()
+        for tag in self.account_id.tag_ids:
+            self.analytic_main_tag = tag.display_name
+            self.analytic_main_tag_parent = tag.parent_id.display_name
+
+    analytic_main_tag = fields.Char("Categoría", compute=_get_tag, store=True)
+    analytic_main_tag_parent = fields.Char(
+        "Categoría raíz", compute=_get_tag, store=True
+    )
+    analytic_account_parent_id = fields.Many2one(
+        string="Analytic Account Parent", related="account_id.parent_id", store=True
+    )
