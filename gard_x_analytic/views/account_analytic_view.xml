@@ -1,63 +1,65 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-        <!-- Search Views -->
-        <record model="ir.ui.view" id="view_account_analytic_line_filter">
-            <field name="name">account.analytic.line.select.inherit.gard_x_analytic</field>
-            <field name="model">account.analytic.line</field>
-            <field name="mode">extension</field>
-            <field name="priority">10</field>
-            <field name="inherit_id" ref="analytic.view_account_analytic_line_filter"/>
-            <field name="arch" type="xml">
+  <!-- Search Views -->
+  <record model="ir.ui.view" id="view_account_analytic_line_filter">
+    <field name="name">account.analytic.line.select.inherit.gard_x_analytic</field>
+    <field name="model">account.analytic.line</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="analytic.view_account_analytic_line_filter"/>
+    <field name="arch" type="xml">
 
-                <!-- add fields -->
-                <xpath expr="//field[@name='name']" position="replace">
-                    <field name="name" filter_domain="['|','|',('name','ilike',self),('account_id','ilike',self),('move_id','ilike',self)]"/>
-                </xpath>
+      <!-- add fields -->
+      <xpath expr="//field[@name='name']" position="replace">
+        <field name="name" filter_domain="['|','|',('name','ilike',self),('account_id','ilike',self),('move_id','ilike',self)]"/>
+      </xpath>
 
-                
-                <xpath expr="//group" position="inside">
-                    <!-- add poi_analytic filters -->
-                    <filter string="Categoría" domain="[]" context="{'group_by':'analytic_main_tag'}"/>
-                    <filter string="Categoría raíz" domain="[]" context="{'group_by':'analytic_main_tag_parent'}"/>
-                    <!-- add account_analytic_parent filters -->
-                    <filter string="Analytic Account Parent" domain="[]" context="{'group_by':'analytic_account_parent_id'}"/>
-                </xpath>
+      <xpath expr="//filter[@name='account_id']" position="replace">
+        <filter name="group_by_account_id" string="Analytic Account" context="{'group_by':'account_id'}"/>
+      </xpath>
 
-            </field>
-        </record>
+      <xpath expr="//group" position="inside">
+        <!-- add poi_analytic filters -->
+        <!-- <filter string="Categoría" domain="[]" context="{'group_by':'analytic_main_tag'}"/>
+              <filter string="Categoría raíz" domain="[]" context="{'group_by':'analytic_main_tag_parent'}"/> -->
+        <!-- add account_analytic_parent filters -->
+        <filter name="group_by_analytic_account_parent_id" string="Analytic Account Parent" domain="[]" context="{'group_by':'analytic_account_parent_id'}"/>
+      </xpath>
 
-        <record id="view_account_analytic_account_search" model="ir.ui.view">
-            <field name="name">account.analytic.account.search.inherit.gard_x_analytic</field>
-            <field name="model">account.analytic.account</field>
-            <field name="inherit_id" ref="analytic.view_account_analytic_account_search"/>
-            <field name="arch" type="xml">
-        
-              <xpath expr="//group" position="inside">
-                <filter string="Department" domain="[]" context="{'group_by':'department_id'}"/>
-                <filter string="Parent" domain="[]" context="{'group_by':'parent_id'}"/>
-              </xpath>
-        
-            </field>
-          </record>
+    </field>
+  </record>
 
-        <!-- Views -->
+  <record id="view_account_analytic_account_search" model="ir.ui.view">
+    <field name="name">account.analytic.account.search.inherit.gard_x_analytic</field>
+    <field name="model">account.analytic.account</field>
+    <field name="inherit_id" ref="analytic.view_account_analytic_account_search"/>
+    <field name="arch" type="xml">
 
-        <!-- Actions -->
-        <record model="ir.actions.act_window" id="analytic.account_analytic_line_action_entries">
-            <field name="context">{
-                'search_default_groupby_account_department_id':True,
-                'search_default_groupby_analytic_account_parent_id':True,
-                'search_default_groupby_general_account_id':True,
-            }</field>
-        </record>
+      <xpath expr="//group" position="inside">
+        <filter name="group_by_department_id" string="Department" domain="[]" context="{'group_by':'department_id'}"/>
+        <filter name="group_by_parent_id" string="Parent" domain="[]" context="{'group_by':'parent_id'}"/>
+      </xpath>
 
-        <record model="ir.actions.act_window" id="analytic.action_account_analytic_account_form">
-          <field name="context">{
-              'search_default_groupby_department_id':True,
-              'search_default_groupby_parent_id':True,
-          }</field>
-      </record>
+    </field>
+  </record>
 
-        <!-- Menus -->
+  <!-- Views -->
+
+  <!-- Actions -->
+  <!-- <record model="ir.actions.act_window" id="analytic.account_analytic_line_action_entries">
+    <field name="context">{
+      'search_default_group_by_account_department_id':1,
+      'search_default_group_by_analytic_account_parent_id':1,
+      }</field>
+  </record>
+
+  <record model="ir.actions.act_window" id="analytic.action_account_analytic_account_form">
+    <field name="context">{
+      'search_default_group_by_department_id':1,
+      'search_default_group_by_parent_id':1,
+    }</field>
+  </record> -->
+
+  <!-- Menus -->
 
 </odoo>

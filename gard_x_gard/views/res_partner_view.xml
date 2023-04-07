@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- Search Views -->
+        <record id="view_res_partner_filter_bo" model="ir.ui.view">
+            <field name="name">res.partner.select.bo.inherit.gard_x_gard</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="poi_bol_base.view_res_partner_filter_bo"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="replace">
+                    <field name="name"
+                       filter_domain="['|','|','|','|','|',('display_name','ilike',self),('ref','=',self),('email','ilike',self),('razon','ilike',self),('razon_invoice','ilike',self),('nit','ilike',self)]"/>
+                    <field name="nit"
+                       filter_domain="['|',('nit','ilike',self),('ci','ilike',self)]"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- Views -->
+
+        <!-- Actions -->
+
+        <!-- Menus -->
+
+    </data>
+</odoo>

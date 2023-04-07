@@ -30,7 +30,7 @@ GARD x_Tweaks - Analytic Accounting
 This module tweaks the following:
 
 * adds a wizard to call account_move_analytic_recreate write enhancement to recreate analytic lines
-* 
+* adds filters using account_analytic_parent / analytic_base_department fields
 *
 
 

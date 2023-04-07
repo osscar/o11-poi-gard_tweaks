@@ -10,30 +10,27 @@
     <field name="arch" type="xml">
 
       <xpath expr="//group" position="inside">
-        <filter string="Categoría" domain="[]" context="{'group_by':'analytic_main_tag'}"/>
-        <filter string="Categoría raíz" domain="[]" context="{'group_by':'analytic_main_tag_parent'}"/>
-        <filter string="Analytic Account Department" domain="[]" context="{'group_by':'analytic_account_department_id'}"/>
-        <filter string="Analytic Account Parent" domain="[]" context="{'group_by':'analytic_account_parent_id'}"/>
+        <!-- <filter string="Categoría" domain="[]" context="{'group_by':'analytic_main_tag'}"/>
+        <filter string="Categoría raíz" domain="[]" context="{'group_by':'analytic_main_tag_parent'}"/> -->
+        <filter name="group_by_analytic_account_department_id" string="Analytic Account Department" domain="[]" context="{'group_by':'analytic_account_department_id'}"/>
+        <filter name="group_by_analytic_account_parent_id" string="Analytic Account Parent" domain="[]" context="{'group_by':'analytic_account_parent_id'}"/>
       </xpath>
+
+      <!-- <xpath expr="//group/filter[2]" position="replace">
+        <filter name="group_by_journal_id" string="Journal" domain="[]" context="{'group_by':'journal_id'}"/>
+      </xpath>
+      <xpath expr="//group/filter[3]" position="replace">
+        <filter name="group_by_account_id" string="Account" context="{'group_by':'account_id'}"/>
+      </xpath> -->
 
     </field>
   </record>
 
   <!-- Actions -->
-  <record model="ir.actions.act_window" id="analytic.account_analytic_line_action_entries">
+  <!-- <record model="ir.actions.act_window" id="account.action_account_moves_all_a">
     <field name="context">{
-        'search_default_groupby_analytic_account_department_id':True,
-        'search_default_groupby_analytic_account_parent_id':True,
-        'search_default_groupby_account_id':True,
+        'search_default_group_by_account_id':1,
     }</field>
-  </record>
-
-  <record model="ir.actions.act_window" id="analytic.action_account_analytic_account_form">
-    <field name="context">{
-        'search_default_groupby_analytic_account_department_id':True,
-        'search_default_groupby_analytic_account_parent_id':True,
-        'search_default_groupby_account_id':True,
-    }</field>
-  </record>
+  </record> -->
 
 </odoo>
