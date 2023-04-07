@@ -14,6 +14,7 @@
         <filter string="Categoría raíz" domain="[]" context="{'group_by':'analytic_main_tag_parent'}"/> -->
         <filter name="group_by_analytic_account_department_id" string="Analytic Account Department" domain="[]" context="{'group_by':'analytic_account_department_id'}"/>
         <filter name="group_by_analytic_account_parent_id" string="Analytic Account Parent" domain="[]" context="{'group_by':'analytic_account_parent_id'}"/>
+        <filter name="group_by_analytic_account_parent_id" string="Analytic Account" domain="[]" context="{'group_by':'analytic_account_id'}"/>
       </xpath>
 
       <!-- <xpath expr="//group/filter[2]" position="replace">
