@@ -32,24 +32,3 @@ from odoo.exceptions import UserError
 
 class AccountExpensesRendition(models.Model):
     _inherit = 'account.expenses.rendition'
-
-    @api.multi
-    def write(self, vals):
-        req_model = request.params.get("model")
-        req_method = request.params.get("method")
-
-        action_draft = req_model == ('account.expenses.rendition') and req_method == ('action_draft')
-        action_validate = req_model == ('account.expenses.rendition') and req_method == ('action_validate')
-        action_approve = req_model == ('account.expenses.rendition') and req_method == ('action_approve')
-        action_cancel = req_model == ('account.expenses.rendition') and req_method == ('action_cancel')
-        action_add_items = req_model == ('account.payment.expenses.wiz') and req_method == ('action_add_items')
-        # group_account_edit = self.env.user.has_group('gard_x_gard.group_account_edit')
-        allow_write = action_draft or action_validate or action_approve or action_cancel or action_add_items
-        # _logger.debug('write params >>>>>: [%s.%s]' % (request.params.get('model'), request.params))
-        # _logger.debug('write params method: [%s.%s]' % (request.params.get('model'), request.params.get('method')))
-        if any(state != 'draft' for state in set(self.mapped('state')) if allow_write == False):
-            raise UserError(_('Edit allowed only in draft state. [%s.%s]' % (
-                request.params.get('model'), request.params.get('method'))))
-        else:
-            # _logger.info('Written vals: %s' % vals)
-            return super().write(vals)

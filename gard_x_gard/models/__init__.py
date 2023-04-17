@@ -5,7 +5,6 @@
 from . import account
 # from . import account_expenses_rendition
 from . import account_invoice
-# from . import account_payment
 from . import stock_picking
 # from . import procurement
 from . import stock_move
