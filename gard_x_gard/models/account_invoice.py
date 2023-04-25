@@ -49,27 +49,6 @@ class AccountInvoice(models.Model):
         ret = super(AccountInvoice, self).create(vals)
         return ret
 
-    # @api.multi
-    # @api.returns("self")
-    # def refund(self, date_invoice=None, date=None, description=None, journal_id=None):
-    #     inv_obj = self.env["account.invoice"]
-    #     for invoice in self:
-    #         # create the new invoice
-    #         inv_rel_ref_ids = inv_obj.search(
-    #             [
-    #                 ("partner_id", "=", invoice.partner_id.id),
-    #                 ("reference", "=", invoice.reference),
-    #             ]
-    #         )
-    #         # _logger.debug("invoice.reference >>>>: %s", invoice.reference)
-    #         if inv_rel_ref_ids:
-    #             reference = invoice.reference or "" + " " + "#" + str(
-    #                 len([inv for inv in inv_rel_ref_ids])
-    #             )
-    #             # _logger.debug("reference >>>>: %s", reference)
-    #             invoice["reference"] = reference
-    #     return super().refund(date_invoice, date, description, journal_id)
-
     @api.multi
     @api.returns("self")
     def refund(self, date_invoice=None, date=None, description=None, journal_id=None):
@@ -90,6 +69,7 @@ class AccountInvoice(models.Model):
         if count > 0:
             ref += " #" + str(count)
         return ref
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"

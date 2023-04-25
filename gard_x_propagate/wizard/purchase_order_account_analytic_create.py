@@ -21,14 +21,7 @@ class PurchaseOrderAccountAnalyticCreate(models.TransientModel):
         "create_wizard_id",
         string="Wizard Lines",
     )
-    account_analytic_department_id = fields.Many2one(
-        "account.analytic.department",
-        string="Analytic Account Department",
-    )
-    account_analytic_parent_id = fields.Many2one(
-        "account.analytic.account",
-        string="Parent Analytic Account",
-    )
+    
     # order_account_line = fields.Many2one(
     #     "purchase.order.account.analytic.create.line",
     #     string="Order Analytic Account Line",
