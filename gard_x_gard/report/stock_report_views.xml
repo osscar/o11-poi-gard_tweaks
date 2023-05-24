@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <!-- QWeb Reports -->
-        <record id="paperformat_euro_pos_gard_ticket" model="report.paperformat">
+        <!-- <record id="paperformat_euro_pos_gard_ticket" model="report.paperformat">
             <field name="name">Ticket Picking</field>
             <field name="default" eval="True"/>
             <field name="format">custom</field>
@@ -16,7 +16,7 @@
             <field name="header_line" eval="False"/>
             <field name="header_spacing">35</field>
             <field name="dpi">130</field>
-        </record>
+        </record> -->
         <report
                 string="Ingreso"
                 id="action_report_picking_gard"

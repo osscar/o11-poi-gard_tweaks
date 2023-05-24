@@ -4,7 +4,7 @@
 		<template id="report_account_invoice_base_bol_siat" inherit_id="poi_bol_siat.report_account_invoice_base_bol_siat">
 			<xpath expr='//t/t' position="replace">
           		<t name="base" t-if="report == 'invoice' and inv_mode in ['1','2','0']" t-call="gard_l10n_bo.siat_invoice" />
-				<t name="base" t-if="report == 'invoice' and inv_mode == '-1'" t-call="poi_bol_cc.basic_invoice" />
+				<t name="base" t-if="report == 'invoice' and inv_mode == '-1'" t-call="gard_l10n_bo.basic_invoice" />
 
 		 	</xpath>
     </template>

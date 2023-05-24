@@ -20,27 +20,15 @@
     </record> -->
 
     <record id="account.account_invoices" model="ir.actions.report">
-        <field name="paperformat_id" ref="gard_x_gard.paperformat_euro_pos_gard_ticket"/>
+        <field name="paperformat_id" ref="poi_x_gard.paperformat_euro_pos_gard_ticket"/>
         <field name="attachment_use" eval="False"/>
     </record>
 
 	<template id="basic_invoice">
-		<t t-call="web.html_container">
+		<t t-call="web.basic_layout">
 	        <t t-foreach="docs" t-as="o">
-				<div class="header">
-					<div class="col-xs-4 text-center" id="first_column_header">
-						<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="max-height: 90px;"/>
-                		<div style="font-size:11px;">
-							<p style="font-size:9px;padding:0;margin:0px;">
-							<span t-field="o.company_id.razon"/><br/>CASA MATRIZ<br/><span t-field="o.company_id.street"/><br/><span t-field="o.company_id.street2"/><br/><span t-field="o.company_id.zip"/> <br/><span t-field="o.company_id.state_id.name"/> - <span t-field="o.company_id.country_id.name"/>
-							<t t-if="o.cc_dos.warehouse_id.branch != '0'">
-							<br/><span t-field="o.cc_dos.warehouse_id.branch"/> <br/><span t-field="o.cc_dos.warehouse_id.street"/><t t-if="o.cc_dos.warehouse_id.street2"> <br/><span t-field="o.cc_dos.warehouse_id.street2"/></t><br/><span t-field="o.cc_dos.warehouse_id.zip"/> <br/>Telefonos <span t-field="o.cc_dos.warehouse_id.phone"/> <br/><span t-field="o.cc_dos.warehouse_id.state_id.name"/> - <span t-field="o.cc_dos.warehouse_id.country_id.name"/>
-							</t>
-							</p>
-                		</div>
-
-					</div>
-					<div class="col-xs-4 text-center" style="margin-top:20px;" id="second_column_header">
+				<div id="header_invoice_type" class="header">
+					<div class="text-center" style="margin-top:20px;" id="second_column_header">
 						<p t-if="o.type == 'out_refund'">
 	                        <h3>NOTA DE</h3>
 	                        <h3>CREDITO-DEBITO</h3>
@@ -49,31 +37,51 @@
 	                        <h3>FACTURA</h3>
 	                    </p>
 					</div>
-					<div class="col-xs-4 text-center" id="third_column_header" style="padding-top:20px;">
-						<div class="panel panel-default">
-			                <div class="panel-body">
-								<p><strong style="font-size: 14px;">NIT: <span t-field="o.company_id.nit"/></strong><br/>
-			                    <strong style="font-size: 15px;">Factura N°: <span t-esc="str(o.cc_nro)"/></strong><br/>
-			                    <span class="small">Autorización N°:</span><span class="small" t-field="o.cc_dos.nro_orden"/><br/>
-								<strong>ORIGINAL</strong> <br />
-								<t t-if="o.cc_dos.multi_activity">
-									<strong style="font-size:9px;" t-field="o.cc_dos.activity_id.name" />
-								</t>
-								<t t-if="not o.cc_dos.multi_activity">
-									<strong style="font-size:9px;" t-field="o.company_id.actividad" />
-								</t>
-			                    </p>
-		                 	</div>
-			            </div>
-					</div>
-					 <div class="row zero_min_height" id="header_line">
-		                <div class="col-xs-12">
-		                    <div style="border-bottom: 1px solid black;"/>
-		                </div>
-		            </div>
 				</div>
-
-
+				<div class="row zero_min_height" id="header_line">
+					<div class="col-xs-12">
+						<div style="border-bottom: 1px solid black;"/>
+					</div>
+				</div>
+				<div id="header_issuer" class="header">
+					<div class="text-center" id="first_column_header">
+                		<div style="font-size:11px;">
+							<p style="font-size:9px;padding:0;margin:0px;">
+							<span t-field="o.company_id.razon"/><br/>CASA MATRIZ<br/><span t-field="o.company_id.street"/><br/><span t-field="o.company_id.street2"/><br/><span t-field="o.company_id.zip"/> <br/><span t-field="o.company_id.state_id.name"/> - <span t-field="o.company_id.country_id.name"/>
+							<t t-if="o.cc_dos.warehouse_id.branch != '0'">
+							<br/><span t-field="o.cc_dos.warehouse_id.branch"/> <br/><span t-field="o.cc_dos.warehouse_id.street"/><t t-if="o.cc_dos.warehouse_id.street2"> <br/><span t-field="o.cc_dos.warehouse_id.street2"/></t><br/><span t-field="o.cc_dos.warehouse_id.zip"/> <br/>Telefonos <span t-field="o.cc_dos.warehouse_id.phone"/> <br/><span t-field="o.cc_dos.warehouse_id.state_id.name"/> - <span t-field="o.cc_dos.warehouse_id.country_id.name"/>
+							</t>
+							</p>
+                		</div>
+					</div>
+				</div>
+				<div class="row zero_min_height" id="header_line">
+					<div class="col-xs-12">
+						<div style="border-bottom: 1px solid black;"/>
+					</div>
+				</div>
+				<div id="header_invoice_ref" class="header">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<p><strong style="font-size: 14px;">NIT: <span t-field="o.company_id.nit"/></strong><br/>
+							<strong style="font-size: 15px;">Factura N°: <span t-esc="str(o.cc_nro)"/></strong><br/>
+							<span class="small">Autorización N°:</span><span class="small" t-field="o.cc_dos.nro_orden"/><br/>
+							<strong>ORIGINAL</strong> <br />
+							<t t-if="o.cc_dos.multi_activity">
+								<strong style="font-size:9px;" t-field="o.cc_dos.activity_id.name" />
+							</t>
+							<t t-if="not o.cc_dos.multi_activity">
+								<strong style="font-size:9px;" t-field="o.company_id.actividad" />
+							</t>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="row zero_min_height" id="header_line">
+					<div class="col-xs-12">
+						<div style="border-bottom: 1px solid black;"/>
+					</div>
+				</div>
 				<div class="article" style="font-size:13px;">
 					<!-- Primera Fila de la Pagina -->
 					<div class="row" id="first_row_page">
