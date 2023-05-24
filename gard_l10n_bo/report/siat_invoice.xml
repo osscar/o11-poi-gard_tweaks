@@ -2,35 +2,20 @@
 <odoo>
     <data>
 
-        <!-- <record id="paperformat_invoice_base" model="report.paperformat">
-            <field name="name">Facturas</field>
-            <field name="default" eval="True"/>
-            <field name="format">A4</field>
-            <field name="page_height">0</field>
-            <field name="page_width">0</field>
-            <field name="orientation">Portrait</field>
-            <field name="margin_top">40</field>
-            <field name="margin_bottom">15</field>
-            <field name="margin_left">5</field>
-            <field name="margin_right">5</field>
-            <field name="header_line" eval="False"/>
-            <field name="header_spacing">35</field>
-            <field name="dpi">90</field>
-        </record> -->
-
         <record id="account.account_invoices" model="ir.actions.report">
-            <field name="paperformat_id" ref="poi_bol_siat.paperformat_invoice_base"/>
+            <field name="paperformat_id" ref="poi_x_gard.paperformat_euro_pos_gard_ticket"/>
             <field name="attachment_use" eval="False"/>
         </record>
 
         <template id="siat_invoice">
-            <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
                 <t t-foreach="docs" t-as="o">
 
-                    <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
-                         style="font-size:13px;">
+                    <!-- <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                         style="font-size:13px;"> -->
+                    <div class="page">
                         <!-- Primera Fila de la Pagina -->
-                        <div class="row" id="first_row_page">
+                        <div class="" id="first_row_page" style="margin-left:-30px; font-size:24px;">
 
                             <!-- marca de agua -->
                             <t t-if="'piloto' in o.siat_link">
@@ -43,117 +28,12 @@
                                     ANULADA
                                 </div>
                             </t>
-
-                            <div class="col-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-6" id="data_left"  style = "float: left">
-
-                                                <div class="col-4 text-center" style="width: 240px;">
-                                                    <img t-if="o.company_id.logo"
-                                                         t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)"
-                                                         style="max-height: 90px; max-width: 170px"/>
-                                                    <div style="font-size:11px;">
-                                                        <p style="font-size:10px;padding-left:30px;margin:0px;">
-                                                            <t t-if="o.cc_dos.sucursal == 0">
-                                                                <span class="normal">CASA MATRIZ</span>
-                                                            </t>
-                                                            <t t-if="o.cc_dos.sucursal != 0">
-                                                                <span class="normal">SUCURSAL N. 0</span><span t-field="o.cc_dos.sucursal"/>
-                                                            </t>
-                                                            <br/>
-                                                            <span class="normal">No. Punto de Venta </span><span t-field="o.cc_dos.pdv"/>
-                                                            <br/>
-                                                            <span t-field="o.company_id.street"/>
-                                                            <br/>c
-                                                            <span t-field="o.company_id.street2"/>
-                                                            <br/>
-                                                            <t t-if="o.cc_dos.sucursal == 0">
-                                                                Tel.:
-                                                                <span t-field="o.cc_dos.company_id.phone"/>
-                                                                <br/>
-                                                                <span t-field="o.cc_dos.company_id.municipio"/>
-                                                            </t>
-                                                            <t t-if="o.cc_dos.sucursal != 0">
-                                                                <!--	<br/><span t-field="o.cc_dos.warehouse_id.branch"/> <br/><span t-field="o.cc_dos.warehouse_id.street"/><t t-if="o.cc_dos.warehouse_id.street2"> <br/>-->
-                                                                <!--		<span t-field="o.cc_dos.warehouse_id.street2"/><br/></t>-->
-                                                                <!--<span t-field="o.cc_dos.warehouse_id.zip"/> <br/>Telefonos <span t-field="o.cc_dos.warehouse_id.phone"/> <br/><span t-field="o.cc_dos.warehouse_id.state_id.name"/> - <span t-field="o.cc_dos.warehouse_id.country_id.name"/>-->
-                                                                Tel.:
-                                                                <span t-field="o.cc_dos.warehouse_id.partner_id.phone"/>
-                                                                <br/>
-                                                                <span t-field="o.cc_dos.warehouse_id.partner_id.city"/>
-                                                            </t>
-                                                        </p>
-                                                    </div>
-
-                                                </div>
-
-                                                <strong>Fecha:</strong>
-                                                <span t-esc="time.strftime('%d/%m/%Y  %H:%M', time.strptime(o.time_stamp.replace('T', ' ')[0:16], '%Y-%m-%d %H:%M'))"/>
-                                                <br/>
-                                                <strong>Nombre/Razón Social:</strong>
-                                                <span t-field="o.razon"/>
-                                                <t t-if="o.siat_nombre_estudiante and o.siat_nombre_estudiante != ''">
-                                                    <br/>
-                                                    <strong>Nombre Estudiante:</strong>
-                                                    <span t-esc="o.siat_nombre_estudiante"/>
-                                                </t>
-
-                                            </div>
-
-
-                                            <div class="col-5 text-right" id="data_right">
-                                                <div class="panel-body">
-                                                    <p>
-                                                        <strong style="font-size: 14px;">NIT:
-                                                            <span t-field="o.company_id.nit"/>
-                                                        </strong>
-                                                        <br/>
-                                                        <strong t-if="o.type != 'out_refund'" style="font-size: 15px;">Factura N°:
-                                                            <span t-esc="o.cc_nro"/>
-                                                        </strong>
-                                                        <strong t-if="o.type == 'out_refund'" style="font-size: 15px;">Nota N°:
-                                                            <span t-esc="o.cc_nro"/>
-                                                        </strong>
-                                                        <br/>
-                                                        <strong class="normal">Cod Autorización:</strong>
-                                                        <span class="normal" t-esc="o.cuf[0:10]"/>
-                                                        <br/>
-                                                        <span class="normal" t-esc="o.cuf[10:33]"/>
-                                                        <br/>
-                                                        <span class="normal" t-esc="o.cuf[33:]"/>
-                                                        <br/>
-                                                    </p>
-
-                                                <span>
-                                                    <strong>NIT/CI/CEX:</strong>
-                                                    <span t-field="o.nit"/>
-                                                    <t t-if="o.siat_tipo_id.code == 1">
-                                                        <span t-esc="' '"/><span t-field="o.partner_id.extension"/>
-                                                    </t>
-                                                    <br/>
-                                                    <strong>Cod. Cliente:</strong>
-                                                    <span t-esc="o.nit"/>
-                                                    <t t-if="o.siat_periodo_facturado and o.siat_periodo_facturado != ''">
-                                                        <br/>
-                                                        <strong>Periodo Facturado:</strong>
-                                                        <span t-esc="o.siat_periodo_facturado"/>
-                                                    </t>
-                                                </span>
-                                                    </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-
-                        <div class="col-12 text-center">
-                            <p t-if="o.type == 'out_refund'">
+                        <div id="second_row_page" class="text-center" style="margin-left:-30px; font-size:24px;">
+                            <span t-if="o.type == 'out_refund'">
                                 <h3>NOTA DE CRÉDITO-DÉBITO</h3>
-                            </p>
-                            <p t-if="o.type != 'out_refund'">
+                            </span>
+                            <span t-if="o.type != 'out_refund'">
                                 <t t-if="o.cc_dos.siat_sector_id.code == 1">
                                     <h3>FACTURA</h3>
                                 </t>
@@ -166,13 +46,119 @@
                                 <p t-if="o.cc_dos.siat_sector_id.tipo == 2">
                                     (Sin Derecho a Crédito Fiscal)
                                 </p>
-                            </p>
-                            <br/><br/>
+                            </span>
                         </div>
-
-
+                        <div id="third_row_page" class="text-center" style="margin-left:-30px; font-size:24px;">
+                            <ul style="list-style: none; line-height: 28px;">
+                                <t t-if="o.cc_dos.sucursal == 0">
+                                    <li>
+                                        <span class="normal">CASA MATRIZ</span>
+                                    </li>
+                                </t>
+                                <t t-if="o.cc_dos.sucursal != 0">
+                                    <li>
+                                        <span class="normal">SUCURSAL N. 0</span><span t-field="o.cc_dos.sucursal"/>
+                                    </li>
+                                </t>
+                                <br/>
+                                <li>
+                                    <span class="normal">No. Punto de Venta </span><span t-field="o.cc_dos.pdv"/>
+                                </li>
+                                <br/>
+                                <li>
+                                    <span t-field="o.company_id.street"/>
+                                </li>
+                                <br/>
+                                <li>
+                                    <span t-field="o.company_id.street2"/>
+                                </li>
+                                <br/>
+                                <t t-if="o.cc_dos.sucursal == 0">
+                                    <li>
+                                        Tel.:
+                                        <span t-field="o.cc_dos.company_id.phone"/>
+                                        <br/>
+                                    </li>
+                                    <li>
+                                        <span t-field="o.cc_dos.company_id.municipio"/>
+                                    </li>
+                                </t>
+                                <t t-if="o.cc_dos.sucursal != 0">
+                                    <!--	<br/><span t-field="o.cc_dos.warehouse_id.branch"/> <br/><span t-field="o.cc_dos.warehouse_id.street"/><t t-if="o.cc_dos.warehouse_id.street2"> <br/>-->
+                                    <!--		<span t-field="o.cc_dos.warehouse_id.street2"/><br/></t>-->
+                                    <!--<span t-field="o.cc_dos.warehouse_id.zip"/> <br/>Telefonos <span t-field="o.cc_dos.warehouse_id.phone"/> <br/><span t-field="o.cc_dos.warehouse_id.state_id.name"/> - <span t-field="o.cc_dos.warehouse_id.country_id.name"/>-->
+                                    <li>
+                                        Tel.:
+                                        <span t-field="o.cc_dos.warehouse_id.partner_id.phone"/>
+                                        <br/>
+                                    </li>
+                                    <li>
+                                        <span t-field="o.cc_dos.warehouse_id.partner_id.city"/>
+                                    </li>
+                                </t>
+                            </ul>
+                        </div>
+                        <div class="row zero_min_height" id="header_line1">
+                            <div class="col-xs-12">
+                                <div style="border-bottom: 3px dotted black;"/>
+                            </div>
+                        </div>
+                        <div id="fourth_row_page" class="text-center" style="margin-left:-30px; font-size:24px;">
+                            <ul style="list-style: none; line-height: 28px;">
+                                <strong>Fecha:</strong>
+                                <span t-esc="time.strftime('%d/%m/%Y  %H:%M', time.strptime(o.time_stamp.replace('T', ' ')[0:16], '%Y-%m-%d %H:%M'))"/>
+                                <br/>
+                                <strong>Nombre/Razón Social:</strong>
+                                <span t-field="o.razon"/>
+                                <t t-if="o.siat_nombre_estudiante and o.siat_nombre_estudiante != ''">
+                                    <br/>
+                                    <strong>Nombre Estudiante:</strong>
+                                    <span t-esc="o.siat_nombre_estudiante"/>
+                                </t>
+                                <strong style="font-size: 20px;">NIT:
+                                    <span t-field="o.company_id.nit"/>
+                                </strong>
+                                <br/>
+                                <strong t-if="o.type != 'out_refund'">Factura N°:
+                                    <span t-esc="o.cc_nro"/>
+                                </strong>
+                                <strong t-if="o.type == 'out_refund'">Nota N°:
+                                    <span t-esc="o.cc_nro"/>
+                                </strong>
+                                <br/>
+                                <strong class="normal">Cod Autorización:</strong>
+                                <span class="normal" t-esc="o.cuf[0:10]"/>
+                                <br/>
+                                <span class="normal" t-esc="o.cuf[10:33]"/>
+                                <br/>
+                                <span class="normal" t-esc="o.cuf[33:]"/>
+                                <br/>
+                                <span>
+                                    <strong>NIT/CI/CEX:</strong>
+                                    <span t-field="o.nit"/>
+                                    <t t-if="o.siat_tipo_id.code == 1">
+                                        <span t-esc="' '"/><span t-field="o.partner_id.extension"/>
+                                    </t>
+                                    <br/>
+                                    <strong>Cod. Cliente:</strong>
+                                    <span t-esc="o.nit"/>
+                                    <t t-if="o.siat_periodo_facturado and o.siat_periodo_facturado != ''">
+                                        <br/>
+                                        <strong>Periodo Facturado:</strong>
+                                        <span t-esc="o.siat_periodo_facturado"/>
+                                    </t>
+                                </span>
+                            </ul>
+                        </div>
+                        <br></br>
+                        <div class="row zero_min_height" id="header_line1">
+                            <div class="col-xs-12">
+                                <div style="border-bottom: 3px dotted black;"/>
+                            </div>
+                        </div>
+                        <br></br>
                         <!-- Segunda Fila de la Pagina -->
-                        <div t-if="(o.type == 'out_refund')" id="second_row_page">
+                        <div t-if="(o.type == 'out_refund')" id="fifth_row_page">
                             <t t-if="o.legacy_id">
                                 <t t-foreach="o.legacy_id" t-as="ir">
                                     <div class="" t-if="(o.type == 'out_refund')" style="font-size:14px;">
@@ -256,7 +242,7 @@
                             </t>
                         </div>
                         <!-- tercera fila -->
-                        <div t-if="(o.type == 'out_refund' and o.tipo_fac == '6')" id="third_row_page">
+                        <div t-if="(o.type == 'out_refund' and o.tipo_fac == '6')" id="sixth_row_page">
                             <div class="row" t-if="(o.type == 'out_refund')" style="font-size:14px;">
                                 <t t-if="o.legacy_id">
                                     <t t-foreach="o.legacy_id" t-as="ir2">
@@ -391,7 +377,7 @@
                             </div>
                         </div>
                         <!-- cuarta fila -->
-                        <div class="row" t-if="(o.type == 'out_refund')" id="four_row_page">
+                        <div class="row" t-if="(o.type == 'out_refund')" id="seventh_row_page">
                             <div class="col-12" style="padding-bottom:0px;margin-bottom:4px;">
                                 <div class="panel panel-default" style="padding-bottom:0px;margin-bottom:4px;">
                                     <div class="panel-header">
@@ -404,7 +390,7 @@
                         </div>
 
                         <!-- quinta fila factura -->
-                        <div class="row" id="five_row_page">
+                        <div class="row" id="eighth_row_page">
                             <div class="col-12">
                                 <div class="panel panel-default">
                                     <div class="main_invoice_table">
@@ -595,7 +581,7 @@
                             </div>
 
                             <!-- septima fila -->
-                            <div class="row">
+                            <div class="row" id="ninth_row_page">
                                 <div class="col-xs-6" id="invoice_ref">
                                     <span t-if="o.type == 'out_invoice' and ((o.state == 'open') or (o.state == 'paid'))"></span>
                                     <!--<span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
