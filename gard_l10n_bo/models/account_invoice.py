@@ -39,14 +39,11 @@ class AccountInvoice(models.Model):
 
     def _check_siat_uoms(self):
         siat_uoms = self._context.get("siat_uoms")
-        
+
         _logger.debug("_csu siat_uoms >>>>: %s", siat_uoms)
         _logger.debug("_csu siat_uom >>>>: %s", [siat_uom for siat_uom in siat_uoms])
-        
-        if any(
-            siat_uom == 0
-            for siat_uom in siat_uoms
-        ):
+
+        if any(siat_uom == 0 for siat_uom in siat_uoms):
             raise ValidationError(
                 _(
                     "Una UdM en las lineas de factura, no tiene una UdM SIAT establecida. "
@@ -55,14 +52,14 @@ class AccountInvoice(models.Model):
             )
         else:
             return True
-        
+
     def mod_xml_siat(self):
         xml = self._context.get("result")
         tree = ET.ElementTree(ET.fromstring(str(xml, encoding="utf-8")))
         root = tree.getroot()
         xml_uoms = [uom for uom in root.iter("unidadMedida")]
         siat_uoms = self._context.get("siat_uoms")
-        
+
         _logger.debug("_csu siat_uom >>>>: %s", [siat_uom for siat_uom in siat_uoms])
 
         # iterate through xml_uoms and replace with siat_uoms
@@ -70,6 +67,34 @@ class AccountInvoice(models.Model):
             xml_uoms[i].text = str(siat_uoms[i])
 
         return get_file(ET.tostring(root, encoding="utf8").decode("utf8"))
+
+    # TO DO: compare XML and QWEB reports to
+    # prevent db/SIAT data discrepancies
+    def compare_xml_qweb(self):
+        xml_file = self.siat_xml_factura
+        query = self._context.get("query")
+        xml_data = False
+
+        if xml_file:
+            tree = ET.ElementTree(ET.fromstring(str(xml_file, encoding="utf-8")))
+            root = tree.getroot()
+            xml_data["value"] = root.find(f"{query}").text
+
+            # xml_uoms = [uom for uom in root.iter("unidadMedida")]
+            # siat_uoms = self._context.get("siat_uoms")
+
+            _logger.debug("gxsd xml_data >>>>: %s", xml_data)
+
+            # iterate through xml_uoms and replace with siat_uoms
+            # for i in range(len(xml_uoms)):
+            #     xml_uoms[i].text = str(siat_uoms[i])
+            
+        else:
+            raise ValidationError(
+                        ("No XML file available.")
+                    )
+
+        return xml_data
 
     @api.multi
     def action_invoice_open(self):
@@ -81,17 +106,27 @@ class AccountInvoice(models.Model):
 
             get_xml = inv.get_xml_siat()
 
-            _logger.debug("_csu siat_uom >>>>: %s", [siat_uom for siat_uom in siat_uoms])
+            _logger.debug(
+                "_csu siat_uom >>>>: %s", [siat_uom for siat_uom in siat_uoms]
+            )
 
             # validate siat_uoms set on uom_id
-            [inv.with_context(inv_lines=inv_lines, siat_uoms=siat_uoms)._check_siat_uoms() for inv in self]
+            [
+                inv.with_context(
+                    inv_lines=inv_lines, siat_uoms=siat_uoms
+                )._check_siat_uoms()
+                for inv in self
+            ]
 
             # mod xml if uom_id/product_id siat_uoms don't match
             if [
-                line.uom_id.siat_unidad_medida_id != line.product_id.siat_unidad_medida_id
+                line.uom_id.siat_unidad_medida_id
+                != line.product_id.siat_unidad_medida_id
                 for line in inv_lines
             ]:
-                result = inv.with_context(result=get_xml, inv_lines=inv_lines, siat_uoms=siat_uoms).mod_xml_siat()
+                result = inv.with_context(
+                    result=get_xml, inv_lines=inv_lines, siat_uoms=siat_uoms
+                ).mod_xml_siat()
                 res = result
 
         return res
@@ -102,7 +137,7 @@ class AccountInvoice(models.Model):
 
     #     inv_lines = self.invoice_line_ids
     #     siat_uoms = [line.uom_id.siat_unidad_medida_id.code for line in inv_lines]
-        
+
     #     # mod xml if uom_id/product_id siat_uoms don't match
     #     if [
     #         line.uom_id.siat_unidad_medida_id != line.product_id.siat_unidad_medida_id
