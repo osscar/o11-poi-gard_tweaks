@@ -39,27 +39,23 @@
               </t>
               <t t-if="o.siat_state == 'anulada'">
                 <div id="watermark2" class="tex-center"
-                  style="font-size: 60pt; margin-top: 300pt; margin-left:-500pt; color: red; position:absolute;
+                  style="font-size: 60pt; margin-top: 250pt; margin-left:-500pt; color: red; position:absolute;
                   opacity:0.55; z-index:10000; transform:rotate(325deg); -webkit-transform:rotate(325deg); width:350%;">
-                  <span>A N U L A D A . ANULADA . A N U L A D A . ANULADA</span>
+                  <span>A N U L A D A . . ANULADA . A N U L A D A</span>
                   <br />
-                  <span>. ANULADA . A N U L A D A . ANULADA. A N U L A D A .</span>
+                  <span>ULADA . ANULADA . A N U L A D A . ANULADA . A N U L A D A . </span>
                   <br />
-                  <span>A N U L A D A . ANULADA . A N U L A D A . ANULADA</span>
+                  <span>. ANULADA . A N U L A D A . ANULADA</span>
                   <br />
-                  <span>. ANULADA . A N U L A D A . ANULADA. A N U L A D A .</span>
+                  <span>ULADA . ANULADA . A N U L A D A . ANULADA . A N U L A D A . </span>
                   <br />
-                  <span>A N U L A D A . ANULADA . A N U L A D A . ANULADA</span>
+                  <span>A N U L A D A . . ANULADA . A N U L A D A</span>
                   <br />
-                  <span>. ANULADA . A N U L A D A . ANULADA. A N U L A D A .</span>
+                  <span>ULADA . ANULADA . A N U L A D A . ANULADA . A N U L A D A . </span>
                   <br />
-                  <span>A N U L A D A . ANULADA . A N U L A D A . ANULADA</span>
+                  <span>. ANULADA . A N U L A D A . ANULADA</span>
                   <br />
-                  <span>. ANULADA . A N U L A D A . ANULADA. A N U L A D A .</span>
-                  <br />
-                  <span>A N U L A D A . ANULADA . A N U L A D A . ANULADA</span>
-                  <br />
-                  <span>. ANULADA . A N U L A D A . ANULADA. A N U L A D A .</span>
+                  <span>ULADA . ANULADA . A N U L A D A . ANULADA . A N U L A D A . </span>
                 </div>
               </t>
             </div>
