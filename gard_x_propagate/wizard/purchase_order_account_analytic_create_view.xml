@@ -8,8 +8,8 @@
             <field name="arch" type="xml">
                 <form string="Create Analytic Accounts">
                     <group name="create_form">
-                        <!-- <field name="order_account_line" domain="[('id', 'in', line_ids)]"/> -->
-                        <field name="account_analytic_parent_id"/>
+                        <field name="order_account_line" domain="[('id', 'in', line_ids)]"/>
+                        <field name="tag_id"/>
                     </group>
                     <group name="create_form_lines">
                         <notebook>
@@ -22,8 +22,7 @@
                                         <field name="order_name"/>
                                         <field name="name"/>
                                         <field name="code"/>
-                                        <field name="account_analytic_department_id"/>
-                                        <field name="account_analytic_parent_id"/>
+                                        <field name="tag_id"/>
                                     </tree>
                                 </field>
                             </page>

@@ -10,7 +10,10 @@
       <field name="arch" type="xml">
 
         <tree decoration-danger="state in 'open' and (residual_signed &gt; 0) and date_due &lt; current_date" decoration-success="state == 'paid'" string="Invoices">
-          <field name="state" widget="label_selection" options="{
+          <field
+            name="state"
+            widget="label_selection"
+            options="{
                             'classes': {
                                 'draft': 'primary',
                                 'none': 'danger',
@@ -40,100 +43,45 @@
       <field name="inherit_id" ref="purchase.purchase_order_form"/>
       <field name="arch" type="xml">
 
-        <xpath expr="//field[@name='invoice_ids']" position="replace">
+        <xpath expr="//notebook[last()]" position="inside">
+          <page name="order_history" string="Order History">
+            <separator colspan="4" string="Purchase Invoices"/>
+            <field colspan="4" name="invoice_ids" readonly="1" nolabel="1" context="{'tree_view_ref': 'gard_order_history.view_invoice_supplier_tree', 'form_view_ref': 'account.invoice_supplier_form'}"/>
+            <separator colspan="4" string="Cost Invoices"/>
+            <field colspan="4" name="invoice_cost_ids" readonly="1"/>
+            <separator colspan="4" string="Pickings"/>
+            <field colspan="4" name="picking_ids" readonly="1" nolabel="1" widget="one2many_list" context="{'tree_view_ref': 'gard_order_history.stock_picking_view_tree'}"/>
+            <separator colspan="4" string="Landed Costs"/>
+            <field colspan="4" name="landed_cost_ids" readonly="1"/>
+          </page>
+          <!-- <page name="account_history" string="Accounting History">
+
+          </page> -->
         </xpath>
 
-        <xpath expr="//div[@name='button_box']" position="replace">
-          <div class="oe_button_box" name="button_box">
-            <div>
-              <button type="object" name="action_view_picking" class="oe_stat_button" icon="fa-truck" attrs="{'invisible':[('state', 'in', ('draft','sent','to approve')),('picking_ids','=',[])]}">
-                <field name="picking_count" widget="statinfo" string="Shipment" help="Incoming Shipments"/>
-                <!-- <field name="picking_ids" invisible="1"/> -->
-              </button>
-              <button type="object" name="action_view_invoice" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible':[('state', 'in', ('draft','sent','to approve')),('invoice_ids','=',[])]}">
-                <field name="invoice_count" widget="statinfo" string="Vendor Bills"/>
-                <!-- <field name='invoice_ids' invisible="1"/> -->
-              </button>
-            </div>
-            <div>
-              <button class="oe_stat_button" name="action_view_account_analytic_lines" type="object" icon="fa-bars">
-                <field name="account_analytic_line_ids" widget="statinfo"/>
-              </button>
-              <button class="oe_stat_button" name="action_view_account_move_lines" type="object" icon="fa-bars">
-                <field name="account_move_line_ids" widget="statinfo"/>
-              </button>
-            </div>
-          </div>
+      </field>
+    </record>
+
+    <!-- TO DO: had to inherit custom view to xpath and extend options' attributes to colorize fields -->
+    <!-- optimally this should be added in primary view -->
+    <!-- but the JSON syntax doesn't bode well with conditions against field 'values' -->
+    <record id="view_invoice_tree_inherit" model="ir.ui.view">
+      <field name="name">invoice.tree.inherit.gard_order_history</field>
+      <field name="model">account.invoice</field>
+      <field name="mode">extension</field>
+      <field name="inherit_id" ref="gard_order_history.view_invoice_tree"/>
+      <field name="arch" type="xml">
+
+        <xpath expr="//tree/field[@name='estado_fac']" position="attributes">
+          <attribute name="options">{ "bg_color": " silver: state in 'paid' and estado_fac in 'A'; lightcoral: state not in ('paid','cancel') and estado_fac in 'A' " }</attribute>
         </xpath>
 
-          <xpath expr="//notebook[last()]" position="inside">
-            <page name="order_history" string="Order History">
-              <separator colspan="4" string="Analytic Accounting"/>
-              <group colspan="3" name="account_analytic">
-                <field string="Analytic Account" name="account_analytic_id" attrs="{'readonly': 1}"/>
-              </group>
-              <separator colspan="4" string="Purchase Invoices"/>
-              <field colspan="4" name="invoice_ids" readonly="1" nolabel="1"/>
-              <!-- context="{'tree_view_ref': 'gard_order_history.view_invoice_supplier_tree', 'form_view_ref': 'account.invoice_supplier_form'}"/> -->
-              <separator colspan="4" string="Cost Invoices"/>
-              <field colspan="4" name="invoice_cost_ids" readonly="1"/>
-              <separator colspan="4" string="Pickings"/>
-              <field colspan="4" name="picking_ids" readonly="1" nolabel="1" widget="one2many_list" context="{'tree_view_ref': 'gard_order_history.stock_picking_view_tree'}"/>
-              <separator colspan="4" string="Landed Costs"/>
-              <field colspan="4" name="landed_cost_ids" readonly="1"/>
-              <separator colspan="4" string="Payments"/>
-              <field colspan="4" name="payment_ids" readonly="1"/>
-            </page>
-          </xpath>
+        <xpath expr="//tree/field[@name='residual_signed']" position="attributes">
+          <attribute name="options">{ "bg_color": " lightcoral: (state in 'open') and (residual_signed &gt; 0) and (date_due &lt; current_date) " }</attribute>
+        </xpath>
 
-        </field>
-      </record>
+      </field>
+    </record>
 
-      <!-- TO DO: had to inherit custom view to xpath and extend options' attributes to colorize fields -->
-      <!-- optimally this should be added in primary view -->
-      <!-- but the JSON syntax doesn't bode well with conditions against field 'values' -->
-      <record id="view_invoice_tree_inherit" model="ir.ui.view">
-        <field name="name">invoice.tree.inherit.gard_order_history</field>
-        <field name="model">account.invoice</field>
-        <field name="mode">extension</field>
-        <field name="inherit_id" ref="gard_order_history.view_invoice_tree"/>
-        <field name="arch" type="xml">
-
-          <xpath expr="//tree/field[@name='estado_fac']" position="attributes">
-            <attribute name="options">{ "bg_color": " silver: state in 'paid' and estado_fac in 'A'; lightcoral: state not in ('paid','cancel') and estado_fac in 'A' " }</attribute>
-          </xpath>
-
-          <xpath expr="//tree/field[@name='residual_signed']" position="attributes">
-            <attribute name="options">{ "bg_color": " lightcoral: (state in 'open') and (residual_signed &gt; 0) and (date_due &lt; current_date) " }</attribute>
-          </xpath>
-
-        </field>
-      </record>
-
-
-
-      <!-- Define the ir.actions.server -->
-      <record id="action_server_purchase_order_view_account_move_lines" model="ir.actions.server">
-        <field name="name">Get Account Move Lines</field>
-        <field name="model_id" ref="purchase.model_purchase_order"/>
-        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
-        <field name="state">code</field>
-        <field name="code">
-if records:
-    action = records.action_view_account_move_lines()
-        </field>
-      </record>
-
-      <record id="action_server_purchase_order_view_account_analytic_lines" model="ir.actions.server">
-        <field name="name">View Analytic Account Lines</field>
-        <field name="model_id" ref="purchase.model_purchase_order"/>
-        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
-        <field name="state">code</field>
-        <field name="code">
-if records:
-    action = records.action_view_account_analytic_lines()
-        </field>
-      </record>
-
-    </data>
-  </openerp>
+  </data>
+</openerp>

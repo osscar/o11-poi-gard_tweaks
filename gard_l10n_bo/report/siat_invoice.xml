@@ -18,24 +18,16 @@
                 <div id="watermark1" class="text-center"
                   style="font-size: 80pt; position:absolute; opacity:0.25;">
                   <br />
-                  <span>SIN VALOR LEGAL<br />
-                    . . . . . . . . . . . . . . . . . . . . . . 
-                  </span>
+                  <span>SIN VALOR LEGAL<br /> . . . . . . . . . . . . . . . . . . . . . . . </span>
                   <br />
-                  <span>SIN VALOR LEGAL<br />
-                    . . . . . . . . . . . . . . . . . . . . . . 
-                  </span>
+                  <span>SIN VALOR LEGAL<br /> . . . . . . . . . . . . . . . . . . . . . . . </span>
                   <br />
-                  <span>SIN VALOR LEGAL<br />
-                    . . . . . . . . . . . . . . . . . . . . . . 
-                  </span>
+                  <span>SIN VALOR LEGAL<br /> . . . . . . . . . . . . . . . . . . . . . . . </span>
                   <br />
-                  <span>SIN VALOR LEGAL<br />
-                    . . . . . . . . . . . . . . . . . . . . . . 
-                  </span>
+                  <span>SIN VALOR LEGAL<br /> . . . . . . . . . . . . . . . . . . . . . . . </span>
                   <br />
                 </div>
-                  
+
               </t>
               <t t-if="o.siat_state == 'anulada'">
                 <div id="watermark2" class="tex-center"
@@ -61,9 +53,6 @@
                   <br />
                   <br />
                   <span>ULADA . ANULADA . ANULADA . ANULADA . AN</span>
-                  <br />
-                  <br />
-                  <span>A D A . A N U L A D A . A N U L A D A . A N U L A D A . A N U L</span>
                 </div>
               </t>
             </div>
@@ -607,13 +596,16 @@
                   </tr>
                   <tr
                     t-if="(o.type != 'out_refund' and o.siat_sector_code not in [2, 11])">
-                    <td class="text-right">
+                    <td class="text-right" style="font-size: 30px;">
                       <strong>MONTO A PAGAR Bs.</strong>
                     </td>
-                    <td class="text-right">
-                      <span
-                        t-esc="'{0:,.2f}'.format(o.residual - o.siat_discount - o.giftcard)" />
+                    <td class="text-right" style="font-size: 30px;">
+                      <strong>
+                        <span
+                          t-esc="'{0:,.2f}'.format(o.residual - o.siat_discount - o.giftcard)" />
+                      </strong>
                     </td>
+
                   </tr>
                   <tr
                     t-if="o.cc_dos.siat_sector_id.tipo == 1">
