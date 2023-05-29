@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-import logging
+# import logging
 
 from odoo import api, fields, models, _
 
 from odoo.exceptions import UserError
 from odoo.http import request
 
-_logger = logging.getLogger(__name__)
+# _logger = logging.getLogger(__name__)
 
 
 class AccountInvoice(models.Model):
@@ -25,10 +25,13 @@ class AccountInvoice(models.Model):
 
     @api.model
     def create(self, vals):
-        _logger.debug("vals >>>>: %s", vals)
+        # _logger.debug("vals >>>>: %s", vals)
         if "type" in vals:
             partner_ids = []
-            if "partner_invoice_id" in vals and vals["type"] in ("out_invoice", "out_refund"):
+            if "partner_invoice_id" in vals and vals["type"] in (
+                "out_invoice",
+                "out_refund",
+            ):
                 partner_ids.append(vals["partner_invoice_id"])
             elif "partner_id" in vals and vals["type"] in ("in_invoice", "in_refund"):
                 partner_ids.append(vals["partner_id"])
@@ -44,7 +47,9 @@ class AccountInvoice(models.Model):
                         vals["ci_dept"] = partner.ci_dept or ""
                     else:
                         vals["nit"] = 0
-                    vals["razon"] = partner.razon_invoice or partner.razon or partner.name or ""
+                    vals["razon"] = (
+                        partner.razon_invoice or partner.razon or partner.name or ""
+                    )
 
         ret = super(AccountInvoice, self).create(vals)
         return ret
@@ -60,11 +65,13 @@ class AccountInvoice(models.Model):
 
     def _get_ref(self, invoice):
         ref = invoice.reference or ""
-        inv_rel_ref_ids = self.env["account.invoice"].search([
-            ("partner_id", "=", invoice.partner_id.id),
-            ("reference", "=", invoice.reference),
-            ("id", "!=", invoice.id),
-        ])
+        inv_rel_ref_ids = self.env["account.invoice"].search(
+            [
+                ("partner_id", "=", invoice.partner_id.id),
+                ("reference", "=", invoice.reference),
+                ("id", "!=", invoice.id),
+            ]
+        )
         count = len(inv_rel_ref_ids)
         if count > 0:
             ref += " #" + str(count)

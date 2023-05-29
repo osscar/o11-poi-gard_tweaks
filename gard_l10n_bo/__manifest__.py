@@ -32,12 +32,18 @@ by GARD based on POIESIS\' customizations
     # 'images': [],
     "depends": [
         "poi_bol_base",
+        "poi_bol_siat",
         "poi_warehouse",
         "poi_warehouse_invoice",
     ],
     # 'demo': [],
     "data": [
+        'report/basic_invoice.xml',
+        'report/invoice_base.xml',
+        'report/siat_invoice.xml',
+
         'views/dosif_view.xml',
+        'views/product_uom_view.xml',
         'views/stock_warehouse_view.xml',
     ],
     "qweb": [],

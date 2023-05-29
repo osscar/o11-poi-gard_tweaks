@@ -11,11 +11,12 @@
     <field name="arch" type="xml">
       <xpath expr="//field[@name='name']" position="replace">
         <group>
-          <field name="name" filter_domain="['|', '|', ('name','ilike',self), ('ref','ilike',self)], ('move_id','ilike',self)]" string="Move"/>
+          <field name="name" filter_domain="['|', '|', '|', ('name','ilike',self), ('ref','ilike',self)], ('move_id','ilike',self), ('date','ilike',self)]" string="Move"/>
         </group>
       </xpath>
       <xpath expr="//field[@name='name']" position="after">
         <field name="move_id"/>
+        <!-- <field name="date"/> -->
       </xpath>
     </field>
   </record>
