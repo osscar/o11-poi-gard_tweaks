@@ -15,13 +15,6 @@ _logger = logging.getLogger(__name__)
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
-    partner_invoice_id = fields.Many2one(
-        "res.partner",
-        string="Dirección Facturación SIN",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-        help="Dirección de facturación.",
-    )
     nit = fields.Char(
         "NIT",
         size=22,

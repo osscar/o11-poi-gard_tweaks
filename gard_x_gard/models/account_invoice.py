@@ -13,6 +13,14 @@ from odoo.http import request
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
+    partner_invoice_id = fields.Many2one(
+        "res.partner",
+        string="Dirección Facturación SIN",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        help="Dirección de facturación.",
+    )
+
     @api.multi
     @api.returns("self")
     def refund(self, date_invoice=None, date=None, description=None, journal_id=None):

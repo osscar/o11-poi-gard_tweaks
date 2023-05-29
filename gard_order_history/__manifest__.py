@@ -41,7 +41,7 @@ tree views.
     'images': [],
     'depends': [
         'account',
-        'poi_x_gard',
+        'gard_x_gard',
         'purchase',
         'sale',
         'stock',
