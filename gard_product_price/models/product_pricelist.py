@@ -399,10 +399,6 @@ class ProductPricelistItem(models.Model):
         # get product standard price or inventory valuation
         if product:
             if product.standard_price == 0:
-                # valuation = sum(
-                #     [variant._sum_remaining_values()[0] for variant in product]
-                # )
-                # qty_available = product.with_context(company_owned=True).qty_available
                 valuation = product.stock_value
                 qty_available = product.qty_at_date
                 if qty_available:

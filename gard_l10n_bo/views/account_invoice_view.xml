@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Search Views -->
+
+  <!-- Views -->
+  <record model="ir.ui.view" id="invoice_form">
+    <field name="name">account.invoice.form.inherit.gard_l10n_bo</field>
+    <field name="model">account.invoice</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="account.invoice_form" />
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='payment_term_id']" position="replace">
+      </xpath>
+
+      <xpath expr="//sheet/group[1]//group[last()]" position="inside">
+        <separator />
+        <field name="journal_id" readonly="1" />
+        <field name="payment_term_id"
+          attrs="{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}" />
+        <field name="siat_metodo_pago"
+          attrs="{'readonly': [('siat_state','in',['online'])]}"
+          options="{'no_create_edit': True}" />
+      </xpath>
+
+      <xpath expr="//field[@name='partner_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+        <attribute name="options">{'no_create': True}</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='date_invoice']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='date_due']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='currency_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+        <attribute name="options">{'no_create_edit': True, 'no_open': True}</attribute>
+      </xpath>
+
+      <xpath expr="//page[@name='other_info']//field[@name='journal_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+        <attribute name="options">{'no_create': True}</attribute>
+      </xpath>
+
+      <xpath expr="//page[@name='other_info']//field[@name='company_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+        <attribute name="options">{'no_create_edit': True}</attribute>
+      </xpath>
+
+      <xpath expr="//page[@name='other_info']//field[@name='origin']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+
+    </field>
+  </record>
+
+  <record model="ir.ui.view" id="account_invoice_gard">
+    <field name="name">account.invoice.gard.form.inherit.gard_l10n_bo</field>
+    <field name="model">account.invoice</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="poi_x_gard.account_invoice_gard" />
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='partner_invoice_id']" position="attributes">
+        <attribute name="options">{'no_create': True}</attribute>
+      </xpath>
+
+    </field>
+  </record>
+
+  <record model="ir.ui.view" id="invoice_form_branch">
+    <field name="name">account.invoice.form.branch.inherit.gard_l10n_bo</field>
+    <field name="model">account.invoice</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="branch.invoice_form" />
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='branch_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+        <attribute name="options">{'no_create': True}</attribute>
+      </xpath>
+
+    </field>
+  </record>
+
+  <record model="ir.ui.view" id="account_invoice_form">
+    <field name="name">account.invoice.form.sale.inherit.gard_l10n_bo</field>
+    <field name="model">account.invoice</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="sale.account_invoice_form" />
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='team_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+
+    </field>
+  </record>
+
+  <record model="ir.ui.view" id="account_invoice_bo">
+    <field name="name">account.invoice.form.bo.inherit.gard_l10n_bo</field>
+    <field name="model">account.invoice</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="poi_bol_base.account_invoice_bo" />
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='razon']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('partner_invoice_id','!=',False), ('state',
+          '!=', 'draft')]}</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='nit']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['&amp;', ('partner_invoice_id', '!=', False),
+          ('nit', '!=', '0'), '|', ('state', '!=', 'draft')]}</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='cc_nro']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state',
+          '!=', 'draft')]}</attribute>
+        <!-- <attribute name="force_save">1</attribute> -->
+      </xpath>
+
+      <xpath expr="//field[@name='cc_aut']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state',
+          '!=', 'draft')]}</attribute>
+        <!-- <attribute name="force_save">1</attribute> -->
+      </xpath>
+
+    </field>
+  </record>
+
+  <record model="ir.ui.view" id="account_invoice_siat">
+    <field name="name">account.invoice.siat.form.inherit.gard_l10n_bo</field>
+    <field name="model">account.invoice</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="poi_bol_siat.account_invoice_siat" />
+    <field name="arch" type="xml">
+
+      <!-- <xpath expr="//field[@name='siat_tipo_id']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('partner_invoice_id','!=',False), ('state',
+          '!=', 'draft')]}</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath> -->
+
+      <xpath expr="//group[@name='group_sin_siat']//field[@name='siat_metodo_pago']"
+        position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+
+    </field>
+  </record>
+
+  <!-- Actions -->
+
+  <!-- Menus -->
+
+</odoo>
