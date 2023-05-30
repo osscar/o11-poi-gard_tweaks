@@ -33,11 +33,11 @@ by GARD based on POIESIS\' customizations
     "depends": [
         "account",
         "branch",
+        "gard_x_gard",
         "poi_bol_base",
         "poi_bol_siat",
         "poi_warehouse",
         "poi_warehouse_invoice",
-        "poi_x_gard",
     ],
     # 'demo': [],
     "data": [
