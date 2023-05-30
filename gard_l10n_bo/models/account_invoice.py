@@ -219,32 +219,6 @@ class AccountInvoice(models.Model):
 
         return get_file(ET.tostring(root, encoding="utf8").decode("utf8"))
 
-    # TO DO: compare XML and QWEB reports to
-    # prevent db/SIAT data discrepancies
-    def compare_xml_qweb(self):
-        xml_file = self.siat_xml_factura
-        query = self._context.get("query")
-        xml_data = False
-
-        if xml_file:
-            tree = ET.ElementTree(ET.fromstring(str(xml_file, encoding="utf-8")))
-            root = tree.getroot()
-            xml_data["value"] = root.find(f"{query}").text
-
-            # xml_uoms = [uom for uom in root.iter("unidadMedida")]
-            # siat_uoms = self._context.get("siat_uoms")
-
-            _logger.debug("gxsd xml_data >>>: %s", xml_data)
-
-            # iterate through xml_uoms and replace with siat_uoms
-            # for i in range(len(xml_uoms)):
-            #     xml_uoms[i].text = str(siat_uoms[i])
-
-        else:
-            raise ValidationError(("No XML file available."))
-
-        return xml_data
-
     @api.multi
     def action_invoice_open(self):
         for invoice in self:
@@ -269,11 +243,6 @@ class AccountInvoice(models.Model):
                 invoice_lines=invoice_lines
             )._check_siat_uoms()
 
-            _logger.debug("aio siat_uoms >>>: %s", siat_uoms)
-            _logger.debug("aio uom >>>: %s", [uom for uom in siat_uoms])
-
-            # no_send = self.env.context.get('siat_no_send', False)
-
             if siat_uoms:
                 # mod xml if uom_id/product_id siat_uoms don't match
                 if any(
@@ -281,10 +250,7 @@ class AccountInvoice(models.Model):
                     != line.product_id.siat_unidad_medida_id
                     for line in invoice_lines
                 ):
-                    _logger.debug("aio siat_uoms >>>: %s", siat_uoms)
-                    _logger.debug("aio uom >>>: %s", [uom for uom in siat_uoms])
 
-                    # get_xml = invoice.get_xml_siat()
                     result = invoice.with_context(
                         result=res, siat_uoms=siat_uoms
                     ).mod_xml_siat()

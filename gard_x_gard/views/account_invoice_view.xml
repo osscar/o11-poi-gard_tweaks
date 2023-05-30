@@ -94,7 +94,7 @@
 
       <!-- add partner_invoice_id field -->
       <xpath expr="/form//field[@name='partner_id']" position="after">
-        <field name="partner_invoice_id" />
+        <field name="partner_invoice_id" options="{'no_create': True}" />
       </xpath>
 
       <!-- add validation before validating invoice -->
