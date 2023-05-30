@@ -69,11 +69,11 @@ class AccountInvoice(models.Model):
         
         partner = self.with_context(self._context)._get_siat_partner_id()
         method = self._context.get("method")
-        siat_tipo_id = self.siat_tipo_id
+        siat_tipo_id = False
         razon = False
         nit = 0
         ci_dept = False
-        
+
         if partner:
             commercial_partner = partner.commercial_partner_id
             if method != "onchange_siat_tipo_id":
@@ -86,13 +86,14 @@ class AccountInvoice(models.Model):
                     or commercial_partner.name
                     or ""
                 )
-            if siat_tipo_id.code == 5:
-                if commercial_partner.nit != 0:
-                    nit = commercial_partner.nit
-            elif siat_tipo_id.code == 1:
-                if commercial_partner.ci != 0:
-                    nit = commercial_partner.ci
-                    ci_dept = commercial_partner.ci_dept
+            if siat_tipo_id:
+                if siat_tipo_id.code == 5:
+                    if commercial_partner.nit != 0:
+                        nit = commercial_partner.nit
+                elif siat_tipo_id.code == 1:
+                    if commercial_partner.ci != 0:
+                        nit = commercial_partner.ci
+                        ci_dept = commercial_partner.ci_dept
 
             vals["siat_tipo_id"] = siat_tipo_id
             vals["razon"] = razon
