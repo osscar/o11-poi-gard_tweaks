@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Search Views -->
+
+  <!-- Views -->
+  <record model="ir.ui.view" id="invoice_form">
+    <field name="name">account.invoice.form.inherit.gard_l10n_bo</field>
+    <field name="model">account.invoice</field>
+    <field name="mode">extension</field>
+    <field name="priority">20</field>
+    <field name="inherit_id" ref="account.invoice_form" />
+    <field name="arch" type="xml">
+
+      <!-- move fields -->
+      <xpath expr="//field[@name='user_id']" position="replace">
+      </xpath>
+      <xpath expr="//field[@name='payment_term_id']" position="replace">
+      </xpath>
+      <xpath expr="//field[@name='warehouse_id']" position="replace">
+      </xpath>
+      <xpath expr="//field[@name='team_id']" position="replace">
+      </xpath>
+      <xpath expr="//sheet/group[1]//group[last()]//label[1]" position="replace">
+      </xpath>
+      <xpath expr="//sheet/group[1]//group[last()]//div[1]" position="replace">
+      </xpath>
+
+      <xpath expr="//sheet/group[1]//group[1]" position="after">
+        <group colspan="2">
+          <field name="user_id" groups="base.group_user" />
+          <field name="team_id" />
+          <field name="payment_term_id"
+            attrs="{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}" />
+          <separator />
+          <field name="journal_id" readonly="1" />
+          <field name="siat_metodo_pago"
+            attrs="{'readonly': [('siat_state','in',['online'])]}"
+            options="{'no_create_edit': True}" />
+          <label for="currency_id" groups="base.group_multi_currency" />
+          <div groups="base.group_multi_currency">
+            <field name="currency_id" options="{'no_create_edit': True, 'no_open': True}"
+              class="oe_inline" />
+            <field name="company_currency_id" invisible="1" />
+          </div>
+        </group>
+      </xpath>
+
+      <!-- account attribute customizations -->
+      <xpath expr="//field[@name='partner_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+        <attribute name="options">{'no_create': True}</attribute>
+      </xpath>
+
+      <xpath expr="//sheet//group[1]" position="attributes">
+        <attribute name="colspan">6</attribute>
+        <attribute name="col">5</attribute>
+      </xpath>
+      <xpath expr="//sheet//group[1]//group[1]" position="attributes">
+        <attribute name="colspan">3</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='date_invoice']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='date_due']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+
+      <xpath expr="//page[@name='other_info']//field[@name='journal_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+        <attribute name="options">{'no_create': True}</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='currency_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+        <attribute name="options">{'no_create_edit': True, 'no_open': True}</attribute>
+      </xpath>
+
+      <xpath expr="//page[@name='other_info']//field[@name='company_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+        <attribute name="options">{'no_create_edit': True}</attribute>
+      </xpath>
+
+      <xpath expr="//page[@name='other_info']//field[@name='origin']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+
+      <!-- sale customizations -->
+      <xpath expr="//field[@name='team_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+
+      <!-- branch customizations -->
+      <xpath expr="//field[@name='branch_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+        <attribute name="options">{'no_create': True}</attribute>
+      </xpath>
+
+
+      <!-- SIAT customizations -->
+      <!-- move partner_invoice_id field -->
+      <xpath expr="//field[@name='partner_invoice_id']" position="replace">
+      </xpath>
+      <!-- add field spawn -->
+      <xpath expr="//field[@name='siat_tipo_id']" position="before">
+        <separator />
+        <field name="partner_invoice_id" options="{'no_create': True}" />
+      </xpath>
+      <!-- add separator -->
+      <xpath expr="//field[@name='razon']" position="after">
+        <separator />
+      </xpath>
+
+      <!-- custom attributes -->
+      <xpath expr="//field[@name='razon']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('partner_invoice_id','!=',False), ('state',
+          '!=', 'draft')]}</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='nit']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['|', '&amp;', ('partner_invoice_id', '!=', False),
+          ('nit', '!=', '0'), '|', ('state', '!=', 'draft')]}</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='cc_nro']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state',
+          '!=', 'draft')]}</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='cc_aut']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state',
+          '!=', 'draft')]}</attribute>
+      </xpath>
+
+      <!-- readonly to place an editable spawn of the field -->
+      <!-- more conveniently on the main section -->
+      <xpath expr="//group[@name='group_sin_siat']//field[@name='siat_metodo_pago']"
+        position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+
+    </field>
+  </record>
+
+  <!-- Actions -->
+
+  <!-- Menus -->
+
+</odoo>

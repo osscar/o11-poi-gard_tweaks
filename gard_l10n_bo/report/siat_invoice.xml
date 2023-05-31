@@ -13,18 +13,46 @@
 
           <div class="page">
             <!-- row 1: water mark -->
-            <div id="page_row1" class="" style="font-size:24px;">
-              <!-- marca de agua -->
+            <div id="page_row1">
               <t t-if="'piloto' in o.siat_link">
-                <div class="o-watermark text-center"
-                  style="width: 600px; top: 1.5in; font-size: 80pt; position: absolute; color: #9f9f9f8c; z-index: 9999; transform: rotate(-27deg); text-align: center;">
-                  SIN VALOR LEGAL
+                <div id="watermark1" class="text-center"
+                  style="font-size: 80pt; position:absolute; opacity:0.25;">
+                  <br />
+                  <span>SIN VALOR LEGAL<br /> . . . . . . . . . . . . . . . . . . . . . . . </span>
+                  <br />
+                  <span>SIN VALOR LEGAL<br /> . . . . . . . . . . . . . . . . . . . . . . . </span>
+                  <br />
+                  <span>SIN VALOR LEGAL<br /> . . . . . . . . . . . . . . . . . . . . . . . </span>
+                  <br />
+                  <span>SIN VALOR LEGAL<br /> . . . . . . . . . . . . . . . . . . . . . . . </span>
+                  <br />
                 </div>
+
               </t>
               <t t-if="o.siat_state == 'anulada'">
-                <div class="o-watermark"
-                  style="width: 600px; top: 1.5in; font-size: 80pt; position: absolute; color: #f080808f; z-index: 9999; transform: rotate(-27deg); text-align: center;">
-                  ANULADA
+                <div id="watermark2" class="tex-center"
+                  style="font-size: 60pt; margin-top: 250pt; margin-left:-500pt; color: red; position:absolute;
+                  opacity:0.55; z-index:10000; transform:rotate(325deg); -webkit-transform:rotate(325deg); width:350%;">
+                  <span>ADA . ANULADA . ANULADA . ANULADA . ANUL</span>
+                  <br />
+                  <br />
+                  <span>ULADA . ANULADA . ANULADA . ANULADA . AN</span>
+                  <br />
+                  <br />
+                  <span>LADA . ANULADA . ANULADA . ANULADA . ANU</span>
+                  <br />
+                  <span>ADA . ANULADA . ANULADA . ANULADA . ANUL</span>
+                  <br />
+                  <br />
+                  <span>ULADA . ANULADA . ANULADA . ANULADA . AN</span>
+                  <br />
+                  <br />
+                  <span>ADA . ANULADA . ANULADA . ANULADA . ANUL</span>
+                  <br />
+                  <span>LADA . ANULADA . ANULADA . ANULADA . ANU</span>
+                  <br />
+                  <br />
+                  <span>ULADA . ANULADA . ANULADA . ANULADA . AN</span>
                 </div>
               </t>
             </div>
@@ -194,10 +222,10 @@
                 <t t-if="o.siat_periodo_facturado and o.siat_periodo_facturado != ''">
                   <tr>
                     <td style="text-align: right; font-weight: bold;">
-                        Periodo Facturado:
+                      Periodo Facturado:
                     </td>
                     <td style="text-align: left;">
-                        <span t-esc="o.siat_periodo_facturado" />
+                      <span t-esc="o.siat_periodo_facturado" />
                     </td>
                   </tr>
                 </t>
@@ -206,7 +234,8 @@
                     Fecha de Emision:
                   </td>
                   <td style="text-align: left;">
-                      <span t-esc="time.strftime('%d/%m/%Y  %H:%M', time.strptime(o.time_stamp.replace('T', ' ')[0:16], '%Y-%m-%d %H:%M'))" />
+                    <span
+                      t-esc="time.strftime('%d/%m/%Y  %H:%M', time.strptime(o.time_stamp.replace('T', ' ')[0:16], '%Y-%m-%d %H:%M'))" />
                   </td>
                 </tr>
               </tbody>
@@ -505,13 +534,10 @@
                       <span
                         t-field="l.uom_id.siat_unidad_medida_id.name" />
                     </td>
-                    <td class="text-right">
-                      x <span t-field="l.price_unit"
+                    <td class="text-right"> x <span t-field="l.price_unit"
                         t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}" />
                     </td>
-                    <td class="text-right">
-                      - 
-                      <span t-esc="'{0:,.2f}'.format(l.discount)" />
+                    <td class="text-right"> - <span t-esc="'{0:,.2f}'.format(l.discount)" />
                     </td>
                     <td class="text-right" style="font-weight: bold;">
                       <span
@@ -524,10 +550,10 @@
 
             <!-- totals -->
             <div class="row" id="invoice_total_orginal">
-              <div class="col-12 text-right" style="width: 99%; font-size: 24px;">
+              <div class="text-right" style="width: 99%;">
                 <t t-set="sum_sin_desc"
                   t-value="o.amount_total + o.sum_desc" />
-                <table class="table">
+                <table class="table" style="font-size: 25px;">
                   <tr
                     t-if="(o.type != 'out_refund')">
                     <td class="text-right">
@@ -570,13 +596,16 @@
                   </tr>
                   <tr
                     t-if="(o.type != 'out_refund' and o.siat_sector_code not in [2, 11])">
-                    <td class="text-right">
+                    <td class="text-right" style="font-size: 30px;">
                       <strong>MONTO A PAGAR Bs.</strong>
                     </td>
-                    <td class="text-right">
-                      <span
-                        t-esc="'{0:,.2f}'.format(o.residual - o.siat_discount - o.giftcard)" />
+                    <td class="text-right" style="font-size: 30px;">
+                      <strong>
+                        <span
+                          t-esc="'{0:,.2f}'.format(o.residual - o.siat_discount - o.giftcard)" />
+                      </strong>
                     </td>
+
                   </tr>
                   <tr
                     t-if="o.cc_dos.siat_sector_id.tipo == 1">
@@ -604,13 +633,12 @@
             <br />
             <br />
             <div class="row">
-              <div class="col-12"
-                style="padding-bottom:0px;margin-bottom:0px;font-size: 24px;">
+              <div>
                 <table class="table table-sm"
-                  style="padding-bottom:0px;margin-bottom:0px;"
+                  style="font-size: 25px;"
                   id="total_3">
                   <tr>
-                    <td style="text-indent: 10px">
+                    <td style="text-indent: 20px; text-align: right;">
                       <strong>Son: </strong>
                       <span
                         t-esc="o.to_word(o.total_bs - o.siat_discount)" />
@@ -674,7 +702,7 @@
                 t-if="((o.type == 'out_invoice' or o.type == 'out_refund') and ((o.state == 'open') or (o.state == 'paid')))">
                 <img t-if="o.siat_link"
                   t-att-src="'/report/barcode/?type=%s&amp;width=%s&amp;height=%s&amp;value=%s' % ('QR', 420, 420, o.siat_link_url)"
-                  alt="QR Code" style="height:500px" />
+                  alt="QR Code" style="height:425px" />
               </span>
             </div>
 
@@ -703,15 +731,9 @@
           <!-- END PAGE -->
 
           <!-- footer -->
-          <div id="footer" class="footer" style="text-align: center; font-size:10px;"> 
-            ID: 
-            <span t-field="o.id" /> 
-            UID: 
-            <span t-field="o.user_id.id" /> 
-            PID: 
-            <span t-field="o.env.user.id" /> 
-            PD: 
-            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M:%S')" />
+          <div id="footer" style="text-align: center; font-size:10px;"> ID: <span t-field="o.id" />
+            IUID: <span t-field="o.user_id.id" /> PUID: <span t-field="o.env.user.id" /> PDATE: <span
+              t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M:%S')" />
           </div>
 
         </t>

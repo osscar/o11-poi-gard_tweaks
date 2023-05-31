@@ -1,152 +1,166 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-        <!-- Search Views -->
-        <record id="view_account_invoice_line_filter" model="ir.ui.view">
-            <field name="name">account.invoice.line.select</field>
-            <field name="model">account.invoice.line</field>
-            <field name="arch" type="xml">
-                <search string="Search Invoice Lines">
-                    <field name="invoice_id" string="Invoice" filter_domain="['|','|','|', ('invoice_id.number','ilike',self), ('invoice_id.cc_nro','ilike',self), ('invoice_id.origin','ilike',self), ('partner_id', 'child_of', self)]"/>
-                    <field name="account_analytic_id"/>
-                    <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
-                    <filter name="unpaid" string="Open" domain="[('state', '=', 'open')]"/>
-                    <filter name="paid" string="Paid" domain="[('state', '=', 'paid')]"/>
-                    <separator/>
-                    <field name="partner_id" operator="child_of"/>
-                    <field name="user_id" string="Salesperson" domain="[('share','=', False)]"/>
-                    <separator/>
-                    <group expand="0" string="Group By">
-                        <filter name="group_by_partner_id" string="Partner" context="{'group_by':'commercial_partner_id'}"/>
-                        <filter name="group_by_user_id" string="User" context="{'group_by':'user_id'}"/>
-                        <separator/>
-                        <filter name="group_by_invoice_id" string="Invoice" context="{'group_by':'invoice_id'}"/>
-                        <filter name="group_by_state" string="Invoice State" context="{'group_by':'state'}"/>
-                        <filter name="group_by_invoice_type" string="Invoice Type" context="{'group_by':'invoice_type'}"/>
-                        <filter name="group_by_account_analytic_id" string="Analytic Account" context="{'group_by':'account_analytic_id'}"/>
-                        <separator/>
-                        <filter name="group_by_date_invoice" string="Invoice Date" context="{'group_by':'date_invoice'}"/>
-                        <filter name="group_by_date_due" string="Invoice Date Due" context="{'group_by':'date_due'}"/>
-                    </group>
-               </search>
-            </field>
-        </record>
+  <!-- Search Views -->
+  <record id="view_account_invoice_line_filter" model="ir.ui.view">
+    <field name="name">account.invoice.line.select</field>
+    <field name="model">account.invoice.line</field>
+    <field name="arch" type="xml">
+      <search string="Search Invoice Lines">
+        <field name="invoice_id" string="Invoice"
+          filter_domain="['|','|','|', ('invoice_id.number','ilike',self), ('invoice_id.cc_nro','ilike',self), ('invoice_id.origin','ilike',self), ('partner_id', 'child_of', self)]" />
+        <field name="account_analytic_id" />
+        <filter name="draft" string="Draft" domain="[('state','=','draft')]" />
+        <filter name="unpaid" string="Open" domain="[('state', '=', 'open')]" />
+        <filter name="paid" string="Paid" domain="[('state', '=', 'paid')]" />
+        <separator />
+        <field name="partner_id" operator="child_of" />
+        <field name="user_id" string="Salesperson" domain="[('share','=', False)]" />
+        <separator />
+        <group expand="0" string="Group By">
+          <filter name="group_by_partner_id" string="Partner"
+            context="{'group_by':'commercial_partner_id'}" />
+          <filter name="group_by_user_id" string="User" context="{'group_by':'user_id'}" />
+          <separator />
+          <filter name="group_by_invoice_id" string="Invoice" context="{'group_by':'invoice_id'}" />
+          <filter name="group_by_state" string="Invoice State" context="{'group_by':'state'}" />
+          <filter name="group_by_invoice_type" string="Invoice Type"
+            context="{'group_by':'invoice_type'}" />
+          <filter name="group_by_account_analytic_id" string="Analytic Account"
+            context="{'group_by':'account_analytic_id'}" />
+          <separator />
+          <filter name="group_by_date_invoice" string="Invoice Date"
+            context="{'group_by':'date_invoice'}" />
+          <filter name="group_by_date_due" string="Invoice Date Due"
+            context="{'group_by':'date_due'}" />
+        </group>
+      </search>
+    </field>
+  </record>
 
-        <!-- Views -->
-        <record model="ir.ui.view" id="invoice_supplier_form">
-            <field name="name">account.invoice.supplier.form.inherit.gard_x_gard</field>
-            <field name="model">account.invoice</field>
-            <field name="mode">extension</field>
-            <field name="priority">10</field>
-            <field name="inherit_id" ref="account.invoice_supplier_form"/>
-            <field name="arch" type="xml">
+  <!-- Views -->
+  <record model="ir.ui.view" id="invoice_supplier_form">
+    <field name="name">account.invoice.supplier.form.inherit.gard_x_gard</field>
+    <field name="model">account.invoice</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="account.invoice_supplier_form" />
+    <field name="arch" type="xml">
 
-                <xpath expr="//button[@name='action_invoice_open']" position="attributes">
-                    <attribute name="confirm">Please revise the inputed data and check that the correct journal has been selected. Validate?</attribute>
-                </xpath>
+      <xpath expr="//button[@name='action_invoice_open']" position="attributes">
+        <attribute name="confirm">Please revise the inputed data and check that the correct journal
+          has been selected. Validate?</attribute>
+      </xpath>
 
-                <xpath expr="//field[@name='invoice_line_ids']//field[@name='account_id']" position="attributes">
-                    <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
-                </xpath>
+      <xpath expr="//field[@name='invoice_line_ids']//field[@name='account_id']"
+        position="attributes">
+        <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
+      </xpath>
 
-                <xpath expr="//field[@name='tax_line_ids']//field[@name='account_id']" position="attributes">
-                    <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
-                </xpath>
+      <xpath expr="//field[@name='tax_line_ids']//field[@name='account_id']" position="attributes">
+        <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
+      </xpath>
 
-                <!-- <xpath expr="//field[@name='invoice_line_ids']//field[@name='account_id']" position="attributes">
+      <!-- <xpath expr="//field[@name='invoice_line_ids']//field[@name='account_id']"
+      position="attributes">
                     <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
                 </xpath> -->
 
-                <xpath expr="//page[@name='other_info']//field[@name='move_id']" position="attributes">
-                    <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
-                </xpath>
+      <xpath expr="//page[@name='other_info']//field[@name='move_id']" position="attributes">
+        <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
+      </xpath>
 
-                <xpath expr="//page[@name='other_info']//field[@name='journal_id']" position="attributes">
-                    <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
-                </xpath>
+      <xpath expr="//page[@name='other_info']//field[@name='journal_id']" position="attributes">
+        <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
+      </xpath>
 
-                <xpath expr="//notebook/page[2]//field[@name='account_id']" position="attributes">
-                    <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
-                </xpath>
+      <xpath expr="//notebook/page[2]//field[@name='account_id']" position="attributes">
+        <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
+      </xpath>
 
-                <xpath expr="//field[@name='tax_line_ids']//field[@name='tax_id']" position="attributes">
-                    <attribute name="invisible">0</attribute>
-                </xpath>
+      <xpath expr="//field[@name='tax_line_ids']//field[@name='tax_id']" position="attributes">
+        <attribute name="invisible">0</attribute>
+      </xpath>
 
-            </field>
-        </record>
+    </field>
+  </record>
 
-        <record model="ir.ui.view" id="invoice_form">
-            <field name="name">account.invoice.form.inherit.gard_x_gard</field>
-            <field name="model">account.invoice</field>
-            <field name="mode">extension</field>
-            <field name="priority">10</field>
-            <field name="inherit_id" ref="account.invoice_form"/>
-            <field name="arch" type="xml">
+  <record model="ir.ui.view" id="invoice_form">
+    <field name="name">account.invoice.form.inherit.gard_x_gard</field>
+    <field name="model">account.invoice</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="account.invoice_form" />
+    <field name="arch" type="xml">
 
-                <!-- add validation before validating invoice -->
-                <xpath expr="//button[@name='action_invoice_open']" position="attributes">
-                    <attribute name="confirm">Please check all the data before validating. Validate?</attribute>
-                </xpath>
+      <!-- add partner_invoice_id field -->
+      <xpath expr="/form//field[@name='partner_id']" position="after">
+        <field name="partner_invoice_id" options="{'no_create': True}" />
+      </xpath>
 
-                <!-- place 'origin' field after 'number' field -->
-                <xpath expr="//h1/div" position="after">
-                    [<field name="origin" readonly="1"/>]
-                </xpath>
+      <!-- add validation before validating invoice -->
+      <xpath expr="//button[@name='action_invoice_open']" position="attributes">
+        <attribute name="confirm">Please check all the data before validating. Validate?</attribute>
+      </xpath>
 
-            </field>
-        </record>
+      <!-- place 'origin' field after 'number' field -->
+      <xpath expr="//h1/div" position="after"> [<field name="origin" readonly="1" />] </xpath>
 
-        <record model="ir.ui.view" id="view_invoice_line_tree">
-            <field name="name">account.invoice.line.tree.inherit.gard_x_gard</field>
-            <field name="model">account.invoice.line</field>
-            <field name="mode">extension</field>
-            <field name="priority">10</field>
-            <field name="inherit_id" ref="account.view_invoice_line_tree"/>
-            <field name="arch" type="xml">
+    </field>
+  </record>
 
-                <!-- set sort_order -->
-                <xpath expr="//tree" position="attributes">
-                    <attribute name="default_order">date_invoice desc</attribute>
-                    <attribute name="create">false</attribute>
-                    <attribute name="editable">bottom</attribute>
-                </xpath>
+  <record model="ir.ui.view" id="view_invoice_line_tree">
+    <field name="name">account.invoice.line.tree.inherit.gard_x_gard</field>
+    <field name="model">account.invoice.line</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="account.view_invoice_line_tree" />
+    <field name="arch" type="xml">
 
-                <!-- add fields -->
-                <xpath expr="//tree/field[1]" position="before">
-                    <field name="date_invoice"/>
-                    <field name="date_due"/>
-                    <field name="invoice_id"/>
-                    <field name="origin"/>
-                    <!-- readonly="1"/> -->
-                </xpath>
-                <xpath expr="//tree/field[@name='account_id']" position="after">
-                    <field name="account_analytic_id"/>
-                    <field name="analytic_tag_ids"/>
-                    <!-- readonly="1"/> -->
-                </xpath>
-                <xpath expr="//tree/field[@name='price_unit']" position="after">
-                    <field name="invoice_line_tax_ids"/>
-                    <!-- readonly="1"/> -->
-                </xpath>
-                <xpath expr="//tree/field[last()]" position="after">
-                    <field name="state"/>
-                    <!-- readonly="1"/> -->
-                </xpath>
-                
-            </field>
-        </record>
-        <!-- Actions -->
-        <record id="action_invoice_line_tree" model="ir.actions.act_window">
-            <field name="name">Invoice Lines</field>
-            <field name="res_model">account.invoice.line</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form,kanban,pivot,graph</field>
-            <field name="view_id" ref="account.view_invoice_line_tree"/>
-            <field name="search_view_id" ref="view_account_invoice_line_filter"/>
-            <field name="context">{'search_default_group_by_invoice_type':1, 'search_default_group_by_date_invoice':1}</field>
-        </record>
+      <!-- set sort_order -->
+      <xpath expr="//tree" position="attributes">
+        <attribute name="default_order">date_invoice desc</attribute>
+        <attribute name="create">false</attribute>
+        <attribute name="editable">bottom</attribute>
+      </xpath>
 
-        <!-- Menus -->
-        <menuitem action="action_invoice_line_tree" id="menu_action_invoice_line_tree" parent="account.account_reports_management_menu" sequence="1"/>
+      <!-- add fields -->
+      <xpath expr="//tree/field[1]" position="before">
+        <field name="date_invoice" />
+        <field name="date_due" />
+        <field name="invoice_id" />
+        <field name="origin" />
+        <!-- readonly="1"/> -->
+      </xpath>
+      <xpath expr="//tree/field[@name='account_id']" position="after">
+        <field name="account_analytic_id" />
+        <field name="analytic_tag_ids" />
+        <!-- readonly="1"/> -->
+      </xpath>
+      <xpath expr="//tree/field[@name='price_unit']" position="after">
+        <field name="invoice_line_tax_ids" />
+        <!-- readonly="1"/> -->
+      </xpath>
+      <xpath expr="//tree/field[last()]" position="after">
+        <field name="state" />
+        <!-- readonly="1"/> -->
+      </xpath>
+
+    </field>
+  </record>
+  <!-- Actions -->
+  <record id="action_invoice_line_tree" model="ir.actions.act_window">
+    <field name="name">Invoice Lines</field>
+    <field name="res_model">account.invoice.line</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form,kanban,pivot,graph</field>
+    <field name="view_id" ref="account.view_invoice_line_tree" />
+    <field name="search_view_id" ref="view_account_invoice_line_filter" />
+    <field name="context">{'search_default_group_by_invoice_type':1,
+      'search_default_group_by_date_invoice':1}</field>
+  </record>
+
+  <!-- Menus -->
+  <menuitem action="action_invoice_line_tree" id="menu_action_invoice_line_tree"
+    parent="account.account_reports_management_menu" sequence="1" />
 
 </odoo>

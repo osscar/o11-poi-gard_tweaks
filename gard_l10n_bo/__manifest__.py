@@ -31,6 +31,9 @@ by GARD based on POIESIS\' customizations
     # 'complexity': 'easy',
     # 'images': [],
     "depends": [
+        "account",
+        "branch",
+        "gard_x_gard",
         "poi_bol_base",
         "poi_bol_siat",
         "poi_warehouse",
@@ -42,6 +45,7 @@ by GARD based on POIESIS\' customizations
         'report/invoice_base.xml',
         'report/siat_invoice.xml',
 
+        'views/account_invoice_view.xml',
         'views/dosif_view.xml',
         'views/product_uom_view.xml',
         'views/stock_warehouse_view.xml',
