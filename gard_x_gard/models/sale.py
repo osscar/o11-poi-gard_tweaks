@@ -21,11 +21,7 @@ class SaleOrder(models.Model):
                               change_default=False,
                               default=False,
                               track_visibility='onchange')
-<<<<<<< Updated upstream
     
-=======
-
->>>>>>> Stashed changes
     @api.multi
     def action_invoice_create(self, grouped=False, final=False):
         inv_ids = super(SaleOrder, self).action_invoice_create(
@@ -46,16 +42,8 @@ class SaleOrder(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-<<<<<<< Updated upstream
-    date_order_id = fields.Datetime('Order Date', 
-                                    related='order_id.date_order', 
-                                    store=True, 
-                                    readonly=True, 
-                                    index=True)
-=======
     date_order_id = fields.Datetime('Order Date',
                                     related='order_id.date_order',
                                     store=True,
                                     readonly=True,
                                     index=True)
->>>>>>> Stashed changes
