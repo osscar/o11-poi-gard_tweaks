@@ -21,15 +21,6 @@ class AccountInvoice(models.Model):
         help="Dirección de facturación.",
     )
 
-    @api.multi
-    @api.returns("self")
-    def refund(self, date_invoice=None, date=None, description=None, journal_id=None):
-        for invoice in self:
-            ref = self._get_ref(invoice)
-            if ref:
-                invoice.reference = ref
-        return super().refund(date_invoice, date, description, journal_id)
-
     def _get_ref(self, invoice):
         ref = invoice.reference or ""
         inv_rel_ref_ids = self.env["account.invoice"].search(
@@ -43,6 +34,15 @@ class AccountInvoice(models.Model):
         if count > 0:
             ref += " #" + str(count)
         return ref
+
+    @api.multi
+    @api.returns("self")
+    def refund(self, date_invoice=None, date=None, description=None, journal_id=None):
+        for invoice in self:
+            ref = self._get_ref(invoice)
+            if ref:
+                invoice.reference = ref
+        return super().refund(date_invoice, date, description, journal_id)
 
 
 class AccountInvoiceLine(models.Model):

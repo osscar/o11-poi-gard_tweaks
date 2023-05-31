@@ -126,7 +126,7 @@
 
       <xpath expr="//field[@name='nit']"
         position="attributes">
-        <attribute name="attrs">{'readonly': ['&amp;', ('partner_invoice_id', '!=', False),
+        <attribute name="attrs">{'readonly': ['|', '&amp;', ('partner_invoice_id', '!=', False),
           ('nit', '!=', '0'), '|', ('state', '!=', 'draft')]}</attribute>
         <attribute name="force_save">1</attribute>
       </xpath>

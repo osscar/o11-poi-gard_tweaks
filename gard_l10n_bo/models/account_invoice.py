@@ -35,10 +35,10 @@ class AccountInvoice(models.Model):
             partner = self.partner_invoice_id
         elif self.partner_id:
             partner = self.partner_id
-        
+
         _logger.debug("_gspid partner >>>: %s", partner)
         _logger.debug("_gspid context_partner >>>: %s", context_partner)
-        
+
         return partner
 
     def _get_siat_tipo_id(self):
@@ -66,10 +66,10 @@ class AccountInvoice(models.Model):
 
         if context_vals:
             vals = context_vals
-        
+
         partner = self.with_context(self._context)._get_siat_partner_id()
         method = self._context.get("method")
-        siat_tipo_id = False
+        siat_tipo_id = self.siat_tipo_id
         razon = False
         nit = 0
         ci_dept = False
@@ -86,14 +86,15 @@ class AccountInvoice(models.Model):
                     or commercial_partner.name
                     or ""
                 )
-            if siat_tipo_id:
-                if siat_tipo_id.code == 5:
-                    if commercial_partner.nit != 0:
-                        nit = commercial_partner.nit
-                elif siat_tipo_id.code == 1:
-                    if commercial_partner.ci != 0:
-                        nit = commercial_partner.ci
-                        ci_dept = commercial_partner.ci_dept
+            if not siat_tipo_id:
+                nit = 0
+            elif siat_tipo_id.code == 5:
+                if commercial_partner.nit != 0:
+                    nit = commercial_partner.nit
+            elif siat_tipo_id.code == 1:
+                if commercial_partner.ci != 0:
+                    nit = commercial_partner.ci
+                    ci_dept = commercial_partner.ci_dept
 
             vals["siat_tipo_id"] = siat_tipo_id
             vals["razon"] = razon
@@ -106,8 +107,8 @@ class AccountInvoice(models.Model):
     def _onchange_siat_tipo_id(self):
         # get vals
         vals = self.with_context(method="onchange_siat_tipo_id")._get_sin_data()
-        
-        #update invoice with vals
+
+        # update invoice with vals
         self.nit = vals["nit"]
         self.ci_dept = vals["ci_dept"]
 
@@ -136,9 +137,9 @@ class AccountInvoice(models.Model):
         ret = {}
         ret["result"] = super(AccountInvoice, self).create(vals)
         ret["validate_nit"] = ret["result"]._onchange_nit()
-        
+
         return ret["result"]
-    
+
     def _get_siat_onchange_vals(self):
         vals = self._get_sin_data()
         self.siat_tipo_id = vals["siat_tipo_id"]
@@ -147,15 +148,12 @@ class AccountInvoice(models.Model):
 
     @api.onchange("partner_id", "company_id")
     def _onchange_partner_id(self):
-        if not self.partner_invoice_id: 
+        if not self.partner_invoice_id:
             super(AccountInvoice, self)._onchange_partner_id()
             self._get_siat_onchange_vals()
             self._onchange_nit()
         else:
             self._onchange_partner_invoice_id()
-
-        
-            
 
     @api.onchange("partner_invoice_id", "company_id")
     def _onchange_partner_invoice_id(self):
@@ -211,8 +209,8 @@ class AccountInvoice(models.Model):
         xml_uoms = [uom for uom in root.iter("unidadMedida")]
         siat_uoms = self._context.get("siat_uoms")
 
-        _logger.debug("mxs siat_uoms >>>: %s", siat_uoms)
-        _logger.debug("mxs uom >>>: %s", [uom.code for uom in siat_uoms])
+        # _logger.debug("mxs siat_uoms >>>: %s", siat_uoms)
+        # _logger.debug("mxs uom >>>: %s", [uom.code for uom in siat_uoms])
 
         # iterate through xml_uoms and replace with siat_uoms
         for i in range(len(xml_uoms)):
@@ -225,10 +223,19 @@ class AccountInvoice(models.Model):
         for invoice in self:
             res = super(AccountInvoice, invoice).action_invoice_open()
 
-            invoice_lines = invoice.invoice_line_ids
+            if invoice.cc_dos:
+                # check for valid nit
+                if invoice.nit == "0":
+                    raise ValidationError(
+                        _("%s no puede ser 0. " 
+                          "Por favor ingrese un numero valido.")
+                        % (invoice.siat_tipo_id.name)
+                    )
 
-            # validate siat_uoms set on uom_id
-            invoice.with_context(invoice_lines=invoice_lines)._check_siat_uoms()
+                invoice_lines = invoice.invoice_line_ids
+
+                # validate siat_uoms set on uom_id
+                invoice.with_context(invoice_lines=invoice_lines)._check_siat_uoms()
 
         return res
 
@@ -251,7 +258,6 @@ class AccountInvoice(models.Model):
                     != line.product_id.siat_unidad_medida_id
                     for line in invoice_lines
                 ):
-
                     result = invoice.with_context(
                         result=res, siat_uoms=siat_uoms
                     ).mod_xml_siat()
