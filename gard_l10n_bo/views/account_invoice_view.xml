@@ -27,6 +27,14 @@
       <xpath expr="//sheet/group[1]//group[last()]//div[1]" position="replace">
       </xpath>
 
+      <!-- readonly to place an editable spawn of the field -->
+      <!-- more conveniently on the main section -->
+      <xpath expr="//group[@name='group_sin_siat']//field[@name='siat_metodo_pago']"
+        position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+
       <xpath expr="//sheet/group[1]//group[1]" position="after">
         <group colspan="2">
           <field name="user_id" groups="base.group_user" />
@@ -37,7 +45,7 @@
           <field name="journal_id" options="{'no_create_edit': True, 'no_open': True}"
             attrs="{'readonly':['|', '|', ('move_id','!=',False), ('cc_nro','!=',False), ('state','!=','draft')]}" />
           <field name="siat_metodo_pago"
-            attrs="{'readonly': [('siat_state','!=','draft')]}"
+            attrs="{'readonly': ['|', ('state','!=','draft'), ('siat_state','in',['online'])]}"
             options="{'no_create_edit': True}" />
           <label for="currency_id" groups="base.group_multi_currency" />
           <div groups="base.group_multi_currency">
@@ -134,14 +142,6 @@
         position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state',
           '!=', 'draft')]}</attribute>
-      </xpath>
-
-      <!-- readonly to place an editable spawn of the field -->
-      <!-- more conveniently on the main section -->
-      <xpath expr="//group[@name='group_sin_siat']//field[@name='siat_metodo_pago']"
-        position="attributes">
-        <attribute name="readonly">1</attribute>
-        <attribute name="force_save">1</attribute>
       </xpath>
 
     </field>
