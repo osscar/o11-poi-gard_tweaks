@@ -7,12 +7,14 @@
     <field name="name">account.invoice.form.inherit.gard_l10n_bo</field>
     <field name="model">account.invoice</field>
     <field name="mode">extension</field>
-    <field name="priority">20</field>
+    <field name="priority">21</field>
     <field name="inherit_id" ref="account.invoice_form" />
     <field name="arch" type="xml">
 
       <!-- move fields -->
       <xpath expr="//field[@name='user_id']" position="replace">
+      </xpath>
+      <xpath expr="//field[@name='journal_id']" position="replace">
       </xpath>
       <xpath expr="//field[@name='payment_term_id']" position="replace">
       </xpath>
@@ -25,6 +27,14 @@
       <xpath expr="//sheet/group[1]//group[last()]//div[1]" position="replace">
       </xpath>
 
+      <!-- readonly to place an editable spawn of the field -->
+      <!-- more conveniently on the main section -->
+      <xpath expr="//group[@name='group_sin_siat']//field[@name='siat_metodo_pago']"
+        position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+
       <xpath expr="//sheet/group[1]//group[1]" position="after">
         <group colspan="2">
           <field name="user_id" groups="base.group_user" />
@@ -32,9 +42,10 @@
           <field name="payment_term_id"
             attrs="{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}" />
           <separator />
-          <field name="journal_id" readonly="1" />
+          <field name="journal_id" options="{'no_create_edit': True, 'no_open': True}"
+            attrs="{'readonly':['|', '|', ('move_id','!=',False), ('cc_nro','!=',False), ('state','!=','draft')]}" />
           <field name="siat_metodo_pago"
-            attrs="{'readonly': [('siat_state','in',['online'])]}"
+            attrs="{'readonly': ['|', ('state','!=','draft'), ('siat_state','in',['online'])]}"
             options="{'no_create_edit': True}" />
           <label for="currency_id" groups="base.group_multi_currency" />
           <div groups="base.group_multi_currency">
@@ -62,30 +73,20 @@
       <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
       </xpath>
-
       <xpath expr="//field[@name='date_invoice']" position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
       </xpath>
-
       <xpath expr="//field[@name='date_due']" position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
       </xpath>
-
-      <xpath expr="//page[@name='other_info']//field[@name='journal_id']" position="attributes">
-        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
-        <attribute name="options">{'no_create': True}</attribute>
-      </xpath>
-
       <xpath expr="//field[@name='currency_id']" position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
         <attribute name="options">{'no_create_edit': True, 'no_open': True}</attribute>
       </xpath>
-
       <xpath expr="//page[@name='other_info']//field[@name='company_id']" position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
         <attribute name="options">{'no_create_edit': True}</attribute>
       </xpath>
-
       <xpath expr="//page[@name='other_info']//field[@name='origin']" position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
       </xpath>
@@ -141,14 +142,6 @@
         position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state',
           '!=', 'draft')]}</attribute>
-      </xpath>
-
-      <!-- readonly to place an editable spawn of the field -->
-      <!-- more conveniently on the main section -->
-      <xpath expr="//group[@name='group_sin_siat']//field[@name='siat_metodo_pago']"
-        position="attributes">
-        <attribute name="readonly">1</attribute>
-        <attribute name="force_save">1</attribute>
       </xpath>
 
     </field>

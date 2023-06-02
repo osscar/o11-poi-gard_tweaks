@@ -74,7 +74,7 @@ JS script on web/static/src/js in render_tag function.)
     'qweb': [
     ],
     'installable': True,
-    'application': True,
+    'application': False,
     'auto_install': False,
     'test': [],
 }

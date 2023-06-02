@@ -38,52 +38,6 @@
   </record>
 
   <!-- Views -->
-  <record model="ir.ui.view" id="invoice_supplier_form">
-    <field name="name">account.invoice.supplier.form.inherit.gard_x_gard</field>
-    <field name="model">account.invoice</field>
-    <field name="mode">extension</field>
-    <field name="priority">10</field>
-    <field name="inherit_id" ref="account.invoice_supplier_form" />
-    <field name="arch" type="xml">
-
-      <xpath expr="//button[@name='action_invoice_open']" position="attributes">
-        <attribute name="confirm">Please revise the inputed data and check that the correct journal
-          has been selected. Validate?</attribute>
-      </xpath>
-
-      <xpath expr="//field[@name='invoice_line_ids']//field[@name='account_id']"
-        position="attributes">
-        <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
-      </xpath>
-
-      <xpath expr="//field[@name='tax_line_ids']//field[@name='account_id']" position="attributes">
-        <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
-      </xpath>
-
-      <!-- <xpath expr="//field[@name='invoice_line_ids']//field[@name='account_id']"
-      position="attributes">
-                    <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
-                </xpath> -->
-
-      <xpath expr="//page[@name='other_info']//field[@name='move_id']" position="attributes">
-        <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
-      </xpath>
-
-      <xpath expr="//page[@name='other_info']//field[@name='journal_id']" position="attributes">
-        <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
-      </xpath>
-
-      <xpath expr="//notebook/page[2]//field[@name='account_id']" position="attributes">
-        <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
-      </xpath>
-
-      <xpath expr="//field[@name='tax_line_ids']//field[@name='tax_id']" position="attributes">
-        <attribute name="invisible">0</attribute>
-      </xpath>
-
-    </field>
-  </record>
-
   <record model="ir.ui.view" id="invoice_form">
     <field name="name">account.invoice.form.inherit.gard_x_gard</field>
     <field name="model">account.invoice</field>
@@ -96,14 +50,49 @@
       <xpath expr="/form//field[@name='partner_id']" position="after">
         <field name="partner_invoice_id" options="{'no_create': True}" />
       </xpath>
-
-      <!-- add validation before validating invoice -->
+      <!-- add confimrmation to button -->
       <xpath expr="//button[@name='action_invoice_open']" position="attributes">
-        <attribute name="confirm">Please check all the data before validating. Validate?</attribute>
+        <attribute name="confirm">Please check the data -journal, partner, currency, etc.- before
+          validating. Validate?</attribute>
       </xpath>
-
       <!-- place 'origin' field after 'number' field -->
       <xpath expr="//h1/div" position="after"> [<field name="origin" readonly="1" />] </xpath>
+
+    </field>
+  </record>
+
+  <record model="ir.ui.view" id="invoice_supplier_form">
+    <field name="name">account.invoice.supplier.form.inherit.gard_x_gard</field>
+    <field name="model">account.invoice</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="account.invoice_supplier_form" />
+    <field name="arch" type="xml">
+
+      <!-- custom field attributes -->
+      <xpath expr="//button[@name='action_invoice_open']" position="attributes">
+        <attribute name="confirm">Please check the data -journal, partner, currency, etc.- before
+          validating. Validate?</attribute>
+      </xpath>
+      <xpath expr="//page[@name='other_info']//field[@name='journal_id']" position="attributes">
+        <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
+      </xpath>
+      <xpath expr="//field[@name='tax_line_ids']//field[@name='account_id']" position="attributes">
+        <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
+      </xpath>
+      <xpath expr="//field[@name='invoice_line_ids']//field[@name='account_id']"
+        position="attributes">
+        <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
+      </xpath>
+      <xpath expr="//page[@name='other_info']//field[@name='move_id']" position="attributes">
+        <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
+      </xpath>
+      <xpath expr="//notebook/page[2]//field[@name='account_id']" position="attributes">
+        <attribute name="groups">gard_x_gard.group_account_invoice_purchase</attribute>
+      </xpath>
+      <xpath expr="//field[@name='tax_line_ids']//field[@name='tax_id']" position="attributes">
+        <attribute name="invisible">0</attribute>
+      </xpath>
 
     </field>
   </record>
@@ -133,7 +122,7 @@
       </xpath>
       <xpath expr="//tree/field[@name='account_id']" position="after">
         <field name="account_analytic_id" />
-        <field name="analytic_tag_ids" />
+        <!-- <field name="analytic_tag_ids" /> -->
         <!-- readonly="1"/> -->
       </xpath>
       <xpath expr="//tree/field[@name='price_unit']" position="after">
@@ -147,6 +136,7 @@
 
     </field>
   </record>
+
   <!-- Actions -->
   <record id="action_invoice_line_tree" model="ir.actions.act_window">
     <field name="name">Invoice Lines</field>
