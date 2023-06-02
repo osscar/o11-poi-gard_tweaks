@@ -40,8 +40,9 @@ available stock visualization.
 """,
     'images': [],
     'depends': [
+        'gard_x_gard',
         'product',
-        'sale',
+        'sale_stock',
         'stock',
     ],
     'category': 'Stock',
@@ -54,7 +55,7 @@ available stock visualization.
     ],
     'demo': [],
     'license': 'AGPL-3',
-    'application': True,
+    'application': False,
     'installable': True,
     'auto_install': False,
 }

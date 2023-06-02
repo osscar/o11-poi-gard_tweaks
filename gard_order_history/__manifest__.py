@@ -58,7 +58,7 @@ tree views.
         'views/sale_view.xml',
         'views/stock_view.xml',
     ],
-    'application': True,
+    'application': False,
     'auto_install': False,
     'test': [],
     'installable': True,

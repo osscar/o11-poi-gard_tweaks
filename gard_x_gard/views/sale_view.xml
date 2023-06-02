@@ -1,133 +1,158 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <!-- Search Views -->
+  <data>
+    <!-- Search Views -->
+    <record model="ir.ui.view" id="view_sales_order_line_filter">
+      <field name="name">sale.order.line.select.inherit.gard_x_gard</field>
+      <field name="model">sale.order.line</field>
+      <field name="mode">extension</field>
+      <!-- <field name="priority">10</field> -->
+      <field name="inherit_id" ref="sale.view_sales_order_line_filter" />
+      <field name="arch" type="xml">
 
-        <!-- Views -->
-        <record model="ir.ui.view" id="view_order_form">
-            <field name="name">sale.order.form.inherit.gard_x_gard</field>
-            <field name="model">sale.order</field>
-            <field name="mode">extension</field>
-            <field name="inherit_id" ref="sale.view_order_form"/>
-            <field name="arch" type="xml">
-                <!-- require team_id -->
-                <xpath expr="//field[@name='team_id']" position="attributes">
-                    <attribute name="required">1</attribute>
-                </xpath>
+        <xpath expr="//group//filter[last()]" position="after">
+          <filter string="Order Date" name="date_order_id " context="{'group_by':'date_order_id'}" />
+        </xpath>
 
-            </field>
-        </record>
+      </field>
+    </record>
+
+    <!-- Views -->
+    <record model="ir.ui.view" id="view_order_form">
+      <field name="name">sale.order.form.inherit.gard_x_gard</field>
+      <field name="model">sale.order</field>
+      <field name="mode">extension</field>
+      <field name="priority">18</field>
+      <field name="inherit_id" ref="sale.view_order_form" />
+      <field name="arch" type="xml">
+
+        <!--  -->
+        <xpath expr="/form//field[@name='partner_invoice_id']" position="replace">
+        </xpath>
+        <xpath expr="/form//field[@name='partner_shipping_id']" position="replace">
+        </xpath>
+        <xpath expr="/form//field[@name='user_id']" position="replace">
+        </xpath>
+        <xpath expr="/form//field[@name='payment_term_id']" position="replace">
+        </xpath>
+        <xpath expr="/form//field[@name='team_id']" position="replace">
+        </xpath>
 
 
-        <record model="ir.ui.view" id="view_order_tree">
-            <field name="name">sale.order.tree.inherit.gard_x_gard</field>
-            <field name="model">sale.order</field>
-            <field name="mode">extension</field>
-            <!-- <field name="priority">10</field> -->
-            <field name="inherit_id" ref="sale.view_order_tree"/>
-            <field name="arch" type="xml">
+        <!-- move route_id field -->
+        <xpath expr="/form//field[@name='order_line']/tree//field[@name='product_uom_qty']"
+          position="before">
+          <field name="route_id" groups="sale_stock.group_route_so_lines"
+            options="{'no_create_edit': True, 'no_open': True}" />
+        </xpath>
 
-                <xpath expr="//field[@name='partner_id']" position="after">
-                    <field name="partner_invoice_id" readonly="1"/>
-                </xpath>
+        <!-- rearrange form fields -->
+        <xpath expr="//sheet//group[1]" position="attributes">
+          <attribute name="colspan">6</attribute>
+          <attribute name="col">3</attribute>
+        </xpath>
+        <!-- <xpath expr="//sheet//group[1]//group[1]" position="attributes">
+          <attribute name="colspan">2</attribute>
+        </xpath> -->
 
-            </field>
-        </record>
+        <xpath expr="//sheet//group[1]//group[1]" position="after">
+          <group>
+            <field name="partner_invoice_id" groups="sale.group_delivery_invoice_address"
+              context="{'default_type':'invoice', 'show_address': 1}"
+              options="{'always_reload': True}" />
+            <field name="partner_shipping_id" groups="sale.group_delivery_invoice_address"
+              context="{'default_type':'delivery'}" options="{'always_reload': True}" />  
+          </group>
+        </xpath>
 
-        <record model="ir.ui.view" id="view_quotation_tree">
-            <field name="name">sale.order.tree.inherit.gard_x_gard</field>
-            <field name="model">sale.order</field>
-            <field name="mode">extension</field>
-            <!-- <field name="priority">10</field> -->
-            <field name="inherit_id" ref="sale.view_quotation_tree"/>
-            <field name="arch" type="xml">
+        <xpath expr="//sheet//group[1]//group[3]//field[last()]" position="after">
+          <separator />
+          <field name="user_id" groups="base.group_user" />
+          <field name="team_id" options="{'no_create_edit': True, 'no_open': True}" />
+          <field name="payment_term_id" options="{'no_create_edit': True, 'no_open': True}" />
+        </xpath>
 
-                <xpath expr="//field[@name='partner_id']" position="after">
-                    <field name="partner_invoice_id" readonly="1"/>
-                </xpath>
+      </field>
+    </record>
 
-            </field>
-        </record>
+    <record model="ir.ui.view" id="view_quotation_tree">
+      <field name="name">sale.order.tree.inherit.gard_x_gard</field>
+      <field name="model">sale.order</field>
+      <field name="mode">extension</field>
+      <!-- <field name="priority">10</field> -->
+      <field name="inherit_id" ref="sale.view_quotation_tree" />
+      <field name="arch" type="xml">
 
-        <record model="ir.ui.view" id="view_order_line_tree">
-            <field name="name">sale.order.line.tree.inherit.gard_x_gard</field>
-            <field name="model">sale.order.line</field>
-            <field name="mode">extension</field>
-            <!-- <field name="priority">10</field> -->
-            <field name="inherit_id" ref="sale.view_order_line_tree"/>
-            <field name="arch" type="xml">
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="partner_invoice_id" />
+        </xpath>
 
-                <xpath expr="//field[@name='order_id']" position="after">
-                    <field name="date_order_id"/>
-                </xpath>
-                <!-- add price_unit column -->
-                <xpath expr="//field[@name='price_subtotal']" position="before">
-                    <field name="price_unit"/>
-                </xpath>
+      </field>
+    </record>
 
-            </field>
-        </record>
+    <record model="ir.ui.view" id="view_order_line_tree">
+      <field name="name">sale.order.line.tree.inherit.gard_x_gard</field>
+      <field name="model">sale.order.line</field>
+      <field name="mode">extension</field>
+      <!-- <field name="priority">10</field> -->
+      <field name="inherit_id" ref="sale.view_order_line_tree" />
+      <field name="arch" type="xml">
 
-        <record model="ir.ui.view" id="view_sales_order_line_filter">
-            <field name="name">sale.order.line.select.inherit.gard_x_gard</field>
-            <field name="model">sale.order.line</field>
-            <field name="mode">extension</field>
-            <!-- <field name="priority">10</field> -->
-            <field name="inherit_id" ref="sale.view_sales_order_line_filter"/>
-            <field name="arch" type="xml">
+        <xpath expr="//field[@name='order_id']" position="after">
+          <field name="date_order_id" />
+        </xpath>
+        <!-- add price_unit column -->
+        <!-- <xpath expr="//field[@name='price_subtotal']" position="before">
+          <field name="price_unit" />
+        </xpath> -->
 
-                <xpath expr="//group/filter[last()]" position="after">
-                    <filter string="Order Date" name="date_order_id " context="{'group_by':'date_order_id'}"/>
-                </xpath>
+      </field>
+    </record>
 
-            </field>
-        </record>
+    <!-- Actions -->
+    <record id="action_sale_order_lines" model="ir.actions.act_window">
+      <field name="name">Sale Order Lines</field>
+      <field name="res_model">sale.order.line</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form,kanban,pivot,graph</field>
+      <field name="context">{}</field>
+      <field name="view_id" ref="sale.view_sales_order_line_filter" />
+    </record>
 
-        <!-- Actions -->
-        <record id="action_sale_order_lines" model="ir.actions.act_window">
-            <field name="name">Sale Order Lines</field>
-            <field name="res_model">sale.order.line</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form,kanban,pivot,graph</field>
-            <field name="context">{}</field>
-            <field name="view_id" ref="sale.view_sales_order_line_filter"/>
-        </record>
+    <!-- Menus -->
+    <menuitem
+      id="menu_sale_order_lines_action"
+      parent="sale.menu_sale_report"
+      name="Sale Order Lines"
+      action="action_sale_order_lines"
+      sequence="10"
+    />
 
-        <!-- Menus -->
-        <menuitem
-            id="menu_sale_order_lines_action"
-            parent="sale.menu_sale_report"
-            name="Sale Order Lines"
-            action="action_sale_order_lines"
-            sequence="10"
-            />
-            <!-- groups= "sales_team.group_sale_manager,sales_team.group_sale_salesman,account.group_account_manager,account.group_account_user" -->
-        
-        <menuitem id="sale.menu_sale_report"
-            name="Reporting"
-            parent="sale.sale_menu_root"
-            sequence="5"
-            groups="sales_team.group_sale_salesman"/>
+    <menuitem id="sale.menu_sale_report"
+      name="Reporting"
+      parent="sale.sale_menu_root"
+      sequence="5"
+      groups="sales_team.group_sale_salesman" />
 
-        <menuitem id="sale.menu_report_product_all"
-            name="Sales"
-            action="sale.action_order_report_all"
-            parent="sale.menu_sale_report"
-            sequence="1"
-            groups="sales_team.group_sale_manager"/>
+    <menuitem id="sale.menu_report_product_all"
+      name="Sales"
+      action="sale.action_order_report_all"
+      parent="sale.menu_sale_report"
+      sequence="1"
+      groups="sales_team.group_sale_manager" />
 
-        <menuitem id="sale.report_sales_team"
-            name="Sales Channels"
-            parent="sale.menu_sale_report"
-            action="sales_team.crm_team_salesteams_act"
-            sequence="2"/>
+    <menuitem id="sale.report_sales_team"
+      name="Sales Channels"
+      parent="sale.menu_sale_report"
+      action="sales_team.crm_team_salesteams_act"
+      sequence="2" />
 
-        <menuitem id="sale.report_all_channels_sales"
-            action="sale.report_all_channels_sales_action"
-            name="All Channels Sales Orders"
-            parent="sale.menu_sale_report"
-            sequence="3"
-            groups="sales_team.group_sale_manager"/>
+    <menuitem id="sale.report_all_channels_sales"
+      action="sale.report_all_channels_sales_action"
+      name="All Channels Sales Orders"
+      parent="sale.menu_sale_report"
+      sequence="3"
+      groups="sales_team.group_sale_manager" />
 
-    </data>
+  </data>
 </odoo>
