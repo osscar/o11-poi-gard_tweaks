@@ -98,13 +98,29 @@
       <field name="inherit_id" ref="sale.view_order_line_tree" />
       <field name="arch" type="xml">
 
+        <!-- add date_order_id -->
         <xpath expr="//field[@name='order_id']" position="after">
           <field name="date_order_id" />
         </xpath>
-        <!-- add price_unit column -->
-        <!-- <xpath expr="//field[@name='price_subtotal']" position="before">
+
+        <!-- move route_id -->
+        <xpath expr="//field[@name='route_id']" position="replace">
+        </xpath>
+        <xpath expr="//field[@name='product_uom_qty']" position="before">
+          <field name="route_id" groups="sale_stock.group_route_so_lines" options="{'no_create': True}"/>
+        </xpath>
+
+        <!-- add price_total / remove price_subtotal -->
+        <xpath expr="//field[@name='price_subtotal']" position="replace">
+        </xpath>
+        <xpath expr="//field[last()]" position="after">
+          <field name="price_total" />
+        </xpath>
+        
+        <!-- add price_unit -->
+        <xpath expr="//field[@name='price_total']" position="before">
           <field name="price_unit" />
-        </xpath> -->
+        </xpath>
 
       </field>
     </record>
