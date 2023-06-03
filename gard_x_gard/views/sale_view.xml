@@ -43,7 +43,6 @@
           <attribute name="colspan">6</attribute>
           <attribute name="col">3</attribute>
         </xpath>
-
         <xpath expr="//sheet//group[1]//group[1]" position="after">
           <group>
             <field name="partner_invoice_id" groups="sale.group_delivery_invoice_address"
@@ -53,7 +52,6 @@
               context="{'default_type':'delivery'}" options="{'always_reload': True}" />
           </group>
         </xpath>
-
         <xpath expr="//sheet//group[1]//group[3]//field[last()]" position="after">
           <separator />
           <field name="user_id" groups="base.group_user" />
@@ -61,25 +59,16 @@
           <field name="payment_term_id" options="{'no_create_edit': True, 'no_open': True}" />
         </xpath>
 
-        <!-- <xpath expr="//field[@name='order_line']/tree/button[@name='570']"
-          position="replace">
-          <button name="570" type="action" string="Reserve Stock" icon="fa-lock fa-2x" attrs="{'invisible':
-        [('is_stock_reservable', '=', False)]}"/>
+        <!--  order line customization -->
+        <!-- mod icon size -->
+        <xpath expr="//field[@name='order_line']/tree/button[@name='570']"
+          position="attributes">
+          <attribute name="icon">fa-lock fa-2x"</attribute>
         </xpath>
-        <xpath expr="//field[@name='order_line']/tree/button[@name='release_stock_reservation']"
-          position="replace">
-          <button name="release_stock_reservation" type="object" string="Release Reservation" icon="fa-undo
-        fa-2x" attrs="{'invisible': [('reservation_ids', '=', [])]}"/>
+        <xpath expr="//field[@name='order_line']/form//button[@name='570']"
+          position="attributes">
+          <attribute name="icon">fa-lock fa-2x"</attribute>
         </xpath>
-        <xpath expr="//field[@name='order_line']/form//button[@name='570']" position="replace">
-          <button name="570" type="action" string="Reserve Stock" icon="fa-lock fa-2x" attrs="{'invisible':
-        [('is_stock_reservable', '=', False)]}"/>
-        </xpath>
-        <xpath expr="//field[@name='order_line']/form//button[@name='release_stock_reservation']"
-        position="replace">
-          <button name="release_stock_reservation" type="object" string="Release Reservation" icon="fa-undo
-        fa-2x" attrs="{'invisible': [('reservation_ids', '=', [])]}"/>
-        </xpath> -->
 
         <xpath expr="//field[@name='order_line']/tree//field[@name='analytic_tag_ids']"
           position="replace">
@@ -115,6 +104,26 @@
       <field name="mode">extension</field>
       <!-- <field name="priority">18</field> -->
       <field name="inherit_id" ref="sale.view_quotation_tree" />
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="branch_id" />
+          <field name="partner_invoice_id" />
+        </xpath>
+        <xpath expr="//field[@name='user_id']" position="after">
+          <field name="team_id" />
+          <field name="payment_term_id" />
+        </xpath>
+
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_order_tree">
+      <field name="name">sale.order.tree.inherit.gard_x_gard</field>
+      <field name="model">sale.order</field>
+      <field name="mode">extension</field>
+      <!-- <field name="priority">18</field> -->
+      <field name="inherit_id" ref="sale.view_order_tree" />
       <field name="arch" type="xml">
 
         <xpath expr="//field[@name='partner_id']" position="after">
