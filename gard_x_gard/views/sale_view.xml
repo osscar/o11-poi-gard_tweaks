@@ -38,44 +38,6 @@
         <xpath expr="/form//field[@name='team_id']" position="replace">
         </xpath>
 
-        <!-- <xpath expr="//field[@name='order_line']/tree/button[@name='570']"
-          position="replace">
-          <button name="570" type="action" string="Reserve Stock" icon="fa-lock fa-2x" attrs="{'invisible': [('is_stock_reservable', '=', False)]}"/>
-        </xpath>
-        <xpath expr="//field[@name='order_line']/tree/button[@name='release_stock_reservation']"
-          position="replace">
-          <button name="release_stock_reservation" type="object" string="Release Reservation" icon="fa-undo fa-2x" attrs="{'invisible': [('reservation_ids', '=', [])]}"/>
-        </xpath>
-        <xpath expr="//field[@name='order_line']/form//button[@name='570']" position="replace">
-          <button name="570" type="action" string="Reserve Stock" icon="fa-lock fa-2x" attrs="{'invisible': [('is_stock_reservable', '=', False)]}"/>
-        </xpath>
-        <xpath expr="//field[@name='order_line']/form//button[@name='release_stock_reservation']" position="replace">
-          <button name="release_stock_reservation" type="object" string="Release Reservation" icon="fa-undo fa-2x" attrs="{'invisible': [('reservation_ids', '=', [])]}"/>
-        </xpath> -->
-
-        <xpath expr="//form//field[@name='order_line']//kanban//field[@name='product_uom_qty']"
-          position="before">
-          <field name="route_id" groups="sale_stock.group_route_so_lines"
-            options="{'no_create_edit': True, 'no_open': True}" />
-        </xpath>
-
-        <xpath expr="/form//field[@name='order_line']/tree//field[@name='analytic_tag_ids']"
-          position="replace">
-        </xpath>
-        
-        <xpath expr="/form//field[@name='order_line']/tree//field[@name='route_id']"
-          position="replace">
-        </xpath>
-        <xpath expr="/form//field[@name='order_line']/tree//field[@name='product_uom_qty']"
-          position="before">
-          <field name="route_id" groups="sale_stock.group_route_so_lines"
-            options="{'no_create_edit': True, 'no_open': True}" />
-        </xpath>
-        <xpath expr="/form//field[@name='order_line']/form/group/group//field[@name='route_id']" position="before">
-          <field name="route_id" groups="sale_stock.group_route_so_lines"
-            options="{'no_create_edit': True, 'no_open': True}" />
-        </xpath>
-
         <!-- rearrange form fields -->
         <xpath expr="//sheet//group[1]" position="attributes">
           <attribute name="colspan">6</attribute>
@@ -98,6 +60,46 @@
           <field name="team_id" options="{'no_create_edit': True, 'no_open': True}" />
           <field name="payment_term_id" options="{'no_create_edit': True, 'no_open': True}" />
         </xpath>
+
+        <!-- <xpath expr="//field[@name='order_line']/tree/button[@name='570']"
+          position="replace">
+          <button name="570" type="action" string="Reserve Stock" icon="fa-lock fa-2x" attrs="{'invisible': [('is_stock_reservable', '=', False)]}"/>
+        </xpath>
+        <xpath expr="//field[@name='order_line']/tree/button[@name='release_stock_reservation']"
+          position="replace">
+          <button name="release_stock_reservation" type="object" string="Release Reservation" icon="fa-undo fa-2x" attrs="{'invisible': [('reservation_ids', '=', [])]}"/>
+        </xpath>
+        <xpath expr="//field[@name='order_line']/form//button[@name='570']" position="replace">
+          <button name="570" type="action" string="Reserve Stock" icon="fa-lock fa-2x" attrs="{'invisible': [('is_stock_reservable', '=', False)]}"/>
+        </xpath>
+        <xpath expr="//field[@name='order_line']/form//button[@name='release_stock_reservation']" position="replace">
+          <button name="release_stock_reservation" type="object" string="Release Reservation" icon="fa-undo fa-2x" attrs="{'invisible': [('reservation_ids', '=', [])]}"/>
+        </xpath> -->
+        
+
+        <xpath expr="//field[@name='order_line']/tree//field[@name='analytic_tag_ids']"
+          position="replace">
+        </xpath>
+        
+        <xpath expr="//field[@name='order_line']/tree//field[@name='route_id']"
+          position="replace">
+        </xpath>
+        <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom_qty']"
+          position="before">
+          <field name="route_id" groups="sale_stock.group_route_so_lines"
+            options="{'no_create_edit': True, 'no_open': True}" />
+        </xpath>
+        <xpath expr="//field[@name='order_line']/form//field[@name='route_id']" position="replace">
+        </xpath>
+        <xpath expr="//field[@name='order_line']/form//label[@for='product_uom_qty']" position="before">
+          <field name="route_id" groups="sale_stock.group_route_so_lines"
+            options="{'no_create_edit': True, 'no_open': True}" />
+        </xpath>
+        <!-- <xpath expr="//form//field[@name='order_line']//kanban/field[@name='product_uom_qty']"
+          position="before">
+          <field name="route_id" groups="sale_stock.group_route_so_lines"
+            options="{'no_create_edit': True, 'no_open': True}" />
+        </xpath> -->
 
       </field>
     </record>

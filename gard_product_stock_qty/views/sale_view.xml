@@ -11,18 +11,7 @@
     <field name="inherit_id" ref="sale.view_order_form" />
     <field name="arch" type="xml">
 
-      <xpath expr="/form//field[@name='order_line']/tree//field[@name='route_id']" position="before">
-        <button
-          name="button_product_stock_quantity"
-          string="Product Stock Quantity"
-          attrs="{'invisible':[('qty_available', '&lt;', '1')]}"
-          type="object"
-          icon="fa-dropbox fa-gard-icon-orange fa-2x"
-        />
-        <field name="qty_available" />
-      </xpath>
-
-      <xpath expr="/form//field[@name='order_line']/form/group/group//field[@name='route_id']"
+      <xpath expr="//form//field[@name='order_line']/tree//field[@name='route_id']"
         position="before">
         <button
           name="button_product_stock_quantity"
@@ -33,20 +22,29 @@
         />
         <field name="qty_available" />
       </xpath>
-  
-      <xpath expr="//form//field[@name='order_line']//kanban//field[@name='product_uom_qty']"
+      <xpath expr="//form//field[@name='order_line']/form//field[@name='route_id']"
         position="before">
-        <div class="col-xs-4 pull-right">
-          <button
+        <button
           name="button_product_stock_quantity"
           string="Product Stock Quantity"
           attrs="{'invisible':[('qty_available', '&lt;', '1')]}"
           type="object"
           icon="fa-dropbox fa-gard-icon-orange fa"
-        />/
+        />
         <field name="qty_available" />
-        </div>
       </xpath>
+      <!-- <xpath expr="//form//field[@name='order_line']/kanban/field[@name='route_id']"
+        position="before">
+        <div class="col-xs-4 pull-right">
+          <button
+            name="button_product_stock_quantity"
+            string="Product Stock Quantity"
+            attrs="{'invisible':[('qty_available', '&lt;', '1')]}"
+            type="object"
+            icon="fa-dropbox fa-gard-icon-orange fa"
+          />/ <field name="qty_available" />
+        </div>
+      </xpath> -->
 
     </field>
   </record>
