@@ -84,7 +84,12 @@
       <field name="arch" type="xml">
 
         <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="branch_id" />
           <field name="partner_invoice_id" />
+        </xpath>
+        <xpath expr="//field[@name='user_id']" position="after">
+          <field name="team_id" />
+          <field name="payment_term_id" />
         </xpath>
 
       </field>
@@ -94,13 +99,20 @@
       <field name="name">sale.order.line.tree.inherit.gard_x_gard</field>
       <field name="model">sale.order.line</field>
       <field name="mode">extension</field>
-      <!-- <field name="priority">10</field> -->
+      <field name="priority">19</field>
       <field name="inherit_id" ref="sale.view_order_line_tree" />
       <field name="arch" type="xml">
 
         <!-- add date_order_id -->
         <xpath expr="//field[@name='order_id']" position="after">
           <field name="date_order_id" />
+        </xpath>
+
+        <!-- replace name with product_id -->
+        <xpath expr="//field[@name='name']" position="replace">
+        </xpath>
+        <xpath expr="//field[@name='order_partner_id']" position="after">
+          <field name="product_id" options="{'no_create': True}"/>
         </xpath>
 
         <!-- move route_id -->
@@ -130,7 +142,7 @@
       <field name="name">Sale Order Lines</field>
       <field name="res_model">sale.order.line</field>
       <field name="view_type">form</field>
-      <field name="view_mode">tree,form,kanban,pivot,graph</field>
+      <field name="view_mode">tree,pivot,graph</field>
       <field name="context">{}</field>
       <field name="view_id" ref="sale.view_sales_order_line_filter" />
     </record>

@@ -109,7 +109,6 @@
       <xpath expr="//tree" position="attributes">
         <attribute name="default_order">date_invoice desc</attribute>
         <attribute name="create">false</attribute>
-        <attribute name="editable">bottom</attribute>
       </xpath>
 
       <!-- add fields -->
@@ -118,20 +117,15 @@
         <field name="date_due" />
         <field name="invoice_id" />
         <field name="origin" />
-        <!-- readonly="1"/> -->
       </xpath>
       <xpath expr="//tree/field[@name='account_id']" position="after">
         <field name="account_analytic_id" />
-        <!-- <field name="analytic_tag_ids" /> -->
-        <!-- readonly="1"/> -->
       </xpath>
       <xpath expr="//tree/field[@name='price_unit']" position="after">
         <field name="invoice_line_tax_ids" />
-        <!-- readonly="1"/> -->
       </xpath>
       <xpath expr="//tree/field[last()]" position="after">
         <field name="state" />
-        <!-- readonly="1"/> -->
       </xpath>
 
     </field>
@@ -142,7 +136,7 @@
     <field name="name">Invoice Lines</field>
     <field name="res_model">account.invoice.line</field>
     <field name="view_type">form</field>
-    <field name="view_mode">tree,form,kanban,pivot,graph</field>
+    <field name="view_mode">tree,pivot,graph</field>
     <field name="view_id" ref="account.view_invoice_line_tree" />
     <field name="search_view_id" ref="view_account_invoice_line_filter" />
     <field name="context">{'search_default_group_by_invoice_type':1,
