@@ -47,11 +47,13 @@ JS script on web/static/src/js in render_tag function.)
     'depends': [
         'base',
         'base_import',
+        # 'branch',
         'product',
         'sale',
         'sale_stock',
         'gard_sale_product_margin',
         'gard_static_resources',
+        'gard_x_gard',
     ],
     'demo': [],
     'data': [

@@ -38,13 +38,40 @@
         <xpath expr="/form//field[@name='team_id']" position="replace">
         </xpath>
 
+        <!-- <xpath expr="//field[@name='order_line']/tree/button[@name='570']"
+          position="replace">
+          <button name="570" type="action" string="Reserve Stock" icon="fa-lock fa-2x" attrs="{'invisible': [('is_stock_reservable', '=', False)]}"/>
+        </xpath>
+        <xpath expr="//field[@name='order_line']/tree/button[@name='release_stock_reservation']"
+          position="replace">
+          <button name="release_stock_reservation" type="object" string="Release Reservation" icon="fa-undo fa-2x" attrs="{'invisible': [('reservation_ids', '=', [])]}"/>
+        </xpath>
+        <xpath expr="//field[@name='order_line']/form//button[@name='570']" position="replace">
+          <button name="570" type="action" string="Reserve Stock" icon="fa-lock fa-2x" attrs="{'invisible': [('is_stock_reservable', '=', False)]}"/>
+        </xpath>
+        <xpath expr="//field[@name='order_line']/form//button[@name='release_stock_reservation']" position="replace">
+          <button name="release_stock_reservation" type="object" string="Release Reservation" icon="fa-undo fa-2x" attrs="{'invisible': [('reservation_ids', '=', [])]}"/>
+        </xpath> -->
 
-        <!-- move route_id field -->
+        <xpath expr="//form//field[@name='order_line']//kanban//field[@name='product_uom_qty']"
+          position="before">
+          <field name="route_id" groups="sale_stock.group_route_so_lines"
+            options="{'no_create_edit': True, 'no_open': True}" />
+        </xpath>
+
+        <xpath expr="/form//field[@name='order_line']/tree//field[@name='analytic_tag_ids']"
+          position="replace">
+        </xpath>
+        
         <xpath expr="/form//field[@name='order_line']/tree//field[@name='route_id']"
           position="replace">
         </xpath>
         <xpath expr="/form//field[@name='order_line']/tree//field[@name='product_uom_qty']"
           position="before">
+          <field name="route_id" groups="sale_stock.group_route_so_lines"
+            options="{'no_create_edit': True, 'no_open': True}" />
+        </xpath>
+        <xpath expr="/form//field[@name='order_line']/form/group/group//field[@name='route_id']" position="before">
           <field name="route_id" groups="sale_stock.group_route_so_lines"
             options="{'no_create_edit': True, 'no_open': True}" />
         </xpath>
@@ -79,7 +106,7 @@
       <field name="name">sale.order.tree.inherit.gard_x_gard</field>
       <field name="model">sale.order</field>
       <field name="mode">extension</field>
-      <!-- <field name="priority">10</field> -->
+      <!-- <field name="priority">18</field> -->
       <field name="inherit_id" ref="sale.view_quotation_tree" />
       <field name="arch" type="xml">
 
@@ -99,7 +126,7 @@
       <field name="name">sale.order.line.tree.inherit.gard_x_gard</field>
       <field name="model">sale.order.line</field>
       <field name="mode">extension</field>
-      <field name="priority">19</field>
+      <field name="priority">18</field>
       <field name="inherit_id" ref="sale.view_order_line_tree" />
       <field name="arch" type="xml">
 
@@ -144,7 +171,7 @@
       <field name="view_type">form</field>
       <field name="view_mode">tree,pivot,graph</field>
       <field name="context">{}</field>
-      <field name="view_id" ref="sale.view_sales_order_line_filter" />
+      <field name="search_view_id" ref="sale.view_sales_order_line_filter" />
     </record>
 
     <!-- Menus -->

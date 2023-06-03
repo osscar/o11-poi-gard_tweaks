@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <odoo>
-
+    <data>
          <record id="product_product_tree_view" model="ir.ui.view">
             <field name="name">product.product.tree.inherit.gard_product_price</field>
             <field name="model">product.product</field>
@@ -154,5 +154,5 @@
         <!-- Actions -->
 
         <!-- Menus -->
-
+    </data>
 </odoo>

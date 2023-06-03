@@ -40,7 +40,7 @@ class SaleOrderLine(models.Model):
         default=_get_default_pricelist_id,
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)], "sent": [("readonly", False)]},
+        # states={"draft": [("readonly", False)], "sent": [("readonly", False)]},
         help="Pricelist for current sales order line.",
     )
 

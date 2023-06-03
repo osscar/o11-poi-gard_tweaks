@@ -1,85 +1,96 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
+  <data>
 
-  <!-- View Customizations -->
-  <record id="view_order_form" model="ir.ui.view">
-    <field name="name">view.order.form.inherit.gard_product_price</field>
-    <field name="model">sale.order</field>
-    <field name="mode">extension</field>
-    <field name="priority">19</field>
-    <field name="inherit_id" ref="sale.view_order_form" />
-    <field name="arch" type="xml">
+    <!-- View Customizations -->
+    <record id="view_order_form" model="ir.ui.view">
+      <field name="name">view.order.form.inherit.gard_product_price</field>
+      <field name="model">sale.order</field>
+      <field name="mode">extension</field>
+      <field name="priority">19</field>
+      <field name="inherit_id" ref="sale.view_order_form" />
+      <field name="arch" type="xml">
 
-      <!-- move and pricelist -->
-      <xpath expr="/form//field[@name='order_line']/tree/field[@name='price_unit']"
-        position="before">
-        <!-- product pricelist items button -->
-        <button
-          name="button_product_pricelist_items"
-          type='object'
-          attrs="{'invisible':[('pricelist_item_count', '=', 0)]}"
-          icon="fa fa-2x fa-tags fa-gard-icon-orange"
-          string="Pricelist Items" />
-        <!-- so line pricelist_id -->
-        <field name="pricelist_id" />
-        <field name="pricelist_item_count" invisible="1" />
-      </xpath>
-      <xpath expr="/form//field[@name='order_line']/form/group/group//field[@name='price_unit']"
-        position="before">
-        <!-- product pricelist items button -->
-        <button
-          name="button_product_pricelist_items"
-          type='object'
-          attrs="{'invisible':[('pricelist_item_count', '=', 0)]}"
-          icon="fa fa-2x fa-tags fa-gard-icon-orange"
-          string="Pricelist Items" />
-        <!-- so line pricelist_id -->
-        <field name="pricelist_id" />
-        <field name="pricelist_item_count" invisible="1" />
-      </xpath>
-      <xpath expr="/form//field[@name='order_line']/kanban/templates/t//div" position="inside">
-        <div class="row">
+        <!-- move and pricelist -->
+        <xpath expr="/form//field[@name='order_line']/tree/field[@name='price_unit']"
+          position="before">
+          <!-- product pricelist items button -->
           <button
             name="button_product_pricelist_items"
             type='object'
             attrs="{'invisible':[('pricelist_item_count', '=', 0)]}"
-            class="fa-2x fa-tags fa-gard-icon-orange pull-right"
+            icon="fa fa-2x fa-tags fa-gard-icon-orange"
             string="Pricelist Items" />
-        </div>
-        <field name="pricelist_id" />
-        <field name="pricelist_item_count" invisible="1" />
-      </xpath>
+          <!-- so line pricelist_id -->
+          <field name="pricelist_id" />
+          <field name="pricelist_item_count" invisible="1" />
+        </xpath>
+        <xpath expr="/form//field[@name='order_line']/form/group/group//field[@name='price_unit']"
+          position="before">
+          <!-- product pricelist items button -->
+          <button
+            name="button_product_pricelist_items"
+            type='object'
+            attrs="{'invisible':[('pricelist_item_count', '=', 0)]}"
+            icon="fa fa-2x fa-tags fa-gard-icon-orange"
+            string="Pricelist Items" />
+          <!-- so line pricelist_id -->
+          <field name="pricelist_id" />
+          <field name="pricelist_item_count" invisible="1" />
+        </xpath>
+        <xpath expr="/form//field[@name='order_line']/kanban/templates/t//div" position="inside">
+          <div class="row">
+            <button
+              name="button_product_pricelist_items"
+              type='object'
+              attrs="{'invisible':[('pricelist_item_count', '=', 0)]}"
+              class="fa-2x fa-tags fa-gard-icon-orange pull-right"
+              string="Pricelist Items" />
+          </div>
+          <field name="pricelist_id" />
+          <field name="pricelist_item_count" invisible="1" />
+        </xpath>
 
-    </field>
-  </record>
+      </field>
+    </record>
 
-  <!-- Actions -->
-  <!-- unsued for now: triggered by base_import do method -->
-  <!-- call pricelist item calc_unit_price method to recompute ALL pricelist items -->
-  <!-- <record id="category_python_action" model="ir.actions.server">
-        <field name="name">Recompute Pricelist Items</field>
-        <field name="model_id" ref="product.model_product_pricelist_items"/>
-        <field name="state">code</field>
-        <field name="code">
-            action = model._calc_unit_price()
-        </field>
-    </record> -->
+    <record model="ir.ui.view" id="view_order_line_tree">
+      <field name="name">sale.order.line.tree.inherit.gard_product_price</field>
+      <field name="model">sale.order.line</field>
+      <field name="mode">extension</field>
+      <!-- <field name="priority">19</field> -->
+      <field name="inherit_id" ref="sale.view_order_line_tree" />
+      <field name="arch" type="xml">
 
-  <!-- Menus -->
-  <menuitem
-    id="menu_product_pricelist_main"
-    groups="gard_product_price.group_product_price_manager" />
+        <xpath expr="//field[@name='price_unit']" position="before">
+          <button
+            name="button_product_pricelist_items"
+            type='object'
+            attrs="{'invisible':[('pricelist_item_count', '=', 0)]}"
+            icon="fa fa-2x fa-tags fa-gard-icon-orange"
+            string="Pricelist Items" />
+          <field name="pricelist_id" />
+          <field name="pricelist_item_count" invisible="1" />
+        </xpath>
+        
+      </field>
+    </record>
 
-  <menuitem
-    id="product_pricelist_item_menu_action"
-    name="Pricelist Items"
-    parent="sale.product_menu_catalog"
-    action="product_pricelist_item_action_view_tree"
-    groups="gard_product_price.group_product_price_manager"
-    sequence="20" />
+    <!-- Menus -->
+    <menuitem
+      id="menu_product_pricelist_main"
+      groups="gard_product_price.group_product_price_manager" />
 
-  <!-- unsued for now: triggered by base_import do method -->
-  <!-- <menuitem
+    <menuitem
+      id="product_pricelist_item_menu_action"
+      name="Pricelist Items"
+      parent="sale.product_menu_catalog"
+      action="product_pricelist_item_action_view_tree"
+      groups="gard_product_price.group_product_price_manager"
+      sequence="20" />
+
+    <!-- unsued for now: triggered by base_import do method -->
+    <!-- <menuitem
         id="product_pricelist_item_recompute_menu_action"
         name="Recompute Pricelist Items"
         parent="sale.product_menu_catalog"
@@ -87,4 +98,5 @@
         groups="gard_product_price.group_product_price_manager"
         sequence="20"/> -->
 
+  </data>
 </odoo>

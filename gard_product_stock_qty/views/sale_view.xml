@@ -15,9 +15,11 @@
         <button
           name="button_product_stock_quantity"
           string="Product Stock Quantity"
+          attrs="{'invisible':[('qty_available', '&lt;', '1')]}"
           type="object"
           icon="fa-dropbox fa-gard-icon-orange fa-2x"
         />
+        <field name="qty_available" />
       </xpath>
 
       <xpath expr="/form//field[@name='order_line']/form/group/group//field[@name='route_id']"
@@ -25,23 +27,49 @@
         <button
           name="button_product_stock_quantity"
           string="Product Stock Quantity"
+          attrs="{'invisible':[('qty_available', '&lt;', '1')]}"
           type="object"
-          icon="fa-dropbox fa-gard-icon-orange fa"
+          icon="fa-dropbox fa-gard-icon-orange fa-2x"
         />
+        <field name="qty_available" />
       </xpath>
-
-      <xpath expr="/form//field[@name='order_line']/kanban/templates/t/div//div[1]"
-        position="inside">
+  
+      <xpath expr="//form//field[@name='order_line']//kanban//field[@name='product_uom_qty']"
+        position="before">
         <div class="col-xs-4 pull-right">
           <button
-            name="button_product_stock_quantity"
-            string="Product Stock Quantity"
-            type="object"
-            class="fa fa-dropbox fa-gard-icon-orange pull-right"
-          />
+          name="button_product_stock_quantity"
+          string="Product Stock Quantity"
+          attrs="{'invisible':[('qty_available', '&lt;', '1')]}"
+          type="object"
+          icon="fa-dropbox fa-gard-icon-orange fa"
+        />/
+        <field name="qty_available" />
         </div>
       </xpath>
 
+    </field>
+  </record>
+
+  <record model="ir.ui.view" id="view_order_line_tree">
+    <field name="name">sale.order.line.tree.inherit.gard_product_stock_qty</field>
+    <field name="model">sale.order.line</field>
+    <field name="mode">extension</field>
+    <field name="priority">19</field>
+    <field name="inherit_id" ref="sale.view_order_line_tree" />
+    <field name="arch" type="xml">
+
+      <!-- product stock qty button -->
+      <xpath expr="//field[@name='route_id']" position="before">
+        <button
+          name="button_product_stock_quantity"
+          string="Product Stock Quantity"
+          attrs="{'invisible':[('qty_available', '&lt;', '1')]}"
+          type="object"
+          icon="fa-dropbox fa-gard-icon-orange fa-2x"
+        />
+        <field name="qty_available" />
+      </xpath>
     </field>
   </record>
 
