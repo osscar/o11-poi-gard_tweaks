@@ -63,24 +63,28 @@
 
         <!-- <xpath expr="//field[@name='order_line']/tree/button[@name='570']"
           position="replace">
-          <button name="570" type="action" string="Reserve Stock" icon="fa-lock fa-2x" attrs="{'invisible': [('is_stock_reservable', '=', False)]}"/>
+          <button name="570" type="action" string="Reserve Stock" icon="fa-lock fa-2x" attrs="{'invisible':
+        [('is_stock_reservable', '=', False)]}"/>
         </xpath>
         <xpath expr="//field[@name='order_line']/tree/button[@name='release_stock_reservation']"
           position="replace">
-          <button name="release_stock_reservation" type="object" string="Release Reservation" icon="fa-undo fa-2x" attrs="{'invisible': [('reservation_ids', '=', [])]}"/>
+          <button name="release_stock_reservation" type="object" string="Release Reservation" icon="fa-undo
+        fa-2x" attrs="{'invisible': [('reservation_ids', '=', [])]}"/>
         </xpath>
         <xpath expr="//field[@name='order_line']/form//button[@name='570']" position="replace">
-          <button name="570" type="action" string="Reserve Stock" icon="fa-lock fa-2x" attrs="{'invisible': [('is_stock_reservable', '=', False)]}"/>
+          <button name="570" type="action" string="Reserve Stock" icon="fa-lock fa-2x" attrs="{'invisible':
+        [('is_stock_reservable', '=', False)]}"/>
         </xpath>
-        <xpath expr="//field[@name='order_line']/form//button[@name='release_stock_reservation']" position="replace">
-          <button name="release_stock_reservation" type="object" string="Release Reservation" icon="fa-undo fa-2x" attrs="{'invisible': [('reservation_ids', '=', [])]}"/>
+        <xpath expr="//field[@name='order_line']/form//button[@name='release_stock_reservation']"
+        position="replace">
+          <button name="release_stock_reservation" type="object" string="Release Reservation" icon="fa-undo
+        fa-2x" attrs="{'invisible': [('reservation_ids', '=', [])]}"/>
         </xpath> -->
-        
 
         <xpath expr="//field[@name='order_line']/tree//field[@name='analytic_tag_ids']"
           position="replace">
         </xpath>
-        
+
         <xpath expr="//field[@name='order_line']/tree//field[@name='route_id']"
           position="replace">
         </xpath>
@@ -91,7 +95,8 @@
         </xpath>
         <xpath expr="//field[@name='order_line']/form//field[@name='route_id']" position="replace">
         </xpath>
-        <xpath expr="//field[@name='order_line']/form//label[@for='product_uom_qty']" position="before">
+        <xpath expr="//field[@name='order_line']/form//label[@for='product_uom_qty']"
+          position="before">
           <field name="route_id" groups="sale_stock.group_route_so_lines"
             options="{'no_create_edit': True, 'no_open': True}" />
         </xpath>
@@ -141,14 +146,15 @@
         <xpath expr="//field[@name='name']" position="replace">
         </xpath>
         <xpath expr="//field[@name='order_partner_id']" position="after">
-          <field name="product_id" options="{'no_create': True}"/>
+          <field name="product_id" options="{'no_create': True}" />
         </xpath>
 
         <!-- move route_id -->
         <xpath expr="//field[@name='route_id']" position="replace">
         </xpath>
         <xpath expr="//field[@name='product_uom_qty']" position="before">
-          <field name="route_id" groups="sale_stock.group_route_so_lines" options="{'no_create': True}"/>
+          <field name="route_id" groups="sale_stock.group_route_so_lines"
+            options="{'no_create': True}" />
         </xpath>
 
         <!-- add price_total / remove price_subtotal -->
@@ -157,7 +163,7 @@
         <xpath expr="//field[last()]" position="after">
           <field name="price_total" />
         </xpath>
-        
+
         <!-- add price_unit -->
         <xpath expr="//field[@name='price_total']" position="before">
           <field name="price_unit" />
