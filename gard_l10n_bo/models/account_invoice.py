@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import logging
+# import logging
 
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
@@ -9,7 +9,7 @@ from odoo.addons.poi_bol_siat.models.siat_utils import get_file
 
 import xml.etree.ElementTree as ET
 
-_logger = logging.getLogger(__name__)
+# _logger = logging.getLogger(__name__)
 
 
 class AccountInvoice(models.Model):
@@ -52,8 +52,8 @@ class AccountInvoice(models.Model):
         elif self.partner_id:
             partner = self.partner_id
 
-        _logger.debug("_gspid partner >>>: %s", partner)
-        _logger.debug("_gspid context_partner >>>: %s", context_partner)
+        # _logger.debug("_gspid partner >>>: %s", partner)
+        # _logger.debug("_gspid context_partner >>>: %s", context_partner)
 
         return partner
 
@@ -133,7 +133,7 @@ class AccountInvoice(models.Model):
 
     @api.model
     def create(self, vals):
-        _logger.debug("create vals >>>: %s", vals)
+        # _logger.debug("create vals >>>: %s", vals)
         if "type" in vals:
             partner = False
 

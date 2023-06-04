@@ -1,24 +1,27 @@
 <?xml version="1.0"?>
 <odoo>
-    <data>
-        <!-- Views -->
-        <record id="view_form_stock_inherit" model="ir.ui.view">
-            <field name="name">view_form_stock_inherit.gard_l10n_bo</field>
-            <field name="model">stock.warehouse</field>
-            <field name="mode">extension</field>
-            <field name="inherit_id" ref="poi_warehouse.view_form_stock_inherit"/>
-            <field name="arch" type="xml">
+  <data>
 
-                <!-- add journal_id -->
-                <xpath expr="//field[@name='agency_id']" position="after">
-                    <field name="journal_id" domain="[('type', '=', 'sale')]" attrs="{'invisible':[('enabled_for_sale', '!=', True)], 'required':[('enabled_for_sale', '==', True)]}"/>
-                </xpath>
+    <!-- Views -->
+    <record id="view_form_stock_inherit" model="ir.ui.view">
+      <field name="name">view_form_stock_inherit.gard_l10n_bo</field>
+      <field name="model">stock.warehouse</field>
+      <field name="mode">extension</field>
+      <field name="inherit_id" ref="poi_warehouse.view_form_stock_inherit" />
+      <field name="arch" type="xml">
 
-            </field>
-        </record>
+        <!-- add journal_id -->
+        <xpath expr="//field[@name='agency_id']" position="after">
+          <field name="journal_id" domain="[('type', '=', 'sale')]"
+            attrs="{'invisible':[('enabled_for_sale', '!=', True)], 'required':[('enabled_for_sale', '==', True)]}" />
+        </xpath>
 
-        <!-- Actions -->
+      </field>
+    </record>
 
-        <!-- Menus -->
-    </data>
+    <!-- Actions -->
+
+    <!-- Menus -->
+
+  </data>
 </odoo>
