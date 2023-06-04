@@ -38,39 +38,62 @@
         <xpath expr="/form//field[@name='team_id']" position="replace">
         </xpath>
 
-
-        <!-- move route_id field -->
-        <xpath expr="/form//field[@name='order_line']/tree//field[@name='product_uom_qty']"
-          position="before">
-          <field name="route_id" groups="sale_stock.group_route_so_lines"
-            options="{'no_create_edit': True, 'no_open': True}" />
-        </xpath>
-
         <!-- rearrange form fields -->
         <xpath expr="//sheet//group[1]" position="attributes">
           <attribute name="colspan">6</attribute>
           <attribute name="col">3</attribute>
         </xpath>
-        <!-- <xpath expr="//sheet//group[1]//group[1]" position="attributes">
-          <attribute name="colspan">2</attribute>
-        </xpath> -->
-
         <xpath expr="//sheet//group[1]//group[1]" position="after">
           <group>
             <field name="partner_invoice_id" groups="sale.group_delivery_invoice_address"
               context="{'default_type':'invoice', 'show_address': 1}"
               options="{'always_reload': True}" />
             <field name="partner_shipping_id" groups="sale.group_delivery_invoice_address"
-              context="{'default_type':'delivery'}" options="{'always_reload': True}" />  
+              context="{'default_type':'delivery'}" options="{'always_reload': True}" />
           </group>
         </xpath>
-
         <xpath expr="//sheet//group[1]//group[3]//field[last()]" position="after">
           <separator />
           <field name="user_id" groups="base.group_user" />
           <field name="team_id" options="{'no_create_edit': True, 'no_open': True}" />
           <field name="payment_term_id" options="{'no_create_edit': True, 'no_open': True}" />
         </xpath>
+
+        <!--  order line customization -->
+        <!-- mod icon size -->
+        <xpath expr="//field[@name='order_line']/tree/button[@name='570']"
+          position="attributes">
+          <attribute name="icon">fa-lock fa-2x"</attribute>
+        </xpath>
+        <xpath expr="//field[@name='order_line']/form//button[@name='570']"
+          position="attributes">
+          <attribute name="icon">fa-lock fa-2x"</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='order_line']/tree//field[@name='analytic_tag_ids']"
+          position="replace">
+        </xpath>
+
+        <xpath expr="//field[@name='order_line']/tree//field[@name='route_id']"
+          position="replace">
+        </xpath>
+        <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom_qty']"
+          position="before">
+          <field name="route_id" groups="sale_stock.group_route_so_lines"
+            options="{'no_create_edit': True, 'no_open': True}" />
+        </xpath>
+        <xpath expr="//field[@name='order_line']/form//field[@name='route_id']" position="replace">
+        </xpath>
+        <xpath expr="//field[@name='order_line']/form//label[@for='product_uom_qty']"
+          position="before">
+          <field name="route_id" groups="sale_stock.group_route_so_lines"
+            options="{'no_create_edit': True, 'no_open': True}" />
+        </xpath>
+        <!-- <xpath expr="//form//field[@name='order_line']//kanban/field[@name='product_uom_qty']"
+          position="before">
+          <field name="route_id" groups="sale_stock.group_route_so_lines"
+            options="{'no_create_edit': True, 'no_open': True}" />
+        </xpath> -->
 
       </field>
     </record>
@@ -79,12 +102,37 @@
       <field name="name">sale.order.tree.inherit.gard_x_gard</field>
       <field name="model">sale.order</field>
       <field name="mode">extension</field>
-      <!-- <field name="priority">10</field> -->
+      <!-- <field name="priority">18</field> -->
       <field name="inherit_id" ref="sale.view_quotation_tree" />
       <field name="arch" type="xml">
 
         <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="branch_id" />
           <field name="partner_invoice_id" />
+        </xpath>
+        <xpath expr="//field[@name='user_id']" position="after">
+          <field name="team_id" />
+          <field name="payment_term_id" />
+        </xpath>
+
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_order_tree">
+      <field name="name">sale.order.tree.inherit.gard_x_gard</field>
+      <field name="model">sale.order</field>
+      <field name="mode">extension</field>
+      <!-- <field name="priority">18</field> -->
+      <field name="inherit_id" ref="sale.view_order_tree" />
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="branch_id" />
+          <field name="partner_invoice_id" />
+        </xpath>
+        <xpath expr="//field[@name='user_id']" position="after">
+          <field name="team_id" />
+          <field name="payment_term_id" />
         </xpath>
 
       </field>
@@ -94,17 +142,41 @@
       <field name="name">sale.order.line.tree.inherit.gard_x_gard</field>
       <field name="model">sale.order.line</field>
       <field name="mode">extension</field>
-      <!-- <field name="priority">10</field> -->
+      <field name="priority">18</field>
       <field name="inherit_id" ref="sale.view_order_line_tree" />
       <field name="arch" type="xml">
 
+        <!-- add date_order_id -->
         <xpath expr="//field[@name='order_id']" position="after">
           <field name="date_order_id" />
         </xpath>
-        <!-- add price_unit column -->
-        <!-- <xpath expr="//field[@name='price_subtotal']" position="before">
+
+        <!-- replace name with product_id -->
+        <xpath expr="//field[@name='name']" position="replace">
+        </xpath>
+        <xpath expr="//field[@name='order_partner_id']" position="after">
+          <field name="product_id" options="{'no_create': True}" />
+        </xpath>
+
+        <!-- move route_id -->
+        <xpath expr="//field[@name='route_id']" position="replace">
+        </xpath>
+        <xpath expr="//field[@name='product_uom_qty']" position="before">
+          <field name="route_id" groups="sale_stock.group_route_so_lines"
+            options="{'no_create': True}" />
+        </xpath>
+
+        <!-- add price_total / remove price_subtotal -->
+        <xpath expr="//field[@name='price_subtotal']" position="replace">
+        </xpath>
+        <xpath expr="//field[last()]" position="after">
+          <field name="price_total" />
+        </xpath>
+
+        <!-- add price_unit -->
+        <xpath expr="//field[@name='price_total']" position="before">
           <field name="price_unit" />
-        </xpath> -->
+        </xpath>
 
       </field>
     </record>
@@ -114,9 +186,9 @@
       <field name="name">Sale Order Lines</field>
       <field name="res_model">sale.order.line</field>
       <field name="view_type">form</field>
-      <field name="view_mode">tree,form,kanban,pivot,graph</field>
+      <field name="view_mode">tree,pivot,graph</field>
       <field name="context">{}</field>
-      <field name="view_id" ref="sale.view_sales_order_line_filter" />
+      <field name="search_view_id" ref="sale.view_sales_order_line_filter" />
     </record>
 
     <!-- Menus -->

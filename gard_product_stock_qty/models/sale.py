@@ -23,22 +23,35 @@ from openerp import fields, models, api
 
 
 class SaleOrderLine(models.Model):
-  _inherit = 'sale.order.line'
+    _inherit = "sale.order.line"
 
-  @api.multi
-  def button_product_stock_quantity(self):
-    product_id = self.product_id.id
-    view_id = self.env.ref(
-        'gard_product_stock_qty.view_product_stock_quantity_tree').id
+    qty_available = fields.Integer(
+        "Available Qty.",
+        compute="_get_product_qty_available",
+    )
 
-    return {
-        'type': 'ir.actions.act_window',
-        'name': 'Product Stock Quantity',
-        'res_model': 'stock.quant',
-        'domain': [('product_id', '=', product_id),
-                   ('location_id.usage', '=', 'internal')],
-        'views': [(view_id, 'tree')],
-        'view_id': view_id,
-        'context': {'group_by': ['location_id', 'product_id']},
-        'target': 'new',
-    }
+    @api.multi
+    def _get_product_qty_available(self):
+        for order_line in self:
+            product_id = order_line.product_id
+            order_line.qty_available = product_id.qty_available
+
+    @api.multi
+    def button_product_stock_quantity(self):
+        product_id = self.product_id.id
+        view_id = self.env.ref(
+            "gard_product_stock_qty.view_product_stock_quantity_tree"
+        ).id
+
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Product Stock Quantity",
+            "res_model": "stock.quant",
+            "domain": [
+                ("product_id", "=", product_id)
+            ],
+            "views": [(view_id, "tree")],
+            "view_id": view_id,
+            "context": {"group_by": ["location_id", "product_id"]},
+            "target": "new",
+        }
