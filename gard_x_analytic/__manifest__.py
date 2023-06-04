@@ -50,6 +50,7 @@ This module tweaks the following:
     'data': [
         'views/account_view.xml',
         'views/account_analytic_view.xml',
+        'views/account_invoice_view.xml',
         'views/stock_landed_cost_view.xml',
 
         'wizard/account_move_analytic_recreate_view.xml',

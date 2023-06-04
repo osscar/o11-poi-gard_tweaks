@@ -24,6 +24,22 @@ class AccountInvoice(models.Model):
         "Razón Social",
         help="Nombre o Razón Social para la Factura.",
     )
+    siat_state_display = fields.Selection(
+        [
+            ("offline", "No enviada"),
+            ("error", "Error de envío"),
+            ("online", "Enviada"),
+            ("anulada", "Anulada"),
+        ],
+        string="Estado SIAT Display",
+        readonly=True,
+        compute="_get_siat_state",
+    )
+
+    @api.one
+    @api.depends("estado_fac")
+    def _get_siat_state(self):
+        self.siat_state_display = self.siat_state
 
     def _get_siat_partner_id(self):
         partner = False
@@ -227,8 +243,7 @@ class AccountInvoice(models.Model):
                 # check for valid nit
                 if invoice.nit == "0":
                     raise ValidationError(
-                        _("%s no puede ser 0. " 
-                          "Por favor ingrese un numero valido.")
+                        _("%s no puede ser 0. " "Por favor ingrese un numero valido.")
                         % (invoice.siat_tipo_id.name)
                     )
 

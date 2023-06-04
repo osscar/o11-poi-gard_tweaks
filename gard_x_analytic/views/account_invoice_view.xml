@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<odoo>
+
+  <!-- Search Views -->
+
+  <!-- Tree Views -->
+
+  <!-- Form Views -->
+  <!-- <record model="ir.ui.view" id="invoice_form">
+    <field name="name">account.invoice.form.inherit.gard_l10n_bo</field>
+    <field name="model">account.invoice</field>
+    <field name="mode">extension</field>
+    <field name="priority">21</field>
+    <field name="inherit_id" ref="account.invoice_form" />
+    <field name="arch" type="xml">
+
+
+    </field>
+  </record> -->
+
+  <!-- Actions -->
+  <!-- <record model="ir.actions.act_window" id="account.action_account_moves_all_a">
+    <field name="context">{
+        'search_default_group_by_account_id':1,
+    }</field>
+  </record> -->
+
+</odoo>
