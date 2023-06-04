@@ -145,51 +145,61 @@
 
       <!-- SIAT customize -->
       <!-- siat_state_display -->
-      <xpath expr="//h1" position="after">
-        <div class="oe_right oe_button_box" style="width: 150px;" name="buttons_siat">
+      <xpath expr="//sheet//div[@name='buttons']" position="replace">
+        <div class="oe_right oe_button_box" style="width: 150px;" name="buttons">
           <div class="oe_inline info-box oe_invoice_state" icon="fa-list-alt">
             <span class="info-box-icon bg-aqua">
-              <i class="fa fa-check"></i>
+              <i class="fa fa-2x fa-check"
+                attrs="{'invisible': [('siat_state','!=', 'online'), ('estado_fac','!=', 'V')]}"></i>
+              <i class="fa fa-2x fa-times"
+                attrs="{'invisible': [('siat_state_display','=', 'online')]}"></i>
             </span>
             <div class="info-box-content">
               <span class="info-box-text">
-                <field string="Estado Factura" name="siat_state_display" />
+                <field string="Estado SIAT" name="siat_state_display" />
+              </span>
+            </div>
+            <div class="info-box-content">
+              <span class="info-box-text">
+                <field string="Estado Factura" name="estado_fac_display" />
               </span>
             </div>
           </div>
         </div>
       </xpath>
       <!-- move partner_invoice_id field -->
-      <xpath expr="//field[@name='partner_invoice_id']" position="replace">
+      <xpath expr="// field[@name='partner_invoice_id' ]" position="replace">
       </xpath>
       <!-- add field spawn -->
-      <xpath expr="//field[@name='siat_tipo_id']" position="before">
+      <xpath expr="//
+  field[@name='siat_tipo_id' ]" position="before">
         <separator />
-        <field name="partner_invoice_id" options="{'no_create': True}" />
+        <field name="partner_invoice_id" options="{'no_create' : True}" />
       </xpath>
       <!-- add separator -->
-      <xpath expr="//field[@name='razon']" position="after">
+      <xpath expr="// field[@name='razon' ]" position="after">
         <separator />
       </xpath>
       <!-- custom attributes -->
-      <xpath expr="//field[@name='razon']"
+      <xpath expr="// field[@name='razon' ]"
         position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('partner_invoice_id','!=',False), ('state',
           '!=', 'draft')]}</attribute>
         <attribute name="force_save">1</attribute>
       </xpath>
-      <xpath expr="//field[@name='nit']"
+      <xpath expr="// field[@name='nit' ]"
         position="attributes">
         <attribute name="attrs">{'readonly': ['|', '&amp;', ('partner_invoice_id', '!=', False),
           ('nit', '!=', '0'), '|', ('state', '!=', 'draft')]}</attribute>
         <attribute name="force_save">1</attribute>
       </xpath>
-      <xpath expr="//field[@name='cc_nro']"
+      <xpath expr="//
+  field[@name='cc_nro' ]"
         position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state',
           '!=', 'draft')]}</attribute>
       </xpath>
-      <xpath expr="//field[@name='cc_aut']"
+      <xpath expr="// field[@name='cc_aut' ]"
         position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state',
           '!=', 'draft')]}</attribute>
