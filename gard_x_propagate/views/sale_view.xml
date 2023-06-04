@@ -32,13 +32,13 @@
       <xpath expr="//field[@name='order_line']/tree//field[@name='route_id']" position="after">
         <button name="button_propagate_route" type="object"
           attrs="{'invisible':['|', ('route_id', '=', False), ('state', '!=', 'draft')]}"
-          icon="fa-2x fa-truck"
+          icon="fa-2x fa-truck" string="Propagate Route"
           confirm="This will propagate the route to all order lines. Are you sure you want to continue?" />
       </xpath>
       <xpath expr="//field[@name='order_line']/tree//field[@name='pricelist_id']" position="after">
         <button name="button_propagate_pricelist" type="object"
           attrs="{'invisible':['|', ('pricelist_id', '=', False), ('state', '!=', 'draft')]}"
-          icon="fa-2x fa-list-ul"
+          icon="fa-2x fa-list-ul" string="Propagate Pricelist"
           confirm="This will propagate the pricelist to all order lines. Are you sure you want to continue?" />
       </xpath>
 

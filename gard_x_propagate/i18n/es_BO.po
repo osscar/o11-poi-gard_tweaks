@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-15 14:41+0000\n"
-"PO-Revision-Date: 2022-12-15 14:41+0000\n"
+"POT-Creation-Date: 2023-06-04 19:54+0000\n"
+"PO-Revision-Date: 2023-06-04 19:54+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr "Eliminar lineas"
 #. module: gard_x_propagate
 #: model:ir.ui.view,arch_db:gard_x_propagate.view_product_propagate
 msgid "Clear Products"
-msgstr "Borrar productos"
+msgstr "Eliminar productos"
 
 #. module: gard_x_propagate
 #: model:ir.model.fields,help:gard_x_propagate.field_purchase_order_account_analytic_create_line_code
@@ -142,6 +142,12 @@ msgid "Date Planned"
 msgstr "Fecha Planificada"
 
 #. module: gard_x_propagate
+#: model:product.product,name:gard_x_propagate.product_slc_default
+#: model:product.template,name:gard_x_propagate.product_slc_default_product_template
+msgid "Default Product"
+msgstr "Producto por defecto"
+
+#. module: gard_x_propagate
 #: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_display_name
 #: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_display_name
 #: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_display_name
@@ -156,6 +162,12 @@ msgstr "Nombre a mostrar"
 #: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_line_id
 msgid "ID"
 msgstr "ID"
+
+#. module: gard_x_propagate
+#: model:product.product,description:gard_x_propagate.product_slc_default
+#: model:product.template,description:gard_x_propagate.product_slc_default_product_template
+msgid "LC sample product."
+msgstr "Producto CD por defecto."
 
 #. module: gard_x_propagate
 #: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate___last_update
@@ -215,11 +227,6 @@ msgid "Parent Analytic Tag"
 msgstr "Etiqueta analitica padre"
 
 #. module: gard_x_propagate
-#: model:ir.ui.view,arch_db:gard_x_propagate.view_order_form
-msgid "Pricelist"
-msgstr "Lista de precios"
-
-#. module: gard_x_propagate
 #: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_product_id
 msgid "Product"
 msgstr "Producto"
@@ -263,7 +270,7 @@ msgstr "Cantidad"
 #. module: gard_x_propagate
 #: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_product_uom
 msgid "Quantity Unit of Measure"
-msgstr "UdM Cant."
+msgstr "UdM"
 
 #. module: gard_x_propagate
 #: model:ir.model,name:gard_x_propagate.model_sale_order
@@ -276,9 +283,9 @@ msgid "Reference"
 msgstr "Referencia"
 
 #. module: gard_x_propagate
-#: model:ir.ui.view,arch_db:gard_x_propagate.view_order_form
-msgid "Route"
-msgstr "Ruta"
+#: model:ir.model,name:gard_x_propagate.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea de orden de ventas"
 
 #. module: gard_x_propagate
 #: model:ir.actions.act_window,name:gard_x_propagate.action_view_product_propagate
@@ -298,6 +305,21 @@ msgstr "Coste en destino"
 #: model:ir.model,name:gard_x_propagate.model_stock_landed_cost_lines
 msgid "Stock Landed Cost Lines"
 msgstr "Líneas de coste en destino"
+
+#. module: gard_x_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_order_form
+msgid "This will clear all order lines. Are you sure you want to continue?"
+msgstr "Esto eliminara todas las lineas del pedido. Continuar?"
+
+#. module: gard_x_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_order_form
+msgid "This will propagate the pricelist to all order lines. Are you sure you want to continue?"
+msgstr "Esto propagara la lista de precios a todas las lineas del pedido. Continuar?"
+
+#. module: gard_x_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_order_form
+msgid "This will propagate the route to all order lines. Are you sure you want to continue?"
+msgstr "Esto propagara la ruta a todas las lineas del pedido. Continuar?"
 
 #. module: gard_x_propagate
 #: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_price_unit
