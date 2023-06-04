@@ -50,13 +50,21 @@
       <xpath expr="/form//field[@name='partner_id']" position="after">
         <field name="partner_invoice_id" options="{'no_create': True}" />
       </xpath>
+      
       <!-- add confimrmation to button -->
       <xpath expr="//button[@name='action_invoice_open']" position="attributes">
         <attribute name="confirm">Please check the data -journal, partner, currency, etc.- before
           validating. Validate?</attribute>
       </xpath>
+      
       <!-- place 'origin' field after 'number' field -->
       <xpath expr="//h1/div" position="after"> [<field name="origin" readonly="1" />] </xpath>
+      
+      <!-- invoice lines customize -->
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[last()]" position="after">
+        <field name="sale_line_ids" invisible="1" />
+        <field name="state" invisible="1" />
+      </xpath>
 
     </field>
   </record>

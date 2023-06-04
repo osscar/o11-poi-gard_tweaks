@@ -56,7 +56,7 @@
         </group>
       </xpath>
 
-      <!-- account attribute customizations -->
+      <!-- invoice attribute customize -->
       <xpath expr="//field[@name='partner_id']" position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
         <attribute name="options">{'no_create': True}</attribute>
@@ -91,27 +91,55 @@
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
       </xpath>
 
-      <!-- sale customizations -->
+      <!-- sale customize -->
       <xpath expr="//field[@name='team_id']" position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
       </xpath>
 
-      <!-- branch customizations -->
+      <!-- branch customize -->
       <xpath expr="//field[@name='branch_id']" position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
         <attribute name="options">{'no_create': True}</attribute>
       </xpath>
 
+      <!-- invoice lines customize -->
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='product_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='name']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='branch_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='account_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='account_analytic_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='uom_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='invoice_line_tax_ids']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=', 'draft')]}</attribute>
+      </xpath>
 
-      <!-- SIAT customizations -->
+
+      <!-- SIAT customize -->
       <!-- move partner_invoice_id field -->
       <xpath expr="//field[@name='partner_invoice_id']" position="replace">
       </xpath>
+      
       <!-- add field spawn -->
       <xpath expr="//field[@name='siat_tipo_id']" position="before">
         <separator />
         <field name="partner_invoice_id" options="{'no_create': True}" />
       </xpath>
+      
       <!-- add separator -->
       <xpath expr="//field[@name='razon']" position="after">
         <separator />
@@ -124,20 +152,17 @@
           '!=', 'draft')]}</attribute>
         <attribute name="force_save">1</attribute>
       </xpath>
-
       <xpath expr="//field[@name='nit']"
         position="attributes">
         <attribute name="attrs">{'readonly': ['|', '&amp;', ('partner_invoice_id', '!=', False),
           ('nit', '!=', '0'), '|', ('state', '!=', 'draft')]}</attribute>
         <attribute name="force_save">1</attribute>
       </xpath>
-
       <xpath expr="//field[@name='cc_nro']"
         position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state',
           '!=', 'draft')]}</attribute>
       </xpath>
-
       <xpath expr="//field[@name='cc_aut']"
         position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state',
