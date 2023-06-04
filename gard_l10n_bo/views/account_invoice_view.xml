@@ -11,7 +11,8 @@
     <field name="inherit_id" ref="account.invoice_form" />
     <field name="arch" type="xml">
 
-      <!-- move fields -->
+      <!-- rearrange fields -->
+      <!-- replace fields -->
       <xpath expr="//field[@name='user_id']" position="replace">
       </xpath>
       <xpath expr="//field[@name='journal_id']" position="replace">
@@ -26,7 +27,6 @@
       </xpath>
       <xpath expr="//sheet/group[1]//group[last()]//div[1]" position="replace">
       </xpath>
-
       <!-- readonly to place an editable spawn of the field -->
       <!-- more conveniently on the main section -->
       <xpath expr="//group[@name='group_sin_siat']//field[@name='siat_metodo_pago']"
@@ -34,7 +34,7 @@
         <attribute name="readonly">1</attribute>
         <attribute name="force_save">1</attribute>
       </xpath>
-
+      <!-- custom sheet grouping -->
       <xpath expr="//sheet/group[1]//group[1]" position="after">
         <group colspan="2">
           <field name="user_id" groups="base.group_user" />
@@ -55,13 +55,7 @@
           </div>
         </group>
       </xpath>
-
-      <!-- invoice attribute customize -->
-      <xpath expr="//field[@name='partner_id']" position="attributes">
-        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
-        <attribute name="options">{'no_create': True}</attribute>
-      </xpath>
-
+      <!-- adapt colums -->
       <xpath expr="//sheet//group[1]" position="attributes">
         <attribute name="colspan">6</attribute>
         <attribute name="col">5</attribute>
@@ -70,6 +64,11 @@
         <attribute name="colspan">3</attribute>
       </xpath>
 
+      <!-- invoice attribute customize -->
+      <xpath expr="//field[@name='partner_id']" position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
+        <attribute name="options">{'no_create': True}</attribute>
+      </xpath>
       <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
         <attribute name="attrs">{'readonly': ['|', ('cc_dos','!=',False), ('state', '!=', 'draft')]}</attribute>
       </xpath>
@@ -103,48 +102,75 @@
       </xpath>
 
       <!-- invoice lines customize -->
-      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='product_id']" position="attributes">
-        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=', 'draft')]}</attribute>
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='product_id']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=',
+          'draft')]}</attribute>
       </xpath>
-      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='name']" position="attributes">
-        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=', 'draft')]}</attribute>
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='name']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=',
+          'draft')]}</attribute>
       </xpath>
-      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='branch_id']" position="attributes">
-        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=', 'draft')]}</attribute>
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='branch_id']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=',
+          'draft')]}</attribute>
       </xpath>
-      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='account_id']" position="attributes">
-        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=', 'draft')]}</attribute>
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='account_id']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=',
+          'draft')]}</attribute>
       </xpath>
-      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='account_analytic_id']" position="attributes">
-        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=', 'draft')]}</attribute>
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='account_analytic_id']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=',
+          'draft')]}</attribute>
       </xpath>
-      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='uom_id']" position="attributes">
-        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=', 'draft')]}</attribute>
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='uom_id']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=',
+          'draft')]}</attribute>
       </xpath>
-      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']" position="attributes">
-        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=', 'draft')]}</attribute>
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=',
+          'draft')]}</attribute>
       </xpath>
-      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='invoice_line_tax_ids']" position="attributes">
-        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=', 'draft')]}</attribute>
+      <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='invoice_line_tax_ids']"
+        position="attributes">
+        <attribute name="attrs">{'readonly': ['|', ('sale_line_ids','!=',False), ('state', '!=',
+          'draft')]}</attribute>
       </xpath>
-
 
       <!-- SIAT customize -->
+      <!-- siat_state_display -->
+      <xpath expr="//h1" position="after">
+        <div class="oe_right oe_button_box" style="width: 150px;" name="buttons_siat">
+          <div class="oe_inline info-box oe_invoice_state" icon="fa-list-alt">
+            <span class="info-box-icon bg-aqua">
+              <i class="fa fa-check"></i>
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text">
+                <field string="Estado Factura" name="siat_state_display" />
+              </span>
+            </div>
+          </div>
+        </div>
+      </xpath>
       <!-- move partner_invoice_id field -->
       <xpath expr="//field[@name='partner_invoice_id']" position="replace">
       </xpath>
-      
       <!-- add field spawn -->
       <xpath expr="//field[@name='siat_tipo_id']" position="before">
         <separator />
         <field name="partner_invoice_id" options="{'no_create': True}" />
       </xpath>
-      
       <!-- add separator -->
       <xpath expr="//field[@name='razon']" position="after">
         <separator />
       </xpath>
-
       <!-- custom attributes -->
       <xpath expr="//field[@name='razon']"
         position="attributes">

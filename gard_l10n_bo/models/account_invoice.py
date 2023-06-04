@@ -24,23 +24,22 @@ class AccountInvoice(models.Model):
         "Razón Social",
         help="Nombre o Razón Social para la Factura.",
     )
-    estado_siat_display = fields.Selection(
+    siat_state_display = fields.Selection(
         [
-            ("V", "Válida"),
-            ("A", "Anulada"),
-            ("E", "Extraviada"),
-            ("N", "No Utilizada"),
-            ("na", "No Aplica"),
+            ("offline", "No enviada"),
+            ("error", "Error de envío"),
+            ("online", "Enviada"),
+            ("anulada", "Anulada"),
         ],
         string="Estado SIAT Display",
         readonly=True,
-        compute="_get_estado_siat",
+        compute="_get_siat_state",
     )
 
     @api.one
-    @api.depends('estado_fac')
-    def _get_estado_siat(self):
-        self.estado_fac_display = self.estado_fac
+    @api.depends("estado_fac")
+    def _get_siat_state(self):
+        self.siat_state_display = self.siat_state
 
     def _get_siat_partner_id(self):
         partner = False
