@@ -5,6 +5,8 @@
 from odoo import api, fields, tools, models, _
 from odoo.exceptions import UserError
 
+# _logger = logging.getLogger(__name__)
+
 
 class ProductUoM(models.Model):
     _inherit = "product.uom"

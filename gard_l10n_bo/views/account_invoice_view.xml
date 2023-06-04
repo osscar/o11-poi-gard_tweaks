@@ -160,7 +160,8 @@
         </xpath>
         <xpath expr="//sheet//div[@name='button_box']" position="inside">
           <!-- <div class="oe_right oe_button_box" style="width: 150px;" name="buttons"> -->
-          <div class="oe_inline info-box oe_invoice_state" attrs="{'invisible': [('cc_nro','=', False)]}">
+          <div class="oe_inline info-box oe_invoice_state"
+            attrs="{'invisible': [('cc_dos','=', False)]}">
             <span class="info-box-icon">
               <i class="fa fa-2x fa-check-circle" style="color: darkslateblue"
                 attrs="{'invisible': ['|', ('siat_state','!=', 'online'), ('estado_fac','!=', 'V')]}"></i>
@@ -173,8 +174,10 @@
               </span>
               <span>&#160;</span>
               <span>
-                <i class="fa fa-check" style="color: darkslateblue" attrs="{'invisible': [('siat_state','!=', 'online')]}"></i>
-                <i class="fa fa-times" style="color: darkred" attrs="{'invisible': [('siat_state','=', 'online')]}"></i>
+                <i class="fa fa-check" style="color: darkslateblue"
+                  attrs="{'invisible': [('siat_state','!=', 'online')]}"></i>
+                <i class="fa fa-times" style="color: darkred"
+                  attrs="{'invisible': [('siat_state','=', 'online')]}"></i>
               </span>
             </div>
             <div class="info-box-content">
@@ -183,8 +186,10 @@
               </span>
               <span>&#160;</span>
               <span>
-                <i class="fa fa-check" style="color: darkslateblue" attrs="{'invisible': [('estado_fac','!=', 'V')]}"></i>
-                <i class="fa fa-times" style="color: darkred" attrs="{'invisible': [('estado_fac','=', 'V')]}"></i>
+                <i class="fa fa-check" style="color: darkslateblue"
+                  attrs="{'invisible': [('estado_fac','!=', 'V')]}"></i>
+                <i class="fa fa-times" style="color: darkred"
+                  attrs="{'invisible': [('estado_fac','=', 'V')]}"></i>
               </span>
             </div>
           </div>
