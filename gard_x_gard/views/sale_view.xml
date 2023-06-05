@@ -17,7 +17,7 @@
       </field>
     </record>
 
-    <!-- Views -->
+    <!-- Form Views -->
     <record model="ir.ui.view" id="view_order_form">
       <field name="name">sale.order.form.inherit.gard_x_gard</field>
       <field name="model">sale.order</field>
@@ -182,7 +182,10 @@
     </record>
 
     <!-- Actions -->
-    <record id="action_sale_order_lines" model="ir.actions.act_window">
+    <record model="ir.actions.act_window" id="sale.action_quotations">
+      <field name="context">{'search_default_draft':1,}</field>
+    </record>
+    <record model="ir.actions.act_window" id="action_sale_order_lines">
       <field name="name">Sale Order Lines</field>
       <field name="res_model">sale.order.line</field>
       <field name="view_type">form</field>
