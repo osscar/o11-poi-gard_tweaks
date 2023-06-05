@@ -146,8 +146,10 @@
       <field name="inherit_id" ref="sale.view_order_line_tree" />
       <field name="arch" type="xml">
 
-        <!-- add date_order_id -->
+        <!-- add date_order_id + state + invoice_status -->
         <xpath expr="//field[@name='order_id']" position="after">
+          <field name="state" />
+          <field name="invoice_status" />
           <field name="date_order_id" />
         </xpath>
 
