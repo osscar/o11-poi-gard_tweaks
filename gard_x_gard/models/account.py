@@ -3,11 +3,7 @@
 
 # import logging
 
-from odoo import api, fields, models, _
-from odoo.exceptions import RedirectWarning, UserError, ValidationError
-from odoo.http import request
-
-import odoo.addons.decimal_precision as dp
+from odoo import fields, models, _
 
 # _logger = logging.getLogger(__name__)
 
@@ -21,6 +17,7 @@ class AccountJournal(models.Model):
         required=True,
         help="The journal entries of this journal will be named using this prefix.",
     )
+<<<<<<< Updated upstream
     note = fields.Text("Description")
 
 
@@ -108,3 +105,6 @@ class AccountJournal(models.Model):
 #         else:
 #             # _logger.info('Written vals: %s' % vals)
 #             return super().write(vals)
+=======
+    note = fields.Text("Description")
+>>>>>>> Stashed changes

@@ -21,15 +21,17 @@ class PurchaseOrderAccountAnalyticCreate(models.TransientModel):
         "create_wizard_id",
         string="Wizard Lines",
     )
-    tag_id = fields.Many2one(
-        "account.analytic.tag",
-        string="Parent Analytic Tag",
-    )
-    order_account_line = fields.Many2one(
+    order_account_analytic_line = fields.Many2one(
         "purchase.order.account.analytic.create.line",
         string="Order Analytic Account Line",
         ondelete="cascade",
-        help="Add analytic account to order.",
+        help="Add analytic account to order lines.",
+    )
+    account_analytic_parent_id = fields.Many2one(
+        "account.analytic.account",
+        string="Order Parent Analytic Account",
+        # ondelete="cascade",
+        help="Select parent analytic account for order.",
     )
 
     def button_create_line_default_values(self):
@@ -52,10 +54,14 @@ class PurchaseOrderAccountAnalyticCreate(models.TransientModel):
             # _logger.debug("bclidv acc_default >>>: %s", (list(acc_default)))
         for order in res:
             # _logger.debug("bclidv order >>>: %s", (order))
-            analyt_tag_obj = self.env["account.analytic.tag"]
-            analyt_tag_vals = {"name": order.name}
-            if not self.tag_id:
-                if analyt_tag_obj.search([("name", "=", order.name)]):
+            hr_department_obj = self.env["hr.department"]
+            acc_parent_default_department = hr_department_obj.search([('display_name', "=", acc_parent_default_department)]).id
+            analyt_acc_obj = self.env["account.analytic.account"]
+            analyt_acc_parent_vals = {"name": order.name,
+                                      "department_id": acc_parent_default_department}
+            account_analytic_parent_id = analyt_acc_obj.search([('name', "=", order.name)]).id
+            if not self.account_analytic_parent_id:
+                if analyt_acc_obj.search([("name", "=", order.name)]):
                     raise ValidationError(
                         _(
                             "An analytic tag with that name: %s, already exists. Please use that one or delete it, and try again."
@@ -74,7 +80,6 @@ class PurchaseOrderAccountAnalyticCreate(models.TransientModel):
                     "tag_id": self.tag_id.id,
                 }
                 self.line_ids.create(vals)
-            self.order_account_line = self.line_ids[0]
         return {
             "type": "set_scrollTop",
         }
@@ -93,8 +98,8 @@ class PurchaseOrderAccountAnalyticCreate(models.TransientModel):
                             "An analytic account with that name: %s, already exists. Please use that one or delete it, and try again."
                         ) % (line.name)
                     )
-                # _logger.debug("bcaa line >>>: %s", line)
-                acc_analyt_vals = {
+
+                analyt_acc_vals = {
                     "name": line.name,
                     "tag_ids": line.tag_id,
                     "code": line.code,
@@ -111,7 +116,6 @@ class PurchaseOrderAccountAnalyticCreate(models.TransientModel):
         }
 
     def button_wizard_line_unlink(self):
-        self.order_account_line = False
         for line in self.line_ids:
             line.unlink()
         return {

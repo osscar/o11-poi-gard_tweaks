@@ -3,11 +3,15 @@
 
 # import logging
 
+<<<<<<< Updated upstream
 from odoo import api, fields, models, _
 # from odoo.exceptions import RedirectWarning, UserError, ValidationError
 # from odoo.http import request
 
 # import odoo.addons.decimal_precision as dp
+=======
+from odoo import fields, models, _
+>>>>>>> Stashed changes
 
 # _logger = logging.getLogger(__name__)
 

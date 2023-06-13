@@ -3,10 +3,8 @@
 
 # import logging
 
-from email.policy import default
+# from email.policy import default
 from odoo import api, fields, models, _
-from odoo.exceptions import RedirectWarning, UserError, ValidationError
-from odoo.http import request
 
 import odoo.addons.decimal_precision as dp
 

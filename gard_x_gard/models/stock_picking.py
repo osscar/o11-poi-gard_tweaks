@@ -3,9 +3,13 @@
 
 # import logging
 
+<<<<<<< Updated upstream
 from odoo import api, fields, models, _
 # from odoo.exceptions import RedirectWarning, UserError, ValidationError
 from odoo.http import request
+=======
+from odoo import fields, models, _
+>>>>>>> Stashed changes
 
 # import odoo.addons.decimal_precision as dp
 
