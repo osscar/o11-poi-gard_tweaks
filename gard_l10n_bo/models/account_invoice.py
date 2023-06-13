@@ -166,7 +166,8 @@ class AccountInvoice(models.Model):
     def _onchange_partner_id(self):
         if not self.partner_invoice_id:
             super(AccountInvoice, self)._onchange_partner_id()
-            self._get_siat_onchange_vals()
+            if self.siat_tipo_id:
+                self._get_siat_onchange_vals()
             self._onchange_nit()
         else:
             self._onchange_partner_invoice_id()
