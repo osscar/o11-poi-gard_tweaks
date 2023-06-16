@@ -25,7 +25,6 @@
                 </field>
               </page>
             </notebook>
-            <!-- domain="[('id', 'in', line_ids)]"/> -->
           </group>
           <group name="create_form_lines">
             <notebook>
@@ -52,7 +51,7 @@
           </group>
           <footer>
             <button string="Create" name="button_create_order_line" type="object"
-              class="btn-primary" />
+              class="btn-primary" confirm="This will propagate the products selected to new order lines. Do you want to continue?" />
             <button string="Cancel" class="btn-default" special="cancel" />
           </footer>
         </form>

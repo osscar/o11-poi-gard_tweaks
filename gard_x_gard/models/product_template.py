@@ -25,13 +25,14 @@ class ProductTemplate(models.Model):
         "product.uom",
         string="Product UoMs",
         compute="_get_product_uom_ids",
-        # store=True,
+        store=True,
         readonly=True,
-        # index=True,
+        index=True,
         help="These are the available units of measure for this product.",
     )
 
     @api.multi
     @api.depends("uom_po_id", "uom_id", "uom_pack_id")
     def _get_product_uom_ids(self):
-        self.uom_ids = self.uom_po_id + self.uom_id + self.uom_pack_id
+        for product in self:
+            product.uom_ids = product.uom_po_id + product.uom_id + product.uom_pack_id

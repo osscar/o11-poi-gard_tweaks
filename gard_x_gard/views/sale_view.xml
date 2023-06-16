@@ -94,7 +94,6 @@
           position="attributes">
           <attribute name="domain">[('id', 'in', product_uoms)]</attribute>
         </xpath>
-
         <!-- mod icon size -->
         <xpath expr="//field[@name='order_line']/tree/button[@name='570']"
           position="attributes">
