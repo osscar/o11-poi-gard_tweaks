@@ -18,7 +18,8 @@ class ProductPropagate(models.TransientModel):
     _description = "Create order lines with selected products."
 
     product_ids = fields.Many2many(
-        'product.product', string='Select Products',
+        "product.product",
+        string="Select Products",
     )
     line_ids = fields.One2many(
         "product.propagate.line",
@@ -45,7 +46,7 @@ class ProductPropagate(models.TransientModel):
     @api.one
     def button_create_order_line(self):
         active_model = self._context.get("active_model", False)
-        active_ids = self._context.get("active_ids", False) 
+        active_ids = self._context.get("active_ids", False)
         order_obj = self.env[active_model]
         order_ids = active_ids
         res = order_obj.browse(order_ids)
@@ -70,7 +71,7 @@ class ProductPropagate(models.TransientModel):
         return {
             "type": "set_scrollTop",
         }
-    
+
     def button_product_ids_clear(self):
         self.product_ids = False
         return {
@@ -96,23 +97,31 @@ class ProductPropagateLine(models.TransientModel):
     _rec_name = "name"
 
     product_id = fields.Many2one(
-        'product.product', string='Product',
+        "product.product",
+        string="Product",
         required=True,
     )
     name = fields.Char(string="Name", required=True, help="Order line name.")
-    date_planned = fields.Datetime('Date Planned', required=True)
+    date_planned = fields.Datetime("Date Planned", required=True)
     product_qty = fields.Float(
-        string='Quantity',
+        string="Quantity",
         required=True,
         default=1.0,
-        digits=dp.get_precision('Product Unit of Measure'),
+        digits=dp.get_precision("Product Unit of Measure"),
     )
     product_uom = fields.Many2one(
-        'product.uom', 'Quantity Unit of Measure',
-        help="Product quantity unit of measure.")
-    price_unit = fields.Float(string='Unit Price',
-        digits= dp.get_precision('Product Price'),
-        default=1.0)
+        "product.uom",
+        "Quantity Unit of Measure",
+        help="Product quantity unit of measure.",
+    )
+    product_uoms = fields.Many2many(
+        comodel_name="product.uom",
+        related="product_id.uom_ids",
+        readonly=True,
+    )
+    price_unit = fields.Float(
+        string="Unit Price", digits=dp.get_precision("Product Price"), default=1.0
+    )
     wizard_id = fields.Many2one(
         "product.propagate",
         string="Wizard ID",
