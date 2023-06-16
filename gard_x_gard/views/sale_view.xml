@@ -60,6 +60,17 @@
         </xpath>
 
         <!--  order line customization -->
+
+        <!-- add domain to product_uom -->
+        <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom']"
+          position="before">
+          <field name="product_uoms" invisible="1" />
+        </xpath>
+        <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom']"
+          position="attributes">
+          <attribute name="domain">[('id', 'in', product_uoms)]</attribute>
+        </xpath>
+
         <!-- mod icon size -->
         <xpath expr="//field[@name='order_line']/tree/button[@name='570']"
           position="attributes">

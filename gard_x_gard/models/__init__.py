@@ -8,6 +8,7 @@ from . import account_invoice
 # from . import account_payment
 from . import stock_picking
 # from . import procurement
+from . import product_template
 from . import stock_move
 from . import stock_warehouse
 from . import sale

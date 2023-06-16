@@ -5,8 +5,13 @@
 
 # from email.policy import default
 from odoo import api, fields, models, _
+from . import product_template
 
-import odoo.addons.decimal_precision as dp
+from .product_template import ProductTemplate
+
+# from . 
+# from product_template import ProductTemplate
+# ._get_product_uom_ids
 
 # _logger = logging.getLogger(__name__)
 
@@ -46,7 +51,11 @@ class SaleOrderLine(models.Model):
     date_order_id = fields.Datetime(
         "Order Date",
         related="order_id.date_order",
-        store=True,
         readonly=True,
         index=True,
+    )
+    product_uoms = fields.Many2many(
+        comodel_name="product.uom",
+        related="product_id.uom_ids",
+        readonly=True,
     )

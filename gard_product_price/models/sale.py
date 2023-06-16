@@ -31,9 +31,6 @@ class SaleOrderLine(models.Model):
         required=True,
         help="Pricelist for current sales order line.",
     )
-    product_uom_ids = fields.Many2many(
-        "product.uom", "Product UoM", compute="_get_product_uom_ids"
-    )
 
     @api.multi
     def _get_count_active_pricelist_items(self):
@@ -43,12 +40,6 @@ class SaleOrderLine(models.Model):
                 lambda item: item.active_pricelist == True
             )
             order_line.pricelist_item_count = len(order_line.pricelist_item_ids)
-
-    @api.multi
-    def _get_product_uom_ids(self):
-        for order_line in self:
-            product = order_line.product_id
-            order_line["product_uom_ids"] = product.uom_id + product.uom_pack_id
 
     @api.multi
     def _get_display_price(self, product):
