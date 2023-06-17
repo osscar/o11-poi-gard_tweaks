@@ -22,7 +22,7 @@
             attrs="{'invisible':['|',('state', '!=', 'draft'),('account_analytic_id', '!=', False)]}"
             icon="fa-plus-circle" />
           <separator />
-          <button name="button_order_line_unlink" type="object"
+          <button name="button_unlink_order_line" type="object"
             attrs="{'invisible':['|',('state', '!=', 'draft'),('order_line', '=', [])]}"
             icon="fa-times" string="Clear Lines"
             confirm="This will clear all order lines. Are you sure you want to continue?" />

@@ -18,7 +18,7 @@ class PurchaseOrder(models.Model):
             line['account_analytic_id'] = account_analytic_id
         return True
 
-    def button_order_line_unlink(self):
+    def button_unlink_order_line(self):
         for line in self.order_line:
             line.unlink()
         return True

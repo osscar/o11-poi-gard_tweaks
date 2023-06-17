@@ -9,17 +9,19 @@
         <form string="Create Analytic Accounts">
           <group name="create_form">
             <field name="account_analytic_propagate_group" />
-            <field name="account_analytic_default_id" />
             <!-- domain="[('type', 'in', type)]"/> -->
           </group>
-          <group name="create_form_lines">
+          <group name="create_form_accounts">
             <notebook>
               <page name="create_values" string="Create Values">
-                <button name="button_wizard_line_unlink" type="object"
-                  attrs="{'invisible':[('account_analytic_default_ids', '=', [])]}"
-                  class="btn-default" string="Clear Lines" />
-                <separator />
-                <field name="account_analytic_default_ids">
+                <div>
+                  <button name="button_unlink_wizard_line" type="object"
+                    attrs="{'invisible':[('account_analytic_default_ids', '=', [])]}"
+                    icon="fa-times" string="Clear Values"
+                    confirm="This will clear all order lines. Are you sure you want to continue?" />
+                  <field name="account_analytic_default_id" attrs="{'invisible':[('account_analytic_default_ids', '=', [])]}" />
+                </div>
+                <field name="wizard_line">
                   <tree>
                     <field name="parent_id" />
                     <field name="order_name" />

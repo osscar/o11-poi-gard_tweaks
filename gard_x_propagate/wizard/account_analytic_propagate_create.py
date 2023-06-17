@@ -13,28 +13,28 @@ class AccountAnalyticPropagateCreate(models.TransientModel):
     Analytic account creation wizard.
     """
 
-    _name = "account.analytic.propagate.create"
+    _name = "account.analytic.propagate.create.wizard"
     _description = "Create analytic accounts."
 
-    line_ids = fields.One2many(
-        "account.analytic.propagate.line",
-        "create_wizard_id",
-        string="Wizard Lines",
+    group_id = fields.Many2one(
+        "account.analytic.propagate.group",
+        string="Group",
+        help="Select a propagation group to obtain line values, or create line values manually.",
     )
-    order_account_analytic_line = fields.Many2one(
-        "account.analytic.propagate.line",
-        string="Order Analytic Account Line",
-        ondelete="cascade",
-        help="Add analytic account to order lines.",
-    )
-    account_analytic_parent_id = fields.Many2one(
+    account_analytic_default_id = fields.Many2one(
         "account.analytic.account",
-        string="Order Parent Analytic Account",
-        # ondelete="cascade",
-        help="Select parent analytic account for order.",
+        string="Default Analytic Account",
+        help="Select the default analytic account for order. This account will be set as default for the order lines.",
     )
-
-    def button_create_line_default_values(self):
+    wizard_line = fields.Many2one(
+        "account.analytic.propagate.create.wizard.line",
+        string="Create Values",
+        ondelete="cascade",
+        help="These values will be used to create the analytic accounts.",
+    )
+    
+    def onchange_group_id(self):
+        if self.
         purchase_order_ids = self._context.get("active_ids", False)
         res = self.env["purchase.order"].browse(purchase_order_ids)
         # acc_default_id = ["1_cp", "2_cd", "3_oc", "4_pg", "5_ivacf"]
@@ -115,7 +115,7 @@ class AccountAnalyticPropagateCreate(models.TransientModel):
             "type": "set_scrollTop",
         }
 
-    def button_wizard_line_unlink(self):
+    def button_unlink_wizard_line(self):
         for line in self.line_ids:
             line.unlink()
         return {
@@ -128,17 +128,18 @@ class PurchaseOrderAccountAnalyticCreateLine(models.TransientModel):
     Purchase Order analytic account creation wizard line.
     """
 
-    _name = "purchase.order.account.analytic.create.line"
-    _description = "Creation wizard lines."
+    _name = "account.analytic.propagate.create.wizard.line"
+    _description = "Create wizard lines."
     _rec_name = "name"
 
-    order_name = fields.Char(string="Order Name", help="Name for analytic account.")
-    name = fields.Char(string="Name", help="Name for analytic account.")
-    code = fields.Char(string="Reference", help="Code for analytic account.")
-    tag_id = fields.Many2one(
-        "account.analytic.tag",
-        string="Parent Analytic Tag",
+    parent_id = fields.Many2one(
+        "account.analytic.account",
+        string="Parent Analytic Account",
+        help="Order reference name is used for this analytic account's name."
     )
+    # order_name = fields.Char(string="Order Name", help="Order reference name.")
+    name = fields.Char(string="Name", help="Analytic account name.")
+    code = fields.Char(string="Reference", help="Analytic account code.")
     create_wizard_id = fields.Many2one(
         "purchase.order.account.analytic.create",
         string="Create Wizard ID",

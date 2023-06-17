@@ -15,13 +15,13 @@
                 <xpath expr="/form//field[@name='cost_lines']" position="before">
                     <group name="propagate" col="3">
                         <group name="propagate_analytic">
-                            <button name="button_cost_line_create" type='object'
+                            <button name="button_create_cost_line" type='object'
                                 attrs="{'invisible':['|',('state', '!=', 'draft'),('account_analytic_id', '=', False)]}"
                                 class="btn-primary" string="Propagate Analytics" help="Create new cost lines from selected analytic account."/>
                             <field name="account_analytic_id" attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('state', '!=', 'draft')]}"/>
                         </group>
                     </group>
-                    <button name="button_cost_line_unlink" type="object"
+                    <button name="button_unlink_cost_line" type="object"
                         attrs="{'invisible':['|',('state', '!=', 'draft'),('cost_lines', '=', [])]}"
                         class="btn-default" string="Clear Lines"/>
                 </xpath>

@@ -12,7 +12,7 @@ from odoo.exceptions import ValidationError
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    def button_order_line_unlink(self):
+    def button_unlink_order_line(self):
         if self.state != "draft":
             raise ValidationError(
                 ("Cannot delete lines if order is not in draft state.")

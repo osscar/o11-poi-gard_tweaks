@@ -9,8 +9,8 @@
         <form string="Select Products">
           <group name="create_form">
             <notebook>
-              <page name="line_ids" string="Select Products">
-                <button name="button_product_ids_clear" type="object"
+              <page name="product_lines" string="Select Products">
+                <button name="button_unlink_product_ids" type="object"
                   attrs="{'invisible':[('product_ids', '=', [])]}" class="btn-primary"
                   string="Clear Products" />
                 <separator />
@@ -28,10 +28,10 @@
           </group>
           <group name="create_form_lines">
             <notebook>
-              <page name="line_ids" string="Create Line Values">
-                <button name="button_create_wizard_line" type="object" class="btn-primary"
+              <page name="wizard_lines" string="Create Line Values">
+                <button name="button_create_line_ids" type="object" class="btn-primary"
                   string="Add Products" />
-                <button name="button_wizard_line_unlink" type="object"
+                <button name="button_unlink_wizard_line" type="object"
                   attrs="{'invisible':[('line_ids', '=', [])]}" class="btn-default"
                   string="Clear Lines" />
                 <separator />

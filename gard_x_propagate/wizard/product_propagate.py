@@ -27,7 +27,7 @@ class ProductPropagate(models.TransientModel):
         string="Wizard Lines",
     )
 
-    def button_create_wizard_line(self):
+    def button_create_line_ids(self):
         for product in self.product_ids:
             line_vals = {
                 "wizard_id": self.id,
@@ -72,13 +72,13 @@ class ProductPropagate(models.TransientModel):
             "type": "set_scrollTop",
         }
 
-    def button_product_ids_clear(self):
+    def button_unlink_product_lines(self):
         self.product_ids = False
         return {
             "type": "set_scrollTop",
         }
 
-    def button_wizard_line_unlink(self):
+    def button_unlink_wizard_line(self):
         self.product_ids = False
         for line in self.line_ids:
             line.unlink()

@@ -12,7 +12,7 @@ class LandedCost(models.Model):
     _inherit = "stock.landed.cost"
 
     @api.one
-    def button_cost_line_create(self):
+    def button_create_cost_line(self):
         anl_lines = self.account_analytic_id.line_ids
         for line in anl_lines:
             # _logger.debug('bclc vals >>>: %s', line)
@@ -35,7 +35,7 @@ class LandedCost(models.Model):
             new_lines.onchange_account_analytic_line_id()
         return True
 
-    def button_cost_line_unlink(self):
+    def button_unlink_cost_line(self):
         for line in self.cost_lines:
             line.unlink()
         return True

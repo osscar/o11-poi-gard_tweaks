@@ -22,7 +22,7 @@
           <button name="%(action_view_product_propagate)d" type="action"
             attrs="{'invisible':['|',('state', '!=', 'draft')]}"
             icon="fa-cubes" string="Select Products" />
-          <button name="button_order_line_unlink" type="object"
+          <button name="button_unlink_order_line" type="object"
             attrs="{'invisible':['|',('state', '!=', 'draft'),('order_line', '=', [])]}"
             icon="fa-times" string="Clear Lines" confirm="This will clear all order lines. Are you sure you want to continue?" />
         </div>
