@@ -9,38 +9,40 @@ from odoo.exceptions import ValidationError
 # _logger = logging.getLogger(__name__)
 
 
-class AccountAnalyticPropagate(models.Model):
-    _inherit = "account.analytic.propagate"
+class AccountAnalyticPropagateGroup(models.Model):
+    _inherit = "account.analytic.propagate.group"
 
-    
+    name = fields.Char("Name", required=True)
+    type = fields.Selection(
+        [
+            ("purchase", "Purchase Order"),
+            # ("sale", "Sale Order"),
+        ],
+        string="Type",
+        required=True,
+        help="Select order type for group.",
+    )
+    account_analytic_default_ids = fields.Many2many(
+        "account.analytic.propagate.group.account",
+        string="Analytic Accounts",
+        help="Default analytic account details.",
+    )
+    parent_id = fields.Many2one(
+        comodel_name="account.analytic.account",
+        string="Parent Analytic Account",
+    )
+    active = fields.Boolean(string="Active", default=True)
 
-    def button_order_line_unlink(self):
-        if self.state != "draft":
-            raise ValidationError(
-                ("Cannot delete lines if order is not in draft state.")
-            )
-        for line in self.order_line:
-            line.unlink()
-        return True
 
+class AccountAnalyticPropagateGroupAccount(models.Model):
+    _inherit = "account.analytic.propagate.group.account"
 
-class SaleOrderLine(models.Model):
-    _inherit = "sale.order.line"
-
-    @api.one
-    def button_propagate_route(self):
-        if self.order_id.state != "draft":
-            raise ValidationError(("Cannot propagate if order is not in draft state."))
-        route_id = self.route_id
-        for line in self.order_id.order_line:
-            line["route_id"] = route_id
-        return True
-
-    @api.one
-    def button_propagate_pricelist(self):
-        if self.order_id.state != "draft":
-            raise ValidationError(("Cannot propagate if order is not in draft state."))
-        pricelist_id = self.pricelist_id
-        for line in self.order_id.order_line.filtered(lambda l: self.id != l.id):
-            line["pricelist_id"] = pricelist_id
-        return True
+    name = fields.Char(
+        "Name",
+        required=True,
+    )
+    code = fields.Char(
+        "Code",
+        size=10,
+        required=True,
+    )

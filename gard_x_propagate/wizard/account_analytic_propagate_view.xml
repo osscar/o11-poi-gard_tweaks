@@ -2,13 +2,14 @@
 <odoo>
     <data>
 
-        <record id="view_account_analytic_propagate" model="ir.ui.view">
-            <field name="name">account.analytic.propagate.form</field>
-            <field name="model">account.analytic.propagate</field>
+        <record id="view_account_analytic_propagate_create_form" model="ir.ui.view">
+            <field name="name">account.analytic.propagate.create.form</field>
+            <field name="model">account.analytic.propagate.create</field>
             <field name="arch" type="xml">
                 <form string="Create Analytic Accounts">
                     <group name="create_form">
-                        <field name="order_account_analytic_line" domain="[('id', 'in', line_ids)]"/>
+                        <field name="account_analytic_propagate_group" />
+                         <!-- domain="[('type', 'in', type)]"/> -->
                     </group>
                     <group name="create_form_lines">
                         <notebook>
@@ -35,12 +36,12 @@
             </field>
         </record>
 
-        <record id="action_view_account_analytic_propagate" model="ir.actions.act_window">
+        <record id="action_view_account_analytic_propagate_create" model="ir.actions.act_window">
             <field name="name">Create Analytic Accounts</field>
             <field name="res_model">account.analytic.propagate</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_account_analytic_propagate"/>
+            <field name="view_id" ref="view_account_analytic_propagate_create"/>
             <field name="target">new</field>
         </record>
 
