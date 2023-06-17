@@ -22,14 +22,16 @@ class AccountAnalyticPropagateGroup(models.Model):
         required=True,
         help="Select order type for group.",
     )
-    account_analytic_default_ids = fields.Many2many(
+    account_analytic_default_ids = fields.One2many(
         "account.analytic.propagate.group.account",
+        "group_id",
         string="Analytic Accounts",
         help="Default analytic account details.",
     )
     parent_id = fields.Many2one(
-        comodel_name="account.analytic.account",
+        "account.analytic.account",
         string="Parent Analytic Account",
+        help="Parent analytic account for group.",
     )
     active = fields.Boolean(string="Active", default=True)
 
@@ -45,4 +47,10 @@ class AccountAnalyticPropagateGroupAccount(models.Model):
         "Code",
         size=10,
         required=True,
+    )
+    group_id = fields.Many2one(
+        "account.analytic.propagate.group",
+        string="Group",
+        ondelete="cascade",
+        help="Propagate group related to this account.",
     )

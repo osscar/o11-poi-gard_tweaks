@@ -8,12 +8,12 @@ from odoo.exceptions import ValidationError
 # _logger = logging.getLogger(__name__)
 
 
-class AccountAnalyticPropagate(models.TransientModel):
+class AccountAnalyticPropagateCreate(models.TransientModel):
     """
     Analytic account creation wizard.
     """
 
-    _name = "account.analytic.propagate"
+    _name = "account.analytic.propagate.create"
     _description = "Create analytic accounts."
 
     line_ids = fields.One2many(
