@@ -28,11 +28,6 @@ class AccountAnalyticPropagateGroup(models.Model):
         string="Analytic Accounts",
         help="Default analytic account details.",
     )
-    parent_id = fields.Many2one(
-        "account.analytic.account",
-        string="Parent Analytic Account",
-        help="Parent analytic account for group.",
-    )
     active = fields.Boolean(string="Active", default=True)
 
 
@@ -48,9 +43,24 @@ class AccountAnalyticPropagateGroupAccount(models.Model):
         size=10,
         required=True,
     )
+    parent_id = fields.Many2one(
+        "account.analytic.account",
+        string="Parent Analytic Account",
+        help="Parent analytic account for group.",
+    )
     group_id = fields.Many2one(
         "account.analytic.propagate.group",
         string="Group",
+        readonly=True,
         ondelete="cascade",
         help="Propagate group related to this account.",
     )
+
+    @api.multi
+    @api.depends('name', 'code')
+    def name_get(self):
+        res = []
+        for record in self:
+            name = parent_id + ': ' + record.name + record.code
+            res.append((record.id, name))
+        return res
