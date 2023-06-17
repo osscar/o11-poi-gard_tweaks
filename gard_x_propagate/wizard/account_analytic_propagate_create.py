@@ -33,8 +33,29 @@ class AccountAnalyticPropagateCreate(models.TransientModel):
         help="These values will be used to create the analytic accounts.",
     )
     
+    @api.onchange("group_id")
     def onchange_group_id(self):
-        if self.
+        group_id = self.group_id
+        order_obj = self.env[str(group_id.type + '.order')]
+        active_ids = self._context.get("active_ids", False)
+        order_ids = order_obj.browse(active_ids)
+
+        order_refs = [order.name for order in order_ids]
+        for order in order_ids:
+            vals = {
+                    "wizard_id": self.id,
+                    "parent_id": self.group_id.parent_id.id,
+                    "name": order.name,
+                    "code": acc_vals.code,
+                }
+        for acc_vals in self.group_id.account_value_ids:
+            vals = {
+                    "wizard_id": self.id,
+                    "parent_id": self.group.parent_id.id,
+                    "name": acc_vals.name,
+                    "code": acc_vals.code,
+                }
+        self.wizard_line.create(vals)
         purchase_order_ids = self._context.get("active_ids", False)
         res = self.env["purchase.order"].browse(purchase_order_ids)
         # acc_default_id = ["1_cp", "2_cd", "3_oc", "4_pg", "5_ivacf"]
@@ -73,11 +94,10 @@ class AccountAnalyticPropagateCreate(models.TransientModel):
             for acc in acc_default:
                 # _logger.debug("bclidv acc >>>: %s", (acc_default[acc]["name"]))
                 vals = {
-                    "create_wizard_id": self.id,
-                    "order_name": order.name,
+                    "wizard_id": self.id,
+                    "parent_id": acc.,
                     "name": acc_default[acc]["name"] + " (" + order.name + ")",
                     "code": order.name + acc_default[acc]["code"],
-                    "tag_id": self.tag_id.id,
                 }
                 self.line_ids.create(vals)
         return {
@@ -140,7 +160,7 @@ class PurchaseOrderAccountAnalyticCreateLine(models.TransientModel):
     # order_name = fields.Char(string="Order Name", help="Order reference name.")
     name = fields.Char(string="Name", help="Analytic account name.")
     code = fields.Char(string="Reference", help="Analytic account code.")
-    create_wizard_id = fields.Many2one(
+    wizard_id = fields.Many2one(
         "purchase.order.account.analytic.create",
         string="Create Wizard ID",
         ondelete="cascade",
