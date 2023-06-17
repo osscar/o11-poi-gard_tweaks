@@ -57,8 +57,9 @@ This module tweaks the following:
     'category': 'Other',
     'data': [
         'data/product_data.xml',
+
         'wizard/product_propagate_view.xml',
-        'wizard/purchase_order_account_analytic_create_view.xml',
+        'wizard/account_analytic_propagate_view.xml',
 
         'views/purchase_view.xml',
         'views/sale_view.xml',

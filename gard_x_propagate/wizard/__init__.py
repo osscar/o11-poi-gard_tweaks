@@ -2,4 +2,4 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from . import product_propagate
-from . import purchase_order_account_analytic_create
+from . import account_analytic_propagate

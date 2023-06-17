@@ -8,21 +8,21 @@ from odoo.exceptions import ValidationError
 # _logger = logging.getLogger(__name__)
 
 
-class PurchaseOrderAccountAnalyticCreate(models.TransientModel):
+class AccountAnalyticPropagate(models.TransientModel):
     """
-    Purchase Order analytic account creation wizard.
+    Analytic account creation wizard.
     """
 
-    _name = "purchase.order.account.analytic.create"
+    _name = "account.analytic.propagate"
     _description = "Create analytic accounts."
 
     line_ids = fields.One2many(
-        "purchase.order.account.analytic.create.line",
+        "account.analytic.propagate.line",
         "create_wizard_id",
         string="Wizard Lines",
     )
     order_account_analytic_line = fields.Many2one(
-        "purchase.order.account.analytic.create.line",
+        "account.analytic.propagate.line",
         string="Order Analytic Account Line",
         ondelete="cascade",
         help="Add analytic account to order lines.",

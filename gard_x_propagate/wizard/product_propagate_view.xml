@@ -65,7 +65,6 @@
       <field name="view_mode">tree,form</field>
       <field name="view_id" ref="view_product_propagate" />
       <field name="target">new</field>
-      <!-- <field name="binding_model_id" ref="purchase.model_purchase_order" /> -->
     </record>
 
   </data>
