@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <!-- Search Views -->
+    <record id="view_account_analytic_propagate_filter" model="ir.ui.view">
+      <field name="name">account.analytic.propagate.select</field>
+      <field name="model">account.analytic.propagate</field>
+      <field name="arch" type="xml">
+        <search string="Search Propagate Groups">
+          <field name="name" string="Group"
+            filter_domain="['|', ('name','ilike',self), ('parent_id','ilike',self)]" />
+          <field name="parent_id" />
+          <filter name="active" string="Active" domain="[('active','=',True)]" />
+          <separator />
+          <group expand="0" string="Group By">
+            <filter name="group_by_parent_id" string="Parent" />
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <!-- Form Views -->
+    <record id="view_account_analytic_propagate_form" model="ir.ui.view">
+      <field name="name">account.analytic.propagate.form</field>
+      <field name="model">account.analytic.propagate</field>
+      <field name="arch" type="xml">
+        <form string="Propagate Group">
+          <group name="create_form">
+            <field name="group_id" />
+            <!-- domain="[('type', 'in', type)]"/> -->
+          </group>
+          <group name="create_form_accounts">
+            <notebook>
+              <page name="create_values" string="Create Values">
+                <div>
+                  <button name="button_unlink_wizard_line" type="object"
+                    attrs="{'invisible':[('account_analytic_default_ids', '=', [])]}"
+                    icon="fa-times" string="Clear Values"
+                    confirm="This will clear all current lines. Are you sure you want to continue?" />
+                  <field name="account_analytic_default_id"
+                    attrs="{'invisible':[('account_analytic_default_ids', '=', [])]}" />
+                </div>
+                <field name="wizard_line">
+                  <tree>
+                    <field name="parent_id" />
+                    <field name="name" />
+                    <field name="code" />
+                    <field name="is_default" />
+                  </tree>
+                </field>
+              </page>
+            </notebook>
+          </group>
+          <footer>
+            <button string="Create" name="button_create" type="object" class="btn-primary"
+              confirm="This will create the analytic accounts. Do you want to continue?" />/> <button
+              string="Cancel" class="btn-default" special="cancel" />
+          </footer>
+        </form>
+      </field>
+    </record>
+
+
+    <!-- Tree Views -->
+    <record id="view_invoice_line_tree" model="ir.ui.view">
+      <field name="name">account.invoice.line.tree</field>
+      <field name="model">account.invoice.line</field>
+      <field name="arch" type="xml">
+        <tree string="Invoice Line">
+          <field name="name" />
+          <field name="account_id" groups="account.group_account_user" />
+          <field name="quantity" />
+          <field name="uom_id" groups="product.group_uom" />
+          <field name="price_unit" />
+          <field name="discount" groups="base.group_no_one" />
+          <field name="price_subtotal" />
+          <field name="currency_id" invisible="1" />
+        </tree>
+      </field>
+    </record>
+
+    <!-- Actions -->
+
+    <!-- Menus -->
+
+
+    <record id="action_view_account_analytic_propagate_create" model="ir.actions.act_window">
+      <field name="name">Create Analytic Accounts</field>
+      <field name="res_model">account.analytic.propagate.create</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="view_account_analytic_propagate_create" />
+      <field name="target">new</field>
+    </record>
+
+  </data>
+</odoo>

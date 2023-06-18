@@ -2,7 +2,7 @@
 <odoo>
   <!-- Search Views -->
 
-  <!-- Views -->
+  <!-- Form Views -->
   <record model="ir.ui.view" id="purchase_order_form">
     <field name="name">purchase.order.form.inherit.gard_x_propagate</field>
     <field name="model">purchase.order</field>
@@ -40,6 +40,8 @@
 
     </field>
   </record>
+
+  <!-- Tree Views -->
 
   <!-- Actions -->
 

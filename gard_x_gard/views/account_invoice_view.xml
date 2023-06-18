@@ -37,7 +37,7 @@
     </field>
   </record>
 
-  <!-- Views -->
+  <!-- Form Views -->
   <record model="ir.ui.view" id="invoice_form">
     <field name="name">account.invoice.form.inherit.gard_x_gard</field>
     <field name="model">account.invoice</field>
@@ -105,6 +105,7 @@
     </field>
   </record>
 
+  <!-- Tree Views -->
   <record model="ir.ui.view" id="view_invoice_line_tree">
     <field name="name">account.invoice.line.tree.inherit.gard_x_gard</field>
     <field name="model">account.invoice.line</field>

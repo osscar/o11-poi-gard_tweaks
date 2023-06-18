@@ -61,6 +61,7 @@ This module tweaks the following:
         'wizard/product_propagate_view.xml',
         'wizard/account_analytic_propagate_view.xml',
 
+        'views/account_analytic_propagate_view.xml',
         'views/purchase_view.xml',
         'views/sale_view.xml',
         'views/stock_landed_cost_view.xml',

@@ -36,7 +36,8 @@ class AccountAnalyticPropagateGroup(models.Model):
     )
     active = fields.Boolean(string="Active", default=True)
 
-    def write(vals):
+    @api.multi
+    def write(self, vals):
         res = super().write(vals)
         
         # create default order parent analytic account;

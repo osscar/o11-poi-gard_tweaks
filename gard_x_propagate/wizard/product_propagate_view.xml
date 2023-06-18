@@ -2,7 +2,7 @@
 <odoo>
   <data>
 
-    <record id="view_product_propagate" model="ir.ui.view">
+    <record id="view_product_propagate_form" model="ir.ui.view">
       <field name="name">product.propagate.form</field>
       <field name="model">product.propagate</field>
       <field name="arch" type="xml">
@@ -29,13 +29,13 @@
           <group name="create_form_lines">
             <notebook>
               <page name="wizard_lines" string="Create Line Values">
-                <button name="button_create_line_ids" type="object" class="btn-primary"
+                <button name="button_create_wizard_line" type="object" class="btn-primary"
                   string="Add Products" />
                 <button name="button_unlink_wizard_line" type="object"
-                  attrs="{'invisible':[('line_ids', '=', [])]}" class="btn-default"
+                  attrs="{'invisible':[('wizard_line', '=', [])]}" class="btn-default"
                   string="Clear Lines" />
                 <separator />
-                <field name="line_ids">
+                <field name="wizard_line">
                   <tree editable="bottom">
                     <field name="product_id" />
                     <field name="name" />
@@ -63,7 +63,7 @@
       <field name="res_model">product.propagate</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
-      <field name="view_id" ref="view_product_propagate" />
+      <field name="view_id" ref="view_product_propagate_form" />
       <field name="target">new</field>
     </record>
 

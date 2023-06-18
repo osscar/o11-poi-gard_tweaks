@@ -21,13 +21,14 @@ class ProductPropagate(models.TransientModel):
         "product.product",
         string="Select Products",
     )
-    line_ids = fields.One2many(
+    wizard_line = fields.One2many(
         "product.propagate.line",
         "wizard_id",
-        string="Wizard Lines",
+        string="Propagate Products",
+        help="These products will be propagated to order lines.",
     )
 
-    def button_create_line_ids(self):
+    def button_create_wizard_line(self):
         for product in self.product_ids:
             line_vals = {
                 "wizard_id": self.id,
@@ -38,7 +39,7 @@ class ProductPropagate(models.TransientModel):
                 "product_uom": product.uom_id.id,
                 "price_unit": 1.0,
             }
-            self.line_ids.create(line_vals)
+            self.wizard_line.create(line_vals)
         return {
             "type": "set_scrollTop",
         }
@@ -51,7 +52,7 @@ class ProductPropagate(models.TransientModel):
         order_ids = active_ids
         res = order_obj.browse(order_ids)
         for order in res:
-            for line in self.line_ids:
+            for line in self.wizard_line:
                 # _logger.debug("bcaa order >>>: %s", order)
                 if active_model == "purchase.order" or "sale.order":
                     line_obj = order.order_line
@@ -80,7 +81,7 @@ class ProductPropagate(models.TransientModel):
 
     def button_unlink_wizard_line(self):
         self.product_ids = False
-        for line in self.line_ids:
+        for line in self.wizard_line:
             line.unlink()
         return {
             "type": "set_scrollTop",
