@@ -51,7 +51,7 @@
                     confirm="This will clear all current lines. Are you sure you want to continue?" />
                 </div>
                 <field name="account_value_ids">
-                  <tree>
+                  <tree editable="bottom">
                     <field name="name" />
                     <field name="code" />
                     <field name="is_parent" />
@@ -78,7 +78,7 @@
     </record>
 
     <!-- Actions -->
-    <record id="action_view_account_analytic_propagate_group" model="ir.actions.act_window">
+    <record id="action_account_analytic_propagate_group" model="ir.actions.act_window">
       <field name="name">Propagate Groups</field>
       <field name="res_model">account.analytic.propagate.group</field>
       <field name="view_type">form</field>
@@ -88,6 +88,12 @@
     </record>
 
     <!-- Menus -->
+    <menuitem
+      id="menu_account_analytic_propagate_group"
+      name="Propagate Groups"
+      parent="account.menu_analytic_accounting"
+      action="action_account_analytic_propagate_group"
+      groups="analytic.group_analytic_accounting" />
 
   </data>
 </odoo>

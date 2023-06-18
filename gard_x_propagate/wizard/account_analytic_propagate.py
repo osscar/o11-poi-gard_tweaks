@@ -37,20 +37,21 @@ class AccountAnalyticPropagateCreate(models.TransientModel):
     
     @api.onchange("group_id")
     def onchange_group_id(self):
-        for order in self._get_order_ids():
-            for acc_vals in self.group_id.account_value_ids:
-                parent_id = False
-                vals = {
-                        "wizard_id": self.id,
-                        "parent_id": parent_id,
-                        "name": acc_vals.name,
-                        "code": acc_vals.code,
-                    }
-                if acc_vals.is_parent == True:
-                    vals["parent_id"] = group_id.parent_id
-                    vals["name"] = order.name
-                    vals["code"] = order.code
-            self.wizard_line.create(vals)
+        if self.group_id:
+            for order in self._get_order_ids():
+                for acc_vals in self.group_id.account_value_ids:
+                    parent_id = False
+                    vals = {
+                            "wizard_id": self.id,
+                            "parent_id": parent_id,
+                            "name": acc_vals.name,
+                            "code": acc_vals.code,
+                        }
+                    if acc_vals.is_parent == True:
+                        vals["parent_id"] = group_id.parent_id
+                        vals["name"] = order.name
+                        vals["code"] = order.code
+                self.wizard_line.create(vals)
 
     @api.multi
     def button_create(self):
@@ -74,9 +75,6 @@ class AccountAnalyticPropagateCreate(models.TransientModel):
                     vals["parent_id"] = line.parent_id.id
                 parent_vals = res
                 res["parent_id"] = parent_vals
-                if line.is_default_account:
-                    order["account_analytic_id"] = res
-                    
         return {
             "type": "set_scrollTop",
         }
@@ -96,19 +94,13 @@ class PurchaseOrderAccountAnalyticCreateLine(models.TransientModel):
 
     _name = "account.analytic.propagate.create.line"
     _description = "Create wizard lines."
-    # _rec_name = "name"
+    _order = "parent_id desc, name desc"
 
     parent_id = fields.Many2one(
         "account.analytic.account",
         string="Parent Analytic Account",
         help="Order reference name is used for this analytic account's name."
     )
-    is_default = fields.Boolean(
-        string="Default Order Account",
-        default=False,
-        help="If selected, this will be the default analytic account for the order.",
-    )
-    # order_name = fields.Char(string="Order Name", help="Order reference name.")
     name = fields.Char(string="Name", help="Analytic account name.")
     code = fields.Char(string="Reference", help="Analytic account code.")
     wizard_id = fields.Many2one(

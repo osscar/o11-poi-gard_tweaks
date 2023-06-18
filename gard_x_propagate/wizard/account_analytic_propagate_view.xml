@@ -10,7 +10,6 @@
         <form string="Create Analytic Accounts">
           <group name="create_form">
             <field name="group_id" />
-            <!-- domain="[('type', 'in', type)]"/> -->
           </group>
           <group name="create_form_accounts">
             <notebook>
@@ -22,18 +21,17 @@
                     confirm="This will clear all current lines. Are you sure you want to continue?" />
                 </div>
                 <field name="wizard_line">
-                  <tree>
+                  <tree editable="bottom" >
                     <field name="parent_id" />
                     <field name="name" />
                     <field name="code" />
-                    <field name="is_default" />
                   </tree>
                 </field>
               </page>
             </notebook>
           </group>
           <footer>
-            <button string="Create" name="button_create" type="object" class="btn-primary" confirm="This will create the analytic accounts. Do you want to continue?" />/>
+            <button string="Create" name="button_create" type="object" class="btn-primary" confirm="This will create the analytic accounts. Do you want to continue?" />
             <button string="Cancel" class="btn-default" special="cancel" />
           </footer>
         </form>
@@ -41,7 +39,7 @@
     </record>
 
     <!-- Actions -->
-    <record id="action_view_account_analytic_propagate_create" model="ir.actions.act_window">
+    <record id="action_account_analytic_propagate_create" model="ir.actions.act_window">
       <field name="name">Create Analytic Accounts</field>
       <field name="res_model">account.analytic.propagate.create</field>
       <field name="view_type">form</field>
