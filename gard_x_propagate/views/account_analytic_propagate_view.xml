@@ -3,9 +3,9 @@
   <data>
 
     <!-- Search Views -->
-    <record id="view_account_analytic_propagate_filter" model="ir.ui.view">
-      <field name="name">account.analytic.propagate.select</field>
-      <field name="model">account.analytic.propagate</field>
+    <record id="view_account_analytic_propagate_group_filter" model="ir.ui.view">
+      <field name="name">account.analytic.propagate.group.select</field>
+      <field name="model">account.analytic.propagate.group</field>
       <field name="arch" type="xml">
         <search string="Search Propagate Groups">
           <field name="name" string="Group"
@@ -21,11 +21,11 @@
     </record>
 
     <!-- Form Views -->
-    <record id="view_account_analytic_propagate_form" model="ir.ui.view">
-      <field name="name">account.analytic.propagate.form</field>
-      <field name="model">account.analytic.propagate</field>
+    <record id="view_account_analytic_propagate_group_form" model="ir.ui.view">
+      <field name="name">account.analytic.propagate.group.form</field>
+      <field name="model">account.analytic.propagate.group</field>
       <field name="arch" type="xml">
-        <form string="Propagate Group">
+        <form string="Propagate Groups">
           <group name="create_form">
             <field name="group_id" />
             <!-- domain="[('type', 'in', type)]"/> -->
@@ -63,36 +63,28 @@
 
 
     <!-- Tree Views -->
-    <record id="view_invoice_line_tree" model="ir.ui.view">
-      <field name="name">account.invoice.line.tree</field>
-      <field name="model">account.invoice.line</field>
+    <record id="view_account_analytic_propagate_group_tree" model="ir.ui.view">
+      <field name="name">account.analytic.propagate.group.tree</field>
+      <field name="model">account.analytic.propagate.group</field>
       <field name="arch" type="xml">
-        <tree string="Invoice Line">
+        <tree string="Propagate Group">
           <field name="name" />
-          <field name="account_id" groups="account.group_account_user" />
-          <field name="quantity" />
-          <field name="uom_id" groups="product.group_uom" />
-          <field name="price_unit" />
-          <field name="discount" groups="base.group_no_one" />
-          <field name="price_subtotal" />
-          <field name="currency_id" invisible="1" />
+          <field name="parent_id" />
         </tree>
       </field>
     </record>
 
     <!-- Actions -->
-
-    <!-- Menus -->
-
-
-    <record id="action_view_account_analytic_propagate_create" model="ir.actions.act_window">
-      <field name="name">Create Analytic Accounts</field>
-      <field name="res_model">account.analytic.propagate.create</field>
+    <record id="action_view_account_analytic_propagate_group" model="ir.actions.act_window">
+      <field name="name">Propagate Groups</field>
+      <field name="res_model">account.analytic.propagate.group</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
       <field name="view_id" ref="view_account_analytic_propagate_create" />
       <field name="target">new</field>
     </record>
+
+    <!-- Menus -->
 
   </data>
 </odoo>
