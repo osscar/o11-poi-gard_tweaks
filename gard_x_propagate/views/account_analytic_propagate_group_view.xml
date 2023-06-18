@@ -25,38 +25,41 @@
       <field name="name">account.analytic.propagate.group.form</field>
       <field name="model">account.analytic.propagate.group</field>
       <field name="arch" type="xml">
-        <form string="Propagate Groups">
-          <group name="create_form">
-            <field name="group_id" />
-            <!-- domain="[('type', 'in', type)]"/> -->
-          </group>
-          <group name="create_form_accounts">
+        <form string="Propagate Group">
+          <sheet string="Propagate Groups">
+            <div class="oe_button_box" name="button_box">
+              <button class="oe_stat_button" type="object" name="toggle_active" icon="fa-archive">
+                <field name="active" widget="boolean_button" options='{"terminology": "archive"}' />
+              </button>
+            </div>
+            <div class="oe_title">
+              <label for="name" class="oe_edit_only" />
+              <h1>
+                <field name="name" class="oe_inline" />
+              </h1>
+            </div>
+            <group name="main">
+              <field name="type" />
+              <field name="parent_id" />
+            </group>
             <notebook>
-              <page name="create_values" string="Create Values">
+              <page name="account_values" string="Account Values">
                 <div>
-                  <button name="button_unlink_wizard_line" type="object"
-                    attrs="{'invisible':[('account_analytic_default_ids', '=', [])]}"
+                  <button name="button_unlink_account_line" type="object"
+                    attrs="{'invisible':[('account_value_ids', '=', [])]}"
                     icon="fa-times" string="Clear Values"
                     confirm="This will clear all current lines. Are you sure you want to continue?" />
-                  <field name="account_analytic_default_id"
-                    attrs="{'invisible':[('account_analytic_default_ids', '=', [])]}" />
                 </div>
-                <field name="wizard_line">
+                <field name="account_value_ids">
                   <tree>
-                    <field name="parent_id" />
                     <field name="name" />
                     <field name="code" />
-                    <field name="is_default" />
+                    <field name="is_parent" />
                   </tree>
                 </field>
               </page>
             </notebook>
-          </group>
-          <footer>
-            <button string="Create" name="button_create" type="object" class="btn-primary"
-              confirm="This will create the analytic accounts. Do you want to continue?" />/> <button
-              string="Cancel" class="btn-default" special="cancel" />
-          </footer>
+          </sheet>
         </form>
       </field>
     </record>
@@ -80,7 +83,7 @@
       <field name="res_model">account.analytic.propagate.group</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
-      <field name="view_id" ref="view_account_analytic_propagate_create" />
+      <!-- <field name="view_id" ref="view_account_analytic_propagate_group_tree" /> -->
       <field name="target">new</field>
     </record>
 

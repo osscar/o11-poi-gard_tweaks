@@ -7,7 +7,7 @@
     <field name="name">purchase.order.form.inherit.gard_x_propagate</field>
     <field name="model">purchase.order</field>
     <field name="mode">extension</field>
-    <field name="priority">10</field>
+    <field name="priority">20</field>
     <field name="inherit_id" ref="purchase.purchase_order_form" />
     <field name="arch" type="xml">
 
@@ -18,8 +18,8 @@
           <button name="%(action_view_product_propagate)d" type="action"
             attrs="{'invisible':['|',('state', '!=', 'draft')]}"
             icon="fa-cubes" string="Select Products" />
-          <button name="%(action_view_purchase_order_account_analytic_create)d" type="action"
-            attrs="{'invisible':['|',('state', '!=', 'draft'),('account_analytic_id', '!=', False)]}"
+          <button name="%(action_view_account_analytic_propagate_create)d" type="action"
+            attrs="{'invisible':[('state', '!=', 'draft')]}"
             icon="fa-plus-circle" />
           <separator />
           <button name="button_unlink_order_line" type="object"
@@ -33,7 +33,7 @@
       <xpath expr="//field[@name='order_line']/tree//field[@name='account_analytic_id']"
         position="after">
         <button name="button_propagate_account_analytic" type="object"
-          attrs="{'invisible':['|', ('route_id', '=', False), ('state', '!=', 'draft')]}"
+          attrs="{'invisible':['|', ('account_analytic_id', '=', False), ('state', '!=', 'draft')]}"
           icon="fa-2x fa-list-ul" string="Propagate Analytic Accounts"
           confirm="This will propagate the analytic account to all order lines. Are you sure you want to continue?" />
       </xpath>

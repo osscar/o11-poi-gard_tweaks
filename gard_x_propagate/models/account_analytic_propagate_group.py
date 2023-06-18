@@ -11,7 +11,7 @@ from odoo import api, fields, models, _
 
 
 class AccountAnalyticPropagateGroup(models.Model):
-    name = "account.analytic.propagate.group"
+    _name = "account.analytic.propagate.group"
 
     name = fields.Char("Name", required=True)
     type = fields.Selection(
@@ -36,6 +36,10 @@ class AccountAnalyticPropagateGroup(models.Model):
     )
     active = fields.Boolean(string="Active", default=True)
 
+    def button_unlink_account_line(self):
+        for line in self.account_value_ids:
+            line.unlink()
+
     @api.multi
     def write(self, vals):
         res = super().write(vals)
@@ -55,7 +59,7 @@ class AccountAnalyticPropagateGroup(models.Model):
 
 
 class AccountAnalyticPropagateGroupAccount(models.Model):
-    name = "account.analytic.propagate.group.account"
+    _name = "account.analytic.propagate.group.account"
 
     group_id = fields.Many2one(
         "account.analytic.propagate.group",
@@ -83,6 +87,6 @@ class AccountAnalyticPropagateGroupAccount(models.Model):
     def name_get(self):
         res = []
         for record in self:
-            name = group_id.parent_id.name + "/ " + record.name + record.code
+            name = record.group_id.parent_id.name + "/ " + record.name + record.code
             res.append((record.id, name))
         return res

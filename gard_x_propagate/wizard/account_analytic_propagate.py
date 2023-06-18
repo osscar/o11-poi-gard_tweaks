@@ -13,7 +13,7 @@ class AccountAnalyticPropagateCreate(models.TransientModel):
     Analytic account creation wizard.
     """
 
-    _name = "account.analytic.propagate.create.wizard"
+    _name = "account.analytic.propagate.create"
     _description = "Create analytic accounts."
 
     group_id = fields.Many2one(
@@ -22,7 +22,7 @@ class AccountAnalyticPropagateCreate(models.TransientModel):
         help="Select a propagation group to obtain line values, or create line values manually.",
     )
     wizard_line = fields.One2many(
-        "account.analytic.propagate.create.wizard.line",
+        "account.analytic.propagate.create.line",
         "wizard_id",
         string="Create Values",
         help="These values will be used to create the analytic accounts.",
@@ -94,7 +94,7 @@ class PurchaseOrderAccountAnalyticCreateLine(models.TransientModel):
     Purchase Order analytic account creation wizard line.
     """
 
-    _name = "account.analytic.propagate.create.wizard.line"
+    _name = "account.analytic.propagate.create.line"
     _description = "Create wizard lines."
     # _rec_name = "name"
 
@@ -112,7 +112,7 @@ class PurchaseOrderAccountAnalyticCreateLine(models.TransientModel):
     name = fields.Char(string="Name", help="Analytic account name.")
     code = fields.Char(string="Reference", help="Analytic account code.")
     wizard_id = fields.Many2one(
-        "purchase.order.account.analytic.create",
+        "account.analytic.propagate.create",
         string="Create Wizard ID",
         ondelete="cascade",
     )

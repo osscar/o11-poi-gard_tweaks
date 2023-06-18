@@ -2,6 +2,7 @@
 <odoo>
   <data>
 
+    <!-- Wizard Views -->
     <record id="view_account_analytic_propagate_create_form" model="ir.ui.view">
       <field name="name">account.analytic.propagate.create.form</field>
       <field name="model">account.analytic.propagate.create</field>
@@ -16,10 +17,9 @@
               <page name="create_values" string="Create Values">
                 <div>
                   <button name="button_unlink_wizard_line" type="object"
-                    attrs="{'invisible':[('account_analytic_default_ids', '=', [])]}"
+                    attrs="{'invisible':[('wizard_line', '=', [])]}"
                     icon="fa-times" string="Clear Values"
                     confirm="This will clear all current lines. Are you sure you want to continue?" />
-                  <field name="account_analytic_default_id" attrs="{'invisible':[('account_analytic_default_ids', '=', [])]}" />
                 </div>
                 <field name="wizard_line">
                   <tree>
@@ -40,14 +40,17 @@
       </field>
     </record>
 
+    <!-- Actions -->
     <record id="action_view_account_analytic_propagate_create" model="ir.actions.act_window">
       <field name="name">Create Analytic Accounts</field>
       <field name="res_model">account.analytic.propagate.create</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
-      <field name="view_id" ref="view_account_analytic_propagate_create" />
+      <field name="view_id" ref="view_account_analytic_propagate_create_form" />
       <field name="target">new</field>
     </record>
+
+    <!-- Menus -->
 
   </data>
 </odoo>
