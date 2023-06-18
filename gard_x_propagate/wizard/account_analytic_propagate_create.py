@@ -40,69 +40,70 @@ class AccountAnalyticPropagateCreate(models.TransientModel):
         active_ids = self._context.get("active_ids", False)
         order_ids = order_obj.browse(active_ids)
 
-        order_refs = [order.name for order in order_ids]
         for order in order_ids:
-            vals = {
-                    "wizard_id": self.id,
-                    "parent_id": self.group_id.parent_id.id,
-                    "name": order.name,
-                    "code": acc_vals.code,
-                }
-        for acc_vals in self.group_id.account_value_ids:
-            vals = {
-                    "wizard_id": self.id,
-                    "parent_id": self.group.parent_id.id,
-                    "name": acc_vals.name,
-                    "code": acc_vals.code,
-                }
-        self.wizard_line.create(vals)
-        purchase_order_ids = self._context.get("active_ids", False)
-        res = self.env["purchase.order"].browse(purchase_order_ids)
-        # acc_default_id = ["1_cp", "2_cd", "3_oc", "4_pg", "5_ivacf"]
-        acc_default_id = [1, 2, 3, 4, 5]
-        acc_default_name = [
-            "Costos Producto",
-            "Costos Directos",
-            "Otros Costos",
-            "Pagos",
-            "Credito Fiscal IVA",
-        ]
-        acc_default_code = ["/CP", "/CD", "/OC", "/PG", "/IVACF"]
-        acc_default = {}
-        for di, dn, dc in zip(acc_default_id, acc_default_name, acc_default_code):
-            acc_default[di] = {"name": dn, "code": dc}
-            # _logger.debug("bclidv acc_default >>>: %s", (acc_default))
-            # _logger.debug("bclidv acc_default >>>: %s", (list(acc_default)))
-        for order in res:
-            # _logger.debug("bclidv order >>>: %s", (order))
-            hr_department_obj = self.env["hr.department"]
-            acc_parent_default_department = hr_department_obj.search([('display_name', "=", acc_parent_default_department)]).id
-            analyt_acc_obj = self.env["account.analytic.account"]
-            analyt_acc_parent_vals = {"name": order.name,
-                                      "department_id": acc_parent_default_department}
-            account_analytic_parent_id = analyt_acc_obj.search([('name', "=", order.name)]).id
-            if not self.account_analytic_parent_id:
-                if analyt_acc_obj.search([("name", "=", order.name)]):
-                    raise ValidationError(
-                        _(
-                            "An analytic tag with that name: %s, already exists. Please use that one or delete it, and try again."
-                        ) % (order.name)
-                    )
-                analyt_tag_create = analyt_tag_obj.create(analyt_tag_vals)
-                self.tag_id = analyt_tag_create
-            # _logger.debug("bclidv self.tag_id >>>: %s", (self.tag_id))
-            for acc in acc_default:
-                # _logger.debug("bclidv acc >>>: %s", (acc_default[acc]["name"]))
+            for acc_vals in self.group_id.account_value_ids:
+                parent_id = False
                 vals = {
-                    "wizard_id": self.id,
-                    "parent_id": acc.,
-                    "name": acc_default[acc]["name"] + " (" + order.name + ")",
-                    "code": order.name + acc_default[acc]["code"],
-                }
-                self.line_ids.create(vals)
-        return {
-            "type": "set_scrollTop",
-        }
+                        "wizard_id": self.id,
+                        "parent_id": parent_id,
+                        "name": acc_vals.name,
+                        "code": acc_vals.code,
+                    }
+                if acc_vals.is_parent == True:
+                    vals["parent_id"] = group_id.parent_id
+                    vals["name"] = order.name
+                    vals["code"] = order.code
+            self.wizard_line.create(vals)
+            [line.write({"parent_id": [pline.id for pline in line if pline.parent_id != False]}) for line in self.wizard_line]
+
+
+        # purchase_order_ids = self._context.get("active_ids", False)
+        # res = self.env["purchase.order"].browse(purchase_order_ids)
+        # # acc_default_id = ["1_cp", "2_cd", "3_oc", "4_pg", "5_ivacf"]
+        # acc_default_id = [1, 2, 3, 4, 5]
+        # acc_default_name = [
+        #     "Costos Producto",
+        #     "Costos Directos",
+        #     "Otros Costos",
+        #     "Pagos",
+        #     "Credito Fiscal IVA",
+        # ]
+        # acc_default_code = ["/CP", "/CD", "/OC", "/PG", "/IVACF"]
+        # acc_default = {}
+        # for di, dn, dc in zip(acc_default_id, acc_default_name, acc_default_code):
+        #     acc_default[di] = {"name": dn, "code": dc}
+        #     # _logger.debug("bclidv acc_default >>>: %s", (acc_default))
+        #     # _logger.debug("bclidv acc_default >>>: %s", (list(acc_default)))
+        # for order in res:
+        #     # _logger.debug("bclidv order >>>: %s", (order))
+        #     hr_department_obj = self.env["hr.department"]
+        #     acc_parent_default_department = hr_department_obj.search([('display_name', "=", acc_parent_default_department)]).id
+        #     analyt_acc_obj = self.env["account.analytic.account"]
+        #     analyt_acc_parent_vals = {"name": order.name,
+        #                               "department_id": acc_parent_default_department}
+        #     account_analytic_parent_id = analyt_acc_obj.search([('name', "=", order.name)]).id
+        #     if not self.account_analytic_parent_id:
+        #         if analyt_acc_obj.search([("name", "=", order.name)]):
+        #             raise ValidationError(
+        #                 _(
+        #                     "An analytic tag with that name: %s, already exists. Please use that one or delete it, and try again."
+        #                 ) % (order.name)
+        #             )
+        #         analyt_tag_create = analyt_tag_obj.create(analyt_tag_vals)
+        #         self.tag_id = analyt_tag_create
+        #     # _logger.debug("bclidv self.tag_id >>>: %s", (self.tag_id))
+        #     for acc in acc_default:
+        #         # _logger.debug("bclidv acc >>>: %s", (acc_default[acc]["name"]))
+        #         vals = {
+        #             "wizard_id": self.id,
+        #             "parent_id": acc.,
+        #             "name": acc_default[acc]["name"] + " (" + order.name + ")",
+        #             "code": order.name + acc_default[acc]["code"],
+        #         }
+        #         self.line_ids.create(vals)
+        # return {
+        #     "type": "set_scrollTop",
+        # }
 
     @api.one
     def button_create_analytic_account(self):
@@ -150,7 +151,7 @@ class PurchaseOrderAccountAnalyticCreateLine(models.TransientModel):
 
     _name = "account.analytic.propagate.create.wizard.line"
     _description = "Create wizard lines."
-    _rec_name = "name"
+    # _rec_name = "name"
 
     parent_id = fields.Many2one(
         "account.analytic.account",

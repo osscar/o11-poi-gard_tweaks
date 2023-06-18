@@ -37,10 +37,11 @@ class AccountAnalyticPropagateGroup(models.Model):
     active = fields.Boolean(string="Active", default=True)
 
     def write(vals):
-        # create default order parent analytic account;
-        # process is automated and fields will have readonly
-        # in the form view if is_parent is true
         res = super().write(vals)
+        
+        # create default order parent analytic account;
+        # process is automated; form view field attrs
+        # readonly if is_parent == True
         acc_parent_vals = {
             "group_id": self.group_id.id,
             "name": "AB#####",
@@ -48,7 +49,7 @@ class AccountAnalyticPropagateGroup(models.Model):
             "is_parent": True,
         }
         self.account_value_ids.create(acc_parent_vals)
-        
+
         return res
 
 
