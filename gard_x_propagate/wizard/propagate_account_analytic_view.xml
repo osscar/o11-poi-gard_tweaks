@@ -3,15 +3,15 @@
   <data>
 
     <!-- Wizard Views -->
-    <record id="view_account_analytic_propagate_create_form" model="ir.ui.view">
-      <field name="name">account.analytic.propagate.create.form</field>
-      <field name="model">account.analytic.propagate.create</field>
+    <record id="view_propagate_account_analytic_create_form" model="ir.ui.view">
+      <field name="name">propagate.create.account.analytic.form</field>
+      <field name="model">propagate.create.account.analytic</field>
       <field name="arch" type="xml">
         <form string="Create Analytic Accounts">
-          <group name="create_form">
-            <field name="group_id" />
-          </group>
-          <group name="create_form_accounts">
+          <sheet string="Create Analytic Accounts">
+            <group name="main">
+              <field name="group_id" />
+            </group>
             <notebook>
               <page name="create_values" string="Create Values">
                 <div>
@@ -29,22 +29,22 @@
                 </field>
               </page>
             </notebook>
-          </group>
-          <footer>
-            <button string="Create" name="button_create" type="object" class="btn-primary" confirm="This will create the analytic accounts. Do you want to continue?" />
-            <button string="Cancel" class="btn-default" special="cancel" />
-          </footer>
+            <footer>
+              <button string="Create" name="button_create" type="object" class="btn-primary" confirm="This will create the analytic accounts. Do you want to continue?" />
+              <button string="Cancel" class="btn-default" special="cancel" />
+            </footer>
+          </sheet>
         </form>
       </field>
     </record>
 
     <!-- Actions -->
-    <record id="action_account_analytic_propagate_create" model="ir.actions.act_window">
+    <record id="action_propagate_account_analytic_create" model="ir.actions.act_window">
       <field name="name">Create Analytic Accounts</field>
-      <field name="res_model">account.analytic.propagate.create</field>
+      <field name="res_model">propagate.create.account.analytic</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
-      <field name="view_id" ref="view_account_analytic_propagate_create_form" />
+      <field name="view_id" ref="view_propagate_account_analytic_create_form" />
       <field name="target">new</field>
     </record>
 

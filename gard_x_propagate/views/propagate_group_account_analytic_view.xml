@@ -3,14 +3,15 @@
   <data>
 
     <!-- Search Views -->
-    <record id="view_account_analytic_propagate_group_filter" model="ir.ui.view">
-      <field name="name">account.analytic.propagate.group.select</field>
-      <field name="model">account.analytic.propagate.group</field>
+    <!-- <record id="view_account_analytic_propagate_group_filter" model="ir.ui.view">
+      <field name="name">propagate.group.account.analytic.select</field>
+      <field name="model">propagate.group.account.analytic</field>
       <field name="arch" type="xml">
         <search string="Search Propagate Groups">
-          <field name="name" string="Group"
+          <field name="name" string="Name"
             filter_domain="['|', ('name','ilike',self), ('parent_id','ilike',self)]" />
           <field name="parent_id" />
+          <separator />
           <filter name="active" string="Active" domain="[('active','=',True)]" />
           <separator />
           <group expand="0" string="Group By">
@@ -18,16 +19,16 @@
           </group>
         </search>
       </field>
-    </record>
+    </record> -->
 
     <!-- Form Views -->
-    <record id="view_account_analytic_propagate_group_form" model="ir.ui.view">
-      <field name="name">account.analytic.propagate.group.form</field>
-      <field name="model">account.analytic.propagate.group</field>
+    <record id="view_propagate_group_account_analytic_form" model="ir.ui.view">
+      <field name="name">propagate.group.account.analytic.form</field>
+      <field name="model">propagate.group.account.analytic</field>
       <field name="arch" type="xml">
         <form string="Propagate Group">
           <sheet string="Propagate Groups">
-            <div class="oe_button_box" name="button_box">
+            <!-- <div class="oe_button_box" name="button_box">
               <button class="oe_stat_button" type="object" name="toggle_active" icon="fa-archive">
                 <field name="active" widget="boolean_button" options='{"terminology": "archive"}' />
               </button>
@@ -37,8 +38,9 @@
               <h1>
                 <field name="name" class="oe_inline" />
               </h1>
-            </div>
+            </div> -->
             <group name="main">
+              <field name="name" />
               <field name="type" />
               <field name="parent_id" />
             </group>
@@ -64,11 +66,10 @@
       </field>
     </record>
 
-
     <!-- Tree Views -->
-    <record id="view_account_analytic_propagate_group_tree" model="ir.ui.view">
-      <field name="name">account.analytic.propagate.group.tree</field>
-      <field name="model">account.analytic.propagate.group</field>
+    <record id="view_propagate_group_account_analytic_tree" model="ir.ui.view">
+      <field name="name">propagate.group.account.analytic.tree</field>
+      <field name="model">propagate.group.account.analytic</field>
       <field name="arch" type="xml">
         <tree string="Propagate Group">
           <field name="name" />
@@ -78,22 +79,27 @@
     </record>
 
     <!-- Actions -->
-    <record id="action_account_analytic_propagate_group" model="ir.actions.act_window">
+    <record id="action_propagate_group_account_analytic" model="ir.actions.act_window">
       <field name="name">Propagate Groups</field>
-      <field name="res_model">account.analytic.propagate.group</field>
+      <field name="res_model">propagate.group.account.analytic</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
-      <!-- <field name="view_id" ref="view_account_analytic_propagate_group_tree" /> -->
-      <field name="target">new</field>
+      <field name="view_id" ref="view_propagate_group_account_analytic_tree"/>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click to add a new propagation group.
+        </p>
+      </field>
     </record>
 
     <!-- Menus -->
     <menuitem
-      id="menu_account_analytic_propagate_group"
+      id="menu_propagate_group_account_analytic"
       name="Propagate Groups"
       parent="account.menu_analytic_accounting"
-      action="action_account_analytic_propagate_group"
-      groups="analytic.group_analytic_accounting" />
+      action="action_propagate_group_account_analytic"
+      sequence="19" />
+    <!-- groups="analytic.group_analytic_accounting" -->
 
   </data>
 </odoo>

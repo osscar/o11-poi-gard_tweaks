@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 # import logging
 
-from odoo import models, fields, api
-from odoo.tools.translate import _
+from odoo import models, fields, api, _
 
 import odoo.addons.decimal_precision as dp
 

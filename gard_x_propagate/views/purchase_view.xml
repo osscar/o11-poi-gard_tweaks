@@ -18,7 +18,7 @@
           <button name="%(action_view_product_propagate)d" type="action"
             attrs="{'invisible':['|',('state', '!=', 'draft')]}"
             icon="fa-cubes" string="Select Products" />
-          <button name="%(action_account_analytic_propagate_create)d" type="action"
+          <button name="%(action_propagate_account_analytic_create)d" type="action"
             attrs="{'invisible':[('state', '!=', 'draft')]}"
             icon="fa-plus-circle" string="Create Analytic Accounts" />
           <button name="button_unlink_order_line" type="object"

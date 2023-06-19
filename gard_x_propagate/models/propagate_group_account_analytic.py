@@ -10,8 +10,8 @@ from odoo import api, fields, models, _
 # _logger = logging.getLogger(__name__)
 
 
-class AccountAnalyticPropagateGroup(models.Model):
-    _name = "account.analytic.propagate.group"
+class PropagateGroupAccountAnalytic(models.Model):
+    _name = "propagate.group.account.analytic"
 
     name = fields.Char("Name", required=True)
     type = fields.Selection(
@@ -29,7 +29,7 @@ class AccountAnalyticPropagateGroup(models.Model):
         help="Select parnet analytic account for the order parent analytic account. eg. Purchases / Imports for PO00034",
     )
     account_value_ids = fields.One2many(
-        "account.analytic.propagate.group.account",
+        "propagate.group.account.analytic.account",
         "group_id",
         string="Account Values",
         help="Default analytic account values.",
@@ -40,39 +40,42 @@ class AccountAnalyticPropagateGroup(models.Model):
         for line in self.account_value_ids:
             line.unlink()
 
-    @api.multi
-    def write(self, vals):
-        res = super().write(vals)
+    # @api.multi
+    # def write(self, vals):
+    #     res = super().write(vals)
         
-        # create default order parent analytic account;
-        # process is automated; form view field attrs
-        # readonly if is_parent == True
-        acc_parent_vals = {
-            "group_id": self.group_id.id,
-            "name": "AB#####",
-            "code": "AB#####",
-            "is_parent": True,
-        }
-        self.account_value_ids.create(acc_parent_vals)
+    #     # create default order parent analytic account;
+    #     # process is automated; form view field attrs
+    #     # readonly if is_parent == True
+    #     acc_vals = self.account_value_ids
+    #     if acc_vals:
+    #         if not any(a.is_parent == 'True' for a in acc_vals):
+    #             acc_parent_vals = {
+    #                 "group_id": self.group_id.id,
+    #                 "name": "AB#####",
+    #                 "code": "AB#####",
+    #                 "is_parent": True,
+    #             }
+    #             self.account_value_ids.create(acc_parent_vals)
 
-        return res
+    #     return res
 
 
-class AccountAnalyticPropagateGroupAccount(models.Model):
-    _name = "account.analytic.propagate.group.account"
+class PropagateGroupAccountAnalyticAccount(models.Model):
+    _name = "propagate.group.account.analytic.account"
 
     group_id = fields.Many2one(
-        "account.analytic.propagate.group",
+        "propagate.group.account.analytic",
         string="Group",
         readonly=True,
         ondelete="cascade",
         help="Propagate group related to this account.",
     )
     name = fields.Char(
-        "Name",
+        string="Name",
     )
     code = fields.Char(
-        "Code",
+        string="Code",
         size=10,
     )
     is_parent = fields.Boolean(
@@ -82,11 +85,11 @@ class AccountAnalyticPropagateGroupAccount(models.Model):
         help="Parent account for order.",
     )
 
-    @api.multi
-    @api.depends("name", "code")
-    def name_get(self):
-        res = []
-        for record in self:
-            name = record.group_id.parent_id.name + "/ " + record.name + record.code
-            res.append((record.id, name))
-        return res
+    # @api.multi
+    # @api.depends("name", "code")
+    # def name_get(self):
+    #     res = []
+    #     for record in self:
+    #         name = record.group_id.parent_id.name + "/ " + record.name + record.code
+    #         res.append((record.id, name))
+    #     return res

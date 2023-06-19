@@ -18,12 +18,12 @@
 #
 ##############################################################################
 {
-    'name': 'GARD x_Tweaks - Propagate Wizard',
+    'name': 'GARD x_Tweaks - Propagate',
     'version': '11.01',
     'author': 'squid',
     'company': '',
     'website': 'http://wwf.comcom.com',
-    'summary': 'Propagating Wizards for poi_Odoov11.',
+    'summary': 'Propagating wizards for POIESIS ODOO 11.0.',
     'descrption': """
 GARD x_Tweaks - Propagate Wizard
 ==========================
@@ -58,10 +58,10 @@ This module tweaks the following:
     'data': [
         'data/product_data.xml',
 
-        'wizard/account_analytic_propagate_view.xml',
+        'wizard/propagate_account_analytic_view.xml',
         'wizard/product_propagate_view.xml',
 
-        'views/account_analytic_propagate_group_view.xml',
+        'views/propagate_group_account_analytic_view.xml',
         'views/purchase_view.xml',
         'views/sale_view.xml',
         'views/stock_landed_cost_view.xml',
