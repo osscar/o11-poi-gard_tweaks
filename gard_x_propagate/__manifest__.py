@@ -57,14 +57,18 @@ This module tweaks the following:
     'category': 'Other',
     'data': [
         'data/product_data.xml',
+        'data/propagate_group_data.xml',
 
-        'wizard/propagate_account_analytic_view.xml',
-        'wizard/product_propagate_view.xml',
+        'security/ir.model.access.csv',
 
-        'views/propagate_group_account_analytic_view.xml',
+        'views/propagate_group_view.xml',
         'views/purchase_view.xml',
         'views/sale_view.xml',
         'views/stock_landed_cost_view.xml',
+
+        'wizard/propagate_account_analytic_view.xml',
+        'wizard/propagate_product_view.xml',
+
     ],
     'demo': [],
     'license': 'AGPL-3',

@@ -8,12 +8,12 @@ import odoo.addons.decimal_precision as dp
 # _logger = logging.getLogger(__name__)
 
 
-class ProductPropagate(models.TransientModel):
+class PropagateProduct(models.TransientModel):
     """
     Product propagation wizard.
     """
 
-    _name = "product.propagate"
+    _name = "propagate.product"
     _description = "Create order lines with selected products."
 
     product_ids = fields.Many2many(
@@ -21,9 +21,9 @@ class ProductPropagate(models.TransientModel):
         string="Select Products",
     )
     wizard_line = fields.One2many(
-        "product.propagate.line",
+        "propagate.product.line",
         "wizard_id",
-        string="Propagate Products",
+        string="Wizard Lines",
         help="These products will be propagated to order lines.",
     )
 
@@ -87,12 +87,12 @@ class ProductPropagate(models.TransientModel):
         }
 
 
-class ProductPropagateLine(models.TransientModel):
+class PropagateProductLine(models.TransientModel):
     """
     Product propagate wizard line.
     """
 
-    _name = "product.propagate.line"
+    _name = "propagate.product.line"
     _description = "Product propagate wizard lines."
     _rec_name = "name"
 
@@ -123,7 +123,7 @@ class ProductPropagateLine(models.TransientModel):
         string="Unit Price", digits=dp.get_precision("Product Price"), default=1.0
     )
     wizard_id = fields.Many2one(
-        "product.propagate",
+        "propagate.product",
         string="Wizard ID",
         ondelete="cascade",
     )

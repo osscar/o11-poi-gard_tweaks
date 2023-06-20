@@ -2,11 +2,11 @@
 <odoo>
   <data>
 
-    <record id="view_product_propagate_form" model="ir.ui.view">
-      <field name="name">product.propagate.form</field>
-      <field name="model">product.propagate</field>
+    <record id="view_propagate_product_form" model="ir.ui.view">
+      <field name="name">propagate.product.form</field>
+      <field name="model">propagate.product</field>
       <field name="arch" type="xml">
-        <form string="Select Products">
+        <form string="Propagate Products">
           <group name="create_form">
             <notebook>
               <page name="product_lines" string="Select Products">
@@ -28,7 +28,7 @@
           </group>
           <group name="create_form_lines">
             <notebook>
-              <page name="wizard_lines" string="Create Line Values">
+              <page name="wizard_lines" string="Propagate Products">
                 <button name="button_create_wizard_line" type="object" class="btn-primary"
                   string="Add Products" />
                 <button name="button_unlink_wizard_line" type="object"
@@ -58,12 +58,12 @@
       </field>
     </record>
 
-    <record id="action_view_product_propagate" model="ir.actions.act_window">
-      <field name="name">Select Products</field>
-      <field name="res_model">product.propagate</field>
+    <record id="action_view_propagate_product" model="ir.actions.act_window">
+      <field name="name">Propagate Products</field>
+      <field name="res_model">propagate.product</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
-      <field name="view_id" ref="view_product_propagate_form" />
+      <field name="view_id" ref="view_propagate_product_form" />
       <field name="target">new</field>
     </record>
 

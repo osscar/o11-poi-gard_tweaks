@@ -43,25 +43,25 @@ class PropagateGroupAccountAnalytic(models.Model):
         for line in self.account_value_ids:
             line.unlink()
 
-    # @api.multi
-    # def write(self, vals):
-    #     res = super().write(vals)
+    @api.multi
+    def write(self, vals):
+        res = super().write(vals)
 
-    #     # create default order parent analytic account;
-    #     # process is automated; form view field attrs
-    #     # readonly if is_parent == True
-    #     acc_vals = self.account_value_ids
-    #     if acc_vals:
-    #         if not any(a.is_parent == 'True' for a in acc_vals):
-    #             acc_parent_vals = {
-    #                 "group_id": self.group_id.id,
-    #                 "name": "AB#####",
-    #                 "code": "AB#####",
-    #                 "is_parent": True,
-    #             }
-    #             self.account_value_ids.create(acc_parent_vals)
+        # create default order parent analytic account;
+        # process is automated; form view field attrs
+        # readonly if is_parent == True
+        acc_vals = self.account_value_ids
+        if acc_vals:
+            if not any(a.is_parent == 'True' for a in acc_vals):
+                acc_parent_vals = {
+                    "group_id": self.group_id.id,
+                    "name": "AB#####",
+                    "code": "AB#####",
+                    "is_parent": True,
+                }
+                self.account_value_ids.create(acc_parent_vals)
 
-    #     return res
+        return res
 
 
 class PropagateGroupAccountAnalyticAccount(models.Model):
@@ -88,11 +88,11 @@ class PropagateGroupAccountAnalyticAccount(models.Model):
         help="Select this account as parent account for order.",
     )
 
-    # @api.multi
-    # @api.depends("name", "code")
-    # def name_get(self):
-    #     res = []
-    #     for record in self:
-    #         name = record.group_id.parent_id.name + "/ " + record.name + record.code
-    #         res.append((record.id, name))
-    #     return res
+    @api.multi
+    @api.depends("name", "code")
+    def name_get(self):
+        res = []
+        for record in self:
+            name = record.group_id.parent_id.name + "/ " + record.name + record.code
+            res.append((record.id, name))
+        return res

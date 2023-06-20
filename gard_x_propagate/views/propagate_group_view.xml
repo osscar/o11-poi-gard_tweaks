@@ -78,7 +78,6 @@
     <!-- Actions -->
     <record id="action_propagate_group_account_analytic" model="ir.actions.act_window">
       <field name="name">Propagate Groups</field>
-      <!-- <field name="type">ir.actions.act_window</field> -->
       <field name="res_model">propagate.group.account.analytic</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
@@ -96,6 +95,7 @@
       id="menu_propagate_group_account_analytic"
       parent="account.menu_analytic_accounting"
       action="action_propagate_group_account_analytic"
+      groups="analytic.group_analytic_accounting"
       sequence="20" />
 
   </data>

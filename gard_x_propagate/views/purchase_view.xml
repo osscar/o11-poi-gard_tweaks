@@ -15,9 +15,9 @@
       <!-- notebook -->
       <xpath expr="//field[@name='order_line']" position="before">
         <div class="oe_button_box oe_left" name="button_box">
-          <button name="%(action_view_product_propagate)d" type="action"
+          <button name="%(action_propagate_product)d" type="action"
             attrs="{'invisible':['|',('state', '!=', 'draft')]}"
-            icon="fa-cubes" string="Select Products" />
+            icon="fa-cubes" string="Propagate Products" />
           <button name="%(action_propagate_account_analytic_create)d" type="action"
             attrs="{'invisible':[('state', '!=', 'draft')]}"
             icon="fa-plus-circle" string="Create Analytic Accounts" />
