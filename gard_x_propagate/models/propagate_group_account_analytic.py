@@ -34,7 +34,10 @@ class PropagateGroupAccountAnalytic(models.Model):
         string="Account Values",
         help="Default analytic account values.",
     )
-    active = fields.Boolean(string="Active", default=True)
+    active = fields.Boolean(
+        string="Active",
+        default=True,
+    )
 
     def button_unlink_account_line(self):
         for line in self.account_value_ids:
@@ -43,7 +46,7 @@ class PropagateGroupAccountAnalytic(models.Model):
     # @api.multi
     # def write(self, vals):
     #     res = super().write(vals)
-        
+
     #     # create default order parent analytic account;
     #     # process is automated; form view field attrs
     #     # readonly if is_parent == True
@@ -82,7 +85,7 @@ class PropagateGroupAccountAnalyticAccount(models.Model):
         string="Order Parent",
         default=False,
         readonly=True,
-        help="Parent account for order.",
+        help="Select this account as parent account for order.",
     )
 
     # @api.multi
