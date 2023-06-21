@@ -1,36 +1,42 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-        <!-- Search Views -->
+  <!-- Search Views -->
 
-        <!-- Views -->
-        <record model="ir.ui.view" id="view_stock_landed_cost_form">
-            <field name="name">stock.landed.cost.form.inherit.gard_x_propagate</field>
-            <field name="model">stock.landed.cost</field>
-            <field name="mode">extension</field>
-            <field name="priority">10</field>
-            <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>
-            <field name="arch" type="xml">
+  <!-- Views -->
+  <record model="ir.ui.view" id="view_stock_landed_cost_form">
+    <field name="name">stock.landed.cost.form.inherit.gard_x_propagate</field>
+    <field name="model">stock.landed.cost</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form" />
+    <field name="arch" type="xml">
 
-                <!-- add fields -->
-                <xpath expr="/form//field[@name='cost_lines']" position="before">
-                    <group name="propagate" col="3">
-                        <group name="propagate_analytic">
-                            <button name="button_create_cost_line" type='object'
-                                attrs="{'invisible':['|',('state', '!=', 'draft'),('account_analytic_id', '=', False)]}"
-                                class="btn-primary" string="Propagate Analytics" help="Create new cost lines from selected analytic account."/>
-                            <field name="account_analytic_id" attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('state', '!=', 'draft')]}"/>
-                        </group>
-                    </group>
-                    <button name="button_unlink_cost_line" type="object"
-                        attrs="{'invisible':['|',('state', '!=', 'draft'),('cost_lines', '=', [])]}"
-                        class="btn-default" string="Clear Lines"/>
-                </xpath>
+      <!-- add fields -->
+      <xpath expr="/form//field[@name='cost_lines']" position="before">
+        <div>
+          <div>
+            <field name="account_analytic_id"
+              attrs="{'readonly':[('state', '!=', 'draft')]}" />
+          </div>
+          <div class="oe_button_box oe_left" name="button_box">
+            <button name="button_create_cost_line" type='object'
+              attrs="{'invisible':['|',('state', '!=', 'draft'),('account_analytic_id', '=', False)]}"
+              icon="fa-plus-circle" string="Propagate Analytics"
+              help="Create new cost lines from selected analytic account."
+              confirm="This will create cost lines from the analytic lines of the analytic account selected. Do you want to continue?" />
+            <button name="button_unlink_cost_line" type="object"
+              attrs="{'invisible':['|',('state', '!=', 'draft'),('cost_lines', '=', [])]}"
+              icon="fa-times" string="Clear Lines"
+              confirm="This will clear all order lines. Are you sure you want to continue?" />
+          </div>
+        </div>
+      </xpath>
 
-            </field>
-        </record>
+    </field>
+  </record>
 
-        <!-- Actions -->
+  <!-- Actions -->
 
-        <!-- Menus -->
+  <!-- Menus -->
 
 </odoo>
