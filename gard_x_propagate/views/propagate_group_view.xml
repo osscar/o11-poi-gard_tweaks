@@ -42,7 +42,6 @@
               </h1>
             </div>
             <group name="main">
-              <field name="name" />
               <field name="type" />
               <field name="parent_id" />
             </group>

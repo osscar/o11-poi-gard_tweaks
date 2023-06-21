@@ -58,7 +58,7 @@
       </field>
     </record>
 
-    <record id="action_view_propagate_product" model="ir.actions.act_window">
+    <record id="action_propagate_product" model="ir.actions.act_window">
       <field name="name">Propagate Products</field>
       <field name="res_model">propagate.product</field>
       <field name="view_type">form</field>

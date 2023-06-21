@@ -13,7 +13,7 @@ from odoo import api, fields, models, _
 class PropagateGroupAccountAnalytic(models.Model):
     _name = "propagate.group.account.analytic"
 
-    name = fields.Char("Name", required=True)
+    name = fields.Char("Name", readonly=True)
     type = fields.Selection(
         [
             ("purchase", "Purchase Order"),
@@ -39,9 +39,11 @@ class PropagateGroupAccountAnalytic(models.Model):
         default=True,
     )
 
-    def button_unlink_account_line(self):
-        for line in self.account_value_ids:
-            line.unlink()
+    @api.model
+    def create(self, values):
+        res = super().create(values)
+        values['name'] = self.env['ir.sequence'].next_by_code('propagate.group.analytic.account')
+        return res
 
     @api.multi
     def write(self, vals):
@@ -62,6 +64,10 @@ class PropagateGroupAccountAnalytic(models.Model):
                 self.account_value_ids.create(acc_parent_vals)
 
         return res
+    
+    def button_unlink_account_line(self):
+        for line in self.account_value_ids:
+            line.unlink()
 
 
 class PropagateGroupAccountAnalyticAccount(models.Model):
