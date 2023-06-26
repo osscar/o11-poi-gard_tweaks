@@ -12,19 +12,19 @@ _logger = logging.getLogger(__name__)
 class PropagateException(models.Model):
     _name = "propagate.exception"
 
-    def _get_exc_expr(self, params):
+    def _get_exc_expr(self, vals):
         # get state field related expressions
         res = {}
 
-        if params["field"] == "state":
-            res["field_vals"] = [rs for s in params["field_vals"] for rs in self.env[params["model"]]._fields(params["field"]).selection if rs[0] == s]
+        if vals["field"] == "state":
+            res["field_vals"] = [rs for s in vals["field_vals"] for rs in self.env[vals["model"]]._fields(vals["field"]).selection if rs[0] == s]
         
         return res
 
 
-    def _exception_check(self, params):
+    def _exception_check(self, vals):
         # check exceptions
-        exc_vals = params["exc_vals"]
+        exc_vals = vals["exc_vals"]
 
         # state field exceptions
         if exc_vals["field"] == "state":
