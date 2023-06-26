@@ -4,7 +4,7 @@
 # import logging
 
 from odoo import api, models, _
-from odoo.exceptions import ValidationError
+# from odoo.exceptions import ValidationError
 
 # _logger = logging.getLogger(__name__)
 
@@ -12,13 +12,22 @@ from odoo.exceptions import ValidationError
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    def _exc_check(self):
+        exc_obj = self.env["propagate.exception"]
+        return exc_obj._exception_check()
+
     def button_unlink_order_line(self):
-        if self.state != "draft":
-            raise ValidationError(
-                ("Cannot delete lines if order is not in draft state.")
-            )
+        # check state
+        context = {
+            "exc_field": "self.state",
+            "exc_vals": ["draft", None],
+            "exc_msg": "Cannot propagate route if order is not in draft state.",
+        }
+        self.with_context(ctx=context)._exc_check()
+
         for line in self.order_line:
             line.unlink()
+
         return True
 
 
@@ -27,18 +36,29 @@ class SaleOrderLine(models.Model):
 
     @api.one
     def button_propagate_route(self):
-        if self.order_id.state != "draft":
-            raise ValidationError(("Cannot propagate if order is not in draft state."))
+        # check state
+        context = {
+            "exc_field": "self.order_id.state",
+            "exc_vals": ["draft", None],
+            "exc_msg": "Cannot propagate route if order is not in draft state.",
+        }
+        self.order_id.with_context(ctx=context)._exc_check()
+
         route_id = self.route_id
         for line in self.order_id.order_line:
             line["route_id"] = route_id
+
         return True
 
     @api.one
     def button_propagate_pricelist(self):
-        if self.order_id.state != "draft":
-            raise ValidationError(("Cannot propagate if order is not in draft state."))
+        # check state
+        verr_msg = "Cannot propagate pricelist if order is not in draft state."
+        val_states = ["draft"]
+        self.with_context(verr_msg=verr_msg, val_states=val_states)._check_state()
+
         pricelist_id = self.pricelist_id
         for line in self.order_id.order_line.filtered(lambda l: self.id != l.id):
             line["pricelist_id"] = pricelist_id
+
         return True

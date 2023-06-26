@@ -12,17 +12,12 @@ from odoo.exceptions import ValidationError
 class LandedCost(models.Model):
     _inherit = "stock.landed.cost"
 
-    def _check_state(self):
-        verr_msg = self._context.get("verr_msg")
-        # check state
-        if self.state != "draft":
-            raise ValidationError(("%s") % verr_msg)
-
     @api.one
     def button_create_cost_line(self):
         # check state
+        val_states = ["draft"]
         verr_msg = "Cannot create cost lines if form is not in draft state."
-        self.with_context(verr_msg=verr_msg)._check_state()
+        self.with_context(val_states=val_states, verr_msg=verr_msg)._check_state()
 
         anl_lines = self.account_analytic_id.line_ids
         if not anl_lines:
@@ -33,9 +28,7 @@ class LandedCost(models.Model):
         for line in anl_lines:
             # set default product if no product
             # is set on landed cost line
-            product_id = self.env.ref("gard_x_propagate.product_slc_default")
-            if line.product_id:
-                product_id = line.product_id
+            product_id = [line.product_id] if line.product_id else [self.env.ref("gard_x_propagate.product_slc_default")]
 
             # price_unit value needs to be inverted
             # to match landed cost value logic
@@ -55,8 +48,9 @@ class LandedCost(models.Model):
 
     def button_unlink_cost_line(self):
         # check state
+        val_states = ["draft"]
         verr_msg = "Cannot delete a cost line if form is not in draft state."
-        self.with_context(verr_msg=verr_msg)._check_state()
+        self.with_context(val_states=val_states, verr_msg=verr_msg)._check_state()
 
         for line in self.cost_lines:
             line.unlink()
@@ -89,9 +83,10 @@ class LandedCostLine(models.Model):
     def onchange_product_id(self):
         res = super().onchange_product_id()
 
+        # write onchange values
         if self.product_id:
+            # get split_method
             self.split_method = self.product_id.split_method
-
         if self.account_analytic_line_id:
             # get unit price
             self.price_unit = self._get_price_unit()
@@ -100,7 +95,6 @@ class LandedCostLine(models.Model):
 
     @api.onchange("account_analytic_line_id")
     def onchange_account_analytic_line_id(self):
-        # use default product if analytic line doe not have aproduct_id assigned
         product_id = self.env.ref("gard_x_propagate.product_slc_default")
         if self.product_id:
             product_id = self.product_id

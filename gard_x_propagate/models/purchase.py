@@ -13,18 +13,29 @@ class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
     def button_unlink_order_line(self):
+        # check state
+        val_states = ["draft"]
+        verr_msg = "Cannot delete order lines if order is not in draft state."
+        self.with_context(val_states=val_states, verr_msg=verr_msg)._check_state()
+
         for line in self.order_line:
             line.unlink()
+
         return True
+
 
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
 
     @api.one
     def button_propagate_account_analytic_account(self):
-        if self.order_id.state != "draft":
-            raise ValidationError(("Cannot propagate if order is not in draft state."))
+        # check state
+        val_states = ["draft"]
+        verr_msg = "Cannot propagate analytic account if order is not in draft state."
+        self.with_context(val_states=val_states, verr_msg=verr_msg)._check_state()
+
         account_analytic_id = self.account_analytic_id
         for line in self.order_id.order_line:
             line["account_analytic_id"] = account_analytic_id
+
         return True

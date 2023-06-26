@@ -9,10 +9,6 @@ from . import product_template
 
 from .product_template import ProductTemplate
 
-# from . 
-# from product_template import ProductTemplate
-# ._get_product_uom_ids
-
 # _logger = logging.getLogger(__name__)
 
 
@@ -34,6 +30,7 @@ class SaleOrder(models.Model):
         )
         invoice_obj = self.env["account.invoice"]
         invoices = invoice_obj.browse(inv_ids)
+
         for inv in invoices:
             inv.write(
                 {
@@ -42,6 +39,7 @@ class SaleOrder(models.Model):
                     "contract_nr": self.contract_nr,
                 }
             )
+
         return inv_ids
 
 

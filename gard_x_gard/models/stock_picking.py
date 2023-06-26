@@ -9,9 +9,12 @@ from odoo import fields, models, _
 
 
 class StockPicking(models.Model):
-    _inherit = 'stock.picking'
-    _order = 'create_date desc'
+    _inherit = "stock.picking"
+    _order = "date_done desc, create_date desc"
 
     requested_by = fields.Many2one(
-        'res.users', 'Requested By', readonly=True,
-        help="User that requested this transfer.")
+        "res.users",
+        "Requested By",
+        readonly=True,
+        help="User that requested this transfer.",
+    )
