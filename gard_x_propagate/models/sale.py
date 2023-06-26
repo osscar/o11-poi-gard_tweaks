@@ -15,17 +15,15 @@ class SaleOrder(models.Model):
 
     def _exc_check(self, params):
         exc_field, exc_field_vals = "state", ["draft", "sent"]
-        exc_vals = {
-            "exc_model": self._context.get("active_model"),
-            "exc_field": exc_field,
-            "exc_field_vals": exc_field_vals,
-        }
-
-        params = {
-            "exc_model": exc_model,
-            "exc_states": exc_states,
+        params["exc_vals"] = {
+            "model": self._context.get("active_model"),
+            "field": exc_field,
+            "field_rec_vals": [self.state],
+            "field_vals": exc_field_vals,
+            "msg": params["exc_msg"],
         }
         exc_obj = self.env["propagate.exception"]
+        
         return exc_obj._exception_check(params)
 
     def button_unlink_order_line(self):
@@ -48,7 +46,7 @@ class SaleOrderLine(models.Model):
     def button_propagate_route(self):
         # check state
         params = {
-            "exc_msg": "Cannot propagate route if order has been confirmed.",
+            "exc_msg": "Cannot propagate route if order is in the following states: ",
         }
         self.order_id._exc_check(params)
 
