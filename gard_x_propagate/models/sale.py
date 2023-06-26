@@ -14,14 +14,18 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     def _exc_check(self, params):
-        exc_obj = self.env["propagate.exception"]
-        exc_state_keys = ["id", "name"]
-        exc_state_ids = ["draft", "sent"]
-        exc_state_names = [rs for s in exc_state_ids for rs in self.search(['id', '=', s])]
-        exc_states = {es[0]: list(esi[1:]) for esi in zip(exc_states, exc_state_names)}
-        params[exc_state_names] = exc_state_names
+        exc_field, exc_field_vals = "state", ["draft", "sent"]
+        exc_vals = {
+            "exc_model": self._context.get("active_model"),
+            "exc_field": exc_field,
+            "exc_field_vals": exc_field_vals,
+        }
 
-        params["is_exc"] = self.state not in tuple(s for s in exc_states)
+        params = {
+            "exc_model": exc_model,
+            "exc_states": exc_states,
+        }
+        exc_obj = self.env["propagate.exception"]
         return exc_obj._exception_check(params)
 
     def button_unlink_order_line(self):
