@@ -28,16 +28,20 @@ class LandedCost(models.Model):
         for line in anl_lines:
             # set default product if no product
             # is set on landed cost line
-            product_id = [line.product_id] if line.product_id else [self.env.ref("gard_x_propagate.product_slc_default")]
+            product_id = (
+                [line.product_id]
+                if line.product_id
+                else [self.env.ref("gard_x_propagate.product_slc_default")]
+            )
 
             # price_unit value needs to be inverted
             # to match landed cost value logic
             vals = {
-                'cost_id': self.id,
-                'account_analytic_line_id': line.id,
-                'product_id': getattr(product_id, "id"),
-                'split_method': getattr(product_id, "split_method"),
-                'price_unit': line.amount * -1,
+                "cost_id": self.id,
+                "account_analytic_line_id": line.id,
+                "product_id": getattr(product_id, "id"),
+                "split_method": getattr(product_id, "split_method"),
+                "price_unit": line.amount * -1,
             }
             # _logger.debug('bclc vals >>>: %s', vals)
 

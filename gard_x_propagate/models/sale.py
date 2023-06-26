@@ -12,16 +12,16 @@ from odoo import api, models, _
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    def _exc_check(self):
+    def _exc_check(self, params):
         exc_obj = self.env["propagate.exception"]
-        return exc_obj._exception_check()
+        return exc_obj.with_context(ctx=params)._exception_check()
 
     def button_unlink_order_line(self):
         # check state
         context = {
             "exc_field": "self.state",
-            "exc_vals": ["draft", None],
-            "exc_msg": "Cannot propagate route if order is not in draft state.",
+            "exc_vals": "['draft', None]",
+            "exc_msg": "Cannot delete order lines if order is not in draft state.",
         }
         self.with_context(ctx=context)._exc_check()
 
@@ -37,12 +37,12 @@ class SaleOrderLine(models.Model):
     @api.one
     def button_propagate_route(self):
         # check state
-        context = {
+        params = {
             "exc_field": "self.order_id.state",
-            "exc_vals": ["draft", None],
+            "exc_vals": "('draft', None)",
             "exc_msg": "Cannot propagate route if order is not in draft state.",
         }
-        self.order_id.with_context(ctx=context)._exc_check()
+        self.order_id._exc_check(params)
 
         route_id = self.route_id
         for line in self.order_id.order_line:
