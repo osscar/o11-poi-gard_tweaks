@@ -12,16 +12,11 @@ _logger = logging.getLogger(__name__)
 class PropagateException(models.Model):
     _name = "propagate.exception"
 
-    def _exception_check(self):
+    def _exception_check(self, params):
         # context parameters for conditional statement
-        ctx = self._context.get("ctx")
         # check exception
-
-        _logger.debug("_ec ctx >>>: %s", ctx)
-        _logger.debug("_ec ctx[fields] >>>: %s", ctx["exc_field"])
-        _logger.debug("_ec ctx[exc_vals] >>>: %s", ctx["exc_vals"])
-
-        if ctx["exc_field"] in ctx["exc_vals"]:
-            raise ValidationError(("%s") % ctx["exc_msg"])
+        exc_msg = params["exc_msg"] + exc_states["name"]
+        if params["is_exc"]:
+            raise ValidationError(("%s") % exc_msg)
 
         return True
