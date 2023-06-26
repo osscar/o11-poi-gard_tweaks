@@ -14,13 +14,14 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     def _exc_check(self, params):
-        exc_state_ids,exc_state_names = ["draft", "sent"], ["Quotation", "Sent Quotation"]
-        exc_states = {}
-        for esi, esn in zip(exc_state_ids, exc_state_names):
-            exc_states[esi] = {"name": esn}
+        exc_obj = self.env["propagate.exception"]
+        exc_state_keys = ["id", "name"]
+        exc_state_ids = ["draft", "sent"]
+        exc_state_names = [rs for s in exc_state_ids for rs in self.search(['id', '=', s])]
+        exc_states = {es[0]: list(esi[1:]) for esi in zip(exc_states, exc_state_names)}
+        params[exc_state_names] = exc_state_names
 
-        exc_obj = self.env["propagate.exception"]    
-        params["is_exc"] = self.state not in (exc_state_ids)
+        params["is_exc"] = self.state not in tuple(s for s in exc_states)
         return exc_obj._exception_check(params)
 
     def button_unlink_order_line(self):
@@ -57,6 +58,7 @@ class SaleOrderLine(models.Model):
     def button_propagate_pricelist(self):
         # check state
         params = {
+            "is_exc": self.state not in ("draft", "sent"),
             "exc_msg": "Cannot propagate pricelist if order has been confirmed.",
         }
         self.order_id._exc_check(params)
