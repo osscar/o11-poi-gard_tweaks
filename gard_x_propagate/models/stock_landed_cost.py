@@ -18,7 +18,7 @@ class LandedCost(models.Model):
         check_type = vals["check_type"]
         if check_type == "state":
             exc_field = check_type
-            exc_field_vals = ["draft", "sent"]
+            exc_field_vals = ["draft"]
 
         # exception check values
         vals["exc_vals"] = {
@@ -35,7 +35,7 @@ class LandedCost(models.Model):
 
     @api.one
     def button_create_cost_line(self):
-        # check state
+        # check exceptions: state
         vals = {
             "check_type": "state",
             "exc_msg": "Can only create cost lines if order is in the following states: ",
@@ -52,7 +52,7 @@ class LandedCost(models.Model):
             # set default product if no product
             # is set on landed cost line
             product_id = (
-                [line.product_id]
+                line.product_id
                 if line.product_id
                 else [self.env.ref("gard_x_propagate.product_slc_default")]
             )
@@ -74,8 +74,9 @@ class LandedCost(models.Model):
         return True
 
     def button_unlink_cost_line(self):
-        # check state
+        # check exceptions: state
         vals = {
+            "check_type": "state",
             "exc_msg": "Can only delete cost lines if order is in the following states: ",
         }
         self._exception_check(vals)

@@ -33,7 +33,7 @@ class SaleOrder(models.Model):
         return result
 
     def button_unlink_order_line(self):
-        # check state
+        # check exceptions: state
         vals = {
             "check_type": "state",
             "exc_msg": "Can only delete order lines if order is in the following states: ",
@@ -51,7 +51,7 @@ class SaleOrderLine(models.Model):
 
     @api.one
     def button_propagate_route(self):
-        # check state
+        # check exceptions: state
         vals = {
             "check_type": "state",
             "exc_msg": "Can only propagate route if order is in the following states: ",
@@ -66,7 +66,7 @@ class SaleOrderLine(models.Model):
 
     @api.one
     def button_propagate_pricelist(self):
-        # check state
+        # check exceptions: state
         vals = {
             "check_type": "state",
             "exc_msg": "Can only propagate pricelist if order is in the following states: ",

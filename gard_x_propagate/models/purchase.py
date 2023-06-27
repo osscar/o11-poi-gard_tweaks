@@ -34,7 +34,7 @@ class PurchaseOrder(models.Model):
         return result
 
     def button_unlink_order_line(self):
-        # check state
+        # check exceptions: state
         vals = {
             "check_type": "state",
             "exc_msg": "Can only delete order lines if order is in the following states: ",
@@ -52,7 +52,7 @@ class PurchaseOrderLine(models.Model):
 
     @api.one
     def button_propagate_account_analytic_account(self):
-        # check state
+        # check exceptions: state
         vals = {
             "check_type": "state",
             "exc_msg": "Can only propagate analytic accounts if order is in the following states: ",

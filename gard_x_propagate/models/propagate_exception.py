@@ -30,11 +30,13 @@ class PropagateException(models.Model):
     def _exception_check(self, vals):
         # check exceptions
         exc_vals = vals["exc_vals"]
-
+        is_exc = False
         # state field exceptions
         if exc_vals["field"] == "state":
-            is_exc = exc_vals["field_rec_vals"] not in tuple(ev for ev in exc_vals["field_vals"])
-        
+            _logger.debug('_ec exc_vals["field_rec_vals"] >>>: %s', exc_vals["field_rec_vals"])
+            _logger.debug('_ec exc_vals["field_vals"] >>>: %s', exc_vals["field_vals"])
+            is_exc = any(ev not in exc_vals["field_vals"] for ev in exc_vals["field_rec_vals"])
+            _logger.debug('_ec is_exc >>>: %s', is_exc)
         if is_exc:
             # get exception message
             exc_msg = self._get_exception_msg(exc_vals)

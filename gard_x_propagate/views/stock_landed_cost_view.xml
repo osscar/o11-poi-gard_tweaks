@@ -20,7 +20,7 @@
           </div>
           <div class="oe_button_box oe_left" name="button_box">
             <button name="button_create_cost_line" type='object'
-              attrs="{'invisible':['|',('state', '!=', 'draft'),('account_analytic_id', '=', False)]}"
+              attrs="{'invisible':[('state', '!=', 'draft')]}"
               icon="fa-plus-circle" string="Propagate Analytics"
               help="Create new cost lines from selected analytic account."
               confirm="This will create cost lines from the analytic lines of the analytic account selected. Do you want to continue?" />
