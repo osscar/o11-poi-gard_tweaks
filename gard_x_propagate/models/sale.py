@@ -11,23 +11,32 @@ _logger = logging.getLogger(__name__)
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    def _exc_check(self, vals):
-        exc_field, exc_field_vals = "state", ["draft", "sent"]
+    def _exception_check(self, vals):
+        model, exc_field, exc_field_vals, msg = self._name, False, [], vals["exc_msg"]
+
+        check_type = vals["check_type"]
+        if check_type == "state":
+            exc_field = check_type
+            exc_field_vals = ["draft", "sent"]
+
+        # exception check values
         vals["exc_vals"] = {
-            "model": self._name,
+            "model": model,
             "field": exc_field,
-            "field_rec_vals": [self.state],
+            "field_rec_vals": [getattr(self, exc_field)],
             "field_vals": exc_field_vals,
-            "msg": vals["exc_msg"],
+            "msg": msg,
         }
-        exc_obj = self.env["propagate.exception"]
-        
-        return exc_obj._exception_check(vals)
+
+        result = self.env["propagate.exception"]._exception_check(vals)
+
+        return result
 
     def button_unlink_order_line(self):
         # check state
         vals = {
-            "exc_msg": "Cannot delete order lines if order is not in draft state.",
+            "check_type": "state",
+            "exc_msg": "Can only delete order lines if order is in the following states: ",
         }
         self._exc_check(vals)
 
@@ -44,7 +53,8 @@ class SaleOrderLine(models.Model):
     def button_propagate_route(self):
         # check state
         vals = {
-            "exc_msg": "Cannot propagate route if order is in the following states: ",
+            "check_type": "state",
+            "exc_msg": "Can only propagate route if order is in the following states: ",
         }
         self.order_id._exc_check(vals)
 
@@ -58,8 +68,8 @@ class SaleOrderLine(models.Model):
     def button_propagate_pricelist(self):
         # check state
         vals = {
-            "is_exc": self.state not in ("draft", "sent"),
-            "exc_msg": "Cannot propagate pricelist if order has been confirmed.",
+            "check_type": "state",
+            "exc_msg": "Can only propagate pricelist if order is in the following states: ",
         }
         self.order_id._exc_check(vals)
 

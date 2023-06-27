@@ -13,16 +13,24 @@ class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
     def _exc_check(self, vals):
-        exc_obj = self.env["propagate.exception"]
-        exc_states = {"dra": "Draft", "sent": "Sent", "to_approve": "To Approve",}
-        vals[exc_msg] += exc_states
-        vals["is_exc"] = self.state not in exc_states
-        return exc_obj._exception_check(vals)
+        exc_field, exc_field_vals = "state", ["draft", "sent"]
+        vals["exc_vals"] = {
+            "model": self._name,
+            "field": exc_field,
+            "field_rec_vals": [getattr(self, exc_field)],
+            "field_vals": exc_field_vals,
+            "msg": vals["exc_msg"],
+        }
+
+        result = self.env["propagate.exception"]._exception_check(vals)
+
+        return result
 
     def button_unlink_order_line(self):
         # check state
         vals = {
-            "exc_msg": "Can only delete lines if the record is in the folllowing states: ",
+            "check_type": "state",
+            "exc_msg": "Can only delete order lines if order is in the following states: ",
         }
         self._exc_check(vals)
 
@@ -39,12 +47,10 @@ class PurchaseOrderLine(models.Model):
     def button_propagate_account_analytic_account(self):
         # check state
         vals = {
-            "exc_msg": "Cannot propagate analytic account if order is not in draft state.",
+            "check_type": "state",
+            "exc_msg": "Can only propagate analytic accounts if order is in the following states: ",
         }
         self._exc_check(vals)
-        val_states = ["draft"]
-        verr_msg = "Cannot propagate analytic account if order is not in draft state."
-        self.with_context(val_states=val_states, verr_msg=verr_msg)._check_state()
 
         account_analytic_id = self.account_analytic_id
         for line in self.order_id.order_line:

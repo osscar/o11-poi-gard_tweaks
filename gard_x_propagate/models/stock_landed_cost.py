@@ -12,12 +12,35 @@ from odoo.exceptions import ValidationError
 class LandedCost(models.Model):
     _inherit = "stock.landed.cost"
 
+    def _exception_check(self, vals):
+        model, exc_field, exc_field_vals, msg = self._name, False, [], vals["exc_msg"]
+        
+        check_type = vals["check_type"]
+        if check_type == "state":
+            exc_field = check_type
+            exc_field_vals = ["draft", "sent"]
+        
+        # exception check values
+        vals["exc_vals"] = {
+            "model": model,
+            "field": exc_field,
+            "field_rec_vals": [getattr(self, exc_field)],
+            "field_vals": exc_field_vals,
+            "msg": msg,
+        }
+        
+        result = self.env["propagate.exception"]._exception_check(vals)
+        
+        return result
+
     @api.one
     def button_create_cost_line(self):
         # check state
-        val_states = ["draft"]
-        verr_msg = "Cannot create cost lines if form is not in draft state."
-        self.with_context(val_states=val_states, verr_msg=verr_msg)._check_state()
+        vals = {
+            "check_type": "state",
+            "exc_msg": "Can only create cost lines if order is in the following states: ",
+        }
+        self._exc_check(vals)
 
         anl_lines = self.account_analytic_id.line_ids
         if not anl_lines:
@@ -52,9 +75,10 @@ class LandedCost(models.Model):
 
     def button_unlink_cost_line(self):
         # check state
-        val_states = ["draft"]
-        verr_msg = "Cannot delete a cost line if form is not in draft state."
-        self.with_context(val_states=val_states, verr_msg=verr_msg)._check_state()
+        vals = {
+            "exc_msg": "Can only delete cost lines if order is in the following states: ",
+        }
+        self._exc_check(vals)
 
         for line in self.cost_lines:
             line.unlink()
@@ -79,7 +103,7 @@ class LandedCostLine(models.Model):
 
         # invert value to adapt to
         # cost line logic
-        price_unit = -1 * price_unit
+        price_unit = -price_unit
 
         return price_unit
 
