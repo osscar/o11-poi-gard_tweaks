@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-# import logging
+import logging
 
 from odoo import models, _
 from odoo.exceptions import ValidationError
 
-# _logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class PropagateException(models.Model):
@@ -20,8 +20,10 @@ class PropagateException(models.Model):
 
         # state field message
         if field == "state":
-            state_name = str([rs[1] for rs in model._fields.get(field).selection if rs[0] in vals["field_vals"]])
-            message = message + state_name
+            state_names = [rs[1] for rs in model._fields.get(field).selection if rs[0] in vals["field_vals"]]
+            _logger.debug('bclc vals >>>: %s', state_names)
+
+            message += ', '.join(state_names) + "."
 
         return message
 

@@ -12,14 +12,21 @@ from odoo.exceptions import ValidationError
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
-    def _exc_check(self, vals):
-        exc_field, exc_field_vals = "state", ["draft", "sent"]
+    def _exception_check(self, vals):
+        model, exc_field, exc_field_vals, msg = self._name, False, [], vals["exc_msg"]
+
+        check_type = vals["check_type"]
+        if check_type == "state":
+            exc_field = check_type
+            exc_field_vals = ["draft", "sent"]
+
+        # exception check values
         vals["exc_vals"] = {
-            "model": self._name,
+            "model": model,
             "field": exc_field,
             "field_rec_vals": [getattr(self, exc_field)],
             "field_vals": exc_field_vals,
-            "msg": vals["exc_msg"],
+            "msg": msg,
         }
 
         result = self.env["propagate.exception"]._exception_check(vals)
@@ -32,7 +39,7 @@ class PurchaseOrder(models.Model):
             "check_type": "state",
             "exc_msg": "Can only delete order lines if order is in the following states: ",
         }
-        self._exc_check(vals)
+        self._exception_check(vals)
 
         for line in self.order_line:
             line.unlink()
@@ -50,7 +57,7 @@ class PurchaseOrderLine(models.Model):
             "check_type": "state",
             "exc_msg": "Can only propagate analytic accounts if order is in the following states: ",
         }
-        self._exc_check(vals)
+        self.order_id._exception_check(vals)
 
         account_analytic_id = self.account_analytic_id
         for line in self.order_id.order_line:

@@ -14,12 +14,12 @@ class LandedCost(models.Model):
 
     def _exception_check(self, vals):
         model, exc_field, exc_field_vals, msg = self._name, False, [], vals["exc_msg"]
-        
+
         check_type = vals["check_type"]
         if check_type == "state":
             exc_field = check_type
             exc_field_vals = ["draft", "sent"]
-        
+
         # exception check values
         vals["exc_vals"] = {
             "model": model,
@@ -28,9 +28,9 @@ class LandedCost(models.Model):
             "field_vals": exc_field_vals,
             "msg": msg,
         }
-        
+
         result = self.env["propagate.exception"]._exception_check(vals)
-        
+
         return result
 
     @api.one
@@ -40,7 +40,7 @@ class LandedCost(models.Model):
             "check_type": "state",
             "exc_msg": "Can only create cost lines if order is in the following states: ",
         }
-        self._exc_check(vals)
+        self._exception_check(vals)
 
         anl_lines = self.account_analytic_id.line_ids
         if not anl_lines:
@@ -78,7 +78,7 @@ class LandedCost(models.Model):
         vals = {
             "exc_msg": "Can only delete cost lines if order is in the following states: ",
         }
-        self._exc_check(vals)
+        self._exception_check(vals)
 
         for line in self.cost_lines:
             line.unlink()

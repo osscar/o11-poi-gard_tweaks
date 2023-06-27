@@ -38,7 +38,7 @@ class SaleOrder(models.Model):
             "check_type": "state",
             "exc_msg": "Can only delete order lines if order is in the following states: ",
         }
-        self._exc_check(vals)
+        self._exception_check(vals)
 
         for line in self.order_line:
             line.unlink()
@@ -56,7 +56,7 @@ class SaleOrderLine(models.Model):
             "check_type": "state",
             "exc_msg": "Can only propagate route if order is in the following states: ",
         }
-        self.order_id._exc_check(vals)
+        self.order_id._exception_check(vals)
 
         route_id = self.route_id
         for line in self.order_id.order_line:
@@ -71,7 +71,7 @@ class SaleOrderLine(models.Model):
             "check_type": "state",
             "exc_msg": "Can only propagate pricelist if order is in the following states: ",
         }
-        self.order_id._exc_check(vals)
+        self.order_id._exception_check(vals)
 
         pricelist_id = self.pricelist_id
         for line in self.order_id.order_line.filtered(lambda l: self.id != l.id):
