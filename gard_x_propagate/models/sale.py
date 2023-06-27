@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-# import logging
+import logging
 
 from odoo import api, models, _
 
-# from odoo.exceptions import ValidationError
-
-# _logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class SaleOrder(models.Model):
@@ -16,15 +14,12 @@ class SaleOrder(models.Model):
     def _exc_check(self, vals):
         exc_field, exc_field_vals = "state", ["draft", "sent"]
         vals["exc_vals"] = {
-            "model": self._context.get("active_model"),
+            "model": self._name,
             "field": exc_field,
             "field_rec_vals": [self.state],
             "field_vals": exc_field_vals,
             "msg": vals["exc_msg"],
         }
-        _logger.debug('_ec vals >>>: %s', vals)
-        _logger.debug('_ec vals[model] >>>: %s', vals["model"])
-
         exc_obj = self.env["propagate.exception"]
         
         return exc_obj._exception_check(vals)
