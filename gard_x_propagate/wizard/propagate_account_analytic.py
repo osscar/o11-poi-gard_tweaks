@@ -34,9 +34,14 @@ class PropagateCreateAccountAnalytic(models.TransientModel):
         order_ids = order_obj.browse(active_ids)
         return order_ids
 
+    @api.multi
     @api.onchange("group_id")
     def onchange_group_id(self):
         if self.group_id:
+            vals = {
+                "wizard_id": self.id,
+            }
+            lines = []
             for order in self._get_order_ids():
                 for acc_vals in self.group_id.account_value_ids:
                     vals = {
@@ -49,15 +54,17 @@ class PropagateCreateAccountAnalytic(models.TransientModel):
                         vals["department_id"] = self.group_id.department_id.id
                         vals["name"] = order.name
                         vals["code"] = order.name
-                    self.wizard_line.create(vals)
+                    lines += self.wizard_line.create(vals)
+            self.wizard_line = [l.id for l in lines]
 
     @api.multi
     def button_create(self):
-        analyt_account_obj = self.env["account.analytic.account"]
-        res = analyt_account_obj.create(vals)
         order_ids = self._get_order_ids()
         for order in order_ids:
             # _logger.debug("bcaa order >>>: %s", order)
+            vals = {}
+            analyt_account_obj = self.env["account.analytic.account"]
+            result = analyt_account_obj.create(vals)
             for line in self.wizard_line:
                 if analyt_account_obj.search([("name", "=", line.name)]):
                     raise ValidationError(
@@ -71,10 +78,11 @@ class PropagateCreateAccountAnalytic(models.TransientModel):
                     "code": line.code,
                 }
                 if line.is_parent:
-                    vals["parent_id"] = line.parent_id.id
-                parent_vals = res
-                res["parent_id"] = parent_vals
-        return {
+                    parent_vals = result
+                
+            
+            result["parent_id"] = parent_vals
+        return result, {
             "type": "set_scrollTop",
         }
 
