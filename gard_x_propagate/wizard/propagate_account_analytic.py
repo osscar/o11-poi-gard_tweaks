@@ -29,7 +29,7 @@ class PropagateCreateAccountAnalytic(models.TransientModel):
 
     def _get_order_ids(self):
         group_id = self.group_id
-        order_obj = self.env[str(group_id.type + ".order")]
+        order_obj = self.env[group_id.type + ".order"]
         active_ids = self._context.get("active_ids", False)
         order_ids = order_obj.browse(active_ids)
         return order_ids

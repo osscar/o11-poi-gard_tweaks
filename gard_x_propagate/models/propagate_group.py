@@ -23,10 +23,10 @@ class PropagateGroupAccountAnalytic(models.Model):
         required=True,
         help="Select order type for group.",
     )
-    parent_id = fields.Many2one(
-        "account.analytic.account",
-        string="Parent Analytic Account",
-        help="Select parnet analytic account for the order parent analytic account. eg. Purchases / Imports for PO00034",
+    department_id = fields.Many2one(
+        "hr.department",
+        string="Parent Account Department",
+        help="Select department for order parent analytic account. eg. Purchases / Imports for PO00034",
     )
     account_value_ids = fields.One2many(
         "propagate.group.account.analytic.account",
@@ -40,30 +40,26 @@ class PropagateGroupAccountAnalytic(models.Model):
     )
 
     @api.model
-    def create(self, values):
-        res = super().create(values)
-        values['name'] = self.env['ir.sequence'].next_by_code('propagate.group.analytic.account')
-        return res
+    def create(self, vals):
+        vals['name'] = self.env['ir.sequence'].next_by_code('propagate.group.account.analytic')
+        return super().create(vals)
 
     @api.multi
     def write(self, vals):
-        res = super().write(vals)
-
         # create default order parent analytic account;
         # process is automated; form view field attrs
         # readonly if is_parent == True
         acc_vals = self.account_value_ids
-        if acc_vals:
-            if not any(a.is_parent == 'True' for a in acc_vals):
-                acc_parent_vals = {
-                    "group_id": self.group_id.id,
-                    "name": "AB#####",
-                    "code": "AB#####",
-                    "is_parent": True,
-                }
-                self.account_value_ids.create(acc_parent_vals)
+        if not any(a.is_parent == True for a in acc_vals):
+            acc_parent_vals = {
+                "group_id": self.id,
+                "name": "AB#####",
+                "code": "AB#####",
+                "is_parent": True,
+            }
+            self.account_value_ids.create(acc_parent_vals)
 
-        return res
+        return super().write(vals)
     
     def button_unlink_account_line(self):
         for line in self.account_value_ids:
@@ -82,10 +78,12 @@ class PropagateGroupAccountAnalyticAccount(models.Model):
     )
     name = fields.Char(
         string="Name",
+        required=True,
     )
     code = fields.Char(
         string="Code",
         size=10,
+        required=True,
     )
     is_parent = fields.Boolean(
         string="Order Parent",

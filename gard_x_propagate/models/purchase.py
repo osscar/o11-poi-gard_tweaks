@@ -51,7 +51,7 @@ class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
 
     @api.one
-    def button_propagate_account_analytic_account(self):
+    def button_propagate_account_analytic(self):
         # check exceptions: state
         vals = {
             "check_type": "state",

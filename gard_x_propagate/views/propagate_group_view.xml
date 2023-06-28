@@ -9,13 +9,13 @@
       <field name="arch" type="xml">
         <search string="Search Propagate Groups">
           <field name="name" string="Name"
-            filter_domain="['|', ('name','ilike',self), ('parent_id','ilike',self)]" />
-          <field name="parent_id" />
+            filter_domain="['|', ('name','ilike',self), ('department_id','ilike',self)]" />
+          <field name="department_id" />
           <separator />
           <filter name="active" string="Active" domain="[('active','=',True)]" />
           <separator />
           <group expand="0" string="Group By">
-            <filter name="group_by_parent_id" string="Parent" />
+            <filter name="group_by_department_id" string="Parent" />
           </group>
         </search>
       </field>
@@ -38,12 +38,12 @@
           <sheet string="Propagate Groups">
             <div class="oe_title">
               <h1>
-                <field name="name" placeholder="Enter Group Name" />
+                <field name="name"/>
               </h1>
             </div>
             <group name="main">
               <field name="type" />
-              <field name="parent_id" />
+              <field name="department_id" />
             </group>
             <notebook>
               <page name="account_values" string="Account Values">
@@ -69,7 +69,7 @@
       <field name="arch" type="xml">
         <tree string="Propagate Group">
           <field name="name" />
-          <field name="parent_id" />
+          <field name="department_id" />
         </tree>
       </field>
     </record>
