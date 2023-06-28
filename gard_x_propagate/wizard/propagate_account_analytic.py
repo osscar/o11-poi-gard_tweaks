@@ -29,7 +29,7 @@ class PropagateCreateAccountAnalytic(models.TransientModel):
 
     def _get_order_ids(self):
         group_id = self.group_id
-        order_obj = self.env[group_id.type + ".order"]
+        order_obj = self.env[str(group_id.type) + ".order"]
         active_ids = self._context.get("active_ids", False)
         order_ids = order_obj.browse(active_ids)
         return order_ids
@@ -46,10 +46,10 @@ class PropagateCreateAccountAnalytic(models.TransientModel):
                         "code": acc_vals.code,
                     }
                     if acc_vals.is_parent == True:
-                        vals["parent_id"] = self.group_id.parent_id
+                        vals["department_id"] = self.group_id.department_id.id
                         vals["name"] = order.name
-                        vals["code"] = order.code
-                self.wizard_line.create(vals)
+                        vals["code"] = order.name
+                    self.wizard_line.create(vals)
 
     @api.multi
     def button_create(self):
@@ -96,8 +96,19 @@ class PropagateCreateAccountAnalyticLine(models.TransientModel):
         string="Parent Analytic Account",
         help="Order reference name is used for this analytic account's name.",
     )
+    department_id = fields.Many2one(
+        "hr.department",
+        string="Parent Account Department",
+        # help="Order reference name is used for this analytic account's name.",
+    )
     name = fields.Char(string="Name", help="Analytic account name.")
     code = fields.Char(string="Reference", help="Analytic account code.")
+    is_parent = fields.Boolean(
+        string="Order Parent",
+        default=False,
+        readonly=True,
+        help="Select this account as parent account for order.",
+    )
     wizard_id = fields.Many2one(
         "propagate.create.account.analytic",
         string="Create Wizard ID",
