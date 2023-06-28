@@ -72,14 +72,13 @@ class PropagateProduct(models.TransientModel):
             "type": "set_scrollTop",
         }
 
-    def button_unlink_product_lines(self):
+    def button_unlink_product_ids(self):
         self.product_ids = False
         return {
             "type": "set_scrollTop",
         }
 
     def button_unlink_wizard_line(self):
-        self.product_ids = False
         for line in self.wizard_line:
             line.unlink()
         return {
@@ -125,5 +124,4 @@ class PropagateProductLine(models.TransientModel):
     wizard_id = fields.Many2one(
         "propagate.product",
         string="Wizard ID",
-        ondelete="cascade",
     )

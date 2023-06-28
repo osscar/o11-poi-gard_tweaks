@@ -20,10 +20,14 @@ class PropagateException(models.Model):
 
         # state field message
         if field == "state":
-            state_names = [rs[1] for rs in model._fields.get(field).selection if rs[0] in vals["field_vals"]]
-            _logger.debug('bclc vals >>>: %s', state_names)
+            state_names = [
+                rs[1]
+                for rs in model._fields.get(field).selection
+                if rs[0] in vals["field_vals"]
+            ]
+            _logger.debug("bclc vals >>>: %s", state_names)
 
-            message += ', '.join(state_names) + "."
+            message += ", ".join(state_names) + "."
 
         return message
 
@@ -33,10 +37,9 @@ class PropagateException(models.Model):
         is_exc = False
         # state field exceptions
         if exc_vals["field"] == "state":
-            _logger.debug('_ec exc_vals["field_rec_vals"] >>>: %s', exc_vals["field_rec_vals"])
-            _logger.debug('_ec exc_vals["field_vals"] >>>: %s', exc_vals["field_vals"])
-            is_exc = any(ev not in exc_vals["field_vals"] for ev in exc_vals["field_rec_vals"])
-            _logger.debug('_ec is_exc >>>: %s', is_exc)
+            is_exc = any(
+                ev not in exc_vals["field_vals"] for ev in exc_vals["field_rec_vals"]
+            )
         if is_exc:
             # get exception message
             exc_msg = self._get_exception_msg(exc_vals)
