@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-# import logging
+import logging
 
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
-# _logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class PropagateCreateAccountAnalytic(models.TransientModel):
@@ -48,7 +48,7 @@ class PropagateCreateAccountAnalytic(models.TransientModel):
                         "wizard_id": self.id,
                         "is_parent": acc_vals.is_parent,
                         "name": acc_vals.name,
-                        "code": acc_vals.code,
+                        "code": acc_vals.code + order.name,
                     }
                     if acc_vals.is_parent == True:
                         vals["department_id"] = self.group_id.department_id.id
@@ -61,28 +61,35 @@ class PropagateCreateAccountAnalytic(models.TransientModel):
     def button_create(self):
         order_ids = self._get_order_ids()
         for order in order_ids:
-            # _logger.debug("bcaa order >>>: %s", order)
             vals = {}
             analyt_account_obj = self.env["account.analytic.account"]
-            result = analyt_account_obj.create(vals)
-            for line in self.wizard_line:
-                if analyt_account_obj.search([("name", "=", line.name)]):
+            # _logger.debug("bc for order >>>: %s", order)
+            lines = self.wizard_line
+            # parent_id = None
+            for line in lines:
+                if analyt_account_obj.search([("code", "=", line.code)]):
                     raise ValidationError(
                         _(
-                            "An analytic account with that name: %s, already exists. Please use that one or delete it, and try again."
+                            "An analytic account with that name: %s, already exists. Please use that one or delete it, or remove it from the wizard lines, and try again."
                         )
                         % (line.name)
                     )
+
                 vals = {
                     "name": line.name,
                     "code": line.code,
+                    "department_id": line.department_id.id,
                 }
-                if line.is_parent:
-                    parent_vals = result
+                _logger.debug("bc order >>>: %s", vals)
+                result = analyt_account_obj.create(vals)
                 
-            
-            result["parent_id"] = parent_vals
-        return result, {
+                if line.is_parent:
+                    parent_id = result
+                else:
+                    child_ids = result
+            parent_id = (parent_id if parent_id)
+            account_ids = [a.write({"parent_id": parent_id.id}) for a in child_ids]
+        return {
             "type": "set_scrollTop",
         }
 
