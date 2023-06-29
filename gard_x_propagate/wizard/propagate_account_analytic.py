@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-import logging
+# import logging
 
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
-_logger = logging.getLogger(__name__)
+# _logger = logging.getLogger(__name__)
 
 
 class PropagateCreateAccountAnalytic(models.TransientModel):
@@ -61,11 +61,10 @@ class PropagateCreateAccountAnalytic(models.TransientModel):
     def button_create(self):
         order_ids = self._get_order_ids()
         for order in order_ids:
-            vals = {}
             analyt_account_obj = self.env["account.analytic.account"]
-            # _logger.debug("bc for order >>>: %s", order)
             lines = self.wizard_line
-            # parent_id = None
+            vals = {}
+            child_ids = []
             for line in lines:
                 if analyt_account_obj.search([("code", "=", line.code)]):
                     raise ValidationError(
@@ -80,15 +79,13 @@ class PropagateCreateAccountAnalytic(models.TransientModel):
                     "code": line.code,
                     "department_id": line.department_id.id,
                 }
-                _logger.debug("bc order >>>: %s", vals)
                 result = analyt_account_obj.create(vals)
-                
+
                 if line.is_parent:
                     parent_id = result
                 else:
-                    child_ids = result
-            parent_id = (parent_id if parent_id)
-            account_ids = [a.write({"parent_id": parent_id.id}) for a in child_ids]
+                    child_ids += result
+            parent_id = [a.write({"parent_id": parent_id.id}) for a in child_ids]
         return {
             "type": "set_scrollTop",
         }
