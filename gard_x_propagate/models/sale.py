@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import logging
+# import logging
 
 from odoo import api, models, _
 
-_logger = logging.getLogger(__name__)
+# _logger = logging.getLogger(__name__)
 
 
 class SaleOrder(models.Model):
@@ -14,6 +14,7 @@ class SaleOrder(models.Model):
     def _exception_check(self, vals):
         model, exc_field, exc_field_vals, msg = self._name, False, [], vals["exc_msg"]
 
+        # check type
         check_type = vals["check_type"]
         if check_type == "state":
             exc_field = check_type

@@ -15,6 +15,7 @@ class LandedCost(models.Model):
     def _exception_check(self, vals):
         model, exc_field, exc_field_vals, msg = self._name, False, [], vals["exc_msg"]
 
+        # check type
         check_type = vals["check_type"]
         if check_type == "state":
             exc_field = check_type

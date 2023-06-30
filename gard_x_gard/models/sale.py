@@ -3,11 +3,7 @@
 
 # import logging
 
-# from email.policy import default
 from odoo import api, fields, models, _
-from . import product_template
-
-from .product_template import ProductTemplate
 
 # _logger = logging.getLogger(__name__)
 

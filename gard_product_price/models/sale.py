@@ -12,8 +12,6 @@ class SaleOrderLine(models.Model):
 
     @api.model
     def _get_default_pricelist_id(self):
-        # _logger.debug('_g_def_p call _context >>>: %s', self._context)
-        # _logger.debug('_g_def_p call _context active_ids >>>: %s', self._context.get('params').get('id'))
         _get_order_id = self._context.get("params", {}).get("id")
         if _get_order_id:
             order_id = self.env["sale.order"].search([("id", "=", _get_order_id)])

@@ -3,8 +3,7 @@
 
 # import logging
 
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from odoo import api, models, _
 
 # _logger = logging.getLogger(__name__)
 
@@ -15,6 +14,7 @@ class PurchaseOrder(models.Model):
     def _exception_check(self, vals):
         model, exc_field, exc_field_vals, msg = self._name, False, [], vals["exc_msg"]
 
+        # check type
         check_type = vals["check_type"]
         if check_type == "state":
             exc_field = check_type
@@ -28,7 +28,6 @@ class PurchaseOrder(models.Model):
             "field_vals": exc_field_vals,
             "msg": msg,
         }
-
         result = self.env["propagate.exception"]._exception_check(vals)
 
         return result
@@ -41,6 +40,7 @@ class PurchaseOrder(models.Model):
         }
         self._exception_check(vals)
 
+        # delete order lines
         for line in self.order_line:
             line.unlink()
 

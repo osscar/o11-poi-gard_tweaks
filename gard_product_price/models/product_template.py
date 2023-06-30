@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-import datetime
-from odoo import models, fields, api, exceptions, _
+from odoo import models, fields, api, _
 
 
 class ProductTemplate(models.Model):
