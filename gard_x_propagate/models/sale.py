@@ -28,7 +28,6 @@ class SaleOrder(models.Model):
             "field_vals": exc_field_vals,
             "msg": msg,
         }
-
         result = self.env["propagate.exception"]._exception_check(vals)
 
         return result
@@ -41,6 +40,7 @@ class SaleOrder(models.Model):
         }
         self._exception_check(vals)
 
+        # delete order lines
         for line in self.order_line:
             line.unlink()
 
@@ -74,6 +74,7 @@ class SaleOrderLine(models.Model):
         }
         self.order_id._exception_check(vals)
 
+        # propagate pricelist
         pricelist_id = self.pricelist_id
         for line in self.order_id.order_line.filtered(lambda l: self.id != l.id):
             line["pricelist_id"] = pricelist_id

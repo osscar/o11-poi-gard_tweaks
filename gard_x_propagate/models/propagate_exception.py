@@ -33,11 +33,13 @@ class PropagateException(models.Model):
         # check exceptions
         exc_vals = vals["exc_vals"]
         is_exc = False
+        
         # state field exceptions
         if exc_vals["field"] == "state":
             is_exc = any(
                 ev not in exc_vals["field_vals"] for ev in exc_vals["field_rec_vals"]
             )
+        
         if is_exc:
             # get exception message
             exc_msg = self._get_exception_msg(exc_vals)

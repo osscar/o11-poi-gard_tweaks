@@ -2,7 +2,7 @@
 <odoo>
   <!-- Search Views -->
 
-  <!-- Views -->
+  <!-- Form Views -->
   <record model="ir.ui.view" id="view_stock_landed_cost_form">
     <field name="name">stock.landed.cost.form.inherit.gard_x_propagate</field>
     <field name="model">stock.landed.cost</field>

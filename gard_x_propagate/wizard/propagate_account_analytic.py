@@ -48,7 +48,7 @@ class PropagateCreateAccountAnalytic(models.TransientModel):
                         "wizard_id": self.id,
                         "is_parent": acc_vals.is_parent,
                         "name": acc_vals.name,
-                        "code": acc_vals.code + order.name,
+                        "code": order.name + acc_vals.code,
                     }
                     if acc_vals.is_parent == True:
                         vals["department_id"] = self.group_id.department_id.id
@@ -66,13 +66,13 @@ class PropagateCreateAccountAnalytic(models.TransientModel):
             vals = {}
             child_ids = []
             for line in lines:
-                if analyt_account_obj.search([("code", "=", line.code)]):
-                    raise ValidationError(
-                        _(
-                            "An analytic account with that name: %s, already exists. Please use that one or delete it, or remove it from the wizard lines, and try again."
-                        )
-                        % (line.name)
-                    )
+                # if analyt_account_obj.search([("code", "=", line.code)]):
+                #     raise ValidationError(
+                #         _(
+                #             "An analytic account with that name: %s, already exists. Please use that one or delete it, or remove it from the wizard lines, and try again."
+                #         )
+                #         % (line.name)
+                #     )
 
                 vals = {
                     "name": line.name,
@@ -101,17 +101,11 @@ class PropagateCreateAccountAnalytic(models.TransientModel):
 class PropagateCreateAccountAnalyticLine(models.TransientModel):
     _name = "propagate.create.account.analytic.line"
     _description = "Create wizard lines."
-    _order = "parent_id desc, name desc"
 
-    parent_id = fields.Many2one(
-        "account.analytic.account",
-        string="Parent Analytic Account",
-        help="Order reference name is used for this analytic account's name.",
-    )
     department_id = fields.Many2one(
         "hr.department",
         string="Parent Account Department",
-        # help="Order reference name is used for this analytic account's name.",
+        help="Select the department for the parent analytic account.",
     )
     name = fields.Char(string="Name", help="Analytic account name.")
     code = fields.Char(string="Reference", help="Analytic account code.")
@@ -119,7 +113,7 @@ class PropagateCreateAccountAnalyticLine(models.TransientModel):
         string="Order Parent",
         default=False,
         readonly=True,
-        help="Select this account as parent account for order.",
+        help="Use this account as order parent analytic account.",
     )
     wizard_id = fields.Many2one(
         "propagate.create.account.analytic",

@@ -22,7 +22,6 @@
                 </div>
                 <field name="wizard_line">
                   <tree editable="bottom" >
-                    <field name="parent_id" />
                     <field name="department_id" />
                     <field name="name" />
                     <field name="code" />

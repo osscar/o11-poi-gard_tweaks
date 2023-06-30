@@ -9,7 +9,7 @@
       <field name="arch" type="xml">
         <search string="Search Propagate Groups">
           <field name="name" string="Name"
-            filter_domain="['|', ('name','ilike',self), ('department_id','ilike',self)]" />
+            filter_domain="['|', '|', ('name','ilike',self), ('description','ilike',self), ('department_id','ilike',self)]" />
           <field name="department_id" />
           <separator />
           <filter name="active" string="Active" domain="[('active','=',True)]" />
@@ -42,6 +42,8 @@
               </h1>
             </div>
             <group name="main">
+              <field name="description" />
+              <separator />
               <field name="type" />
               <field name="department_id" />
             </group>
@@ -68,7 +70,9 @@
       <!-- <field name="type">tree</field> -->
       <field name="arch" type="xml">
         <tree string="Propagate Group">
+          <field name="type" />
           <field name="name" />
+          <field name="description" />
           <field name="department_id" />
         </tree>
       </field>

@@ -2,18 +2,6 @@
 
 from odoo import api, fields, models, _
 
-# from math import copysign
-
-
-class AccountAnalyticAccount(models.Model):
-    _inherit = "account.analytic.account"
-    # _rec_name = "move_id"
-
-    @api.onchange('parent_id')
-    def _onchange_parent_id(self):
-        parent_acc = self.parent_id
-        if parent_acc and parent_acc.department_id:
-            self.department_id = parent_acc.department_id
 
 class AccountAnalyticLine(models.Model):
     _inherit = "account.analytic.line"

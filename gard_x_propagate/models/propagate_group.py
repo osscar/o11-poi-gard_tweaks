@@ -14,6 +14,7 @@ class PropagateGroupAccountAnalytic(models.Model):
     _name = "propagate.group.account.analytic"
 
     name = fields.Char("Name", readonly=True)
+    description = fields.Char("Description", size=25, help="A short description to identify the group.")
     type = fields.Selection(
         [
             ("purchase", "Purchase Order"),
@@ -38,28 +39,46 @@ class PropagateGroupAccountAnalytic(models.Model):
         string="Active",
         default=True,
     )
+    _sql_constraints = [
+        ('description_uniq', 'unique (description)',
+         'The group description must be unique.')
+    ]
 
     @api.model
     def create(self, vals):
-        vals['name'] = self.env['ir.sequence'].next_by_code('propagate.group.account.analytic')
+        vals["name"] = self.env["ir.sequence"].next_by_code(
+            "propagate.group.account.analytic"
+        )
         return super().create(vals)
 
-    @api.multi
-    def write(self, vals):
+    # @api.multi
+    # def write(self, vals):
+    @api.onchange("type")
+    def _onchange_type(self):
         # create default order parent analytic account;
         # process is automated; form view field attrs
         # readonly if is_parent == True
         acc_vals = self.account_value_ids
         if not any(a.is_parent == True for a in acc_vals):
-            acc_parent_vals = {
+            parent_vals = {
                 "group_id": self.id,
                 "name": "AB#####",
                 "code": "AB#####",
                 "is_parent": True,
             }
-            self.account_value_ids.create(acc_parent_vals)
+            self.account_value_ids = self.account_value_ids.create(parent_vals)
 
-        return super().write(vals)
+    @api.multi
+    @api.depends("name")
+    def name_get(self):
+        res = []
+        for group in self:
+            name = group.name
+            description = group.description
+            if description:
+                name = ": ".join([name, description])
+            res.append((group.id, name))
+        return res
     
     def button_unlink_account_line(self):
         for line in self.account_value_ids:
@@ -91,12 +110,3 @@ class PropagateGroupAccountAnalyticAccount(models.Model):
         readonly=True,
         help="Select this account as parent account for order.",
     )
-
-    @api.multi
-    @api.depends("name", "code")
-    def name_get(self):
-        res = []
-        for record in self:
-            name = record.group_id.parent_id.name + "/ " + record.name + record.code
-            res.append((record.id, name))
-        return res

@@ -82,8 +82,10 @@ class LandedCost(models.Model):
         }
         self._exception_check(vals)
 
+        # delete cost lines
         for line in self.cost_lines:
             line.unlink()
+
         return True
 
 
@@ -103,8 +105,7 @@ class LandedCostLine(models.Model):
                 self.cost_id.account_journal_id.currency_id,
             )
 
-        # invert value to adapt to
-        # cost line logic
+        # invert value to adapt to cost line logic
         price_unit = -price_unit
 
         return price_unit
@@ -139,5 +140,4 @@ class LandedCostLine(models.Model):
         self.account_id = self.account_analytic_line_id.general_account_id
         self.analytic_account_id = self.account_analytic_line_id.account_id
         self.analytic_tag_ids = self.account_analytic_line_id.tag_ids
-        # get unit price
         self.price_unit = self._get_price_unit()
