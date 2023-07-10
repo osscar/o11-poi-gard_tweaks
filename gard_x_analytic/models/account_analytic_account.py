@@ -5,11 +5,21 @@ from odoo import api, models, _
 
 class AccountAnalyticAccount(models.Model):
     _inherit = "account.analytic.account"
-    # _rec_name = "move_id"
 
-    _sql_constraints = [
-        ('unique_code', 'unique (code)', 'The analytic account code must be unique.')
-    ]
+    # _sql_constraints = [
+    #     ('unique_code', 'UNIQUE (code)', _('The analytic account code must be unique.'))
+    # ]
+
+    @api.multi
+    @api.constrains("firstname", "lastname")
+    def _check_name(self):
+        """Ensure at least one name is set."""
+        for record in self:
+            if all((
+                record.type == 'contact' or record.is_company,
+                not (record.firstname or record.lastname)
+            )):
+                raise exceptions.EmptyNamesError(record)
 
     @api.onchange("parent_id")
     def _onchange_parent_id(self):
