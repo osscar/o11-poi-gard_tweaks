@@ -23,10 +23,3 @@ class SiatCancelVoucher(models.Model):
     cc_nro = fields.Char(string="Invoice #", required=True, help=".")
     date_invoice = fields.Char(string="Invoice Date", required=True, help=".")
     cufd = fields.Char(string="CUFD", required=True, help=".")
-
-    journal_id = fields.Many2one(
-        "account.journal",
-        related="warehouse_id.journal_id",
-        string="Sale Journal",
-        readonly=True,
-    )

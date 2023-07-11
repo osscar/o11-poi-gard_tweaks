@@ -24,7 +24,7 @@ by GARD based on POIESIS\' customizations
 - sales journal based on subsidiary (sucursal)
 
 """,
-    "version": "11.02",
+    "version": "11.0.1.0.0",
     "author": "squid",
     "category": "Localization",
     "license": "AGPL-3",
@@ -50,7 +50,7 @@ by GARD based on POIESIS\' customizations
         'views/product_uom_view.xml',
         'views/stock_warehouse_view.xml',
 
-        'wizard/siat_anulacion_factura_view.xml',
+        'wizard/siat_cancel_invoice_view.xml',
     ],
     "qweb": [],
     "installable": True,
