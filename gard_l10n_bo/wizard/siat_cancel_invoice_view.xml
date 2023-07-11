@@ -2,9 +2,9 @@
 <odoo>
   <data>
 
-    <record id="view_siat_anulacion_factura" model="ir.ui.view">
-      <field name="name">siat.anulacion.factura.form</field>
-      <field name="model">siat.anulacion.factura</field>
+    <record id="view_siat_cancel_invoice_form" model="ir.ui.view">
+      <field name="name">siat.cancel.invoice.form</field>
+      <field name="model">siat.cancel.invoice</field>
       <field name="arch" type="xml">
         <form string="Cancel SIAT Invoices">
           <!-- <group name="cancel_form">
@@ -21,23 +21,18 @@
           <group name="cancel_form_lines">
             <notebook>
               <page name="wizard_lines" string="Create Line Values">
-                <button name="button_create_wizard_line" type="object"
-                  class="btn-primary" string="Add Products" />
+                <!-- <button name="button_create_wizard_line" type="object"
+                  class="btn-primary" string="Add Products" /> -->
                 <button name="button_wizard_line_unlink" type="object"
-                  attrs="{'invisible':[('line_ids', '=', [])]}"
+                  attrs="{'invisible':[('wizard_line', '=', [])]}"
                   class="btn-default" string="Clear Lines" />
                 <separator />
                 <field name="wizard_line">
                   <tree editable="bottom">
-                    <field name="doc_sector" />
+                    <field name="company_id" />
                     <field name="emision_code" />
-                    <field name="modalidad" />
-                    <field name="pdv" />
-                    <field name="sucursal" />
-                    <field name="base_dosif" />
+                    <field name="dosif_id" />
                     <field name="cc_nro" />
-                    <field name="cufd" />
-                    <field name="cuis" />
                     <field name="nit" />
                     <field name="motivo_code" />
                     <field name="cuf" />
@@ -47,7 +42,7 @@
             </notebook>
           </group>
           <footer>
-            <button string="Create" name="button_create_order_line" type="object"
+            <button string="Cancel Invoices" name="button_siat_cancel_invoices" type="object"
               class="btn-primary" />
             <button string="Cancel" class="btn-default" special="cancel" />
           </footer>
@@ -60,12 +55,12 @@
       <field name="res_model">siat.cancel.invoice</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
-      <field name="view_id" ref="view_siat_cancel_invoice" />
+      <field name="view_id" ref="view_siat_cancel_invoice_form" />
       <field name="target">new</field>
     </record>
 
     <menuitem action="action_view_siat_cancel_invoice" id="menu_siat_cancel_invoice" name="SIAT Cancel Invoice"
-      parent="menu_siat_op" sequence="10" />
+      parent="poi_bol_siat.menu_siat_op" sequence="10" />
 
   </data>
 </odoo>

@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-# import logging
+import logging
 
 from odoo import models, fields, api
 from odoo.tools.translate import _
+from odoo.exceptions import UserError
 
-import odoo.addons.decimal_precision as dp
+from odoo.addons.poi_bol_siat.models.siat_ws import SiatService
 
-# _logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class SiatCancelInvoice(models.TransientModel):
@@ -29,26 +30,27 @@ class SiatCancelInvoice(models.TransientModel):
     def siat_cancel_invoice(self, invoice):
         # self.ensure_one()
         # invoice_obj = self.env["account_invoice"]
-        if invoice.type == "manual":
-            base_dosif = invoice.dosif_id
-            sector = invoice.siat_sector_code or base_dosif.siat_sector_id.code
-            caso_siat_fac = ""
+        # if invoice.type == "manual":
 
-            if sector == 24:
-                method = "anulacionDocumentoAjuste"
-                caso_siat_fac = "siat.notas_cd.electronica"
-                tipo = 3
-            elif sector == 1:
-                method = "anulacionFactura"
-                caso_siat_fac = "siat.facturas"
-                tipo = base_dosif.siat_sector_id.tipo
-            else:
-                method = "anulacionFactura"
-                tipo = base_dosif.siat_sector_id.tipo
-                if base_dosif.mode == "1":
-                    caso_siat_fac = "siat.facturas.electronica"
-                elif base_dosif.mode == "2":
-                    caso_siat_fac = "siat.facturas.computarizada"
+        base_dosif = invoice.dosif_id
+        sector = base_dosif.siat_sector_id.code
+        caso_siat_fac = ""
+
+        if sector == 24:
+            method = "anulacionDocumentoAjuste"
+            caso_siat_fac = "siat.notas_cd.electronica"
+            tipo = 3
+        elif sector == 1:
+            method = "anulacionFactura"
+            caso_siat_fac = "siat.facturas"
+            tipo = base_dosif.siat_sector_id.tipo
+        else:
+            method = "anulacionFactura"
+            tipo = base_dosif.siat_sector_id.tipo
+            if base_dosif.mode == "1":
+                caso_siat_fac = "siat.facturas.electronica"
+            elif base_dosif.mode == "2":
+                caso_siat_fac = "siat.facturas.computarizada"
 
         ambiente = self.env["res.config.settings"].siat_cod_ambiente()
         SolicitudServicioAnulacionFactura = {
@@ -63,7 +65,7 @@ class SiatCancelInvoice(models.TransientModel):
             "cuis": base_dosif.cuis,
             "nit": invoice.company_id.nit,
             "tipoFacturaDocumento": tipo,
-            "codigoMotivo": motivo_code,
+            "codigoMotivo": invoice.motivo_code,
             "cuf": invoice.cuf,
         }
 
@@ -86,6 +88,9 @@ class SiatCancelInvoice(models.TransientModel):
         mensajesList = response["mensajesList"]
         siat_codigo = mensajesList and mensajesList[0]["codigo"] or False
         siat_descripcion = mensajesList and mensajesList[0]["descripcion"] or ""
+
+        _logger.debug("sci transaccion >>>: %s", transaccion)
+        _logger.debug("sci transaccion >>>: %s", response)
 
         # voucher_obj = self.env["siat_cancel_voucher"]
         if not transaccion:
@@ -134,7 +139,6 @@ class SiatCancelInvoice(models.TransientModel):
     #     }
 
     def button_wizard_line_unlink(self):
-        self.product_ids = False
         for line in self.wizard_line:
             line.unlink()
         return {
@@ -150,19 +154,15 @@ class SiatCancelInvoiceLine(models.TransientModel):
     _name = "siat.cancel.invoice.line"
     _description = "Wizard lines."
 
-    doc_sector = fields.Char(string="Sector", required=True, help=".")
+    company_id = fields.Many2one('res.company', string='Company')
     emision_code = fields.Char(string="Emission Code", required=True, help=".")
-    pdv = fields.Char(string="PoS", required=True, help=".")
-    sucursal = fields.Char(string="Sucursal", required=True, help=".")
-    base_dosif = fields.Char(string="Dosification", required=True, help=".")
+    dosif_id = fields.Many2one('poi_bol_base.cc_dosif', string='Dosificación')
     cc_nro = fields.Char(string="# Factura", required=True, help=".")
-    cufd = fields.Char(string="CUFD", required=True, help=".")
-    cuis = fields.Char(string="CUIS", required=True, help=".")
     nit = fields.Char(string="NIT", required=True, help=".")
     motivo_code = fields.Char(string="Codigo Motivo", required=True, help=".")
     cuf = fields.Char(string="CUF", required=True, help=".")
     wizard_id = fields.Many2one(
-        "product.propagate",
+        "siat.cancel.invoice",
         string="Wizard ID",
         ondelete="cascade",
     )
