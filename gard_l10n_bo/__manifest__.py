@@ -49,6 +49,8 @@ by GARD based on POIESIS\' customizations
         'views/dosif_view.xml',
         'views/product_uom_view.xml',
         'views/stock_warehouse_view.xml',
+
+        'wizard/siat_anulacion_factura_view.xml',
     ],
     "qweb": [],
     "installable": True,
