@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import logging
+# import logging
 
 from odoo import models, fields, api
 from odoo.tools.translate import _
@@ -7,7 +7,7 @@ from odoo.exceptions import UserError
 
 from odoo.addons.poi_bol_siat.models.siat_ws import SiatService
 
-_logger = logging.getLogger(__name__)
+# _logger = logging.getLogger(__name__)
 
 
 class SiatCancelInvoice(models.TransientModel):
@@ -89,8 +89,8 @@ class SiatCancelInvoice(models.TransientModel):
         siat_codigo = mensajesList and mensajesList[0]["codigo"] or False
         siat_descripcion = mensajesList and mensajesList[0]["descripcion"] or ""
 
-        _logger.debug("sci transaccion >>>: %s", transaccion)
-        _logger.debug("sci transaccion >>>: %s", response)
+        # _logger.debug("sci transaccion >>>: %s", transaccion)
+        # _logger.debug("sci transaccion >>>: %s", response)
 
         # voucher_obj = self.env["siat_cancel_voucher"]
         if not transaccion:

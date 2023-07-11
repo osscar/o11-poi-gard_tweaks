@@ -5,6 +5,7 @@
     <record id="view_siat_cancel_invoice_form" model="ir.ui.view">
       <field name="name">siat.cancel.invoice.form</field>
       <field name="model">siat.cancel.invoice</field>
+      <field name="groups_id" eval="[(4,ref('gard_x_gard.group_account_edit'))]"/>
       <field name="arch" type="xml">
         <form string="Cancel SIAT Invoices">
           <!-- <group name="cancel_form">
@@ -60,7 +61,7 @@
     </record>
 
     <menuitem action="action_view_siat_cancel_invoice" id="menu_siat_cancel_invoice" name="SIAT Cancel Invoice"
-      parent="poi_bol_siat.menu_siat_op" sequence="10" />
+      parent="poi_bol_siat.menu_siat_op" groups="gard_x_gard.group_account_edit" sequence="10" />
 
   </data>
 </odoo>
