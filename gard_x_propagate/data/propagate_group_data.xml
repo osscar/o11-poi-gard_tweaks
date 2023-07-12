@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- propagate group analytic account sequence -->
+        <record id="sequence_propagate_group_analytic_account" model="ir.sequence">
+            <field name="name">Propagate Group Analytic Account Sequence</field>
+            <field name="code">propagate.group.account.analytic</field>
+            <field name="prefix">PROP-AA/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+    </data>
+</odoo>

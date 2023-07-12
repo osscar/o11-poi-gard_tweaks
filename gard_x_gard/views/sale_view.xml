@@ -60,23 +60,14 @@
         </xpath>
 
         <!--  order line customization -->
-        <!-- mod icon size -->
-        <xpath expr="//field[@name='order_line']/tree/button[@name='570']"
-          position="attributes">
-          <attribute name="icon">fa-lock fa-2x"</attribute>
-        </xpath>
-        <xpath expr="//field[@name='order_line']/form//button[@name='570']"
-          position="attributes">
-          <attribute name="icon">fa-lock fa-2x"</attribute>
-        </xpath>
-
+        <!-- replace fields -->
         <xpath expr="//field[@name='order_line']/tree//field[@name='analytic_tag_ids']"
           position="replace">
         </xpath>
-
         <xpath expr="//field[@name='order_line']/tree//field[@name='route_id']"
           position="replace">
         </xpath>
+        <!-- move fields -->
         <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom_qty']"
           position="before">
           <field name="route_id" groups="sale_stock.group_route_so_lines"
@@ -94,6 +85,24 @@
           <field name="route_id" groups="sale_stock.group_route_so_lines"
             options="{'no_create_edit': True, 'no_open': True}" />
         </xpath> -->
+        <!-- add domain to product_uom -->
+        <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom']"
+          position="before">
+          <field name="product_uoms" invisible="1" />
+        </xpath>
+        <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom']"
+          position="attributes">
+          <attribute name="domain">[('id', 'in', product_uoms)]</attribute>
+        </xpath>
+        <!-- mod icon size -->
+        <xpath expr="//field[@name='order_line']/tree/button[@name='570']"
+          position="attributes">
+          <attribute name="icon">fa-lock fa-2x"</attribute>
+        </xpath>
+        <xpath expr="//field[@name='order_line']/form//button[@name='570']"
+          position="attributes">
+          <attribute name="icon">fa-lock fa-2x"</attribute>
+        </xpath>
 
       </field>
     </record>
@@ -146,8 +155,10 @@
       <field name="inherit_id" ref="sale.view_order_line_tree" />
       <field name="arch" type="xml">
 
-        <!-- add date_order_id -->
+        <!-- add date_order_id + state + invoice_status -->
         <xpath expr="//field[@name='order_id']" position="after">
+          <field name="state" />
+          <field name="invoice_status" />
           <field name="date_order_id" />
         </xpath>
 

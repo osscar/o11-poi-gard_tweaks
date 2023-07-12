@@ -3,19 +3,18 @@
 
 # import logging
 
-from odoo import api, fields, models, _
-# from odoo.exceptions import RedirectWarning, UserError, ValidationError
-from odoo.http import request
-
-# import odoo.addons.decimal_precision as dp
+from odoo import fields, models, _
 
 # _logger = logging.getLogger(__name__)
 
 
 class StockPicking(models.Model):
-    _inherit = 'stock.picking'
-    _order = 'create_date desc'
+    _inherit = "stock.picking"
+    _order = "date_done desc, create_date desc"
 
     requested_by = fields.Many2one(
-        'res.users', 'Requested By', readonly=True,
-        help="User that requested this transfer.")
+        "res.users",
+        "Requested By",
+        readonly=True,
+        help="User that requested this transfer.",
+    )

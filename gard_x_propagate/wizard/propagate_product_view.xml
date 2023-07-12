@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <record id="view_propagate_product_form" model="ir.ui.view">
+      <field name="name">propagate.product.form</field>
+      <field name="model">propagate.product</field>
+      <field name="arch" type="xml">
+        <form string="Propagate Products">
+          <group name="create_form">
+            <notebook>
+              <page name="product_lines" string="Select Products">
+                <button name="button_unlink_product_ids" type="object"
+                  attrs="{'invisible':[('product_ids', '=', [])]}" class="btn-primary"
+                  string="Clear Products" />
+                <separator />
+                <field name="product_ids" onstring="Select Products" domain="[('qty_available', '&gt;', 0)]">
+                  <tree edit="false" create="true">
+                    <field name="default_code" />
+                    <field name="name" />
+                    <field name="qty_available" />
+                    <field name="virtual_available" />
+                    <field name="uom_id" />
+                  </tree>
+                </field>
+              </page>
+            </notebook>
+          </group>
+          <group name="create_form_lines">
+            <notebook>
+              <page name="wizard_lines" string="Propagate Products">
+                <button name="button_create_wizard_line" type="object" class="btn-primary"
+                  string="Add Products" />
+                <button name="button_unlink_wizard_line" type="object"
+                  attrs="{'invisible':[('wizard_line', '=', [])]}" class="btn-default"
+                  string="Clear Lines" />
+                <separator />
+                <field name="wizard_line">
+                  <tree editable="bottom">
+                    <field name="product_id" />
+                    <field name="name" />
+                    <field name="date_planned" />
+                    <field name="product_qty" />
+                    <field name="product_uoms" invisible="1" />
+                    <field name="product_uom" domain="[('id', 'in', product_uoms)]" />
+                    <field name="price_unit" />
+                  </tree>
+                </field>
+              </page>
+            </notebook>
+          </group>
+          <footer>
+            <button string="Create" name="button_create_order_line" type="object"
+              class="btn-primary" confirm="This will propagate the products selected to new order lines. Do you want to continue?" />
+            <button string="Cancel" class="btn-default" special="cancel" />
+          </footer>
+        </form>
+      </field>
+    </record>
+
+    <record id="action_propagate_product" model="ir.actions.act_window">
+      <field name="name">Propagate Products</field>
+      <field name="res_model">propagate.product</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="view_propagate_product_form" />
+      <field name="target">new</field>
+    </record>
+
+  </data>
+</odoo>

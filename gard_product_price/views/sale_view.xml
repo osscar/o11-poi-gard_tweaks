@@ -16,16 +16,6 @@
           <attribute name="context">{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}</attribute>
         </xpath>
 
-        <!-- add domain to product_uom -->
-        <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom']"
-          position="before">
-          <field name="product_uom_ids" invisible="1" />
-        </xpath>
-        <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom']"
-          position="attributes">
-          <attribute name="domain">[('id', 'in', product_uom_ids)]</attribute>
-        </xpath>
-
         <!-- move and pricelist -->
         <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']"
           position="before">

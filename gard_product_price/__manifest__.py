@@ -38,7 +38,7 @@ and viewability, including:
 JS script on web/static/src/js in render_tag function.)
 
 """,
-    'version': '11.02',
+    'version': '11.0.0.1.0',
     'author': 'squid',
     'category': 'Product Price',
     'license': 'AGPL-3',
