@@ -55,7 +55,7 @@ class LandedCost(models.Model):
             product_id = (
                 line.product_id
                 if line.product_id
-                else [self.env.ref("gard_x_propagate.product_slc_default")]
+                else self.env.ref("gard_x_propagate.product_slc_default")
             )
 
             # price_unit value needs to be inverted
