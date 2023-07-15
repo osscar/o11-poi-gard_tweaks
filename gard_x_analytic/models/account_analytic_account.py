@@ -9,6 +9,35 @@ class AccountAnalyticAccount(models.Model):
     _sql_constraints = [
         ('uniq_code', 'UNIQUE (code)', _('The analytic account code must be unique.'))
     ]
+        
+    @api.model
+    def name_search(self, name, args=None, operator="ilike", limit=30):
+        args = args or []
+        domain = []
+        if name:
+            domain = [
+                "|",
+                "|",
+                "|",
+                ("name", operator, name),
+                ('code', operator, name),
+                ("parent_id.name", operator, name),
+                ("department_id.name", operator, name)
+            ]
+        recs = self.search(domain + args, limit=limit)
+        return recs.name_get()
+
+    @api.multi
+    @api.depends("name")
+    def name_get(self):
+        res = []
+        for account in self:
+            name = account.name
+            code = account.code
+            if code:
+                name = ": ".join([name, code])
+            res.append((account.id, name))
+        return res
 
     @api.onchange("parent_id")
     def _onchange_parent_id(self):
