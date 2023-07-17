@@ -1,45 +1,49 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-        <!-- Search Views -->
+  <!-- Search Views -->
 
-        <!-- Views -->
-        <record model="ir.ui.view" id="purchase_order_form">
-            <field name="name">purchase.order.form.inherit.gard_x_propagate</field>
-            <field name="model">purchase.order</field>
-            <field name="mode">extension</field>
-            <field name="priority">10</field>
-            <field name="inherit_id" ref="purchase.purchase_order_form"/>
-            <field name="arch" type="xml">
+  <!-- Form Views -->
+  <record model="ir.ui.view" id="purchase_order_form">
+    <field name="name">purchase.order.form.inherit.gard_x_propagate</field>
+    <field name="model">purchase.order</field>
+    <field name="mode">extension</field>
+    <field name="priority">20</field>
+    <field name="inherit_id" ref="purchase.purchase_order_form" />
+    <field name="arch" type="xml">
 
-                <!-- add fields -->
-                <xpath expr="/form//field[@name='order_line']" position="before">
-                    <group name="propagate" col="3">
-                        <group name="propagate_product">
-                            <button name="%(action_view_product_propagate)d" type="action"
-                            attrs="{'invisible':['|',('state', '!=', 'draft')]}"
-                            class="btn-primary" string="Select Products"/>
-                        </group>
-                        <group name="propagate_analytic">
-                            <button name="%(action_view_purchase_order_account_analytic_create)d" type="action"
-                            attrs="{'invisible':['|',('state', '!=', 'draft'),('account_analytic_id', '!=', False)]}"
-                            class="btn-primary" string="Create Analytic Account"/>
-                            <separator/>
-                            <button name="button_propagate_account_analytic_account" type='object'
-                                attrs="{'invisible':['|',('state', '!=', 'draft'),('account_analytic_id', '=', False)]}"
-                                class="btn-primary" string="Propagate Analytics"/>    
-                            <field name="account_analytic_id" attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('state', '!=', 'draft')]}"/>
-                        </group>
-                    </group>
-                    <button name="button_order_line_unlink" type="object"
-                        attrs="{'invisible':['|',('state', '!=', 'draft'),('order_line', '=', [])]}"
-                        class="btn-default" string="Clear Lines"/>
-                </xpath>
-                
-            </field>
-        </record>
+      <!-- add fields -->
+      <!-- notebook -->
+      <xpath expr="//field[@name='order_line']" position="before">
+        <div class="oe_button_box oe_left" name="button_box">
+          <button name="%(action_propagate_product)d" type="action"
+            attrs="{'invisible':['|',('state', '!=', 'draft')]}"
+            icon="fa-cubes" string="Propagate Products" />
+          <button name="%(action_propagate_account_analytic_create)d" type="action"
+            attrs="{'invisible':[('state', '!=', 'draft')]}"
+            icon="fa-plus-circle" string="Create Analytic Accounts" />
+          <button name="button_unlink_order_line" type="object"
+            attrs="{'invisible':['|',('state', '!=', 'draft'),('order_line', '=', [])]}"
+            icon="fa-times" string="Clear Lines"
+            confirm="This will clear all order lines. Are you sure you want to continue?" />
+        </div>
+      </xpath>
 
-        <!-- Actions -->
+      <!-- order line -->
+      <xpath expr="//field[@name='order_line']/tree//field[@name='account_analytic_id']"
+        position="after">
+        <button name="button_propagate_account_analytic" type="object"
+          attrs="{'invisible':['|', ('account_analytic_id', '=', False), ('state', '!=', 'draft')]}"
+          icon="fa-2x fa-list-ul" string="Propagate Analytic Accounts"
+          confirm="This will propagate the analytic account to all order lines. Are you sure you want to continue?" />
+      </xpath>
 
-        <!-- Menus -->
+    </field>
+  </record>
+
+  <!-- Tree Views -->
+
+  <!-- Actions -->
+
+  <!-- Menus -->
 
 </odoo>

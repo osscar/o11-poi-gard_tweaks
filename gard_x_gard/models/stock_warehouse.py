@@ -3,11 +3,7 @@
 
 # import logging
 
-from odoo import api, fields, models, _
-# from odoo.exceptions import RedirectWarning, UserError, ValidationError
-# from odoo.http import request
-
-# import odoo.addons.decimal_precision as dp
+from odoo import fields, models, _
 
 # _logger = logging.getLogger(__name__)
 
@@ -15,4 +11,9 @@ from odoo import api, fields, models, _
 class StockWarehouse(models.Model):
     _inherit = "stock.warehouse"
 
-    code = fields.Char('Short Name', required=True, size=10, help="Short name used to identify your warehouse")
+    code = fields.Char(
+        "Short Name",
+        required=True,
+        size=10,
+        help="Short name used to identify your warehouse",
+    )

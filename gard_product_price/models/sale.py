@@ -12,8 +12,6 @@ class SaleOrderLine(models.Model):
 
     @api.model
     def _get_default_pricelist_id(self):
-        # _logger.debug('_g_def_p call _context >>>: %s', self._context)
-        # _logger.debug('_g_def_p call _context active_ids >>>: %s', self._context.get('params').get('id'))
         _get_order_id = self._context.get("params", {}).get("id")
         if _get_order_id:
             order_id = self.env["sale.order"].search([("id", "=", _get_order_id)])
@@ -29,12 +27,7 @@ class SaleOrderLine(models.Model):
         string="Sale Order Line Pricelist",
         default=_get_default_pricelist_id,
         required=True,
-        # readonly=True,
-        # states={"draft": [("readonly", False)], "sent": [("readonly", False)]},
         help="Pricelist for current sales order line.",
-    )
-    product_uom_ids = fields.Many2many(
-        "product.uom", "Product UoM", compute="_get_product_uom_ids"
     )
 
     @api.multi
@@ -45,12 +38,6 @@ class SaleOrderLine(models.Model):
                 lambda item: item.active_pricelist == True
             )
             order_line.pricelist_item_count = len(order_line.pricelist_item_ids)
-
-    @api.multi
-    def _get_product_uom_ids(self):
-        for order_line in self:
-            product = order_line.product_id
-            order_line["product_uom_ids"] = product.uom_id + product.uom_pack_id
 
     @api.multi
     def _get_display_price(self, product):

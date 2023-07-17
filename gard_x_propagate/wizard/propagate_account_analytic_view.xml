@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <!-- Wizard Views -->
+    <record id="view_propagate_account_analytic_create_form" model="ir.ui.view">
+      <field name="name">propagate.create.account.analytic.form</field>
+      <field name="model">propagate.create.account.analytic</field>
+      <field name="arch" type="xml">
+        <form string="Create Analytic Accounts">
+          <sheet string="Create Analytic Accounts">
+            <group name="main">
+              <field name="group_id" />
+            </group>
+            <notebook>
+              <page name="create_values" string="Create Values">
+                <div>
+                  <button name="button_unlink_wizard_line" type="object"
+                    attrs="{'invisible':[('wizard_line', '=', [])]}"
+                    icon="fa-times" string="Clear Values"
+                    confirm="This will clear all current lines. Are you sure you want to continue?" />
+                </div>
+                <field name="wizard_line">
+                  <tree editable="bottom" >
+                    <field name="department_id" />
+                    <field name="name" />
+                    <field name="code" />
+                    <field name="is_parent" />
+                  </tree>
+                </field>
+              </page>
+            </notebook>
+            <footer>
+              <button string="Create" name="button_create" type="object" class="btn-primary" confirm="This will create the analytic accounts. Do you want to continue?" />
+              <button string="Cancel" class="btn-default" special="cancel" />
+            </footer>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_propagate_account_analytic_create" model="ir.actions.act_window">
+      <field name="name">Create Analytic Accounts</field>
+      <field name="res_model">propagate.create.account.analytic</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="view_propagate_account_analytic_create_form" />
+      <field name="target">new</field>
+    </record>
+
+    <!-- Menus -->
+
+  </data>
+</odoo>

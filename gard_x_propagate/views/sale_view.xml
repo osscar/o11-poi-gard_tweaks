@@ -19,10 +19,10 @@
       <!-- notebook -->
       <xpath expr="//field[@name='order_line']" position="before">
         <div class="oe_button_box oe_left" name="button_box">
-          <button name="%(action_view_product_propagate)d" type="action"
+          <button name="%(action_propagate_product)d" type="action"
             attrs="{'invisible':['|',('state', '!=', 'draft')]}"
-            icon="fa-cubes" string="Select Products" />
-          <button name="button_order_line_unlink" type="object"
+            icon="fa-cubes" string="Propagate Products" />
+          <button name="button_unlink_order_line" type="object"
             attrs="{'invisible':['|',('state', '!=', 'draft'),('order_line', '=', [])]}"
             icon="fa-times" string="Clear Lines" confirm="This will clear all order lines. Are you sure you want to continue?" />
         </div>
