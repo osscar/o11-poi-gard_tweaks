@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-04 19:54+0000\n"
-"PO-Revision-Date: 2023-06-04 19:54+0000\n"
+"POT-Creation-Date: 2023-07-17 16:33+0000\n"
+"PO-Revision-Date: 2023-07-17 16:33+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,26 +16,26 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: gard_x_propagate
-#: model:ir.ui.view,arch_db:gard_x_propagate.view_product_propagate
+#: model:ir.model.fields,help:gard_x_propagate.field_propagate_group_account_analytic_description
+msgid "A short description to identify the group."
+msgstr "Una breve descripcion para identificar al grupo."
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_account_value_ids
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_group_account_analytic_form
+msgid "Account Values"
+msgstr "Valores Cuenta"
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_active
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_group_account_analytic_search
+msgid "Active"
+msgstr "Activo"
+
+#. module: gard_x_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_product_form
 msgid "Add Products"
 msgstr "Agregar productos"
-
-#. module: gard_x_propagate
-#: model:ir.model.fields,help:gard_x_propagate.field_purchase_order_account_analytic_create_order_account_line
-msgid "Add analytic account to order."
-msgstr "Añadir cuenta analitica al pedido."
-
-#. module: gard_x_propagate
-#: code:addons/gard_x_propagate/wizard/purchase_order_account_analytic_create.py:92
-#, python-format
-msgid "An analytic account with that name: %s, already exists. Please use that one or delete it, and try again."
-msgstr "Una cuenta analitca con ese nombre: %s, ya existe. Por favor utilize esa o eliminela, e intente nuevamente."
-
-#. module: gard_x_propagate
-#: code:addons/gard_x_propagate/wizard/purchase_order_account_analytic_create.py:60
-#, python-format
-msgid "An analytic tag with that name: %s, already exists. Please use that one or delete it, and try again."
-msgstr "Una etiqueta analitca con ese nombre: %s, ya existe. Por favor utilize esa o eliminela, e intente nuevamente."
 
 #. module: gard_x_propagate
 #: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_id
@@ -43,64 +43,75 @@ msgid "Analytic Account"
 msgstr "Cuenta analítica"
 
 #. module: gard_x_propagate
-#: model:ir.ui.view,arch_db:gard_x_propagate.view_product_propagate
-#: model:ir.ui.view,arch_db:gard_x_propagate.view_purchase_order_account_analytic_create
+#: model:ir.model.fields,help:gard_x_propagate.field_propagate_create_account_analytic_line_code
+msgid "Analytic account code."
+msgstr "Codigo de la cuenta analitica."
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,help:gard_x_propagate.field_propagate_create_account_analytic_line_name
+msgid "Analytic account name."
+msgstr "Nombre de la cuenta analitica."
+
+#. module: gard_x_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_account_analytic_create_form
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_product_form
 msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: gard_x_propagate
 #: model:ir.ui.view,arch_db:gard_x_propagate.purchase_order_form
 #: model:ir.ui.view,arch_db:gard_x_propagate.view_order_form
-#: model:ir.ui.view,arch_db:gard_x_propagate.view_product_propagate
-#: model:ir.ui.view,arch_db:gard_x_propagate.view_purchase_order_account_analytic_create
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_product_form
 #: model:ir.ui.view,arch_db:gard_x_propagate.view_stock_landed_cost_form
 msgid "Clear Lines"
 msgstr "Eliminar lineas"
 
 #. module: gard_x_propagate
-#: model:ir.ui.view,arch_db:gard_x_propagate.view_product_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_product_form
 msgid "Clear Products"
-msgstr "Eliminar productos"
+msgstr "Borrar productos"
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,help:gard_x_propagate.field_purchase_order_account_analytic_create_line_code
-msgid "Code for analytic account."
-msgstr "Codigo de la cuenta analitica."
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_account_analytic_create_form
+msgid "Clear Values"
+msgstr "Eliminar valores"
 
 #. module: gard_x_propagate
-#: model:ir.ui.view,arch_db:gard_x_propagate.view_product_propagate
-#: model:ir.ui.view,arch_db:gard_x_propagate.view_purchase_order_account_analytic_create
+#: model:ir.actions.act_window,help:gard_x_propagate.action_propagate_group_account_analytic
+msgid "Click to add a new propagation group."
+msgstr "Click para crear un nuevo grupo de propagacion."
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_account_code
+msgid "Code"
+msgstr "Código"
+
+#. module: gard_x_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_account_analytic_create_form
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_product_form
 msgid "Create"
 msgstr "Crear"
 
 #. module: gard_x_propagate
+#: model:ir.actions.act_window,name:gard_x_propagate.action_propagate_account_analytic_create
 #: model:ir.ui.view,arch_db:gard_x_propagate.purchase_order_form
-msgid "Create Analytic Account"
-msgstr "Crear cuenta analitica"
-
-#. module: gard_x_propagate
-#: model:ir.actions.act_window,name:gard_x_propagate.action_view_purchase_order_account_analytic_create
-#: model:ir.ui.view,arch_db:gard_x_propagate.view_purchase_order_account_analytic_create
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_account_analytic_create_form
 msgid "Create Analytic Accounts"
 msgstr "Crear cuentas analiticas"
 
 #. module: gard_x_propagate
-#: model:ir.ui.view,arch_db:gard_x_propagate.view_purchase_order_account_analytic_create
-msgid "Create Default"
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_wizard_line
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_account_analytic_create_form
+msgid "Create Values"
 msgstr "Crear valores"
 
 #. module: gard_x_propagate
-#: model:ir.ui.view,arch_db:gard_x_propagate.view_product_propagate
-#: model:ir.ui.view,arch_db:gard_x_propagate.view_purchase_order_account_analytic_create
-msgid "Create Line Values"
-msgstr "Crear valores de lineas"
-
-#. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_line_create_wizard_id
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_line_wizard_id
 msgid "Create Wizard ID"
 msgstr "ID asitente de creacion"
 
 #. module: gard_x_propagate
+#: model:ir.model,name:gard_x_propagate.model_propagate_create_account_analytic
 #: model:ir.model,name:gard_x_propagate.model_purchase_order_account_analytic_create
 msgid "Create analytic accounts."
 msgstr "Crear cuentas analiticas."
@@ -112,22 +123,34 @@ msgstr "Crear nuevas lineas de costo en base a la cuenta analitica seleccionada.
 
 #. module: gard_x_propagate
 #: model:ir.model,name:gard_x_propagate.model_product_propagate
+#: model:ir.model,name:gard_x_propagate.model_propagate_product
 msgid "Create order lines with selected products."
-msgstr "Crear linas de pedido con los productos seleccionados."
+msgstr "Crear lineas de pedido con los productos seleccionados."
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_create_uid
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_create_uid
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_create_uid
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_line_create_uid
+#: model:ir.model,name:gard_x_propagate.model_propagate_create_account_analytic_line
+msgid "Create wizard lines."
+msgstr "Crear lineas del asistente."
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_create_uid
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_line_create_uid
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_exception_create_uid
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_account_create_uid
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_create_uid
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_create_uid
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_line_create_uid
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_create_date
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_create_date
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_create_date
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_line_create_date
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_create_date
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_line_create_date
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_exception_create_date
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_account_create_date
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_create_date
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_create_date
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_line_create_date
 msgid "Created on"
 msgstr "Creado en"
 
@@ -137,7 +160,7 @@ msgid "Creation wizard lines."
 msgstr "Lineas asitente de creacion."
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_date_planned
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_line_date_planned
 msgid "Date Planned"
 msgstr "Fecha Planificada"
 
@@ -148,18 +171,44 @@ msgid "Default Product"
 msgstr "Producto por defecto"
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_display_name
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_display_name
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_display_name
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_line_display_name
+#: model:ir.model.fields,help:gard_x_propagate.field_propagate_group_account_analytic_account_value_ids
+msgid "Default analytic account values."
+msgstr "Valores por defecto de la cuenta analitica."
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_description
+msgid "Description"
+msgstr "Descripción"
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_display_name
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_line_display_name
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_exception_display_name
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_account_display_name
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_display_name
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_display_name
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_line_display_name
 msgid "Display Name"
 msgstr "Nombre a mostrar"
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_id
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_id
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_id
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_line_id
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_account_group_id
+msgid "Group"
+msgstr "Grupo"
+
+#. module: gard_x_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_group_account_analytic_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_id
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_line_id
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_exception_id
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_account_id
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_id
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_id
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_line_id
 msgid "ID"
 msgstr "ID"
 
@@ -170,87 +219,126 @@ msgid "LC sample product."
 msgstr "Producto CD por defecto."
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate___last_update
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line___last_update
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create___last_update
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_line___last_update
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic___last_update
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_line___last_update
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_exception___last_update
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic___last_update
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_account___last_update
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product___last_update
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_line___last_update
 msgid "Last Modified on"
 msgstr "Última modificación en"
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_write_uid
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_write_uid
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_line_write_uid
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_write_uid
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_line_write_uid
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_write_uid
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_exception_write_uid
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_account_write_uid
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_write_uid
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_line_write_uid
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_write_uid
 msgid "Last Updated by"
 msgstr "Última actualización de"
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_write_date
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_write_date
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_line_write_date
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_write_date
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_line_write_date
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_write_date
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_exception_write_date
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_account_write_date
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_write_date
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_line_write_date
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_write_date
 msgid "Last Updated on"
 msgstr "Última actualización en"
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_name
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_line_name
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_line_name
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_account_name
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_name
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_line_name
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_group_account_analytic_search
 msgid "Name"
 msgstr "Nombre"
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,help:gard_x_propagate.field_purchase_order_account_analytic_create_line_name
-#: model:ir.model.fields,help:gard_x_propagate.field_purchase_order_account_analytic_create_line_order_name
-msgid "Name for analytic account."
-msgstr "Nombre de la cuenta analitica."
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_line_is_parent
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_account_is_parent
+msgid "Order Parent"
+msgstr "Madre Pedido"
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_order_account_line
-msgid "Order Analytic Account Line"
-msgstr "Cuenta analitica pedido"
-
-#. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_line_order_name
-msgid "Order Name"
-msgstr "Nombre pedido"
-
-#. module: gard_x_propagate
-#: model:ir.model.fields,help:gard_x_propagate.field_product_propagate_line_name
+#: model:ir.model.fields,help:gard_x_propagate.field_propagate_product_line_name
 msgid "Order line name."
 msgstr "Nombre de la linea de pedido."
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_line_tag_id
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_tag_id
-msgid "Parent Analytic Tag"
-msgstr "Etiqueta analitica padre"
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_group_account_analytic_search
+msgid "Parent"
+msgstr "Madre"
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_product_id
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_line_department_id
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_department_id
+msgid "Parent Account Department"
+msgstr "Departamento cuenta madre"
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_line_product_id
 msgid "Product"
 msgstr "Producto"
 
 #. module: gard_x_propagate
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_line_product_uoms
+msgid "Product UoMs"
+msgstr "UdMs Producto"
+
+#. module: gard_x_propagate
 #: model:ir.model,name:gard_x_propagate.model_product_propagate_line
+#: model:ir.model,name:gard_x_propagate.model_propagate_product_line
 msgid "Product propagate wizard lines."
 msgstr "Lineas de asistente del propagdor de productos."
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,help:gard_x_propagate.field_product_propagate_line_product_uom
+#: model:ir.model.fields,help:gard_x_propagate.field_propagate_product_line_product_uom
 msgid "Product quantity unit of measure."
 msgstr "Unidad de medida cantidad producto."
 
 #. module: gard_x_propagate
 #: model:ir.ui.view,arch_db:gard_x_propagate.purchase_order_form
+msgid "Propagate Analytic Accounts"
+msgstr "Propagar analiticas"
+
+#. module: gard_x_propagate
 #: model:ir.ui.view,arch_db:gard_x_propagate.view_stock_landed_cost_form
 msgid "Propagate Analytics"
 msgstr "Propagar analiticas"
 
 #. module: gard_x_propagate
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_group_id
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_group_account_analytic_form
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_group_account_analytic_tree
+msgid "Propagate Group"
+msgstr "Propagar grupo"
+
+#. module: gard_x_propagate
+#: model:ir.actions.act_window,name:gard_x_propagate.action_propagate_group_account_analytic
+#: model:ir.ui.menu,name:gard_x_propagate.menu_propagate_group_account_analytic
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_group_account_analytic_form
+msgid "Propagate Groups"
+msgstr "Propagar grupos"
+
+#. module: gard_x_propagate
 #: model:ir.ui.view,arch_db:gard_x_propagate.view_order_form
 msgid "Propagate Pricelist"
-msgstr "Propagar lista de precio"
+msgstr "Propagar lista de precios"
+
+#. module: gard_x_propagate
+#: model:ir.actions.act_window,name:gard_x_propagate.action_propagate_product
+#: model:ir.ui.view,arch_db:gard_x_propagate.purchase_order_form
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_order_form
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_product_form
+msgid "Propagate Products"
+msgstr "Propagar productos"
 
 #. module: gard_x_propagate
 #: model:ir.ui.view,arch_db:gard_x_propagate.view_order_form
@@ -258,17 +346,28 @@ msgid "Propagate Route"
 msgstr "Propagar ruta"
 
 #. module: gard_x_propagate
+#: model:ir.model.fields,help:gard_x_propagate.field_propagate_group_account_analytic_account_group_id
+msgid "Propagate group related to this account."
+msgstr "Propagar grupo relacionado a esta cuenta."
+
+#. module: gard_x_propagate
 #: model:ir.model,name:gard_x_propagate.model_purchase_order
+#: selection:propagate.group.account.analytic,type:0
 msgid "Purchase Order"
 msgstr "Pedido de compra"
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_product_qty
+#: model:ir.model,name:gard_x_propagate.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Línea de pedido de compra"
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_line_product_qty
 msgid "Quantity"
 msgstr "Cantidad"
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_product_uom
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_line_product_uom
 msgid "Quantity Unit of Measure"
 msgstr "UdM"
 
@@ -278,23 +377,55 @@ msgid "Quotation"
 msgstr "Cotización"
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_line_code
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_create_account_analytic_line_code
 msgid "Reference"
 msgstr "Referencia"
 
 #. module: gard_x_propagate
-#: model:ir.model,name:gard_x_propagate.model_sale_order_line
-msgid "Sales Order Line"
-msgstr "Línea de orden de ventas"
+#: selection:propagate.group.account.analytic,type:0
+msgid "Sale Order"
+msgstr "Pedido de venta"
 
 #. module: gard_x_propagate
-#: model:ir.actions.act_window,name:gard_x_propagate.action_view_product_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_product_ids
-#: model:ir.ui.view,arch_db:gard_x_propagate.purchase_order_form
-#: model:ir.ui.view,arch_db:gard_x_propagate.view_order_form
-#: model:ir.ui.view,arch_db:gard_x_propagate.view_product_propagate
+#: model:ir.model,name:gard_x_propagate.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea del pedido"
+
+#. module: gard_x_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_group_account_analytic_search
+msgid "Search Propagate Groups"
+msgstr "Buscar Grupos de Propagacion"
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_product_ids
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_product_form
 msgid "Select Products"
 msgstr "Seleccionar productos"
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,help:gard_x_propagate.field_propagate_create_account_analytic_group_id
+msgid "Select a propagation group to obtain line values, or create line values manually."
+msgstr "Seleccionar grupo por obtener los valores de linea, o puede crear las lineas de valores manualmente."
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,help:gard_x_propagate.field_propagate_group_account_analytic_department_id
+msgid "Select department for order parent analytic account. eg. Purchases / Imports for OI00034"
+msgstr "Seleccione el departmento para la cuenta analitica madre del pedido. eg. Compras / Importaciones para la cuenta OI00034"
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,help:gard_x_propagate.field_propagate_group_account_analytic_type
+msgid "Select order type for group."
+msgstr "Seleccione el tipo de pedido para el grupo."
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,help:gard_x_propagate.field_propagate_create_account_analytic_line_department_id
+msgid "Select the department for the parent analytic account."
+msgstr "Seleccione el departmento para la cuenta analitica madre."
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,help:gard_x_propagate.field_propagate_group_account_analytic_account_is_parent
+msgid "Select this account as parent account for order."
+msgstr "Seleccionaer esta cuenta como cuenta analitica madre del pedido."
 
 #. module: gard_x_propagate
 #: model:ir.model,name:gard_x_propagate.model_stock_landed_cost
@@ -307,14 +438,61 @@ msgid "Stock Landed Cost Lines"
 msgstr "Líneas de coste en destino"
 
 #. module: gard_x_propagate
+#: sql_constraint:propagate.group.account.analytic:0
+msgid "The group description must be unique."
+msgstr "La descripcion del grupo debe ser unico."
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,help:gard_x_propagate.field_propagate_product_line_product_uoms
+msgid "These are the available units of measure for this product."
+msgstr "UdMs disponibles para este producto."
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,help:gard_x_propagate.field_propagate_product_wizard_line
+msgid "These products will be propagated to order lines."
+msgstr "Estos productos seran propagados a las lineas del pedido."
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,help:gard_x_propagate.field_propagate_create_account_analytic_wizard_line
+msgid "These values will be used to create the analytic accounts."
+msgstr "Esto valores seran usados para crear las cuentas analiticas."
+
+#. module: gard_x_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_account_analytic_create_form
+msgid "This will clear all current lines. Are you sure you want to continue?"
+msgstr "Esto eliminara todas las lineas. ¿Continuar?"
+
+#. module: gard_x_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.purchase_order_form
 #: model:ir.ui.view,arch_db:gard_x_propagate.view_order_form
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_stock_landed_cost_form
 msgid "This will clear all order lines. Are you sure you want to continue?"
 msgstr "Esto eliminara todas las lineas del pedido. Continuar?"
 
 #. module: gard_x_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_stock_landed_cost_form
+msgid "This will create cost lines from the analytic lines of the analytic account selected. Do you want to continue?"
+msgstr "Esto creara las lineas de coste de las lineas analiticas de la cuenta analitica seleccionada. ¿Continuar?"
+
+#. module: gard_x_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_account_analytic_create_form
+msgid "This will create the analytic accounts. Do you want to continue?"
+msgstr "Esto creara las cuentas analiticas. ¿Continuar?"
+
+#. module: gard_x_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.purchase_order_form
+msgid "This will propagate the analytic account to all order lines. Are you sure you want to continue?"
+msgstr "Esto propagara la cuenta analitica a todas las lineas del pedido. ¿Continuar?"
+
+#. module: gard_x_propagate
 #: model:ir.ui.view,arch_db:gard_x_propagate.view_order_form
 msgid "This will propagate the pricelist to all order lines. Are you sure you want to continue?"
-msgstr "Esto propagara la lista de precios a todas las lineas del pedido. Continuar?"
+msgstr "Esto propagara la lista de precios a todas las lineas del pedido. ¿Continuar?"
+
+#. module: gard_x_propagate
+#: model:ir.ui.view,arch_db:gard_x_propagate.view_propagate_product_form
+msgid "This will propagate the products selected to new order lines. Do you want to continue?"
+msgstr "Esto creara nuevas lineas de pedido, y propagara los productos selecciondos a estas. ¿Continuar?"
 
 #. module: gard_x_propagate
 #: model:ir.ui.view,arch_db:gard_x_propagate.view_order_form
@@ -322,17 +500,41 @@ msgid "This will propagate the route to all order lines. Are you sure you want t
 msgstr "Esto propagara la ruta a todas las lineas del pedido. Continuar?"
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_price_unit
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_group_account_analytic_type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_line_price_unit
 msgid "Unit Price"
 msgstr "Precio unitario"
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_wizard_id
+#: model:ir.model.fields,help:gard_x_propagate.field_propagate_create_account_analytic_line_is_parent
+msgid "Use this account as order parent analytic account."
+msgstr "Usar esta cuenta como cuenta analitica madre del pedido."
+
+#. module: gard_x_propagate
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_line_wizard_id
 msgid "Wizard ID"
 msgstr "Wizard ID"
 
 #. module: gard_x_propagate
-#: model:ir.model.fields,field_description:gard_x_propagate.field_product_propagate_line_ids
-#: model:ir.model.fields,field_description:gard_x_propagate.field_purchase_order_account_analytic_create_line_ids
+#: model:ir.model.fields,field_description:gard_x_propagate.field_propagate_product_wizard_line
 msgid "Wizard Lines"
 msgstr "Lineas asistente"
+
+#. module: gard_x_propagate
+#: model:ir.model,name:gard_x_propagate.model_propagate_exception
+msgid "propagate.exception"
+msgstr "propagate.exception"
+
+#. module: gard_x_propagate
+#: model:ir.model,name:gard_x_propagate.model_propagate_group_account_analytic
+msgid "propagate.group.account.analytic"
+msgstr "propagate.group.account.analytic"
+
+#. module: gard_x_propagate
+#: model:ir.model,name:gard_x_propagate.model_propagate_group_account_analytic_account
+msgid "propagate.group.account.analytic.account"
+msgstr "propagate.group.account.analytic.account"

@@ -27,7 +27,7 @@ class PropagateGroupAccountAnalytic(models.Model):
     department_id = fields.Many2one(
         "hr.department",
         string="Parent Account Department",
-        help="Select department for order parent analytic account. eg. Purchases / Imports for PO00034",
+        help="Select department for order parent analytic account. eg. Purchases / Imports for OI00034",
     )
     account_value_ids = fields.One2many(
         "propagate.group.account.analytic.account",
