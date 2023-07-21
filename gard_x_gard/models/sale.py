@@ -48,8 +48,3 @@ class SaleOrderLine(models.Model):
         readonly=True,
         index=True,
     )
-    product_uoms = fields.Many2many(
-        comodel_name="product.uom",
-        related="product_id.uom_ids",
-        readonly=True,
-    )
