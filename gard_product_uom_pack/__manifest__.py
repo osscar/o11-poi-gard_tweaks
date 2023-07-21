@@ -15,12 +15,12 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 {
-    'name': 'GARD Product UoM Domain',
-    'summary': 'Restrict product UoM in views',
+    'name': 'GARD Product UoM Pack',
+    'summary': 'Add pack UoM to products',
     'descrption': """
 Product UoM domains in views
 ==========================
-Adds product UoM domains in view fields to restrict the selectable UoMs to product template uom parameters.
+Adds pack size UoM to product template UoM parameters.
 """,
     'version': '11.0.0.1.0',
     'author': 'squid',

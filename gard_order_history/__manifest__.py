@@ -41,11 +41,12 @@ tree views.
     'images': [],
     'depends': [
         'account',
-        'gard_x_gard',
         'purchase',
         'sale',
         'stock',
         'web_tree_dynamic_colored_field',
+        'gard_product_uom_pack',
+        'gard_x_gard',
     ],
     # 'post_init_hook': 'post_init_hook',
     'demo': [],

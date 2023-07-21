@@ -51,6 +51,7 @@ JS script on web/static/src/js in render_tag function.)
         'product',
         'sale',
         'sale_stock',
+        'gard_product_uom_pack',
         'gard_sale_product_margin',
         'gard_static_resources',
         'gard_x_gard',

@@ -53,6 +53,7 @@ values
         "account",
         "analytic",
         "gard_product_price",
+        "gard_product_uom_pack",
         "gard_x_analytic",
         "gard_x_gard",
         "poi_x_gard",
