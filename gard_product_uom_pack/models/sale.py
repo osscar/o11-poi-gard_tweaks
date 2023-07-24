@@ -40,4 +40,4 @@ class SaleOrderLine(models.Model):
         _logger.debug("pic product_id post >>> %s" % self.product_id.display_name)
         _logger.debug("pic product_uoms post >>> %s" % self.product_uoms)
         _logger.debug("pic res post >>> %s" % res)
-        return res["domain"] = 
+        return res

@@ -34,4 +34,4 @@ class ProductTemplate(models.Model):
     @api.depends("uom_po_id", "uom_id", "uom_pack_id")
     def _get_product_uom_ids(self):
         for product in self:
-            product.uom_ids = product.uom_po_id product.uom_id product.uom_pack_id
+            product.uom_ids = product.uom_po_id + product.uom_id + product.uom_pack_id
