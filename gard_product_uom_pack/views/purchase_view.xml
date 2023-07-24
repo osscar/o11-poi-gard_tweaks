@@ -4,7 +4,7 @@
 
 
     <record id="purchase_order_form" model="ir.ui.view">
-      <field name="name">purchase.order.form.inherit.gard_order_history</field>
+      <field name="name">purchase.order.form.inherit.gard_product_uom_pack</field>
       <field name="model">purchase.order</field>
       <field name="mode">extension</field>
       <!-- <field name="priority">18</field> -->
@@ -16,10 +16,10 @@
           position="before">
           <field name="product_uoms" invisible="1" />
         </xpath>
-        <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom']"
+        <!-- <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom']"
           position="attributes">
           <attribute name="domain">[('id', 'in', product_uoms)]</attribute>
-        </xpath>
+        </xpath> -->
 
       </field>
     </record>

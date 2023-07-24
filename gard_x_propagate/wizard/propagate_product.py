@@ -113,11 +113,11 @@ class PropagateProductLine(models.TransientModel):
         "Quantity Unit of Measure",
         help="Product quantity unit of measure.",
     )
-    product_uoms = fields.Many2many(
-        comodel_name="product.uom",
-        related="product_id.uom_ids",
-        readonly=True,
-    )
+    # product_uoms = fields.Many2many(
+    #     comodel_name="product.uom",
+    #     related="product_id.uom_ids",
+    #     readonly=True,
+    # )
     price_unit = fields.Float(
         string="Unit Price", digits=dp.get_precision("Product Price"), default=1.0
     )

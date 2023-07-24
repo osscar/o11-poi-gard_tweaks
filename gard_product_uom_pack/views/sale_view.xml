@@ -5,10 +5,10 @@
 
     <!-- Form Views -->
     <record model="ir.ui.view" id="view_order_form">
-      <field name="name">sale.order.form.inherit.gard_x_gard</field>
+      <field name="name">sale.order.form.inherit.gard_product_uom_pack</field>
       <field name="model">sale.order</field>
       <field name="mode">extension</field>
-      <field name="priority">18</field>
+      <field name="priority">19</field>
       <field name="inherit_id" ref="sale.view_order_form" />
       <field name="arch" type="xml">
 
