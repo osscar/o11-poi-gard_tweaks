@@ -113,11 +113,6 @@ class PropagateProductLine(models.TransientModel):
         "Quantity Unit of Measure",
         help="Product quantity unit of measure.",
     )
-    # product_uoms = fields.Many2many(
-    #     comodel_name="product.uom",
-    #     related="product_id.uom_ids",
-    #     readonly=True,
-    # )
     price_unit = fields.Float(
         string="Unit Price", digits=dp.get_precision("Product Price"), default=1.0
     )
@@ -125,3 +120,15 @@ class PropagateProductLine(models.TransientModel):
         "propagate.product",
         string="Wizard ID",
     )
+
+    @api.onchange("product_id")
+    def onchange_product_id(self):
+        res = super(PropagateProductLine, self).onchange_product_id()
+        product_id = self.product_id
+        if product_id:
+            # add domain to product_uom field
+            product_uoms = product_id.uom_ids
+            res["domain"] = {
+                "product_uom": [("id", "in", [uom.id for uom in product_uoms])],
+            }
+        return res
