@@ -3,17 +3,17 @@
 
 # import logging
 
-from odoo import fields, models, _
+from odoo import api, fields, models, _
 
 # _logger = logging.getLogger(__name__)
 
 
-class PurchaseOrderLine(models.Model):
-    _inherit = "purchase.order.line"
+class StockMove(models.Model):
+    _inherit = "stock.move"
 
     @api.onchange('product_id')
     def onchange_product_id(self):
-        res = super(PurchaseOrderLine, self).onchange_product_id()
+        res = super(StockMove, self).onchange_product_id()
         product_id = self.product_id
         if product_id:
             # add domain to product_uom field

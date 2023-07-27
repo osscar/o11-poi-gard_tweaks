@@ -32,13 +32,12 @@ Adds pack size UoM to product template UoM parameters.
         'product',
         'purchase',
         'sale',
+        'stock',
         'gard_x_gard',
     ],
     'demo': [],
     'data': [
         'views/product_template_view.xml',
-        'views/purchase_view.xml',
-        'views/sale_view.xml',
     ],
     'qweb': [
     ],
