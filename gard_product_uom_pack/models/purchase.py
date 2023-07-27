@@ -3,7 +3,7 @@
 
 # import logging
 
-from odoo import fields, models, _
+from odoo import api, models, _
 
 # _logger = logging.getLogger(__name__)
 
@@ -11,7 +11,7 @@ from odoo import fields, models, _
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
 
-    @api.onchange('product_id')
+    @api.onchange("product_id")
     def onchange_product_id(self):
         res = super(PurchaseOrderLine, self).onchange_product_id()
         product_id = self.product_id

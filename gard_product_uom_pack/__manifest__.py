@@ -20,7 +20,9 @@
     'descrption': """
 Product UoM domains in views
 ==========================
-Adds pack size UoM to product template UoM parameters.
+Adds pack size UoM to product template UoM parameters, and product UoM domain based on product UoMs on:
+- Stock moves
+- Sale/Purchase order lines
 """,
     'version': '11.0.0.1.0',
     'author': 'squid',
