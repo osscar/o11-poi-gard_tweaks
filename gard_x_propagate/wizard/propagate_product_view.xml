@@ -41,6 +41,7 @@
                     <field name="name" />
                     <field name="date_planned" />
                     <field name="product_qty" />
+                    <field name="product_uom" />
                     <field name="price_unit" />
                   </tree>
                 </field>
