@@ -1,24 +1,36 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-# import logging
+import logging
 
-from odoo import api, models, _
+from odoo import models, fields, api, _
 
-# _logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
+    product_uom_ids = fields.Many2many(
+        comodel_name="product.uom",
+        related="product_id.uom_ids",
+        readonly=True,
+    )
+    
+    @api.multi
     @api.onchange("product_id")
     def product_id_change(self):
         res = super(SaleOrderLine, self).product_id_change()
+
+        vals = {}
         product_id = self.product_id
         if product_id:
             # add domain to product_uom field
             product_uoms = product_id.uom_ids
             res["domain"] = {
-                "product_uom": [("id", "in", [uom.id for uom in product_uoms])],
+                "product_uom": [('id', 'in', list(set([uom.id for uom in product_uoms])))],
             }
+            _logger.debug("pic res >>>: %s", res)
+            _logger.debug("pic self._context >>>: %s", self)
+            _logger.debug("pic self._context >>>: %s", self._context)
         return res

@@ -40,6 +40,8 @@ Adds pack size UoM to product template UoM parameters, and product UoM domain ba
     'demo': [],
     'data': [
         'views/product_template_view.xml',
+        'views/sale_view.xml',
+        # 'views/purchase_view.xml',
     ],
     'qweb': [
     ],
