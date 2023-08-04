@@ -16,11 +16,12 @@
                 <!-- add domain to product_uom -->
                 <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom']"
                     position="before">
-                    <field name="product_uom_ids" />
+                    <field name="product_uom_ids" invisible="1" />
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom']"
                     position="attributes">
                     <attribute name="domain">[('id', 'in', product_uom_ids)]</attribute>
+                    <attribute name="options">{'no_create_edit': True, 'no_open': True}</attribute>
                 </xpath>
 
             </field>
