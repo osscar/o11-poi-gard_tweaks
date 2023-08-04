@@ -19,7 +19,7 @@
     'summary': 'Add pack UoM to products',
     'descrption': """
 Product UoM domains in views
-==========================
+============================
 Adds pack size UoM to product template UoM parameters, and product UoM domain based on product UoMs on:
 - Stock moves
 - Sale/Purchase order lines
@@ -40,8 +40,9 @@ Adds pack size UoM to product template UoM parameters, and product UoM domain ba
     'demo': [],
     'data': [
         'views/product_template_view.xml',
+        'views/purchase_view.xml',
         'views/sale_view.xml',
-        # 'views/purchase_view.xml',
+        'views/stock_view.xml',
     ],
     'qweb': [
     ],

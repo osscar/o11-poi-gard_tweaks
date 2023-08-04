@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import logging
+# import logging
 
 from odoo import models, fields, api, _
 
-_logger = logging.getLogger(__name__)
+# _logger = logging.getLogger(__name__)
 
 
 class SaleOrderLine(models.Model):
@@ -30,7 +30,4 @@ class SaleOrderLine(models.Model):
             res["domain"] = {
                 "product_uom": [('id', 'in', list(set([uom.id for uom in product_uoms])))],
             }
-            _logger.debug("pic res >>>: %s", res)
-            _logger.debug("pic self._context >>>: %s", self)
-            _logger.debug("pic self._context >>>: %s", self._context)
         return res
