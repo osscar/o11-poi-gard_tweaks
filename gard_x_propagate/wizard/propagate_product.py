@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-# import logging
+import logging
 
 from odoo import models, fields, api, _
 
 import odoo.addons.decimal_precision as dp
 
-# _logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class PropagateProduct(models.TransientModel):
@@ -38,7 +38,8 @@ class PropagateProduct(models.TransientModel):
                 "product_uom": product.uom_id.id,
                 "price_unit": 1.0,
             }
-            self.wizard_line.create(line_vals)
+            line = self.wizard_line.create(line_vals)
+            # line.onchange_product_id()
         return {
             "type": "set_scrollTop",
         }
@@ -108,9 +109,15 @@ class PropagateProductLine(models.TransientModel):
         default=1.0,
         digits=dp.get_precision("Product Unit of Measure"),
     )
+    # product_uoms = fields.Many2many(
+    #     "product.uom",
+    #     "Product UoMs",
+    #     help="Selected UoMs in the product's settings.",
+    # )
     product_uom = fields.Many2one(
         "product.uom",
         "Quantity Unit of Measure",
+        domain=lambda self: self._get_product_uom_domain(),
         help="Product quantity unit of measure.",
     )
     price_unit = fields.Float(
@@ -121,14 +128,37 @@ class PropagateProductLine(models.TransientModel):
         string="Wizard ID",
     )
 
-    @api.onchange("product_id")
-    def onchange_product_id(self):
-        res = super(PropagateProductLine, self).onchange_product_id()
+    def _get_product_uom_domain(self):
+        # add domain to product_uom field
+        # res = []
         product_id = self.product_id
-        if product_id:
-            # add domain to product_uom field
-            product_uoms = product_id.uom_ids
-            res["domain"] = {
-                "product_uom": [("id", "in", [uom.id for uom in product_uoms])],
-            }
+        product_uoms = product_id.uom_ids
+        res = [("id", "in", [uom.id for uom in product_uoms])]
+        _logger.debug("_gpud self._context >>>: %s", self._context)
+        _logger.debug("_gpud self._context >>>: %s", self.wizard_id.wizard_line)
+        _logger.debug("_gpud product_id >>>: %s", product_id)
+        _logger.debug("_gpud product_uoms >>>: %s", product_uoms)
+        _logger.debug("_gpud res >>>: %s", res)
         return res
+
+    # @api.onchange("product_id")
+    # def onchange_product_id(self):
+    #     # res = super(PropagateProductLine, self).onchange_product_id()
+    #     res = {}
+    #     product_id = self.product_id
+    #     if product_id:
+    #         # add domain to product_uom field
+    #         product_uoms = product_id.uom_ids
+    #         self.product_uoms = product_uoms
+    #         res["domain"] = {
+    #             "product_uom": [
+    #                 ("id", "in", [uom.id for uom in product_uoms])
+    #             ],
+    #         }
+    #     return res
+
+    # @api.model
+    # def create(self, vals):
+    #     res = super(PropagateProductLine, self).create(vals)
+    #     res.onchange_product_id()
+    #     return res
