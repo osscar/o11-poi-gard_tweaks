@@ -305,11 +305,35 @@
                     position="after">
                     <field name="is_tax_exempt_manual" invisible="1" force_save="1" />
                     <field name="tax_exempt"
-                        attrs="{'readonly': [('is_tax_exempt_manual', '=', False)], 'invisible': [('invoice_line_tax_ids', '=', [])]}"
+                        attrs="{'readonly': [('is_tax_exempt_manual', '=', False)]}"
                         force_save="1" />
                 </xpath>
             </field>
         </record>
+
+        <record model="ir.ui.view" id="invoice_supplier_rendition_form">
+            <field name="name">account.invoice.supplier.rendition.form.inherit.gard_l10n_bo</field>
+            <field name="model">account.invoice</field>
+            <field name="mode">extension</field>
+            <field name="priority">21</field>
+            <field name="inherit_id" ref="poi_payment_request.invoice_supplier_rendition_form" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='amount_tax']" position="after">
+                    <field name="amount_tax_exempt"
+                        attrs="{'invisible': [('tax_line_ids', '=', [])]}" />
+                </xpath>
+                <xpath
+                    expr="//field[@name='invoice_line_ids']/tree//field[@name='invoice_line_tax_ids']"
+                    position="after">
+                    <field name="is_tax_exempt_manual" invisible="1" force_save="1" />
+                    <field name="tax_exempt"
+                        attrs="{'readonly': [('is_tax_exempt_manual', '=', False)]}"
+                        force_save="1" />
+                </xpath>
+            </field>
+        </record>
+        
 
         <!-- Actions -->
 
