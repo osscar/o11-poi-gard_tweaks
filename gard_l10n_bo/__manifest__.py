@@ -16,7 +16,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 {
     "name": "GARD Bolivia - Accounting",
-    # 'summary': '',
+    'summary': 'GARD\'s Fiscal accounting localization for Bolivia',
     "description": """
 Fiscal accounting localization for Bolivia customized
 by GARD based on POIESIS\' customizations
@@ -28,18 +28,17 @@ by GARD based on POIESIS\' customizations
     "author": "squid",
     "category": "Localization",
     "license": "AGPL-3",
-    # 'complexity': 'easy',
-    # 'images': [],
     "depends": [
         "account",
         "branch",
-        "gard_x_gard",
         "poi_bol_base",
+        "poi_bol_payment_request",
         "poi_bol_siat",
+        "poi_payment_request",
         "poi_warehouse",
         "poi_warehouse_invoice",
+        "gard_x_gard",
     ],
-    # 'demo': [],
     "data": [
         'report/basic_invoice.xml',
         'report/invoice_base.xml',

@@ -15,6 +15,30 @@ import xml.etree.ElementTree as ET
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
+    @api.one
+    @api.depends(
+        "invoice_line_ids.price_subtotal",
+        "tax_line_ids.amount",
+        "tax_line_ids.amount_rounding",
+        "currency_id",
+        "company_id",
+        "date_invoice",
+        "type",
+    )
+    def _compute_amount(self):
+        super(AccountInvoice, self)._compute_amount()
+
+        # Calculo final totales segun tipo especificos de impuestos SIN
+        exe_sum = 0.0
+        exe_sum = sum(
+            line.amount for line in self.tax_line_ids if line.tax_id.type_bol == "exe"
+        )
+        self.amount_tax = self.amount_tax - exe_sum
+        self.amount_tax_exempt = exe_sum
+        self.amount_total = (
+            self.amount_untaxed + self.amount_tax + self.amount_tax_exempt
+        )
+
     nit = fields.Char(
         "NIT",
         size=22,
@@ -35,6 +59,12 @@ class AccountInvoice(models.Model):
         readonly=True,
         compute="_get_siat_state",
     )
+    amount_tax_exempt = fields.Monetary(
+        string="Tax Exempt",
+        readonly=True,
+        store=True,
+        compute="_compute_amount",
+    )
 
     @api.one
     @api.depends("estado_fac")
@@ -51,9 +81,6 @@ class AccountInvoice(models.Model):
             partner = self.partner_invoice_id
         elif self.partner_id:
             partner = self.partner_id
-
-        # _logger.debug("_gspid partner >>>: %s", partner)
-        # _logger.debug("_gspid context_partner >>>: %s", context_partner)
 
         return partner
 
@@ -133,7 +160,6 @@ class AccountInvoice(models.Model):
 
     @api.model
     def create(self, vals):
-        # _logger.debug("create vals >>>: %s", vals)
         if "type" in vals:
             partner = False
 
@@ -200,6 +226,44 @@ class AccountInvoice(models.Model):
         # get acc journal
         if self.cc_dos and self.type == "out_invoice":
             self._get_warehouse()
+
+    @api.multi
+    def get_taxes_values(self):
+        tax_grouped = super().get_taxes_values()
+
+        if self.invoice_line_ids.filtered(lambda l: l.is_tax_exempt_manual):
+            tax_grouped = {}
+            round_curr = self.currency_id.round
+
+            for line in self.invoice_line_ids:
+                # descuento, exento_manual for tax computation
+                descuento = line.discount
+                exento = line.tax_exempt
+                price_unit = line.price_unit * (1 - (descuento or 0.0) / 100.0)
+                taxes = line.invoice_line_tax_ids.with_context(
+                    descuento=descuento, exento_manual=exento
+                ).compute_all(
+                    price_unit,
+                    self.currency_id,
+                    line.quantity,
+                    line.product_id,
+                    self.partner_id,
+                )[
+                    "taxes"
+                ]
+                for tax in taxes:
+                    val = self._prepare_tax_line_vals(line, tax)
+                    key = (
+                        self.env["account.tax"].browse(tax["id"]).get_grouping_key(val)
+                    )
+                    if key not in tax_grouped:
+                        tax_grouped[key] = val
+                        tax_grouped[key]["base"] = round_curr(val["base"])
+                    else:
+                        tax_grouped[key]["amount"] += val["amount"]
+                        tax_grouped[key]["base"] += round_curr(val["base"])
+
+        return tax_grouped
 
     def _check_siat_uoms(self):
         res = []
@@ -295,3 +359,104 @@ class AccountInvoice(models.Model):
             res = result
 
         return res
+
+
+class AccountInvoiceLine(models.Model):
+    _inherit = "account.invoice.line"
+
+    tax_exempt = fields.Monetary(string="Tax Exempt")
+    is_tax_exempt_manual = fields.Boolean(
+        string="Manual tax exempt",
+        default=False,
+        readonly=True,
+        store=True,
+        help="Manually set the exempted tax.",
+    )
+
+    @api.onchange("invoice_line_tax_ids")
+    def onchange_invoice_line_tax_ids(self):
+        is_tax_exempt_manual = any(
+            tax.is_exento_manual for tax in self.invoice_line_tax_ids
+        )
+        self.is_tax_exempt_manual = is_tax_exempt_manual
+        if len(self.invoice_line_tax_ids) > 1 and is_tax_exempt_manual:
+            raise ValidationError(
+                (
+                    "Only one tax can be selected if one of them has manual tax exemption: [%s] ."
+                    % self.invoice_line_tax_ids.filtered(
+                        lambda t: t.is_exento_manual
+                    ).name
+                )
+            )
+        self.tax_exempt = 0.0
+
+    def _get_taxes_vals(self):
+        exento = self.tax_exempt
+        descuento = self.discount
+        currency = self.invoice_id and self.invoice_id.currency_id or None
+        price = self.price_unit * (1 - (descuento or 0.0) / 100.0)
+        taxes = (
+            self._context.get("taxes")
+            .with_context(descuento=descuento, exento_manual=exento)
+            .compute_all(
+                price,
+                currency,
+                self.quantity,
+                product=self.product_id,
+                partner=self.invoice_id.partner_id,
+            )
+        )
+        obj_tax_ids = self._context.get("taxes") | self._context.get("taxes").mapped(
+            "children_tax_ids"
+        )
+        for tax in taxes["taxes"]:
+            tax_id = obj_tax_ids.filtered(lambda t: t.id == tax["id"])
+            tax["type_bol"] = tax_id.type_bol or False
+        return taxes
+
+    def _get_tax_exempt_amount(self):
+        if not self.is_tax_exempt_manual:
+            taxes = self._context.get("tax_vals")
+            self.tax_exempt = sum(
+                tax["amount"] for tax in taxes["taxes"] if tax["type_bol"] == "exe"
+            )
+
+    @api.one
+    @api.depends(
+        "price_unit",
+        "discount",
+        "invoice_line_tax_ids",
+        "quantity",
+        "product_id",
+        "invoice_id.partner_id",
+        "invoice_id.currency_id",
+        "invoice_id.company_id",
+        "invoice_id.date_invoice",
+        "invoice_id.date",
+    )
+    def _compute_price(self):
+        res = super()._compute_price()
+
+        taxes = self.invoice_line_tax_ids
+        taxes_exe = any(t.type_bol == "exe" for t in taxes) or any(
+            ch.type_bol == "exe" for t in taxes for ch in t.children_tax_ids
+        )
+        if taxes_exe:
+            taxes = self.with_context(taxes=taxes)._get_taxes_vals()
+            self.with_context(tax_vals=taxes)._get_tax_exempt_amount()
+            self.price_subtotal = price_subtotal_signed = (
+                taxes["total_excluded"] if taxes else self.quantity * price
+            )
+            self.price_total = taxes["total_included"] if taxes else self.price_subtotal
+            if (
+                self.invoice_id.currency_id
+                and self.invoice_id.currency_id
+                != self.invoice_id.company_id.currency_id
+            ):
+                price_subtotal_signed = self.invoice_id.currency_id.with_context(
+                    date=self.invoice_id._get_currency_rate_date()
+                ).compute(price_subtotal_signed, self.invoice_id.company_id.currency_id)
+            sign = self.invoice_id.type in ["in_refund", "out_refund"] and -1 or 1
+            self.price_subtotal_signed = price_subtotal_signed * sign
+        else:
+            return res

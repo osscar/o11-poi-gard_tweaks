@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-07 18:40+0000\n"
-"PO-Revision-Date: 2022-10-07 18:40+0000\n"
+"POT-Creation-Date: 2023-08-13 19:02+0000\n"
+"PO-Revision-Date: 2023-08-13 19:02+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,10 +16,459 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: gard_l10n_bo
-#: code:addons/gard_l10n_bo/models/account_invoice.py:21
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "\"ESTE DOCUMENTO NO TIENE VALIDEZ FISCAL\""
+msgstr "\"ESTE DOCUMENTO NO TIENE VALIDEZ FISCAL\""
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "\"ESTE DOCUMENTO NO TIENE VALIDEZ FISCAL\" <br/>\n"
+"                <br/>"
+msgstr "\"ESTE DOCUMENTO NO TIENE VALIDEZ FISCAL\" <br/>\n"
+"                <br/>"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_line_cc_nro
+msgid "# Factura"
+msgstr "# Factura"
+
+#. module: gard_l10n_bo
+#: code:addons/gard_l10n_bo/models/account_invoice.py:311
 #, python-format
-msgid "A journal must be set for the dosification branch."
-msgstr "Un diario debe estar establecido en la sucursal de la dosificacion."
+msgid "%s no puede ser 0. Por favor ingrese un numero valido."
+msgstr "%s no puede ser 0. Por favor ingrese un numero valido."
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "- CON DERECHO A CRÉDITO FISCAL -"
+msgstr "- CON DERECHO A CRÉDITO FISCAL -"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "- SIN DERECHO A CRÉDITO FISCAL -"
+msgstr "- SIN DERECHO A CRÉDITO FISCAL -"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "<b>\"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS. EL USO ILÍCITO DE ÉSTA SERÁ SANCIONADO DE ACUERDO A LEY\"</b>\n"
+"				                                <br/>"
+msgstr "<b>\"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS. EL USO ILÍCITO DE ÉSTA SERÁ SANCIONADO DE ACUERDO A LEY\"</b>\n"
+"				                                <br/>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<b>\"Este documento es la Representación\n"
+"                    Gráfica de un Documento Fiscal\n"
+"                    Digital emitido en una modalidad de\n"
+"                    facturación en línea\"</b>\n"
+"                  <br/>\n"
+"                  <br/>"
+msgstr "<b>\"Este documento es la Representación\n"
+"                    Gráfica de un Documento Fiscal\n"
+"                    Digital emitido en una modalidad de\n"
+"                    facturación en línea\"</b>\n"
+"                  <br/>\n"
+"                  <br/>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "<b>CODIGO DE CONTROL: </b>"
+msgstr "<b>CODIGO DE CONTROL: </b>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<b>ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL\n"
+"                  PAÍS, EL USO ILÍCITO SERÁ SANCIONADO\n"
+"                  PENALMENTE DE ACUERDO A LEY</b>\n"
+"                <br/>\n"
+"                <br/>"
+msgstr "<b>ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL\n"
+"                  PAÍS, EL USO ILÍCITO SERÁ SANCIONADO\n"
+"                  PENALMENTE DE ACUERDO A LEY</b>\n"
+"                <br/>\n"
+"                <br/>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "<b>FECHA LÍMITE DE EMISIÓN: </b>"
+msgstr "<b>FECHA LÍMITE DE EMISIÓN: </b>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<b>“Este documento es la Representación\n"
+"                    Gráfica de un Documento Fiscal\n"
+"                    Digital emitido fuera de línea,\n"
+"                    verifique su envío con su proveedor\n"
+"                    o en la página web\n"
+"                    www.impuestos.gob.bo”</b>\n"
+"                  <br/>\n"
+"                  <br/>"
+msgstr "<b>“Este documento es la Representación\n"
+"                    Gráfica de un Documento Fiscal\n"
+"                    Digital emitido fuera de línea,\n"
+"                    verifique su envío con su proveedor\n"
+"                    o en la página web\n"
+"                    www.impuestos.gob.bo”</b>\n"
+"                  <br/>\n"
+"                  <br/>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "<br/>\n"
+"							<span class=\"small\">Autorización N°:</span>"
+msgstr "<br/>\n"
+"							<span class=\"small\">Autorización N°:</span>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "<br/>\n"
+"							<strong>ORIGINAL</strong> <br/>"
+msgstr "<br/>\n"
+"							<strong>ORIGINAL</strong> <br/>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "<br/>\n"
+"			                                <strong>Señor(es): </strong>"
+msgstr "<br/>\n"
+"			                                <strong>Señor(es): </strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<br/>\n"
+"                  <span>SIN VALOR LEGAL<br/> . . . . . . . . . . . . . . . . . . . . . . . </span>\n"
+"                  <br/>\n"
+"                  <span>SIN VALOR LEGAL<br/> . . . . . . . . . . . . . . . . . . . . . . . </span>\n"
+"                  <br/>\n"
+"                  <span>SIN VALOR LEGAL<br/> . . . . . . . . . . . . . . . . . . . . . . . </span>\n"
+"                  <br/>\n"
+"                  <span>SIN VALOR LEGAL<br/> . . . . . . . . . . . . . . . . . . . . . . . </span>\n"
+"                  <br/>"
+msgstr "<br/>\n"
+"                  <span>SIN VALOR LEGAL<br/> . . . . . . . . . . . . . . . . . . . . . . . </span>\n"
+"                  <br/>\n"
+"                  <span>SIN VALOR LEGAL<br/> . . . . . . . . . . . . . . . . . . . . . . . </span>\n"
+"                  <br/>\n"
+"                  <span>SIN VALOR LEGAL<br/> . . . . . . . . . . . . . . . . . . . . . . . </span>\n"
+"                  <br/>\n"
+"                  <span>SIN VALOR LEGAL<br/> . . . . . . . . . . . . . . . . . . . . . . . </span>\n"
+"                  <br/>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "<br/>CASA MATRIZ<br/>"
+msgstr "<br/>CASA MATRIZ<br/>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "<br/>Telefonos"
+msgstr "<br/>Telefonos"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<span class=\"normal\">CASA MATRIZ</span>"
+msgstr "<span class=\"normal\">CASA MATRIZ</span>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<span class=\"normal\">No. Punto de Venta </span>"
+msgstr "<span class=\"normal\">No. Punto de Venta </span>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<span class=\"normal\">SUCURSAL N. 0</span>"
+msgstr "<span class=\"normal\">SUCURSAL N. 0</span>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<span>ADA . ANULADA . ANULADA . ANULADA . ANUL</span>\n"
+"                  <br/>\n"
+"                  <br/>\n"
+"                  <span>ULADA . ANULADA . ANULADA . ANULADA . AN</span>\n"
+"                  <br/>\n"
+"                  <br/>\n"
+"                  <span>LADA . ANULADA . ANULADA . ANULADA . ANU</span>\n"
+"                  <br/>\n"
+"                  <span>ADA . ANULADA . ANULADA . ANULADA . ANUL</span>\n"
+"                  <br/>\n"
+"                  <br/>\n"
+"                  <span>ULADA . ANULADA . ANULADA . ANULADA . AN</span>\n"
+"                  <br/>\n"
+"                  <br/>\n"
+"                  <span>ADA . ANULADA . ANULADA . ANULADA . ANUL</span>\n"
+"                  <br/>\n"
+"                  <span>LADA . ANULADA . ANULADA . ANULADA . ANU</span>\n"
+"                  <br/>\n"
+"                  <br/>\n"
+"                  <span>ULADA . ANULADA . ANULADA . ANULADA . AN</span>"
+msgstr "<span>ADA . ANULADA . ANULADA . ANULADA . ANUL</span>\n"
+"                  <br/>\n"
+"                  <br/>\n"
+"                  <span>ULADA . ANULADA . ANULADA . ANULADA . AN</span>\n"
+"                  <br/>\n"
+"                  <br/>\n"
+"                  <span>LADA . ANULADA . ANULADA . ANULADA . ANU</span>\n"
+"                  <br/>\n"
+"                  <span>ADA . ANULADA . ANULADA . ANULADA . ANUL</span>\n"
+"                  <br/>\n"
+"                  <br/>\n"
+"                  <span>ULADA . ANULADA . ANULADA . ANULADA . AN</span>\n"
+"                  <br/>\n"
+"                  <br/>\n"
+"                  <span>ADA . ANULADA . ANULADA . ANULADA . ANUL</span>\n"
+"                  <br/>\n"
+"                  <span>LADA . ANULADA . ANULADA . ANULADA . ANU</span>\n"
+"                  <br/>\n"
+"                  <br/>\n"
+"                  <span>ULADA . ANULADA . ANULADA . ANULADA . AN</span>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong class=\"normal\">COD. AUTORIZACIÓN</strong>\n"
+"              <br/>"
+msgstr "<strong class=\"normal\">COD. AUTORIZACIÓN</strong>\n"
+"              <br/>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong> Bs.</strong>"
+msgstr "<strong> Bs.</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>DATOS DE LA DEVOLUCIÓN O RESCISIÓN</strong>"
+msgstr "<strong>DATOS DE LA DEVOLUCIÓN O RESCISIÓN</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "<strong>DATOS DE LA TRANSACCION ORIGINAL</strong>"
+msgstr "<strong>DATOS DE LA TRANSACCION ORIGINAL</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>DATOS FACTURA ORIGINAL</strong>"
+msgstr "<strong>DATOS FACTURA ORIGINAL</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>DESCUENTO Bs.</strong>"
+msgstr "<strong>DESCUENTO Bs.</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "<strong>DETALLE DE LA RESCISION O DEVOLUCION DEL SERVICIO</strong>"
+msgstr "<strong>DETALLE DE LA RESCISION O DEVOLUCION DEL SERVICIO</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>FACTURA N°</strong>\n"
+"                <br/>"
+msgstr "<strong>FACTURA N°</strong>\n"
+"                <br/>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>Factura Original:</strong>"
+msgstr "<strong>Factura Original:</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>Factura rectificativa:</strong>"
+msgstr "<strong>Factura rectificativa:</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>IMPORTE BASE CRÉDITO FISCAL Bs.</strong>"
+msgstr "<strong>IMPORTE BASE CRÉDITO FISCAL Bs.</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "<strong>Lugar y Fecha: </strong>"
+msgstr "<strong>Lugar y Fecha: </strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>MONTO A PAGAR Bs.</strong>"
+msgstr "<strong>MONTO A PAGAR Bs.</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>MONTO EFECTIVO DÉBITO-CRÉDITO Bs</strong>"
+msgstr "<strong>MONTO EFECTIVO DÉBITO-CRÉDITO Bs</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>MONTO GIFT CARD Bs.</strong>"
+msgstr "<strong>MONTO GIFT CARD Bs.</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>MONTO TOTAL ORIGINAL Bs</strong>"
+msgstr "<strong>MONTO TOTAL ORIGINAL Bs</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "<strong>NIT: </strong>"
+msgstr "<strong>NIT: </strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>NIT</strong>\n"
+"              <br/>"
+msgstr "<strong>NIT</strong>\n"
+"              <br/>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>NOTA N°</strong>\n"
+"                <br/>"
+msgstr "<strong>NOTA N°</strong>\n"
+"                <br/>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>Nombre Estudiante:</strong>"
+msgstr "<strong>Nombre Estudiante:</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>SON :</strong>"
+msgstr "<strong>SON :</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>SUBTOTAL Bs.</strong>"
+msgstr "<strong>SUBTOTAL Bs.</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "<strong>Son: </strong>"
+msgstr "<strong>Son: </strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "<strong>Total :</strong>"
+msgstr "<strong>Total :</strong>"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "<strong>Total Sin Descuento</strong>"
+msgstr "<strong>Total Sin Descuento</strong>"
+
+#. module: gard_l10n_bo
+#: selection:account.invoice,siat_state_display:0
+msgid "Anulada"
+msgstr "Anulada"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "Autorización N°:"
+msgstr "Autorización N°:"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "CREDITO-DEBITO"
+msgstr "CREDITO-DEBITO"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_line_cuf
+msgid "CUF"
+msgstr "CUF"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.view_siat_cancel_invoice_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.view_siat_cancel_invoice_form
+msgid "Cancel Invoices"
+msgstr "Cancel Invoices"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.view_siat_cancel_invoice_form
+msgid "Cancel SIAT Invoices"
+msgstr "Cancel SIAT Invoices"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "Cantidad"
+msgstr "Cantidad"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.view_siat_cancel_invoice_form
+msgid "Clear Lines"
+msgstr "Eliminar lineas"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "Cod. Cliente:"
+msgstr "Cod. Cliente:"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_line_motivo_code
+msgid "Codigo Motivo"
+msgstr "Codigo Motivo"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_line_company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.view_siat_cancel_invoice_form
+msgid "Create Line Values"
+msgstr "Crear valores de lineas"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_create_uid
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_line_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_create_date
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_line_create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "Código"
+msgstr "Código"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "Descripcion"
+msgstr "Descripcion"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "Descripción"
+msgstr "Descripción"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "Descuento"
+msgstr "Descuento"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "Descuento (%)"
+msgstr "Descuento (%)"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "Descuento (Bs)"
+msgstr "Descuento (Bs)"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_display_name
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_line_display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
 
 #. module: gard_l10n_bo
 #: model:ir.model,name:gard_l10n_bo.model_poi_bol_base_cc_dosif
@@ -27,9 +476,230 @@ msgid "Dosificacion Facturas"
 msgstr "Dosificacion Facturas"
 
 #. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_line_dosif_id
+msgid "Dosificación"
+msgstr "Dosificación"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_line_emision_code
+msgid "Emission Code"
+msgstr "Emission Code"
+
+#. module: gard_l10n_bo
+#: selection:account.invoice,siat_state_display:0
+msgid "Enviada"
+msgstr "Enviada"
+
+#. module: gard_l10n_bo
+#: selection:account.invoice,siat_state_display:0
+msgid "Error de envío"
+msgstr "Error de envío"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.invoice_form
+msgid "Estado Factura"
+msgstr "Estado Factura"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.invoice_form
+msgid "Estado SIAT"
+msgstr "Estado SIAT"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_account_invoice_siat_state_display
+msgid "Estado SIAT Display"
+msgstr "Estado SIAT Display"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "FACTURA"
+msgstr "FACTURA"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "Factura N°:"
+msgstr "Factura N°:"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "Fecha Factura:"
+msgstr "Fecha Factura:"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "Fecha de Emision:"
+msgstr "Fecha de Emision:"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_id
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_line_id
+msgid "ID"
+msgstr "ID"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "ID:"
+msgstr "ID:"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "IUID:"
+msgstr "IUID:"
+
+#. module: gard_l10n_bo
 #: model:ir.model,name:gard_l10n_bo.model_account_invoice
 msgid "Invoice"
 msgstr "Factura"
+
+#. module: gard_l10n_bo
+#: model:ir.model,name:gard_l10n_bo.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Línea de factura"
+
+#. module: gard_l10n_bo
+#: code:addons/gard_l10n_bo/models/account_invoice.py:276
+#, python-format
+msgid "La UdM %s no tiene una UdM SIAT establecida. Por favor establezca una e intente nuevamente."
+msgstr "La UdM %s no tiene una UdM SIAT establecida. Por favor establezca una e intente nuevamente."
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,help:gard_l10n_bo.field_product_uom_siat_unidad_medida_id
+msgid "La Unidad de medida SIAT con el que se enviará la venta de este Producto al SIN."
+msgstr "La Unidad de medida SIAT con el que se enviará la venta de este Producto al SIN."
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice___last_update
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_line___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_line_write_uid
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización de"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_line_write_date
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "MONTO\n"
+"                        TOTAL DEVUELTO Bs."
+msgstr "MONTO\n"
+"                        TOTAL DEVUELTO Bs."
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_account_invoice_line_is_tax_exempt_manual
+msgid "Manual tax exempt"
+msgstr "Exento manual"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,help:gard_l10n_bo.field_account_invoice_line_is_tax_exempt_manual
+msgid "Manually set the exempted tax."
+msgstr "Ingresar el importe exento manualmente."
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "Monto"
+msgstr "Importe"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_line_nit
+msgid "NIT"
+msgstr "NIT"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "NIT/CI/CEX:"
+msgstr "NIT/CI/CEX:"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "NIT:"
+msgstr "NIT:"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "NOTA DE"
+msgstr "NOTA DE"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "NOTA DE CRÉDITO-DÉBITO"
+msgstr "NOTA DE CRÉDITO-DÉBITO"
+
+#. module: gard_l10n_bo
+#: selection:account.invoice,siat_state_display:0
+msgid "No enviada"
+msgstr "No enviada"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "Nombre/Razón Social:"
+msgstr "Nombre/Razón Social:"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "N° Autorización/CUF:"
+msgstr "N° Autorización/CUF:"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "PDATE:"
+msgstr "PDATE:"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "PUID:"
+msgstr "PUID:"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "Periodo Facturado:"
+msgstr "Periodo Facturado:"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "Precio Neto"
+msgstr "Precio Neto"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "Precio Unitario"
+msgstr "Precio Unitario"
+
+#. module: gard_l10n_bo
+#: model:ir.model,name:gard_l10n_bo.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: gard_l10n_bo
+#: model:ir.model,name:gard_l10n_bo.model_product_uom
+msgid "Product Unit of Measure"
+msgstr "Unidad de medida del producto"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "Página:"
+msgstr "Página:"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "QR Code"
+msgstr "Codigo QR"
+
+#. module: gard_l10n_bo
+#: model:ir.actions.act_window,name:gard_l10n_bo.action_view_siat_cancel_invoice
+#: model:ir.ui.menu,name:gard_l10n_bo.menu_siat_cancel_invoice
+msgid "SIAT Cancel Invoice"
+msgstr "SIAT Anular Factura"
 
 #. module: gard_l10n_bo
 #: model:ir.model.fields,field_description:gard_l10n_bo.field_poi_bol_base_cc_dosif_journal_id
@@ -38,6 +708,64 @@ msgid "Sale Journal"
 msgstr "Diario de Ventas"
 
 #. module: gard_l10n_bo
+#: model:ir.model,name:gard_l10n_bo.model_siat_cancel_invoice
+msgid "Send cancel request to the SIAT service."
+msgstr "Enviar solicitud de anulacion al servicio SIAT."
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "Subtotal (Bs)"
+msgstr "Subtotal (Bs)"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "TOTAL\n"
+"                        Bs."
+msgstr "TOTAL\n"
+"                        Bs."
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_account_invoice_amount_tax_exempt
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_account_invoice_line_tax_exempt
+msgid "Tax Exempt"
+msgstr "Exentos"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "Tel.:"
+msgstr "Tel.:"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_product_uom_siat_unidad_medida_id
+msgid "UdM SIAT"
+msgstr "UdM SIAT"
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.siat_invoice
+msgid "Unidad de Medida"
+msgstr "Unidad de Medida"
+
+#. module: gard_l10n_bo
 #: model:ir.model,name:gard_l10n_bo.model_stock_warehouse
 msgid "Warehouse"
 msgstr "Almacén"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_line_wizard_id
+msgid "Wizard ID"
+msgstr "Wizard ID"
+
+#. module: gard_l10n_bo
+#: model:ir.model.fields,field_description:gard_l10n_bo.field_siat_cancel_invoice_wizard_line
+msgid "Wizard Lines"
+msgstr "Lineas asistente"
+
+#. module: gard_l10n_bo
+#: model:ir.model,name:gard_l10n_bo.model_siat_cancel_invoice_line
+msgid "Wizard lines."
+msgstr "Lineas del asistente."
+
+#. module: gard_l10n_bo
+#: model:ir.ui.view,arch_db:gard_l10n_bo.basic_invoice
+msgid "de"
+msgstr "de"
