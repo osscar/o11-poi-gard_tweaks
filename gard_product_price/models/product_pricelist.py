@@ -257,7 +257,7 @@ class ProductPricelistItem(models.Model):
     #     for k, v in self._fields.items():
     #         if k == "applied_on":
     #             f_list.append(v)
-                
+
     #         _logger.debug('read_group call init _fields f_list >>>: %s', f_list)
     #     # _logger.debug('read_group call init self._fields >>>: %s', self._fields.product_id)
     #     # for item in self._fields:
@@ -317,14 +317,16 @@ class ProductPricelistItem(models.Model):
         )
 
     @api.depends(
+        "min_quantity",
         "product_tmpl_id",
         "product_tmpl_id.uom_pack_id",
         "product_id",
         "product_id.uom_pack_id",
     )
     @api.one
-    def _compute_uom_pack_id(self):
+    def _compute_uom_ids(self):
         product = False
+        min_qty_uom_id = False
         uom_pack_id = False
         applied_on_product = False
         active_id = self.env.context.get("active_id")
@@ -340,9 +342,19 @@ class ProductPricelistItem(models.Model):
         if self.applied_on in ["1_product", "0_product_variant"]:
             applied_on_product = True
             product = self.product_tmpl_id or self.product_id
+            min_qty_uom_id = product.uom_id
             uom_pack_id = product.uom_pack_id
         if product:
+            self.min_quantity_uom_id = min_qty_uom_id
             self.uom_pack_id = uom_pack_id
+            if self.min_quantity_uom_id.category_id == self.uom_pack_id.category_id:
+                self.min_quantity_pack = self.min_quantity / self.uom_pack_id.factor_inv
+            else:
+                raise ValidationError(
+                    _(
+                        "Error! Min. Qty UoM and Pack UoM have different categories. Pack minimum quantity cannot be computed."
+                    )
+                )
             if applied_on_product:
                 self.global_uom_pack_id = False
             else:
@@ -409,9 +421,10 @@ class ProductPricelistItem(models.Model):
 
     @api.depends("cost_product", "margin_sale_excl")
     @api.one
-    def _calc_margin_sale_net(self):
+    def _calc_margin(self):
         if self.cost_product == 0.0:
-            self.margin_sale_net == 0.0
+            self.margin_sale_net_unit == 0.0
+            self.margin_sale_net_pack == 0.0
             return {
                 "warning": {
                     "title": _("Input Error"),
@@ -421,13 +434,26 @@ class ProductPricelistItem(models.Model):
                 },
             }
         else:
-            margin_sale_net = (
-                self.price_unit * (100 - (self.margin_sale_excl % 100))
-            ) % self.cost_product
-            self.margin_sale_net = ((margin_sale_net) - 1) * 100
+            uom_factor_inv = self.uom_pack_id.factor_inv
+            price_unit = self.price_unit
+            price_pack = self.price_pack
+            cost_product = self.cost_product
+            margin_excl = (1 - (self.margin_sale_excl / 100))
+            
+            margin_sale_net_unit = (price_unit * margin_excl) - cost_product
+            margin_sale_net_pack = (price_unit * margin_excl * uom_factor_inv)  - (cost_product * uom_factor_inv)
+            margin_sale_net_factor = price_unit * margin_excl / self.cost_product
+            
+            self.margin_sale_net_unit = margin_sale_net_unit
+            self.margin_sale_net_pack = margin_sale_net_pack
+            self.margin_sale_net_factor = margin_sale_net_factor
+            
 
     active_pricelist = fields.Boolean(
-        related="pricelist_id.active", string="Active", readonly=True, help="Checks pricelist's active state.",
+        related="pricelist_id.active",
+        string="Active",
+        readonly=True,
+        help="Checks pricelist's active state.",
     )
     is_hidden = fields.Boolean(
         related="pricelist_id.is_hidden",
@@ -455,19 +481,36 @@ class ProductPricelistItem(models.Model):
         # store=True,
         help="Date item was last updated.",
     )
+    min_quantity_uom_id = fields.Many2one(
+        "product.uom",
+        string="UoM",
+        compute="_compute_uom_ids",
+        readonly=True,
+        store=True,
+        help="Minimum Quantity UoM.",
+    )
     uom_pack_id = fields.Many2one(
         "product.uom",
-        compute="_compute_uom_pack_id",
+        string="Pack UoM",
+        compute="_compute_uom_ids",
         readonly=True,
         store=True,
         help="Package Unit of Measure to factor package price.",
     )
     global_uom_pack_id = fields.Many2one(
         "product.uom",
-        compute="_compute_uom_pack_id",
+        string="Global Pack UoM",
+        compute="_compute_uom_ids",
         readonly=True,
         # store=True,
         help="Global Package Unit of Measure to factor package price for global items.",
+    )
+    min_quantity_pack = fields.Integer(
+        "Pack Min. Qty.",
+        compute="_compute_uom_ids",
+        readonly=True,
+        store=True,
+        help="Pack minimum quantity.",
     )
     compute_price = fields.Selection(
         [
@@ -487,27 +530,43 @@ class ProductPricelistItem(models.Model):
         store=True,
     )
     price_pack = fields.Monetary(
-        string="Package Sale Price",
+        string="Pack Price",
         currency_field="currency_id",
         compute="_calc_price_unit",
         readonly=True,
         store=True,
         help="Package Sale Price.",
     )
-    cost_product = fields.Float(
+    cost_product = fields.Monetary(
         string="Product Cost",
+        currency_field="currency_id",
         compute="_compute_cost_product",
         readonly=True,
         store=True,
-        help="Cost price based on product's Standard Price (when set) or inventory valuation.",
+        help="Cost price per default product UoM, based on product's Standard Price (when set) or inventory valuation.",
     )
-    margin_sale_net = fields.Float(
-        string="Net Sale Margin %",
-        compute="_calc_margin_sale_net",
+    margin_sale_net_unit = fields.Float(
+        string="Unit Margin Net",
+        compute="_calc_margin",
         readonly=True,
         store=True,
-        help="Net sale margin (factored by sale margin exclusion).",
+        help="Net sale margin (including margin exclusion).",
+        oldname="margin_sale_net",
+    )
+    margin_sale_net_pack = fields.Float(
+        string="Pack Margin Net",
+        compute="_calc_margin",
+        readonly=True,
+        store=True,
+        help="Net sale margin (including margin exclusion).",
+    )
+    margin_sale_net_factor = fields.Float(
+        string="Factor Margin Net",
+        compute="_calc_margin",
+        readonly=True,
+        store=True,
+        help="Net sale margin factor (including margin exclusion).",
     )
     margin_sale_excl = fields.Float(
-        string="Excl. %", default=16.00, help="Sale margin exclusion percent."
+        string="Margin Excluded", default=16.00, help="Sale margin exclusion percent."
     )

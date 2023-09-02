@@ -68,10 +68,12 @@
                                 <field invisible="1" name="product_default_code"/>
                                 <field colspan="4" name="description"/>
                                 <field name="min_quantity"/>
-                                <field name="price_unit" force_save="1"/>
-                                <field name="price_pack" force_save="1"/>
-                                <field name="uom_pack_id" force_save="1"/>
-                                <field name="global_uom_pack_id" force_save="1"/>
+                                <field name="min_quantity_uom_id"/>
+                                <field name="price_unit" />
+                                <field name="price_pack" />
+                                <field name="min_quantity_pack"/>
+                                <field name="uom_pack_id" />
+                                <field name="global_uom_pack_id" />
                                 <field name="pricelist_id" widget="label_selection"/>
                                 <field name="partner_ids" widget="many2many_tags"/>
                             </tree>
@@ -81,10 +83,12 @@
                                 <field invisible="1" name="product_default_code"/>
                                 <field name="description"/>
                                 <field name="min_quantity"/>
-                                <field name="price_unit" force_save="1"/>
-                                <field name="price_pack" force_save="1"/>
-                                <field name="uom_pack_id" force_save="1"/>
-                                <field name="global_uom_pack_id" force_save="1"/>
+                                <field name="min_quantity_uom_id"/>
+                                <field name="price_unit" />
+                                <field name="min_quantity_pack"/>
+                                <field name="price_pack" />
+                                <field name="uom_pack_id" />
+                                <field name="global_uom_pack_id" />
                                 <field name="currency_id"/>
                                 <field name="pricelist_id"/>
                                 <field name="partner_ids"/>
@@ -106,9 +110,11 @@
                                                             <tr>
                                                                 <th>Description</th>
                                                                 <th>Min.</th>
+                                                                <th>UoM</th>
                                                                 <th>Unit Price</th>
-                                                                <th>Pack Price</th>
+                                                                <th>Pack Min.</th>
                                                                 <th>Pack UoM</th>
+                                                                <th>Pack Price</th>
                                                                 <th>Global Pack UoM</th>
                                                             </tr>
                                                         </thead>
@@ -121,16 +127,22 @@
                                                                     <field name="min_quantity"/>
                                                                 </td>
                                                                 <td>
-                                                                    <field name="price_unit" widget="monetary" options="{'currency_field': 'currency_id'}" force_save="1"/>
+                                                                    <field name="min_quantity_uom_id"/>
                                                                 </td>
                                                                 <td>
-                                                                    <field name="price_pack" widget="monetary" options="{'currency_field': 'currency_id'}" force_save="1"/>
+                                                                    <field name="price_unit" widget="monetary" options="{'currency_field': 'currency_id'}" />
                                                                 </td>
                                                                 <td>
-                                                                    <field name="uom_pack_id" force_save="1"/>
+                                                                    <field name="min_quantity_pack"/>
                                                                 </td>
                                                                 <td>
-                                                                    <field name="global_uom_pack_id" force_save="1"/>
+                                                                    <field name="uom_pack_id" />
+                                                                </td>
+                                                                <td>
+                                                                    <field name="price_pack" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                                                                </td>
+                                                                <td>
+                                                                    <field name="global_uom_pack_id" />
                                                                 </td>
                                                                 <td>
                                                                 </td>
