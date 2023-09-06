@@ -65,11 +65,19 @@ class AccountInvoice(models.Model):
         store=True,
         compute="_compute_amount",
     )
+    
+    @api.one
+    def _get_invoice_type(self):
+        if self.type in ("out_invoice", "out_refund"):
+            type = "out"
+        elif self.type in ("in_invoice", "in_refund"):
+            type = "in"
 
     @api.one
     @api.depends("estado_fac")
     def _get_siat_state(self):
-        self.siat_state_display = self.siat_state
+        if self._get_invoice_type() == "out":
+            self.siat_state_display = self.siat_state
 
     def _get_siat_partner_id(self):
         partner = False
@@ -148,37 +156,42 @@ class AccountInvoice(models.Model):
 
     @api.onchange("siat_tipo_id")
     def _onchange_siat_tipo_id(self):
-        # get vals
-        vals = self.with_context(method="onchange_siat_tipo_id")._get_sin_data()
+        if self._get_invoice_type() == "out":
+            # get vals
+            vals = self.with_context(method="onchange_siat_tipo_id")._get_sin_data()
 
-        # update invoice with vals
-        self.nit = vals["nit"]
-        self.ci_dept = vals["ci_dept"]
+            # update invoice with vals
+            self.nit = vals["nit"]
+            self.ci_dept = vals["ci_dept"]
 
-        # run nit validations
-        self._onchange_nit()
+            # run nit validations
+            self._onchange_nit()
 
     @api.model
     def create(self, vals):
+        partner = False
+        out_invoice = False
+        
         if "type" in vals:
-            partner = False
-
             if "partner_invoice_id" in vals and vals["type"] in (
                 "out_invoice",
                 "out_refund",
             ):
                 partner = vals["partner_invoice_id"]
+                out_invoice = True
             elif "partner_id" in vals and vals["type"] in ("in_invoice", "in_refund"):
                 partner = vals["partner_id"]
-
             if partner:
                 partner = self.env["res.partner"].browse(partner)
-                vals = self.with_context(partner=partner, vals=vals)._get_sin_data()
-                vals["siat_tipo_id"] = vals["siat_tipo_id"]["id"]
-
+                if out_invoice:
+                    vals = self.with_context(partner=partner, vals=vals)._get_sin_data()
+                    if vals["siat_tipo_id"]:
+                        vals["siat_tipo_id"] = vals["siat_tipo_id"]["id"]
+            
         ret = {}
         ret["result"] = super(AccountInvoice, self).create(vals)
-        ret["validate_nit"] = ret["result"]._onchange_nit()
+        if partner and out_invoice:
+            ret["validate_nit"] = ret["result"]._onchange_nit()
 
         return ret["result"]
 
@@ -200,11 +213,12 @@ class AccountInvoice(models.Model):
 
     @api.onchange("partner_invoice_id", "company_id")
     def _onchange_partner_invoice_id(self):
-        if not self.partner_invoice_id:
-            self._onchange_partner_id()
-        else:
-            self._get_siat_onchange_vals()
-            self._onchange_nit()
+        if self._get_invoice_type() == "out":
+            if not self.partner_invoice_id:
+                self._onchange_partner_id()
+            else:
+                self._get_siat_onchange_vals()
+                self._onchange_nit()
 
     @api.multi
     @api.depends("state")
