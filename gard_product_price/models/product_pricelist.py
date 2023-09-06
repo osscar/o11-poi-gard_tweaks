@@ -545,16 +545,18 @@ class ProductPricelistItem(models.Model):
         store=True,
         help="Cost price per default product UoM, based on product's Standard Price (when set) or inventory valuation.",
     )
-    margin_sale_net_unit = fields.Float(
+    margin_sale_net_unit = fields.Monetary(
         string="Unit Margin Net",
+        currency_field="currency_id",
         compute="_calc_margin",
         readonly=True,
         store=True,
         help="Net sale margin (including margin exclusion).",
-        oldname="margin_sale_net",
+        # oldname="margin_sale_net",
     )
-    margin_sale_net_pack = fields.Float(
+    margin_sale_net_pack = fields.Monetary(
         string="Pack Margin Net",
+        currency_field="currency_id",
         compute="_calc_margin",
         readonly=True,
         store=True,
