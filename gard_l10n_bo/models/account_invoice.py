@@ -170,12 +170,12 @@ class AccountInvoice(models.Model):
                 partner = vals["partner_invoice_id"]
             elif "partner_id" in vals and vals["type"] in ("in_invoice", "in_refund"):
                 partner = vals["partner_id"]
-
             if partner:
                 partner = self.env["res.partner"].browse(partner)
                 vals = self.with_context(partner=partner, vals=vals)._get_sin_data()
-                vals["siat_tipo_id"] = vals["siat_tipo_id"]["id"]
-
+                if vals["siat_tipo_id"]:
+                    vals["siat_tipo_id"] = vals["siat_tipo_id"]["id"]
+            
         ret = {}
         ret["result"] = super(AccountInvoice, self).create(vals)
         ret["validate_nit"] = ret["result"]._onchange_nit()
