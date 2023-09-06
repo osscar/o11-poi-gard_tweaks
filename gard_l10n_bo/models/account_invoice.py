@@ -68,15 +68,15 @@ class AccountInvoice(models.Model):
     
     @api.one
     def _get_invoice_type(self):
-        if self.type in (out_invoice, out_refund):
+        if self.type in ("out_invoice", "out_refund"):
             type = "out"
-        elif self.type in (in_invoice, in_refund):
+        elif self.type in ("in_invoice", "in_refund"):
             type = "in"
 
     @api.one
     @api.depends("estado_fac")
     def _get_siat_state(self):
-        if _get_invoice_type == "out":
+        if self._get_invoice_type() == "out":
             self.siat_state_display = self.siat_state
 
     def _get_siat_partner_id(self):
@@ -156,7 +156,7 @@ class AccountInvoice(models.Model):
 
     @api.onchange("siat_tipo_id")
     def _onchange_siat_tipo_id(self):
-        if _get_invoice_type == "out":
+        if self._get_invoice_type() == "out":
             # get vals
             vals = self.with_context(method="onchange_siat_tipo_id")._get_sin_data()
 
@@ -213,7 +213,7 @@ class AccountInvoice(models.Model):
 
     @api.onchange("partner_invoice_id", "company_id")
     def _onchange_partner_invoice_id(self):
-        if _get_invoice_type == "out":
+        if self._get_invoice_type() == "out":
             if not self.partner_invoice_id:
                 self._onchange_partner_id()
             else:
