@@ -40,8 +40,10 @@ class ProductProduct(models.Model):
         }
         
     def _compute_cost_product(self):
+        standard_price = self.standard_price
         valuation = self.stock_value
         qty_available = self.qty_at_date
+        
         if qty_available:
             standard_price = valuation / qty_available
     
