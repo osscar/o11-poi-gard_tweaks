@@ -156,16 +156,16 @@ class AccountInvoice(models.Model):
 
     @api.onchange("siat_tipo_id")
     def _onchange_siat_tipo_id(self):
-        if self._get_invoice_type() == "out":
-            # get vals
-            vals = self.with_context(method="onchange_siat_tipo_id")._get_sin_data()
+        # if self._get_invoice_type() == "out":
+        # get vals
+        vals = self.with_context(method="onchange_siat_tipo_id")._get_sin_data()
 
-            # update invoice with vals
-            self.nit = vals["nit"]
-            self.ci_dept = vals["ci_dept"]
+        # update invoice with vals
+        self.nit = vals["nit"]
+        self.ci_dept = vals["ci_dept"]
 
-            # run nit validations
-            self._onchange_nit()
+        # run nit validations
+        self._onchange_nit()
 
     @api.model
     def create(self, vals):
@@ -213,12 +213,12 @@ class AccountInvoice(models.Model):
 
     @api.onchange("partner_invoice_id", "company_id")
     def _onchange_partner_invoice_id(self):
-        if self._get_invoice_type() == "out":
-            if not self.partner_invoice_id:
-                self._onchange_partner_id()
-            else:
-                self._get_siat_onchange_vals()
-                self._onchange_nit()
+        # if self._get_invoice_type() == "out":
+        if not self.partner_invoice_id:
+            self._onchange_partner_id()
+        else:
+            self._get_siat_onchange_vals()
+            self._onchange_nit()
 
     @api.multi
     @api.depends("state")
