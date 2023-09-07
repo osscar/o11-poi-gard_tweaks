@@ -376,32 +376,33 @@ class ProductPricelistItem(models.Model):
         # find a way to compute or add User/ValidationError to
         # warn user when editing rules from pricelist instead of item.
         # ¿¿ assign empty value to void dummy record NewId error ??
-        product = False
-        quantity = self.min_quantity
-        pack_factor = self.uom_pack_id.factor_inv
-        partner = False
-        active_id = self.env.context.get("active_id")
-        active_model = self.env.context.get("active_model")
-        if self.applied_on == "3_global":
-            if active_id and active_model in (
-                "product.product",
-                "product.template",
-            ):
-                product = self.env[active_model].search([("id", "=", active_id)])
-                pack_factor = product.uom_pack_id.factor_inv
-        if self.applied_on in ["1_product", "0_product_variant"]:
-            product = self.product_tmpl_id or self.product_id
-        if product:
-            price = self.pricelist_id.with_context(item_ids=self).get_product_price(
-                product, quantity, partner, date=False, uom_id=False
-            )
-            pack_factor = pack_factor
-            self.price_unit = price
-            self.price_sale = price * quantity
-            self.price_pack = price * pack_factor
-            self.product_global_id = product
+        if self.pricelist_id:
+            product = False
+            quantity = self.min_quantity
+            pack_factor = self.uom_pack_id.factor_inv
+            partner = False
+            active_id = self.env.context.get("active_id")
+            active_model = self.env.context.get("active_model")
+            if self.applied_on == "3_global":
+                if active_id and active_model in (
+                    "product.product",
+                    "product.template",
+                ):
+                    product = self.env[active_model].search([("id", "=", active_id)])
+                    pack_factor = product.uom_pack_id.factor_inv
+            if self.applied_on in ["1_product", "0_product_variant"]:
+                product = self.product_tmpl_id or self.product_id
+            if product:
+                price = self.pricelist_id.with_context(item_ids=self).get_product_price(
+                    product, quantity, partner, date=False, uom_id=False
+                )
+                pack_factor = pack_factor
+                self.price_unit = price
+                self.price_sale = price * quantity
+                self.price_pack = price * pack_factor
+                self.product_global_id = product
 
-    @api.depends("product_tmpl_id", "product_id", "product_id.stock_value")
+    @api.depends("product_tmpl_id", "product_id", "product_id.qty_available", "percent_price", "min_quantity")
     @api.one
     def _compute_cost_product(self):
         product = False
@@ -410,14 +411,7 @@ class ProductPricelistItem(models.Model):
             product = self.product_tmpl_id or self.product_id
         # get product standard price or inventory valuation
         if product:
-            if product.standard_price == 0:
-                valuation = product.stock_value
-                qty_available = product.qty_at_date
-                if qty_available:
-                    standard_price = valuation / qty_available
-                self.cost_product = standard_price
-            else:
-                self.cost_product = product.standard_price
+            self.cost_product = product._compute_cost_product()
 
     @api.depends("cost_product", "margin_sale_excl")
     @api.one
@@ -441,7 +435,7 @@ class ProductPricelistItem(models.Model):
             margin_excl = (1 - (self.margin_sale_excl / 100))
             
             margin_sale_net_unit = (price_unit * margin_excl) - cost_product
-            margin_sale_net_pack = (price_unit * margin_excl * uom_factor_inv)  - (cost_product * uom_factor_inv)
+            margin_sale_net_pack = (price_unit * margin_excl * uom_factor_inv) - (cost_product * uom_factor_inv)
             margin_sale_net_factor = price_unit * margin_excl / self.cost_product
             
             self.margin_sale_net_unit = margin_sale_net_unit

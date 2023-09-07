@@ -41,18 +41,29 @@ class SaleOrderLine(models.Model):
             raise ValidationError(
                 "Please select a pricelist before selecting a product."
             )
+            
+    def _compute_margin(self, order_id, product_id, product_uom_id):
+        frm_cur = self.env.user.company_id.currency_id
+        to_cur = order_id.pricelist_id.currency_id
+        purchase_price = product_id.stock_value / product_id.qty_at_date
+        if product_uom_id != product_id.uom_id:
+            purchase_price = product_id.uom_id._compute_price(purchase_price, product_uom_id)
+        ctx = self.env.context.copy()
+        ctx['date'] = order_id.date_order
+        price = frm_cur.with_context(ctx).compute(purchase_price, to_cur, round=False)
+        return price
 
     @api.model
     def _get_purchase_price(self, pricelist, product, product_uom, date):
-        res = super(SaleOrder, self)._get_purchase_price(
-            pricelist, product, product_uom, date
-        )
-        # frm_cur = self.env.user.company_id.currency_id
-        # to_cur = pricelist.currency_id
+        # res = super(SaleOrder, self)._get_purchase_price(
+        #     pricelist, product, product_uom, date
+        # )
+        frm_cur = self.env.user.company_id.currency_id
+        to_cur = pricelist.currency_id
         purchase_price = product.stock_value / product.qty_at_date
-        # if product_uom != product.uom_id:
-        #     purchase_price = product.uom_id._compute_price(purchase_price, product_uom)
-        # ctx = self.env.context.copy()
-        # ctx['date'] = date
-        # price = frm_cur.with_context(ctx).compute(purchase_price, to_cur, round=False)
-        return res
+        if product_uom != product.uom_id:
+            purchase_price = product.uom_id._compute_price(purchase_price, product_uom)
+        ctx = self.env.context.copy()
+        ctx['date'] = date
+        price = frm_cur.with_context(ctx).compute(purchase_price, to_cur, round=False)
+        return {'purchase_price': price}
