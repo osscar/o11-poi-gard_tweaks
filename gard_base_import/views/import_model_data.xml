@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Search Views -->
+
+        <!-- Tree Views -->
+
+        <!-- Form Views -->
+
+        <!-- Kanban Views -->
+
+        <!-- Actions -->
+        <record id="action_open_import_wizard" model="ir.actions.act_window">
+            <field name="name">Import</field>
+            <field name="res_model">common.import.model</field>
+            <field name="view_mode">form</field>
+            <!-- Add other action attributes as needed -->
+        </record>
+        
+        <!-- Menus -->
+        <menuitem id="menu_open_import_wizard" name="Import" parent="base.menu_actions" action="action_open_import_wizard"/>
+
+
+    </data>
+</odoo>

@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_generic_import_wizard,Generic Import Wizard,model_generic_import_wizard,base.group_user,1,1,1,1
+"access_ir_exports_group_user","ir_exports group_user",ir.exports.model_ir_exports,gard_base_import.group_user,1,0,0,0
+"access_ir_exports_group_manager","ir_exports group_manager",ir.exports.model_ir_exports,gard_base_import.group_manager,1,1,1,1

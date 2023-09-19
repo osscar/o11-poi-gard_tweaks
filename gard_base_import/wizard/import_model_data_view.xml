@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_generic_import_wizard">
+            <field name="name">import.model.data.wizard.form</field>
+            <field name="model">import.model.data.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Import Data">
+                    <group>
+                        <field name="csv_file" filename="File to Import" required="1" />
+                        <field name="target_model" readonly="1" />
+                        <field name="export_template_id" required="1" />
+                    </group>
+                    <footer>
+                        <button name="export_template" string="Export Template" type="object"
+                            class="btn-secondary" />
+                        <button name="import_data" string="Import" type="object" class="btn-primary" />
+                        <button name="cancel" string="Cancel" type="object" class="btn-secondary"
+                            special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_open_import_wizard" model="ir.actions.act_window">
+            <field name="name">Open Import Wizard</field>
+            <field name="res_model">generic.import.wizard</field>
+            <field name="view_mode">form</field>
+            <!-- Add other action attributes as needed -->
+        </record>
+
+        <record id="action_open_import_wizard_form" model="ir.actions.act_window">
+            <field name="name">Open Import Wizard</field>
+            <field name="res_model">generic.import.wizard</field>
+            <field name="view_mode">form</field>
+            <!-- Add other action attributes as needed -->
+        </record>
+
+        <menuitem id="menu_open_import_wizard_form" name="Open Import Wizard"
+            parent="base.menu_config" action="action_open_import_wizard_form" />
+
+        <menuitem id="menu_open_import_wizard_accounting" name="Open Import Wizard"
+            parent="account.menu_actions" action="action_open_import_wizard" />
+
+        <menuitem id="menu_open_import_wizard" name="Open Import Wizard" parent="base.menu_config"
+            action="action_open_import_wizard" />
+
+    </data>
+</odoo>

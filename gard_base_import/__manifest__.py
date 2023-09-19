@@ -34,10 +34,9 @@ export lists. Users/groups have access to allowed export lists.
         'wizard/import_model_data_view.xml',
         
         "security/gard_base_import_security.xml",
-        # "security/ir.model.access.csv",
+        "security/ir.model.access.csv",
         
-        'views/import_model_data_view.xml',
-        # 'views/account_invoice_refund_request_view.xml',
+        'views/ir_exports.xml',
     ],
     "qweb": [],
     "installable": True,

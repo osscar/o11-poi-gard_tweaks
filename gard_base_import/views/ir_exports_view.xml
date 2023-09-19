@@ -7,19 +7,17 @@
         <!-- Tree Views -->
 
         <!-- Form Views -->
-        <?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data>
-        <record model="ir.ui.view" id="view_ir_exports_form_inherit">
+        <record id="view_ir_exports_form_inherit" model="ir.ui.view">
             <field name="name">ir.exports.form.inherit</field>
             <field name="model">ir.exports</field>
             <field name="inherit_id" ref="base.export_config_form_view"/>
             <field name="arch" type="xml">
                 <form string="Export Configuration">
                     <field name="name"/>
-                    <!-- Add the is_import_friendly field to the form view -->
+                    <field name="model_id"/>
+                    <!-- Include the is_import_friendly field in the form view -->
                     <field name="is_import_friendly"/>
-                    <!-- Add other fields as needed -->
+                    <!-- Other fields as needed -->
                     <footer>
                         <button name="save" string="Save" type="object" class="btn-primary"/>
                         <button name="cancel" string="Cancel" type="object" class="btn-secondary" special="cancel"/>
@@ -27,9 +25,7 @@
                 </form>
             </field>
         </record>
-    </data>
-</odoo>
-
+        
 
         <!-- Kanban Views -->
 
