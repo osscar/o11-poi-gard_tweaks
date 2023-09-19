@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Search Views -->
+
+        <!-- Form Views -->
+        <record model="ir.ui.view" id="invoice_form">
+            <field name="name">account.invoice.form.inherit.gard_account_invoice_refund</field>
+            <field name="model">account.invoice</field>
+            <field name="mode">extension</field>
+            <field name="priority">28</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='tax_line_ids']" position="before">
+                    <field name="refund_invoice_ids"
+                        attrs="{'invisible': [('refund_invoice_ids','=', [])]}" readonly="1" />
+                    <field name="refund_request_ids"
+                        attrs="{'invisible': [('refund_request_ids','=', [])]}" readonly="1" />
+                </xpath>
+                <xpath expr="//button[@name='%(account.action_account_invoice_refund)d']" position="replace">
+                    <button name="%(account.action_account_invoice_refund)d" type='action' string='Ask for a Credit Note' groups="account.group_account_invoice" attrs="{'invisible': ['|','|',('type', 'in', ['in_refund','out_refund']),('state','not in',('open','paid')),('refund_request_ids','=',[])]}"/>
+                </xpath>
+                <xpath expr="//button[@name='%(account.action_account_invoice_payment)d']" position="after">
+                    <button name="%(action_account_invoice_refund_request_wizard)d" type='action' string='Request Refund' groups="account.group_account_invoice" attrs="{'invisible': ['|','|',('type', 'in', ['in_refund','out_refund']),('state','not in',('open','paid')),('refund_request_ids','!=',[])]}"/>
+                </xpath>
+                
+                <!-- Invoice state display -->
+                <!-- refund_request_state_display -->
+                <!-- <xpath expr="//sheet//div[@name='button_box']//div[last()]"
+                    position="inside">
+                    <div class="info-box-content">
+                        <span class="info-box-text">
+                            <field string="Refund State" name="state_refund_request" attrs="{'invisible': [('refund_invoice_ids','=', [])]}"/>
+                        </span>
+                        <span>&#160;</span>
+                        <span>
+                            <i class="fa fa-check" style="color: darkslateblue"
+                                attrs="{'invisible': ['|', ('state_refund_request','!=', 'done'), ('refund_invoice_ids','=', [])]}"></i>
+                            <i class="fa fa-paper-plane-o" style="color: darkorange"
+                                attrs="{'invisible': ['|', ('state_refund_request','!=', 'request'), ('refund_invoice_ids','=', [])]}"></i>
+                        </span>
+                    </div>
+                </xpath> -->
+            </field>
+        </record>
+
+        <!-- Actions -->
+
+        <!-- Menus -->
+    </data>
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_account_invoice_refund_request" model="ir.ui.view">
+            <field name="name">account.invoice.refund.request.form</field>
+            <field name="model">account.invoice.refund</field>
+            <field name="arch" type="xml">
+                <form string="Invoice Refund Request">
+                    <group>
+                        <group>
+                            <field name="invoice_id" />
+                            <field name="invoice_date" />
+                            <field name="request_user_id" />
+                            <field name="invoice_user_id" />
+                        </group>
+                        <group>
+                            <div>
+                                <!-- attrs="{'invisible':[('invoice_date','&lt;',)]}"
+                                class="oe_grey" colspan="4"> --> This invoice is not within the regular refund range. The refund
+                                request will be created with an exception state. Please state the
+                                refund reason to proceed. </div>
+                            <div>
+                                <!--
+                                attrs="{'invisible':[('invoice_date','&gt;=',(datetime.date.today()+relativedelta(day=31)).strftime('%Y-%m-%d')),('date','&gt;=',(datetime.date.today()-relativedelta(day=1)).strftime('%Y-%m-%d')))]}"
+                                class="oe_grey" colspan="4"> --> This invoice is within the due date. Please state the refund
+                                reason to proceed. </div>
+                        </group>
+                        <group>
+                            <field name="reason" />
+                            <field name="description" />
+                        </group>
+                    </group>
+                    <footer>
+                        <button string='Request Refund' name="invoice_refund_request" type="object"
+                            class="btn-primary" />
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_account_invoice_refund_request_wizard" model="ir.actions.act_window">
+            <field name="name">Invoice Refund Request</field>
+            <field name="res_model">account.invoice.refund</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_account_invoice_refund_request" />
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>
