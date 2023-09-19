@@ -7,9 +7,10 @@ class ImportModelDataController(http.Controller):
     def import_model_data_redirect(self, **kwargs):
         # Check if the user belongs to your module's non-admin group
         user = request.env.user
-        group_user = request.env.ref('gard_base_import.group_user')  # Replace with your non-admin group XML ID
+        groups_redirect = ['gard_base_import.group_user', 'gard_base_import.group_manager']
+        groups_user = (request.env.ref(rg) for rg in groups_redirect)  # Replace with your non-admin group XML ID
 
-        if group_user in user.groups_id:
+        if groups_user in user.groups_id:
             # User belongs to the non-admin group, capture context and redirect to custom import
             context = request.env.context
             return request.redirect('/web#action=action_open_import_wizard' + '&context=' + context)
