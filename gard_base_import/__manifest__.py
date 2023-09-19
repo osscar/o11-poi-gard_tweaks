@@ -31,12 +31,12 @@ export lists. Users/groups have access to allowed export lists.
     ],
     # 'demo': [],
     "data": [
-        'wizard/base_import_export_list_view.xml',
+        'wizard/import_model_data_view.xml',
         
-        "security/gard_data_import_security.xml",
-        "security/ir.model.access.csv",
+        "security/gard_base_import_security.xml",
+        # "security/ir.model.access.csv",
         
-        'views/base_import_view.xml',
+        'views/import_model_data_view.xml',
         # 'views/account_invoice_refund_request_view.xml',
     ],
     "qweb": [],
