@@ -22,96 +22,95 @@
 
 import logging
 
+import csv
+from io import StringIO
+
 from odoo import models, fields, api, _, tools
 from odoo.tools.translate import _
 from odoo.exceptions import UserError, ValidationError, Warning
 
 _logger = logging.getLogger(__name__)
 
+from odoo import models, fields
 
-class AccountInvoiceRefund(models.TransientModel):
-    _inherit = "account.invoice.refund"
 
-    # @api.model
-    # def _get_reason(self):
-    #     res = super()._get_reason()
-    #     _logger.debug("_gr self._context >>>: %s", self._context)
-    #     reason = self._context.get("description")
-    #     if reason:
-    #         res = reason
-    #     return res
+class ImportFromExportListWizard(models.TransientModel):
+    _name = 'import.from.export.list.wizard'
 
-    request_user_id = fields.Many2one(
-        "res.users",
-        string="Refunded By",
-        readonly=True,
-        default=lambda self: self.env.user,
-        copy=False,
-        help="The user processing this request.",
-    )
-    invoice_id = fields.Many2one(
-        "account.invoice",
-        "Invoice",
-        compute="_get_invoice_id",
-    )
-    invoice_user_id = fields.Many2one(
-        related="invoice_id.user_id",
-        readonly=True,
-    )
-    invoice_date = fields.Date(
-        related="invoice_id.date_invoice",
-        readonly=True,
-    )
-    reason = fields.Selection(
-        [
-            ("sin", "Fiscal Data"),
-            ("date", "Date"),
-            ("order", "Order"),
-            ("other", "Other"),
-        ],
-        string="Reason",
-        default=False,
-        required=True,
-        copy=False,
-        help=" * Fiscal Data: for Tax ID, name errors.\n"
-        " * Date: for date errors.\n"
-        " * Order: for order errors (eg. product, quantity, UoM).\n"
-        " * Other: for other errors. Please include relevant details in notes.\n",
-    )
+    model_id = fields.Many2one('ir.model', string='Model', required=True)
+    export_list_id = fields.Many2one('export.list', string='Export List', required=True)
+    csv_file = fields.Binary(string="CSV File", required=True)
+    preview_data = fields.Text(string="Preview Data", readonly=True)
+    
+    def export_csv_template(self):
+        for wizard in self:
+            export_list = wizard.export_list_id
 
-    @api.depends("request_user_id")
-    @api.multi
-    def _get_invoice_id(self):
-        _logger.debug("_gii self._context >>>: %s", self._context)
-        # inv_obj = self.env['account.invoice']
-        invoices = self.env["account.invoice"].browse(self._context.get("active_id", False))
-        if invoices:
-            self.invoice_id = invoices
-            _logger.debug("_gii self.invoice_id >>>: %s", self.invoice_id)
-        else:
-            self.invoice_id = []
+            if export_list:
+                # Get selected fields from the export list
+                selected_fields = export_list.export_fields
 
-    @api.multi
-    def invoice_refund_request(self):
-        req_obj = self.env["account.invoice.refund.request"]
+                # Create a CSV header row
+                header_row = ','.join(selected_fields)
 
-        vals = {
-            "invoice_id": self.invoice_id.id,
-            "invoice_type": self.invoice_id.type,
-            "request_user_id": self.request_user_id.id,
-            "reason": self.reason,
-            "description": self.description,
-            # "state": "request",
-        }
-        if self.invoice_id.company_id:
-            vals["company_id"] = self.invoice_id.company_id.id
+                # Generate a CSV template
+                csv_data = StringIO()
+                csv_writer = csv.writer(csv_data)
+                csv_writer.writerow([header_row])
+
+                # Save the CSV template as an attachment
+                attachment_data = csv_data.getvalue().encode('utf-8')
+                wizard.env['ir.attachment'].create({
+                    'name': 'import_template.csv',
+                    'type': 'binary',
+                    'datas': base64.b64encode(attachment_data),
+                    'res_model': 'import.from.export.list.wizard',
+                    'res_id': wizard.id,
+                })
+
+                # Close the CSV data stream
+                csv_data.close()
+                
+    def _get_preview_data(self, csv_data):
+        # Read a few lines from the CSV data to generate a preview
+        preview_lines = []
+        try:
+            csv_reader = csv.reader(StringIO(csv_data.decode('utf-8')))
+            for i, row in enumerate(csv_reader):
+                if i >= 5:  # Limit the preview to the first 5 rows
+                    break
+                preview_lines.append(','.join(row))
+        except Exception as e:
+            preview_lines.append(f"Error reading CSV: {e}")
+        return '\n'.join(preview_lines)
+                
+    def create_invoices(self):
+        for wizard in self:
+            csv_data = wizard.csv_file
+
+            csv_data = wizard.csv_file
+            preview_data = self._get_preview_data(csv_data)
+            wizard.preview_data = preview_data
+            # Process the CSV data and create invoices
+            # You can use the 'csv' module for parsing as shown in previous examples
+            # After processing, create the invoices using self.env['account.invoice'].create(...
             
-        request = req_obj.create(vals)
-        request["state"] = "request"
-        return request
-        
-    @api.multi
-    def compute_refund(self, mode='refund'):
-        res = super().compute_refund(mode=mode)
-        _logger.debug("_cr res >>>: %s", res)
-        
+            # Add import date and time to the note field of created invoices
+            current_datetime = datetime.datetime.now()
+            note = f"Imported on {current_datetime.strftime('%Y-%m-%d %H:%M:%S')}"
+
+            for invoice in created_invoices:
+                invoice.note = note
+
+            # Create an import log record
+            log_values = {
+                'user_id': self.env.user.id,
+                'model': 'account.invoice',  # Replace with the actual model name
+                'created_record_ids': [(6, 0, [invoice.id for invoice in created_invoices])]
+            }
+            self.env['import.log'].create(log_values)
+            
+            # Delete the attachment after processing
+            attachment = self.env['ir.attachment'].search([('res_model', '=', 'import.from.export.list.wizard'), ('res_id', '=', wizard.id)])
+            if attachment:
+                attachment.unlink()
