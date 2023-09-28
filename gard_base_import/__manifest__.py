@@ -27,16 +27,20 @@ export lists. Users/groups have access to allowed export lists.
     "category": "Extra Tools",
     "license": "AGPL-3",
     "depends": [
+        "base",
         "base_import",
     ],
     # 'demo': [],
     "data": [
+        'data/import_model_data_data.xml',
+        
         'wizard/import_model_data_view.xml',
         
         "security/gard_base_import_security.xml",
         "security/ir.model.access.csv",
         
         'views/ir_exports.xml',
+        # 'views/import_model_data_view.xml',
     ],
     "qweb": [],
     "installable": True,

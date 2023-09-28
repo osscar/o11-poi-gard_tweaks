@@ -18,8 +18,7 @@
             <!-- Add other action attributes as needed -->
         </record>
         
-        <!-- Menus -->
-        <menuitem id="menu_open_import_wizard" name="Import" parent="base.menu_actions" action="action_open_import_wizard"/>
+
 
 
     </data>

@@ -12,4 +12,4 @@ from odoo import models, fields
 class IrExports(models.Model):
     _inherit = 'ir.exports'
 
-    is_import_friendly = fields.Boolean(string='Import Friendly')
+    is_user_template = fields.Boolean(string='User Template')
