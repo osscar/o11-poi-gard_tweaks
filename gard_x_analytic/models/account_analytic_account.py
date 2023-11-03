@@ -49,7 +49,7 @@ class AccountAnalyticAccount(models.Model):
             if code:
                 name = ": ".join([name, code])
             res.append((account.id, name))
-        return res
+            return res
 
     @api.onchange("parent_id")
     def _onchange_parent_id(self):
