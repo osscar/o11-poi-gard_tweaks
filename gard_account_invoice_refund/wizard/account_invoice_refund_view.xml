@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_account_invoice_refund" model="ir.ui.view">
+            <field name="name">account.invoice.refund.form.inherit</field>
+            <field name="model">account.invoice.refund</field>
+            <field name="mode">extension</field>
+            <!-- <field name="priority">28</field> -->
+            <field name="inherit_id" ref="account.view_account_invoice_refund" />
+            <field name="arch" type="xml">
+                
+                <xpath expr="//field[@name='description']" position="attributes">
+                    <attributes name="string">"Description"</attributes>
+                </xpath>
+                <xpath expr="//field[@name='date']" position="attributes">
+                    <attributes name="groups">account.group_account_manager</attributes>
+                </xpath>
+                <xpath expr="//field[@name='description']" position="before">
+                    <field name="invoice_id" />
+                    <field name="request_user_id" />
+                    <separator />
+                    <field name="reason" required="1"/>
+                </xpath>
+                <xpath expr="//field[@name='date']" position="after">
+                    <field name="date_range" force_save="1" />
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_account_invoice_refund_request" model="ir.ui.view">
+            <field name="name">account.invoice.refund.request.form</field>
+            <field name="model">account.invoice.refund</field>
+            <field name="arch" type="xml">
+                <form string="Invoice Refund Request">
+                    <group>
+                        <group>
+                            <field name="filter_refund" groups="account.group_account_manager" />
+                            
+                            <field name="invoice_id" />
+                            <field name="invoice_user_id" />
+                            <separator />
+                            <field name="invoice_date" />
+                        </group>
+                        <group>
+                            <field name="request_user_id" />
+                            <field name="reason" required="1" />
+                            <field name="description" string="Description"/>
+                            <separator />
+                            <field name="date" groups="account.group_account_manager" />
+                            <field name="date_range" force_save="1" />
+                        </group>
+                    </group>
+                    <footer>
+                        <button string='Request Refund' name="invoice_refund_request" type="object"
+                            class="btn-primary" />
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_account_invoice_refund_request_wizard" model="ir.actions.act_window">
+            <field name="name">Invoice Refund Request</field>
+            <field name="res_model">account.invoice.refund</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_account_invoice_refund_request" />
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

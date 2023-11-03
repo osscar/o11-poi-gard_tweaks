@@ -19,16 +19,28 @@ class AccountAnalyticLine(models.Model):
                 ("account_id.name", operator, name),
                 ("move_id.name", operator, name),
             ]
-        lines = self.search(domain + args, limit=limit)
-        return lines.name_get()
-
-    @api.one
-    @api.depends("account_id.tag_ids")
+            lines = self.search(domain + args, limit=limit)
+            res = lines.name_get()
+            if limit:
+                limit_rest = limit - len(lines)
+            else:
+                limit_rest = limit
+            if limit_rest or not limit:
+                args += [('id', 'not in', lines.ids)]
+                res += super().name_search(
+                    name, args=args, operator=operator, limit=limit_rest)
+            return res
+        return super().name_search(
+            name, args=args, operator=operator, limit=limit
+        )
+        
+    @api.multi
+    @api.depends("general_account_id")
     def _get_tag(self):
-        self.ensure_one()
-        for tag in self.account_id.tag_ids:
-            self.analytic_main_tag = tag.display_name
-            self.analytic_main_tag_parent = tag.parent_id.display_name
+        for aal in self:
+            for tag in aal.account_id.tag_ids:
+                aal.analytic_main_tag = tag.display_name
+                aal.analytic_main_tag_parent = tag.parent_id.display_name
 
     analytic_main_tag = fields.Char("Categoría", compute=_get_tag, store=True)
     analytic_main_tag_parent = fields.Char(

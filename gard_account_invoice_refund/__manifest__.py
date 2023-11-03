@@ -15,42 +15,37 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 {
-    "name": "GARD Bolivia - Accounting",
-    'summary': 'GARD\'s Fiscal accounting localization for Bolivia',
+    "name": "GARD Invoice Refund Requests",
+    "summary": "Invoice refund requests",
     "description": """
-Fiscal accounting localization for Bolivia customized
-by GARD based on POIESIS\' customizations
-
-- sales journal based on subsidiary (sucursal)
-
+Adds refund request vouchers to aid delegation, supervision and traceability, 
+from which the refund data is obtained to process the refund.
 """,
-    "version": "11.0.1.0.0",
+    "version": "11.0.0.1.1",
     "author": "squid",
     "category": "Localization",
     "license": "AGPL-3",
     "depends": [
         "account",
-        "branch",
+        "purchase",
+        "sale",
+        "sale_stock",
         "poi_bol_base",
-        "poi_bol_payment_request",
         "poi_bol_siat",
-        "poi_payment_request",
-        "poi_warehouse",
-        "poi_warehouse_invoice",
         "gard_x_gard",
+        "gard_l10n_bo",
     ],
+    # 'demo': [],
     "data": [
-        'report/basic_invoice.xml',
-        'report/invoice_base.xml',
-        'report/siat_invoice.xml',
-
+        'wizard/account_invoice_refund_view.xml',
+        
+        'data/ir_sequence_data.xml',
+        
+        "security/gard_account_invoice_refund_security.xml",
+        "security/ir.model.access.csv",
+        
         'views/account_invoice_view.xml',
-        'views/dosif_view.xml',
-        'views/product_uom_view.xml',
-        'views/siat_catalogo_view.xml',
-        'views/stock_warehouse_view.xml',
-
-        'wizard/siat_cancel_invoice_view.xml',
+        'views/account_invoice_refund_request_view.xml',
     ],
     "qweb": [],
     "installable": True,

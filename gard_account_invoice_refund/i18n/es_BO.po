@@ -1,0 +1,544 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* gard_account_invoice_refund
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-03 01:33+0000\n"
+"PO-Revision-Date: 2023-11-03 01:33+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_date_range
+msgid " * Date Range for request.\n"
+" * In Range: Refund request within refund date range.\n"
+" * Out of Range: Refund request out of refund date range. Requires non-normal procedures.\n"
+""
+msgstr " * Date Range for request.\n"
+" * En Rango: solicitud de rectificativa dentro de rango de fecha.\n"
+" * Fuera de Rango: solicitud de rectificativa fuera de rango de fecha. Requiere gestion no regular.\n"
+""
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_reason
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_request_reason
+msgid " * Fiscal Data: for Tax ID, name errors.\n"
+" * Order: for order errors (eg. product, quantity, UoM).\n"
+" * Other: for other errors. Please include relevant details in notes.\n"
+""
+msgstr " * Datos Fiscales: para errores de datos fiscales. (ej. NIT, nombre cliente, fecha de factura, metodo de pago, etc.)\n"
+" * Pedido: para errores en el pedido (ej. producto, cantidad, UdM).\n"
+" * Other: para otros errores. Por favor incluya datos relevantes.\n"
+""
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_request_invoice_state
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_request_invoice_state_display
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_request_refund_invoice_state
+msgid " * The 'Draft' status is used when a user is encoding a new and unconfirmed Invoice.\n"
+" * The 'Renditioned' status is used when a rendition of a draft invoice is confirmed.\n"
+" * The 'Open' status is used when user creates invoice, an invoice number is generated. It stays in the open status till the user pays the invoice.\n"
+" * The 'Paid' status is set automatically when the invoice is paid. Its related journal entries may or may not be reconciled.\n"
+" * The 'Cancelled' status is used when user cancel invoice."
+msgstr " * The 'Draft' status is used when a user is encoding a new and unconfirmed Invoice.\n"
+" * The 'Renditioned' status is used when a rendition of a draft invoice is confirmed.\n"
+" * The 'Open' status is used when user creates invoice, an invoice number is generated. It stays in the open status till the user pays the invoice.\n"
+" * The 'Paid' status is set automatically when the invoice is paid. Its related journal entries may or may not be reconciled.\n"
+" * The 'Cancelled' status is used when user cancel invoice."
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_request_state
+msgid " * The 'Pending' status is used when a user has created a draft refund invoice to be validated and reconciled.\n"
+" * The 'Done' status is used when the refund invoice has been reconciled with the refunded invoice.\n"
+""
+msgstr " * The 'Pending' status is used when a user has created a draft refund invoice to be validated and reconciled.\n"
+" * The 'Done' status is used when the refund invoice has been reconciled with the refunded invoice.\n"
+""
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.invoice_form
+msgid "Ask for a Credit Note"
+msgstr "Solicitar rectificativa"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_cuf
+msgid "CUF"
+msgstr "CUF"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: gard_account_invoice_refund
+#: selection:account.invoice.refund.request,state:0
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model,name:gard_account_invoice_refund.model_account_invoice_refund
+msgid "Credit Note"
+msgstr "Rectificativa"
+
+#. module: gard_account_invoice_refund
+#: model:ir.actions.act_window,name:gard_account_invoice_refund.action_account_invoice_out_refund_request
+#: model:ir.ui.menu,name:gard_account_invoice_refund.menu_action_account_invoice_out_refund_request
+msgid "Customer Invoice Refund Requests"
+msgstr "Solicitudes de rectificativa Cliente"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_date_done
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Date Done"
+msgstr "Fecha realizada"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_date_range
+msgid "Date Range"
+msgstr "Rango de fecha"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Date Requested"
+msgstr "Fecha solicitada"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request
+msgid "Description"
+msgstr "Descripción"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: gard_account_invoice_refund
+#: selection:account.invoice.refund.request,state:0
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Done"
+msgstr "Hecho"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_cc_dos
+msgid "Dosificación"
+msgstr "Dosificación"
+
+#. module: gard_account_invoice_refund
+#: selection:account.invoice.refund.request,state:0
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_request_siat_state
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_request_siat_state_display
+msgid "Especifica si la Factura ha sido enviada a los servidores del SIAT con éxito."
+msgstr "Especifica si la Factura ha sido enviada a los servidores del SIAT con éxito."
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_siat_state
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_siat_state_display
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_form
+msgid "Estado SIAT"
+msgstr "Estado SIAT"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_estado_fac
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_estado_fac_display
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_form
+msgid "Estado SIN"
+msgstr "Estado SIN"
+
+#. module: gard_account_invoice_refund
+#: selection:account.invoice.refund.request,state:0
+msgid "Exception"
+msgstr "Excepcion"
+
+#. module: gard_account_invoice_refund
+#: selection:account.invoice.refund,reason:0
+#: selection:account.invoice.refund.request,reason:0
+msgid "Fiscal Data"
+msgstr "Datos Fiscales"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Future Activities"
+msgstr "Actividades futuras"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_id
+msgid "ID"
+msgstr "ID"
+
+#. module: gard_account_invoice_refund
+#: selection:account.invoice.refund,date_range:0
+msgid "In Range"
+msgstr "Dentro de rango"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model,name:gard_account_invoice_refund.model_account_invoice
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_invoice_id_10036
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_invoice_id
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_form
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_invoice_date
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_invoice_date
+msgid "Invoice Date"
+msgstr "Fecha factura"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_invoice_picking_ids
+msgid "Invoice Picking"
+msgstr "Albaranes"
+
+#. module: gard_account_invoice_refund
+#: model:ir.actions.act_window,name:gard_account_invoice_refund.action_account_invoice_refund_request_wizard
+#: model:ir.model,name:gard_account_invoice_refund.model_account_invoice_refund_request
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_form
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_tree
+msgid "Invoice Refund Request"
+msgstr "Solicitud de rectificativa"
+
+#. module: gard_account_invoice_refund
+#: model:ir.actions.act_window,name:gard_account_invoice_refund.action_account_invoice_refund_request
+#: model:ir.ui.menu,name:gard_account_invoice_refund.menu_action_invoice_refund_request
+msgid "Invoice Refund Requests"
+msgstr "Solicitudes de rectificativa"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_invoice_state
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_invoice_state_display
+msgid "Invoice State"
+msgstr "Estado factura"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_invoice_stock_move_ids
+msgid "Invoice Stock Move"
+msgstr "Movimientos de existencia"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Invoice Type"
+msgstr "Tipo factura"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Invoiced By"
+msgstr "Facturado por"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.menu,name:gard_account_invoice_refund.menu_finance_entries_accounting_invoices
+msgid "Invoices"
+msgstr "Facturas"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_form
+msgid "Invoices & Refunds"
+msgstr "Facturas & Rectificativas"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_invoice_date
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_request_invoice_date
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_request_refund_invoice_date
+msgid "Keep empty to use the current date"
+msgstr "Dejarlo vacío para utilizar la fecha actual."
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_request_date_done
+msgid "Keep empty to use the current date."
+msgstr "Dejar vacío para utilizar la fecha actual."
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización de"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Late Activities"
+msgstr "Actividades tardías"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_dos_mode
+msgid "Modalidad SIN"
+msgstr "Modalidad SIN"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "My Activities"
+msgstr "Mis actividades"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "My Requests"
+msgstr "Mis solicitudes"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_tree
+msgid "Name"
+msgstr "Nombre"
+
+#. module: gard_account_invoice_refund
+#: selection:account.invoice.refund,reason:0
+#: selection:account.invoice.refund.request,reason:0
+msgid "Order"
+msgstr "Pedido"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_name
+msgid "Order Reference"
+msgstr "Referencia del pedido"
+
+#. module: gard_account_invoice_refund
+#: selection:account.invoice.refund,reason:0
+#: selection:account.invoice.refund.request,reason:0
+msgid "Other"
+msgstr "Otro"
+
+#. module: gard_account_invoice_refund
+#: selection:account.invoice.refund,date_range:0
+msgid "Out of Range"
+msgstr "Fuera de rango"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Overdue"
+msgstr "Vencidas"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Overdue refund requests."
+msgstr "Solicitudes vencidas."
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_invoice_payment_move_line_ids
+msgid "Payment Move Lines"
+msgstr "Líneas de asiento de pago"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_invoice_payment_ids
+msgid "Payments"
+msgstr "Pagos"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Pending"
+msgstr "Pendiente"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_form
+msgid "Pickings & Payments"
+msgstr "Albaranes y pagos"
+
+#. module: gard_account_invoice_refund
+#: model:ir.actions.act_window,name:gard_account_invoice_refund.action_account_invoice_in_refund_request
+#: model:ir.ui.menu,name:gard_account_invoice_refund.menu_action_account_invoice_in_refund_request
+msgid "Purchase Invoice Refund Requests"
+msgstr "Solicitudes de rectificativa Compras"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_form
+msgid "Purchase Refund"
+msgstr "Rectificativa de Compra"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_stock_move_pending_qty
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_stock_move_pending_qty_display
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_form
+msgid "Qty. Pending"
+msgstr "Cant. Pendiente"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_reason
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_reason
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Reason"
+msgstr "Motivo"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_description
+msgid "Reason Notes"
+msgstr "Notas"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_form
+msgid "Reassign Request"
+msgstr "Reasignar solicitud"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_form
+msgid "Refund"
+msgstr "Rectificar"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_refund_invoice_id
+msgid "Refund Invoice"
+msgstr "Factura de rectificativa"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_refund_invoice_date
+msgid "Refund Invoice Date"
+msgstr "Fecha factura de rectificativa"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_refund_invoice_state
+msgid "Refund Invoice State"
+msgstr "Estado factura de rectificativa"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_ids
+msgid "Refund Request"
+msgstr "Solicitud rectificativa"
+
+#. module: gard_account_invoice_refund
+#: model:res.groups,name:gard_account_invoice_refund.group_request_manager
+msgid "Refund Request Manager"
+msgstr "Responsable solicitudes de rectificativa"
+
+#. module: gard_account_invoice_refund
+#: model:res.groups,name:gard_account_invoice_refund.group_request_user
+msgid "Refund Request User"
+msgstr "Usuario solicitudes de rectificativa"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_user_id
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_user_id_10035
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Refunded By"
+msgstr "Solicitado por"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Request"
+msgstr "Solicitar"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.invoice_form
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request
+msgid "Request Refund"
+msgstr "Solicitar rectificativa"
+
+#. module: gard_account_invoice_refund
+#: selection:account.invoice.refund.request,state:0
+msgid "Requested"
+msgstr "Solicitado"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_request_user_id
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Requested By"
+msgstr "Solocitado por"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_date_request
+msgid "Requested Date"
+msgstr "Fecha solicitado"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_info
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.invoice_form
+msgid "Requests"
+msgstr "Solicitudes"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_form
+msgid "SIAT Cancel"
+msgstr "Anulacion SIAT"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_form
+msgid "Sale Refund"
+msgstr "Rectificativa de venta"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_invoice_user_id
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_invoice_user_id
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Salesperson"
+msgstr "Vendedor"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Search Invoice"
+msgstr "Buscar factura"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_request_cc_dos
+msgid "Serie de dosificación según parametrización. Asocia Número de autorización y Llave de dosificación."
+msgstr "Serie de dosificación según parametrización. Asocia Número de autorización y Llave de dosificación."
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Show all records which has next action date is before today"
+msgstr "Mostrar todos los registros que tienen la próxima fecha de acción antes de hoy"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_state
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Status"
+msgstr "Estado"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_request_request_user_id
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_request_user_id
+#: model:ir.model.fields,help:gard_account_invoice_refund.field_account_invoice_refund_request_user_id_10035
+msgid "The user processing this request."
+msgstr "The user processing this request."
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+msgid "Today Activities"
+msgstr "Actividades de Hoy"
+
+#. module: gard_account_invoice_refund
+#: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_invoice_type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_form
+msgid "Unreconcile Payments"
+msgstr "Desconciliar pagos"
