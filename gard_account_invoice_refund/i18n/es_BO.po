@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-03 01:33+0000\n"
-"PO-Revision-Date: 2023-11-03 01:33+0000\n"
+"POT-Creation-Date: 2023-11-04 14:21+0000\n"
+"PO-Revision-Date: 2023-11-04 14:21+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -61,11 +61,6 @@ msgid " * The 'Pending' status is used when a user has created a draft refund in
 msgstr " * The 'Pending' status is used when a user has created a draft refund invoice to be validated and reconciled.\n"
 " * The 'Done' status is used when the refund invoice has been reconciled with the refunded invoice.\n"
 ""
-
-#. module: gard_account_invoice_refund
-#: model:ir.ui.view,arch_db:gard_account_invoice_refund.invoice_form
-msgid "Ask for a Credit Note"
-msgstr "Solicitar rectificativa"
 
 #. module: gard_account_invoice_refund
 #: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_cuf
@@ -126,6 +121,7 @@ msgid "Date Requested"
 msgstr "Fecha solicitada"
 
 #. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund
 #: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request
 msgid "Description"
 msgstr "Descripción"
@@ -137,9 +133,11 @@ msgstr "Nombre a mostrar"
 
 #. module: gard_account_invoice_refund
 #: selection:account.invoice.refund.request,state:0
+#: code:addons/gard_account_invoice_refund/models/account_invoice.py:35
 #: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+#, python-format
 msgid "Done"
-msgstr "Hecho"
+msgstr "Realizado"
 
 #. module: gard_account_invoice_refund
 #: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_cc_dos
@@ -364,14 +362,16 @@ msgid "Payments"
 msgstr "Pagos"
 
 #. module: gard_account_invoice_refund
+#: code:addons/gard_account_invoice_refund/models/account_invoice.py:33
 #: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_filter
+#, python-format
 msgid "Pending"
 msgstr "Pendiente"
 
 #. module: gard_account_invoice_refund
 #: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_form
 msgid "Pickings & Payments"
-msgstr "Albaranes y pagos"
+msgstr "Albaranes & Pagos"
 
 #. module: gard_account_invoice_refund
 #: model:ir.actions.act_window,name:gard_account_invoice_refund.action_account_invoice_in_refund_request
@@ -382,7 +382,7 @@ msgstr "Solicitudes de rectificativa Compras"
 #. module: gard_account_invoice_refund
 #: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_form
 msgid "Purchase Refund"
-msgstr "Rectificativa de Compra"
+msgstr "Rectificativa de compra"
 
 #. module: gard_account_invoice_refund
 #: model:ir.model.fields,field_description:gard_account_invoice_refund.field_account_invoice_refund_request_stock_move_pending_qty
@@ -542,3 +542,9 @@ msgstr "Tipo"
 #: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund_request_form
 msgid "Unreconcile Payments"
 msgstr "Desconciliar pagos"
+
+#. module: gard_account_invoice_refund
+#: model:ir.ui.view,arch_db:gard_account_invoice_refund.view_account_invoice_refund
+msgid "account.group_account_manager"
+msgstr "account.group_account_manager"
+
