@@ -11,15 +11,15 @@
                     <field name="name" string="Invoice"
                         filter_domain="['|','|', ('name','ilike',self), ('invoice_id','ilike',self), ('user_id', 'ilike', self)" />
                     <filter name="draft" string="Draft" domain="[('state','=','draft')]" />
-                    <filter name="request" string="Request" domain="[('state', '=', 'request')]" />
+                    <filter name="request" string="Requested" domain="[('state', '=', 'request')]" />
                     <filter name="done" string="Done" domain="[('state', '=', 'done')]" />
                     <filter name="done" string="Cancelled" domain="[('state', '=', 'cancel')]" />
                     <filter name="late" string="Overdue"
                         domain="['&amp;', ('date_request', '&lt;', time.strftime('%%Y-%%m-%%d')), ('state', '=', 'request')]"
                         help="Overdue refund requests." />
                     <separator />
-                    <field name="user_id" string="Salesperson" domain="[('share','=', False)]" />
-                    <field name="request_user_id" string="Salesperson"
+                    <field name="user_id" string="Assigned User" domain="[('share','=', False)]" />
+                    <field name="request_user_id" string="Requested By"
                         domain="[('share','=', False)]" />
                     <field name="invoice_user_id" string="Salesperson"
                         domain="[('share','=', False)]" />
@@ -31,7 +31,8 @@
                     <separator />
                     <filter domain="[('state','!=','done')]" help="Pending" />
                     <separator />
-                    <filter domain="[('user_id','=',uid)]" help="My Requests" />
+                    <filter domain="[('request_user_id','=',uid)]" help="My Requests" />
+                    <filter domain="[('user_id','=',uid)]" help="My Assigned Requests" />
                     <filter string="My Activities" name="activities_my"
                         domain="[('activity_ids.user_id', '=', uid)]" />
                     <separator />
@@ -44,7 +45,7 @@
                         domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))
                         ]" />
                     <group expand="0" string="Group By">
-                        <filter string="Refunded By" context="{'group_by':'user_id'}" />
+                        <filter string="Assigned User" context="{'group_by':'user_id'}" />
                         <filter string="Requested By" context="{'group_by':'request_user_id'}" />
                         <filter string="Invoiced By" context="{'group_by':'invoice_user_id'}" />
                         <separator />

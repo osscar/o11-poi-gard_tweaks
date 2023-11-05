@@ -11,7 +11,7 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//field[@name='description']" position="replace">
-                    <field name="reason" string="Decription"/>
+                    <field name="description" string="Description"/>
                 </xpath>
                 <xpath expr="//field[@name='date']" position="attributes">
                     <attributes name="groups">account.group_account_manager</attributes>

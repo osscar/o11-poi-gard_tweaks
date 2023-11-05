@@ -88,7 +88,7 @@ class AccountInvoiceRefundRequest(models.Model):
     )
     user_id = fields.Many2one(
         "res.users",
-        string="Refunded By",
+        string="Assigned User",
         readonly=True,
         default=lambda self: self.env.user,
         copy=False,
