@@ -11,9 +11,9 @@ class AccountAnalyticAccount(models.Model):
     ]
         
     @api.model
-    def name_search(self, name, args=None, operator="ilike", limit=30):
-        args = args or []
-        domain = []
+    def name_search(self, name, args=None, operator="ilike", limit=100):
+        if not args:
+            args = []
         if name:
             domain = [
                 "|",
@@ -24,14 +24,27 @@ class AccountAnalyticAccount(models.Model):
                 ("parent_id.name", operator, name),
                 ("department_id.name", operator, name)
             ]
-        recs = self.search(domain + args, limit=limit)
-        return recs.name_get()
+            accounts = self.search(domain + args, limit=limit, )
+            res = accounts.name_get() or []
+            if res:
+                if limit:
+                        limit_rest = limit - len(accounts)
+                else:
+                    limit_rest = limit
+                if limit_rest or not limit:
+                    args += [('id', 'not in', accounts.ids)]
+                    res += super().name_search(
+                        name, args=args, operator=operator, limit=limit_rest)
+                return res
+        return super().name_search(
+            name, args=args, operator=operator, limit=limit
+        )
 
     @api.multi
-    @api.depends("name")
     def name_get(self):
         res = []
         for account in self:
+            # res = super(AccountAnalyticAccount, account).name_get()
             name = account.name
             code = account.code
             if code:

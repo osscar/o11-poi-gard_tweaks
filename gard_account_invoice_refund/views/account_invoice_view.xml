@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Search Views -->
+
+        <!-- Form Views -->
+        <record model="ir.ui.view" id="invoice_form">
+            <field name="name">account.invoice.form.inherit.gard_account_invoice_refund</field>
+            <field name="model">account.invoice</field>
+            <field name="mode">extension</field>
+            <field name="priority">28</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <field name="refund_request_ids" invisible="1" />
+                    <button type="object"
+                        name="action_view_refund_request"
+                        class="oe_stat_button"
+                        icon="fa-paper-plane-o"
+                        attrs="{'invisible': [('refund_request_ids', '=', [])]}"
+                        groups="base.group_user">
+                        <field name="refund_request_info" widget="statinfo" string="Requests" />
+                    </button>
+                </xpath>
+                <xpath expr="//button[@name='%(account.action_account_invoice_refund)d']"
+                    position="replace">
+                </xpath>
+                <xpath expr="//button[@name='%(account.action_account_invoice_payment)d']"
+                    position="after">
+                    <button name="%(action_account_invoice_refund_request_wizard)d" type='action'
+                        string='Request Refund' groups="account.group_account_invoice"
+                        attrs="{'invisible': ['|','|',('type', 'in', ['in_refund','out_refund']),('state','not in',('open','paid')),('refund_request_ids','!=',[])]}" />
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Actions -->
+
+        <!-- Menus -->
+    </data>
+</odoo>

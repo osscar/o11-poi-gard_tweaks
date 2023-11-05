@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- SIAT menu add security groups -->
+        <menuitem id="poi_bol_siat.menu_siat_root" name="SIAT" parent="account.menu_finance" sequence="5" groups="account.group_account_manager" />
+        <menuitem id="poi_bol_siat.menu_siat_catalog" name="Catálogo" parent="poi_bol_siat.menu_siat_root" sequence="4" groups="account.group_account_manager" />
+
+    </data>
+</odoo>
