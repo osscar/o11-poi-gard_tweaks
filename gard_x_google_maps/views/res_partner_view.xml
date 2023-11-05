@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- web_google_maps customizations -->
+    <!--  -->
     <record id="view_res_partner_form_inherit" model="ir.ui.view">
         <field name="name">view.res.partner.form.inherit</field>
         <field name="model">res.partner</field>
@@ -59,7 +61,7 @@
             </xpath>
         </field>
     </record>
-    <record id="view_res_partner_type_form_inherit" model="ir.ui.view">
+    <!-- <record id="view_res_partner_type_form_inherit" model="ir.ui.view">
         <field name="name">view.res.partner.type.form.inherit</field>
         <field name="model">res.partner.type</field>
         <field name="inherit_id" ref="base.view_partner_type_form"/>
@@ -100,7 +102,6 @@
                                 <group>
                                     <group>
                                         <field name="shape_name"/>
-                                        <!-- the widget needs this field to be loaded -->
                                         <field name="shape_type" invisible="1"/> 
                                     </group>
                                     <group>
@@ -117,5 +118,5 @@
                 </page>
             </xpath>
         </field>
-    </record>
+    </record> -->
 </odoo>

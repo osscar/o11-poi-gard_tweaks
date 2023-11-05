@@ -10,7 +10,9 @@ Partner Area
 ============
 """,
     'depends': [
-        'contacts',
+        # 'contacts',
+        'base_geolocalize',
+        'stock',
         'web_google_maps',
         'web_google_maps_drawing',
     ],
@@ -18,7 +20,8 @@ Partner Area
     'data': [
         'security/ir.model.access.csv',
         'views/res_partner_view.xml',
-        'views/res_partner_area_view.xml'
+        'views/res_partner_area_view.xml',
+        'views/stock_picking_view.xml',
     ],
     'demo': [],
     'installable': True
