@@ -9,9 +9,9 @@
             <!-- <field name="priority">28</field> -->
             <field name="inherit_id" ref="account.view_account_invoice_refund" />
             <field name="arch" type="xml">
-                
-                <xpath expr="//field[@name='description']" position="attributes">
-                    <attributes name="string">"Description"</attributes>
+
+                <xpath expr="//field[@name='description']" position="replace">
+                    <field name="description" string="Description"/>
                 </xpath>
                 <xpath expr="//field[@name='date']" position="attributes">
                     <attributes name="groups">account.group_account_manager</attributes>
@@ -25,6 +25,7 @@
                 <xpath expr="//field[@name='date']" position="after">
                     <field name="date_range" force_save="1" />
                 </xpath>
+
             </field>
         </record>
 

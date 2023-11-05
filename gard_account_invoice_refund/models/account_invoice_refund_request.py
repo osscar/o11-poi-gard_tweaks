@@ -64,13 +64,15 @@ class AccountInvoiceRefundRequest(models.Model):
         readonly=True,
         copy=False,
         track_visibility="always",
-        help=" * The 'Pending' status is used when a user has created a draft refund invoice to be validated and reconciled.\n"
-        " * The 'Done' status is used when the refund invoice has been reconciled with the refunded invoice.\n",
+        help=" * 'Draft': refund request is created but not yet requested.\n"
+        " * 'Requested': refund request has been requested.\n"
+        " * 'Done': refund has been processed succesfully.\n"
+        " * 'Except': refund request has exceptions.\n"
+        " * 'Cancel': refund request has been cancelled.\n",
     )
     date_request = fields.Date(
-        string="Requested Date",
+        string="Request Date",
         readonly=True,
-        # states={"draft": [("readonly", False)]},
         default=fields.Date.context_today,
         index=True,
         copy=False,
@@ -86,9 +88,8 @@ class AccountInvoiceRefundRequest(models.Model):
     )
     user_id = fields.Many2one(
         "res.users",
-        string="Refunded By",
+        string="Assigned User",
         readonly=True,
-        # states={"draft": [("readonly", False)]},
         default=lambda self: self.env.user,
         copy=False,
         track_visibility="onchange",
@@ -141,6 +142,22 @@ class AccountInvoiceRefundRequest(models.Model):
     invoice_type = fields.Selection(
         related="invoice_id.type",
         readonly=True,
+        track_visibility="onchange",
+    )
+    invoice_sale_order_ids = fields.Many2many(
+        comodel_name="sale.order",
+        relation="refund_request_sale_order_ids_rel",
+        compute="_compute_invoice_order_ids",
+        readonly=True,
+        store=True,
+        track_visibility="onchange",
+    )
+    invoice_purchase_order_ids = fields.Many2many(
+        comodel_name="purchase.order",
+        relation="refund_request_purchase_order_ids_rel",
+        compute="_compute_invoice_order_ids",
+        readonly=True,
+        store=True,
         track_visibility="onchange",
     )
     invoice_date = fields.Date(
@@ -211,7 +228,6 @@ class AccountInvoiceRefundRequest(models.Model):
         comodel_name="stock.picking",
         relation="refund_request_picking_ids_rel",
         compute="_compute_invoice_picking_ids",
-        # string="Receptions",
         readonly=True,
         store=True,
         track_visibility="onchange",
@@ -219,7 +235,6 @@ class AccountInvoiceRefundRequest(models.Model):
     invoice_stock_move_ids = fields.Many2many(
         comodel_name="stock.move",
         compute="_compute_invoice_stock_move_ids",
-        # string="Receptions",
         readonly=True,
         store=True,
         track_visibility="onchange",
@@ -228,7 +243,7 @@ class AccountInvoiceRefundRequest(models.Model):
         "Qty. Pending",
         compute="_compute_stock_move_pending_qty",
         readonly=True,
-        # store=True,
+        store=True,
         track_visibility="onchange",
     )
     stock_move_pending_qty_display = fields.Float(
@@ -250,7 +265,7 @@ class AccountInvoiceRefundRequest(models.Model):
     def _write(self, vals):
         for request in self:
             user = request.user_id
-            if user:
+            if user and self._context.get("active_test") != False:
                 if user != self.env.user and not request._context.get("assign_user"):
                     raise ValidationError(
                         ("Please reassign the request to yourself to continue.")
@@ -290,49 +305,68 @@ class AccountInvoiceRefundRequest(models.Model):
             ),
             "check_qty_pending": self.stock_move_pending_qty == 0,
         }
-        _logger.debug("_cs check_done >>>: %s", check_done)
         if state == "done":
-            _logger.debug("_cs state done >>>: %s", state)
-            _logger.debug("_cs state done any(ch_d) >>>: %s", any(c == False for c in check_done.values()))
             if not all(check_done.values()):
-                # self.write({"state": "except"})
                 state = "except"
-                _logger.debug("_cs state request if any >>>: %s", state)
-                # return "except"
         elif state in ("request", "except"):
-            _logger.debug("_cs state (request, except) >>>: %s", state)
             if all(check_done.values()):
                 state = "done"
-                # self.write({"state": "done"})
-                _logger.debug("_cs state request if all >>>: %s", state)
-                # return "done"
         return state
 
-    @api.one
+    @api.multi
     @api.depends(
         "user_id",
-        "stock_move_pending_qty",
+        "invoice_id",
+    )
+    def _compute_invoice_order_ids(self):
+        for request in self:
+            order_ids = []
+            order_type = False
+            if request.invoice_id:
+                invoice_type = request.invoice_type
+                if invoice_type == "out_invoice":
+                    order_type = "sale"
+                elif invoice_type == "in_invoice":
+                    order_type = "purchase"
+                get_order_ids = []
+                if request.invoice_id.invoice_line_ids:
+                    for inv_line in request.invoice_id.invoice_line_ids:
+                        il_order_line_ids = str(order_type + "_line_ids")
+                        get_order_ids = [
+                            o["id"]
+                            for ol in inv_line[il_order_line_ids]
+                            for o in ol["order_id"]
+                        ]
+                order_ids = self.env[str(order_type + ".order")]
+                order_ids = order_ids.search([("id", "in", get_order_ids)])
+            if order_type:
+                order_field = str("invoice_" + order_type + "_order_ids")
+                request[order_field] = order_ids
+
+    @api.multi
+    @api.depends(
+        "invoice_sale_order_ids.picking_ids",
+        "invoice_purchase_order_ids.picking_ids",
     )
     def _compute_invoice_picking_ids(self):
-        self.ensure_one()
-        pick_ids = self.env["stock.picking"]
-        get_pick_ids = []
-        if self.invoice_id.invoice_line_ids:
-            for inv_line in self.invoice_id.invoice_line_ids:
+        for request in self:
+            pick_ids = self.env["stock.picking"]
+            get_pick_ids = []
+            if request.invoice_sale_order_ids or request.invoice_purchase_order_ids:
                 if self.invoice_type == "out_invoice":
                     get_pick_ids = [
                         p.id
-                        for sl in inv_line.sale_line_ids
-                        for p in sl.order_id.picking_ids
+                        for so in request.invoice_sale_order_ids
+                        for p in so.picking_ids
                     ]
                 elif self.invoice_type == "in_invoice":
                     get_pick_ids = [
                         p.id
-                        for pl in inv_line.purchase_line_ids
-                        for p in pl.order_id.picking_ids
+                        for po in request.invoice_purchase_order_ids
+                        for p in so.picking_ids
                     ]
-        pick_ids = pick_ids.search([("id", "in", get_pick_ids)])
-        self.invoice_picking_ids = pick_ids
+            pick_ids = pick_ids.search([("id", "in", get_pick_ids)])
+            request.invoice_picking_ids = pick_ids
 
     @api.multi
     @api.depends(
@@ -345,6 +379,9 @@ class AccountInvoiceRefundRequest(models.Model):
             sm_ids = [sm.id for p in request.invoice_picking_ids for sm in p.move_lines]
             request.invoice_stock_move_ids = sm_ids
 
+    @api.depends(
+        "invoice_stock_move_ids.state",
+    )
     @api.multi
     def _compute_stock_move_pending_qty(self):
         qty_pending = 0.0
@@ -365,6 +402,10 @@ class AccountInvoiceRefundRequest(models.Model):
 
     def button_invoice_siat_cancel(self):
         # pass invoice as active record for refund wizard
+        if self.user_id != self.env.user:
+            raise ValidationError(
+                ("Please reassign the request to yourself to continue.")
+            )
         if (
             self.state != "request"
             or self.stock_move_pending_qty != 0

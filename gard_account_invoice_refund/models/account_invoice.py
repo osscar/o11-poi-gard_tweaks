@@ -10,9 +10,7 @@ _logger = logging.getLogger(__name__)
 
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
-    # _rec_name = "record_name"
 
-    # record_name = fields.Char('Complete Name', compute='_compute_record_name', store=True)
     refund_request_ids = fields.One2many(
         comodel_name="account.invoice.refund.request",
         inverse_name="invoice_id",
@@ -22,21 +20,38 @@ class AccountInvoice(models.Model):
         string="Requests", compute="_compute_refund_request_ids"
     )
 
+    @api.multi
+    def name_get(self):
+        res = []
+        for invoice in self:
+            ref = str(invoice.cc_nro or invoice.supplier_invoice_number or invoice.reference)
+            origin = invoice.origin
+            record_name = invoice.number or ""
+            if ref:
+                record_name = ": ".join([record_name, ref])
+            if origin:
+                record_name = " / ".join([record_name, origin])
+            res.append((invoice.id, record_name))
+        return res
+
     @api.depends("refund_request_ids")
     def _compute_refund_request_ids(self):
         for invoice in self:
+            _logger.debug(
+                "_crri invoice.refund_request_ids >>>: %s", invoice.refund_request_ids
+            )
             request_count = len(invoice.refund_request_ids)
             request_state = False
             if invoice.refund_request_ids:
                 request_state = (
-                    "Pending"
+                    _("Pending")
                     if any(rq.state != "done" for rq in invoice.refund_request_ids)
-                    else "Done"
+                    else _("Done")
                 )
             invoice.refund_request_info = (
                 str(request_count) + ": " + (request_state or "")
             )
-       
+
     @api.multi
     def action_view_refund_request(self):
         """
@@ -62,25 +77,3 @@ class AccountInvoice(models.Model):
             ]
             action["res_id"] = requests.id
         return action
-
-    # @api.depends('number', 'origin', "cc_nro")
-    # def _compute_record_name(self):
-    #     if self:
-    #         for invoice in self:
-    #             _logger.debug("_crn self >>>: %s", invoice)
-    #             ref = invoice.cc_nro or invoice.supplier_invoice_number or invoice.reference
-    #             origin = invoice.origin
-
-    #             record_name = invoice.number
-    #             _logger.debug("_crn ref >>>: %s", ref)
-    #             _logger.debug("_crn origin >>>: %s", origin)
-    #             _logger.debug("_crn rn >>>: %s", record_name)
-    #             if ref:
-    #                 record_name = '%s: F%s' % (record_name, ref)
-    #                 _logger.debug("_crn if ref rn >>>: %s", record_name)
-    #             if origin:
-    #                 record_name = '%s / %s' % (record_name, origin)
-    #                 _logger.debug("_crn if origin rn >>>: %s", record_name)
-
-    #             invoice.record_name = record_name
-    #             _logger.debug("_crn if ref rn >>>: %s", record_name)

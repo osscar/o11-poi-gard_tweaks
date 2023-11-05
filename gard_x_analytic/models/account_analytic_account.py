@@ -11,7 +11,7 @@ class AccountAnalyticAccount(models.Model):
     ]
         
     @api.model
-    def name_search(self, name, args=None, operator="ilike", limit=30):
+    def name_search(self, name, args=None, operator="ilike", limit=100):
         if not args:
             args = []
         if name:
@@ -41,11 +41,10 @@ class AccountAnalyticAccount(models.Model):
         )
 
     @api.multi
-    @api.depends("name")
     def name_get(self):
         res = []
         for account in self:
-            res = super(AccountAnalyticAccount, account).name_get()
+            # res = super(AccountAnalyticAccount, account).name_get()
             name = account.name
             code = account.code
             if code:
