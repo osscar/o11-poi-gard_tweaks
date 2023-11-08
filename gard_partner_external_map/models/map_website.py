@@ -9,12 +9,7 @@ from odoo import models, fields
 class MapWebsite(models.Model):
     _inherit = 'map.website'
 
-    multi_route_address_url = fields.Char(
-        string='Route URL that uses the addresses',
+    multi_route_url = fields.Char(
+        string='Multi Route URL',
         help="In this URL, {GEOCOORDS} will be "
-        "replaced by the start and destination addresses.")
-    multi_route_lat_lon_url = fields.Char(
-        string='Route URL that uses latitude and longitude',
-        help="In this URL, {GEOCOORDS} will be replaced by the "
-        "latitude and longitude of the start and destination adresses "
-        "(requires the module 'base_geolocalize').")
+        "replaced by the partner addresses or coordinates.")

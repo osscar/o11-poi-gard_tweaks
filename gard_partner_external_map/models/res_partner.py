@@ -2,7 +2,7 @@
 # © 2015-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # © 2016 Pedro M. Baeza <pedro.baeza@tecnativa.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-import logging
+import logging, urllib.parse
 
 from odoo import models, api, _
 from odoo.exceptions import UserError
@@ -13,8 +13,9 @@ _logger = logging.getLogger(__name__)
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    # @api.multi
-    # def _address_as_string(self):
+    @api.multi
+    def _address_as_string(self):
+        return urllib.parse.quote_plus(super()._address_as_string())
     #     self.ensure_one()
     #     addr = []
     #     if self.street:
@@ -35,7 +36,6 @@ class ResPartner(models.Model):
     def open_route_map(self):
         if len(self) < 2:
             return super().open_route_map()
-        url = False
         geo_coords = {}
         route = False
         map_website = self.env.user.context_route_map_website_id
@@ -50,25 +50,23 @@ class ResPartner(models.Model):
                 raise UserError(
                     _('Missing start address for route map: '
                     'you should set it in your preferences.'))
-            start_partner = self.env.user.context_route_start_partner_id
+            start_partner = self.env.user.company_id.partner_id
             if (start_partner.partner_latitude and start_partner.partner_longitude):
-                geo_coords['{GEOCOORDS}'] = str(start_partner.partner_latitude) + ", " + str(start_partner.partner_longitude)
+                geo_coords['{GEOCOORDS}'] = "@" + str(start_partner.partner_latitude) + "," + str(start_partner.partner_longitude)
             else:
                 geo_coords['{GEOCOORDS}'] = start_partner._address_as_string()
             _logger.debug('orm start_partner geo_coords >>> %s', geo_coords)
+            route = "multi_route_url"
+            if not map_website[route]:
+                raise UserError(
+                    _("Missing route URL that uses the addresses "
+                        "for the map website '%s'") % map_website.name)
             for partner in self:
-                if (map_website.multi_route_lat_lon_url and
-                        hasattr(partner, 'partner_latitude') and
+                if (hasattr(partner, 'partner_latitude') and
                         partner.partner_latitude and partner.partner_longitude):
-                    route = "multi_route_lat_lon_url"
                     _logger.debug('orm mrllu geo_coords >>> %s', geo_coords)
-                    geo_coords['{GEOCOORDS}'] += "/" + str(partner.partner_latitude)  + ", " + str(partner.partner_longitude)
+                    geo_coords['{GEOCOORDS}'] += "/" + "@" + str(partner.partner_latitude)  + "," + str(partner.partner_longitude)
                 else:
-                    if not map_website.multi_route_address_url:
-                        raise UserError(
-                            _("Missing route URL that uses the addresses "
-                                "for the map website '%s'") % map_website.name)
-                    route = "multi_route_address_url"
                     geo_coords['{GEOCOORDS}'] += "/" + partner._address_as_string()
                     _logger.debug('orm mrau geo_coords >>> %s', geo_coords)
             url = self.env['res.partner']._prepare_url(map_website[route], geo_coords)
