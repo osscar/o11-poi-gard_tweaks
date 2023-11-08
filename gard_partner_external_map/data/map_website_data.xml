@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2015-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl-3). -->
+
+<odoo>
+    <data>
+
+        <!-- Interesting source of information: http://northwestspatial.com/wp/?p=38 -->
+        <record id="google_maps" model="map.website">
+            <field name="name">Multi Google Maps</field>
+            <field name="multi_route_address_url">https://www.google.com/maps/dir/{GEOCOORDS}/</field>
+            <field name="multi_route_lat_lon_url">https://www.google.com/maps/dir/{GEOCOORDS}/</field>
+        </record>
+
+    </data>
+</odoo>

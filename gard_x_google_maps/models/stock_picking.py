@@ -1,6 +1,9 @@
 # -*- encoding: utf-8 -*-
+import logging
+
 from odoo import fields, models, api
 
+_logger = logging.getLogger(__name__)
 
 # class ResPartnerArea(models.Model):
 #     """ Inherit Drawing mixins model 'google_maps.drawing.shape.mixin' """
@@ -34,7 +37,7 @@ from odoo import fields, models, api
 #         'res.partner.type.area', 'partner_type', string='Area')
 
 class StockPicking(models.Model):
-    _inherit = "stock.picking"
+    _inherit = 'stock.picking'
 
     partner_latitude = fields.Float(related="partner_id.partner_latitude")
     partner_longitude = fields.Float(related="partner_id.partner_longitude")
@@ -83,6 +86,3 @@ class StockPicking(models.Model):
                     }
                 )
         return True
-
-
-
