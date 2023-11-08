@@ -118,9 +118,9 @@
                             <div class="oe_inline info-box oe_invoice_state">
                                 <span class="info-box-icon">
                                     <i class="fa fa-2x fa-check-circle" style="color: darkslateblue"
-                                        attrs="{'invisible': [('state','!=', 'done')]}"></i>
+                                        attrs="{'invisible': [('state','!=','done')]}"></i>
                                     <i class="fa fa-2x fa-times-circle" style="color: darkred"
-                                        attrs="{'invisible': [('state','=', 'done')]}"></i>
+                                        attrs="{'invisible': [('state','=','done')]}"></i>
                                 </span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">
@@ -131,7 +131,7 @@
                                         <i class="fa fa-check" style="color: darkslateblue"
                                             attrs="{'invisible': [('siat_state','not in',('anulada','error'))]}"></i>
                                         <i class="fa fa-times" style="color: darkred"
-                                            attrs="{'invisible': [('siat_state','in', ('anulada','error'))]}"></i>
+                                            attrs="{'invisible': [('siat_state','in',('anulada','error'))]}"></i>
                                     </span>
                                 </div>
                                 <div class="info-box-content">
@@ -141,9 +141,9 @@
                                     <span> | </span>
                                     <span>
                                         <i class="fa fa-check" style="color: darkslateblue"
-                                            attrs="{'invisible': [('estado_fac','!=', 'A')]}"></i>
+                                            attrs="{'invisible': [('estado_fac','!=','A')]}"></i>
                                         <i class="fa fa-times" style="color: darkred"
-                                            attrs="{'invisible': [('estado_fac','=', 'A')]}"></i>
+                                            attrs="{'invisible': [('estado_fac','=','A')]}"></i>
                                     </span>
                                 </div>
                                 <div class="info-box-content">
@@ -155,9 +155,9 @@
                                     <span> | </span>
                                     <span>
                                         <i class="fa fa-dropbox" style="color: darkslateblue"
-                                            attrs="{'invisible': [('stock_move_pending_qty','!=', 0)]}"></i>
+                                            attrs="{'invisible': ['&amp;',('stock_move_pending_qty','!=',0),('siat_state','not in',('error','anulada'))]}"></i>
                                         <i class="fa fa-dropbox" style="color: darkred"
-                                            attrs="{'invisible': [('stock_move_pending_qty','=', 0)]}"></i>
+                                            attrs="{'invisible': ['|',('stock_move_pending_qty','=',0),'&amp;',('state','in',('except','done')),('siat_state','in',('error','anulada'))]}"></i>
                                     </span>
                                 </div>
                             </div>

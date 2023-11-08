@@ -300,11 +300,13 @@ class AccountInvoiceRefundRequest(models.Model):
             "check_refund_invoice_state": refund_invoice_state == "paid",
             "check_estado_fac": self.estado_fac == "A",
             "check_siat_state": self.siat_state in ("anulada","error"),
-            "check_pickings_state": all(
-                p.state in ("done", "cancel") for p in self.invoice_picking_ids
-            ),
-            "check_qty_pending": self.stock_move_pending_qty == 0,
+            
         }
+        if state != "except":
+            check_done.update({"check_pickings_state": all(
+                    p.state in ("done", "cancel") for p in self.invoice_picking_ids
+                ),
+            "check_qty_pending": self.stock_move_pending_qty == 0,})
         if state == "done":
             if not all(check_done.values()):
                 state = "except"
@@ -430,11 +432,12 @@ class AccountInvoiceRefundRequest(models.Model):
         if (
             any(p.state not in ("done", "cancel") for p in self.invoice_picking_ids)
         ) or self.stock_move_pending_qty != 0:
-            raise ValidationError(
-                _(
-                    "Pickings must be cancelled or done, and pending quantity must be 0 before refunding the invoice."
+            if self.siat_state not in ('error','anulada') and self.state != 'except':
+                raise ValidationError(
+                    _(
+                        "Pickings must be cancelled or done, and pending quantity must be 0 before refunding the invoice."
+                    )
                 )
-            )
         if self.refund_invoice_id:
             raise ValidationError(
                 _("The invoice already has a refund registered in this request.")
