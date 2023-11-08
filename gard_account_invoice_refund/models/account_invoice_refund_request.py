@@ -268,7 +268,7 @@ class AccountInvoiceRefundRequest(models.Model):
             if user and self._context.get("active_test") != False:
                 if user != self.env.user and not request._context.get("assign_user"):
                     raise ValidationError(
-                        ("Please reassign the request to yourself to continue.")
+                        _("Please reassign the request to yourself to continue.")
                     )
             if "invoice_stock_move_ids" in vals:
                 vals["state"] = request._check_state()
@@ -277,7 +277,7 @@ class AccountInvoiceRefundRequest(models.Model):
     def button_assign_user_id(self):
         fields_req = ["description", "invoice_id"]
         if not any(getattr(self, f) for f in fields_req):
-            raise ValidationError(("Please select an invoice and refund reason."))
+            raise ValidationError(_("Please select an invoice and refund reason."))
         ctx = self.with_context(assign_user="True")
         ctx.user_id = self.env.user
         if self.state == "draft":
@@ -299,12 +299,14 @@ class AccountInvoiceRefundRequest(models.Model):
             "check_invoice_state": invoice_state == "paid",
             "check_refund_invoice_state": refund_invoice_state == "paid",
             "check_estado_fac": self.estado_fac == "A",
-            "check_siat_state": self.siat_state == "anulada",
-            "check_pickings_state": all(
-                p.state in ("done", "cancel") for p in self.invoice_picking_ids
-            ),
-            "check_qty_pending": self.stock_move_pending_qty == 0,
+            "check_siat_state": self.siat_state in ("anulada","error"),
+            
         }
+        if state != "except":
+            check_done.update({"check_pickings_state": all(
+                    p.state in ("done", "cancel") for p in self.invoice_picking_ids
+                ),
+            "check_qty_pending": self.stock_move_pending_qty == 0,})
         if state == "done":
             if not all(check_done.values()):
                 state = "except"
@@ -396,15 +398,15 @@ class AccountInvoiceRefundRequest(models.Model):
                 qty_pending = qty_pending_smoves - qty_pending_rmoves
             move.stock_move_pending_qty = qty_pending
 
+    @api.multi
     def button_invoice_payment_unreconcile(self):
-        for line in self.invoice_id.payment_move_line_ids:
-            line.remove_move_reconcile()
+        self.invoice_id.payment_move_line_ids.with_context(invoice_id=self.invoice_id.id).remove_move_reconcile()
 
     def button_invoice_siat_cancel(self):
         # pass invoice as active record for refund wizard
         if self.user_id != self.env.user:
             raise ValidationError(
-                ("Please reassign the request to yourself to continue.")
+                _("Please reassign the request to yourself to continue.")
             )
         if (
             self.state != "request"
@@ -414,7 +416,7 @@ class AccountInvoiceRefundRequest(models.Model):
             )
         ):
             raise ValidationError(
-                (
+                _(
                     "Request is not ready for this action. Check that stock moves "
                     "have been returned and try again."
                 )
@@ -423,25 +425,26 @@ class AccountInvoiceRefundRequest(models.Model):
 
     def button_invoice_refund(self):
         # pass invoice as active record for refund wizard
-        if self.state != "request":
+        if self.state not in ("request","except"):
             raise ValidationError(
-                ('Only requests in "Requested" state may be refunded.')
+                _('Only requests in "Requested" or "Exception" state may be refunded.')
             )
         if (
             any(p.state not in ("done", "cancel") for p in self.invoice_picking_ids)
         ) or self.stock_move_pending_qty != 0:
-            raise ValidationError(
-                (
-                    "Pickings must be cancelled or done, and pending quantity must be 0 before refunding the invoice."
+            if self.siat_state not in ('error','anulada') and self.state != 'except':
+                raise ValidationError(
+                    _(
+                        "Pickings must be cancelled or done, and pending quantity must be 0 before refunding the invoice."
+                    )
                 )
-            )
         if self.refund_invoice_id:
             raise ValidationError(
-                ("The invoice already has a refund registered in this request.")
+                _("The invoice already has a refund registered in this request.")
             )
-        if self.siat_state != "anulada":
+        if self.siat_state not in ("anulada","error"):
             raise ValidationError(
-                ("SIAT state must be 'anulada' before refunding the invoice.")
+                _("SIAT state must be 'Anulada' or 'Error de envio' before refunding the invoice.")
             )
         return {
             "name": "Refund",
@@ -467,7 +470,7 @@ class AccountInvoiceRefundRequest(models.Model):
     def action_cancel(self):
         if not self.state == "request":
             raise ValidationError(
-                ('Only requests in "Requested" state may be cancelled.')
+                _('Only requests in "Requested" state may be cancelled.')
             )
         if not self.refund_invoice_id:
             self.state = "cancel"
