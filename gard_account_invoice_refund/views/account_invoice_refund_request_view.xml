@@ -98,16 +98,16 @@
                             class="oe_highlight" />
                         <button name="button_invoice_payment_unreconcile" type="object"
                             string="Unreconcile Payments"
-                            attrs="{'invisible':['|','|',('state','!=','request'),('invoice_payment_ids','=',[]),('refund_invoice_id','!=',False)]}"
+                            attrs="{'invisible':['|','|',('state','not in',('request','except')),('invoice_payment_ids','=',[]),('refund_invoice_id','!=',False)]}"
                             class="oe_highlight" />
                         <button name="button_invoice_siat_cancel" type="object"
                             string='SIAT Cancel'
-                            attrs="{'invisible': ['|','|','|',('state','!=','request'),('invoice_type','!=','out_invoice'),('stock_move_pending_qty','!=',0),('siat_state','=','anulada')]}"
+                            attrs="{'invisible': ['|','|','|',('state','!=','request'),('invoice_type','!=','out_invoice'),('stock_move_pending_qty','!=',0),('siat_state','in',('error','anulada'))]}"
                             class="oe_highlight"
                             groups="account.group_account_manager" />
                         <button name="button_invoice_refund" type="object"
                             string='Refund'
-                            attrs="{'invisible': ['|','|','|',('state','!=','request'),('invoice_type','!=','out_invoice'),('siat_state','=','online'),('refund_invoice_id','!=',False)]}"
+                            attrs="{'invisible': ['|','|','|',('state','not in',('request','except')),('invoice_type','!=','out_invoice'),('siat_state','=','online'),('refund_invoice_id','!=',False)]}"
                             class="oe_highlight"
                             groups="account.group_account_manager" />
                         <field name="state" widget="statusbar" nolabel="1"

@@ -396,9 +396,9 @@ class AccountInvoiceRefundRequest(models.Model):
                 qty_pending = qty_pending_smoves - qty_pending_rmoves
             move.stock_move_pending_qty = qty_pending
 
+    @api.multi
     def button_invoice_payment_unreconcile(self):
-        for line in self.invoice_id.payment_move_line_ids:
-            line.remove_move_reconcile()
+        self.invoice_id.payment_move_line_ids.with_context(invoice_id=self.invoice_id.id).remove_move_reconcile()
 
     def button_invoice_siat_cancel(self):
         # pass invoice as active record for refund wizard
