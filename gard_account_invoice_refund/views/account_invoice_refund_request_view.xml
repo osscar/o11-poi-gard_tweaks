@@ -129,9 +129,9 @@
                                     <span> | </span>
                                     <span>
                                         <i class="fa fa-check" style="color: darkslateblue"
-                                            attrs="{'invisible': [('siat_state','!=', 'anulada')]}"></i>
+                                            attrs="{'invisible': [('siat_state','not in',('anulada','error'))]}"></i>
                                         <i class="fa fa-times" style="color: darkred"
-                                            attrs="{'invisible': [('siat_state','=', 'anulada')]}"></i>
+                                            attrs="{'invisible': [('siat_state','in', ('anulada','error'))]}"></i>
                                     </span>
                                 </div>
                                 <div class="info-box-content">
