@@ -51,38 +51,9 @@ class StockPicking(models.Model):
     color = fields.Integer(related="picking_type_id.color")
     partner_image_small = fields.Binary(related="partner_id.image_small")
 
-    @classmethod
-    def _geo_localize(cls, apikey, street="", zip="", city="", state="", country=""):
-        search = geo_query_address(
-            street=street, zip=zip, city=city, state=state, country=country
-        )
-        result = geo_find(search, apikey)
-        if result is None:
-            search = geo_query_address(city=city, state=state, country=country)
-            result = geo_find(search, apikey)
-        return result
-
-    @api.multi
-    def geo_localize(self):
-        # We need country names in English below
-        apikey = (
-            self.env["ir.config_parameter"].sudo().get_param("google.api_key_geocode")
-        )
-        for partner in self.partner_id.with_context(lang="en_US"):
-            result = partner._geo_localize(
-                apikey,
-                partner.street,
-                partner.zip,
-                partner.city,
-                partner.state_id.name,
-                partner.country_id.name,
-            )
-            if result:
-                partner.write(
-                    {
-                        "partner_latitude": result[0],
-                        "partner_longitude": result[1],
-                        "date_localization": fields.Date.context_today(partner),
-                    }
-                )
-        return True
+    # @api.multi
+    # def _geo_localize(self):
+    #     # We need country names in English below
+    #     partners = [pk.partner_id.id for pk in self]
+    #     partners = self.env['res.partner'].search([('id','in',partners)])
+    #     return partners.geo_localize()
