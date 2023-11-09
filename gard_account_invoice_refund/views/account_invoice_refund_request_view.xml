@@ -96,6 +96,10 @@
                             string="Reassign Request"
                             attrs="{'invisible':[('state','not in',('draft','request'))]}"
                             class="oe_highlight" />
+                        <button name="button_assign_user_id" type="object"
+                            string="Reassign Exception"
+                            attrs="{'invisible':[('state','!=','except')]}"
+                            class="oe_highlight" groups="gard_account_invoice_refund.group_request_manager" />
                         <button name="button_invoice_payment_unreconcile" type="object"
                             string="Unreconcile Payments"
                             attrs="{'invisible':['|','|',('state','not in',('request','except')),('invoice_payment_ids','=',[]),('refund_invoice_id','!=',False)]}"
@@ -104,12 +108,12 @@
                             string='SIAT Cancel'
                             attrs="{'invisible': ['|','|','|',('state','!=','request'),('invoice_type','!=','out_invoice'),('stock_move_pending_qty','!=',0),('siat_state','in',('error','anulada'))]}"
                             class="oe_highlight"
-                            groups="account.group_account_manager" />
+                            groups="gard_account_invoice_refund.group_request_manager" />
                         <button name="button_invoice_refund" type="object"
                             string='Refund'
                             attrs="{'invisible': ['|','|','|',('state','not in',('request','except')),('invoice_type','!=','out_invoice'),('siat_state','=','online'),('refund_invoice_id','!=',False)]}"
                             class="oe_highlight"
-                            groups="account.group_account_manager" />
+                            groups="gard_account_invoice_refund.group_request_manager" />
                         <field name="state" widget="statusbar" nolabel="1"
                             statusbar_visible="draft,request,done" />
                     </header>
