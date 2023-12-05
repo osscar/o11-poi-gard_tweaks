@@ -18,7 +18,8 @@ class StockPicking(models.Model):
         partners = [pk.partner_id.id for pk in self]
         partners = self.env['res.partner'].search([('id','in',partners)])
         _logger.debug('orm len(partners) >>> %s', len(partners))
-        if len(partners) < 2:
-            return partners[0].open_route_map()
-        elif len(self) > 1:
+        if len(self) > 1:
             return partners.open_route_map()
+        else:
+            return partners[0].open_route_map()
+        

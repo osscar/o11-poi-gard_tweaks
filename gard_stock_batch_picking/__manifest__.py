@@ -4,22 +4,19 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'GARD Partner External Maps',
+    'name': 'GARD Stock Batch Picking',
     'version': '11.0.1.0.0',
-    'category': 'Extra Tools',
+    'category': 'Warehouse',
     'license': 'AGPL-3',
-    'summary': 'Add Multi Record Map and Map Routing ',
+    'summary': 'GARD Stock Batch Picking customizations',
     'author': 'squid',
     'depends': [
-        'partner_external_map',
-        'stock',
+        'fleet',
         'stock_batch_picking',
     ],
     'data': [
-        'views/res_partner_view.xml',
-        'views/stock_view.xml',
         'views/stock_batch_picking_view.xml',
-        'data/map_website_data.xml',
+        'views/stock_picking_view.xml',
     ],
     'installable': True,
 }
