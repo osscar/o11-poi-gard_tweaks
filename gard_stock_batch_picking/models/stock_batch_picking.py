@@ -42,10 +42,11 @@ class StockBatchPicking(models.Model):
 
     def check_vehicle_data(self):
         context = self._context.get("mode")
-        if not self.vehicle_id:
-            raise ValidationError(_("Please select a vehicle."))
-        if context == "transfer" and self.odometer_end <= (self.vehicle_id.odometer or 0):
-            raise ValidationError(_("Ending odometer value cannot be the same as start value or 0."))
+        if context == "transfer":
+            if not self.vehicle_id:
+                raise ValidationError(_("Please select a vehicle."))
+            if self.odometer_end <= (self.vehicle_id.odometer or 0):
+                raise ValidationError(_("Ending odometer value cannot be the same as start value or 0."))
         
     @api.onchange("odometer_end")
     def onchange_odometer_end(self):
