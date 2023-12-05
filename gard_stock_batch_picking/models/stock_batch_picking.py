@@ -41,28 +41,21 @@ class StockBatchPicking(models.Model):
         self["odometer_start"] = odometer_start
 
     def check_vehicle_data(self):
-        context = self._context.get("mode")
-        if context == "transfer":
-            if not self.vehicle_id:
-                raise ValidationError(_("Please select a vehicle."))
-            if self.odometer_end <= (self.vehicle_id.odometer or 0):
-                raise ValidationError(_("Ending odometer value cannot be the same as start value or 0."))
+        if not self.vehicle_id:
+            raise ValidationError(_("Please select a vehicle."))
+        if self.odometer_end <= (self.vehicle_id.odometer or 0):
+            raise ValidationError(_("Ending odometer value cannot be the same as start value or 0."))
         
     @api.onchange("odometer_end")
     def onchange_odometer_end(self):
         if self.vehicle_id:
             self.check_vehicle_data()
                
-    def verify_state(self, expected_state=None):
-        super().verify_state(expected_state=expected_state)
-        _logger.debug('v_s self >>> %s', self)
-        self.with_context(mode="verify").check_vehicle_data()
-        
     @api.multi
     def action_transfer(self):
         super().action_transfer()
         _logger.debug('a_t self >>> %s', self)
-        self.with_context(mode="transfer").check_vehicle_data()
+        self.check_vehicle_data()
         if self.state == "done":
             self.vehicle_id.write({
                 "driver_id": self.driver_id.partner_id.id,
