@@ -14,8 +14,10 @@
         <field name="model_id" ref="base.model_res_partner"/>
         <field name="binding_model_id" ref="base.model_res_partner"/>
         <field name="code">
-if records:
-    action = records.open_route_map()
+if len(records) &gt; 1:
+    action = records._open_route_map()
+else:
+    raise Warning('Two or more selected items are required to show a route.')
         </field>
     </record>
 

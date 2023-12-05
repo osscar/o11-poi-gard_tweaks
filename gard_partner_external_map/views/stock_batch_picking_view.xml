@@ -7,17 +7,15 @@
 <odoo>
 
     <!-- Action confirm_payments for multi -->
-    <record id="action_open_stock_picking_route_map" model="ir.actions.server">
+    <record id="action_open_stock_batch_picking_route_map" model="ir.actions.server">
         <field name="name">Route Map</field>
         <field name="type">ir.actions.server</field>
         <field name="state">code</field>
-        <field name="model_id" ref="stock.model_stock_picking"/>
-        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="model_id" ref="stock_batch_picking.model_stock_batch_picking"/>
+        <field name="binding_model_id" ref="stock_batch_picking.model_stock_batch_picking"/>
         <field name="code">
-if len(records) &gt; 1:
+if records:
     action = records._open_route_map()
-else:
-    raise Warning('Two or more selected items are required to show a route.')
         </field>
     </record>
 
