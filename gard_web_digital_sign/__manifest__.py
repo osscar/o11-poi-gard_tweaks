@@ -14,8 +14,7 @@
      GARD customizations for digital signature.
     ''',
     'summary': '''
-        Touch screen enable so user can add signature with touch devices.
-        Digital signature can be very usefull for documents.
+        Customized digital signing for GARD.
     ''',
     'data': [
         'views/stock_picking_view.xml'],
