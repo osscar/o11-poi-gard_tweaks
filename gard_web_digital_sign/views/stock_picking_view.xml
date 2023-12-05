@@ -12,8 +12,8 @@
                     <h2>
                         <field name="digital_signature" widget="signature"/>
                     </h2>
+                    <field name="signature_clarify" />
                 </xpath>
-                <field name="signature_clarify" />
             </field>
         </record>
     </data>
