@@ -13,7 +13,7 @@ Partner Area
         # 'contacts',
         'base_geolocalize',
         'stock',
-        'stock_batch_picking',
+        # 'stock_batch_picking',
         'web_google_maps',
         # 'web_google_maps_drawing',
     ],

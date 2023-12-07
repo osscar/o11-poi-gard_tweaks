@@ -13,12 +13,12 @@
     'depends': [
         'partner_external_map',
         'stock',
-        'stock_batch_picking',
+        # 'stock_batch_picking',
     ],
     'data': [
         'views/res_partner_view.xml',
         'views/stock_view.xml',
-        'views/stock_batch_picking_view.xml',
+        # 'views/stock_batch_picking_view.xml',
         'data/map_website_data.xml',
     ],
     'installable': True,
