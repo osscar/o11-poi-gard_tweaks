@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# import logging
+#import logging
 
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
@@ -9,7 +9,7 @@ from odoo.addons.poi_bol_siat.models.siat_utils import get_file
 
 import xml.etree.ElementTree as ET
 
-# _logger = logging.getLogger(__name__)
+#_logger = logging.getLogger(__name__)
 
 
 class AccountInvoice(models.Model):
@@ -236,15 +236,15 @@ class AccountInvoice(models.Model):
     def get_taxes_values(self):
         tax_grouped = super().get_taxes_values()
 
-        if self.invoice_line_ids.filtered(lambda l: l.is_tax_exempt_manual):
+        if self.invoice_line_ids.filtered(lambda l: l.is_tax_exempt_manual or l.discount != 0.0):
             tax_grouped = {}
             round_curr = self.currency_id.round
 
             for line in self.invoice_line_ids:
                 # descuento, exento_manual for tax computation
-                descuento = line.discount
+                price_unit = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
                 exento = line.tax_exempt
-                price_unit = line.price_unit * (1 - (descuento or 0.0) / 100.0)
+                descuento = line.price_total_net * line.discount / 100
                 taxes = line.invoice_line_tax_ids.with_context(
                     descuento=descuento, exento_manual=exento
                 ).compute_all(
