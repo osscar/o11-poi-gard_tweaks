@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- View Customizations -->
+    <record id="product_template_tree_view" model="ir.ui.view">
+        <field name="name">product.template.product.tree.inherit.gard_product_price</field>
+        <field name="model">product.template</field>
+        <field name="mode">extension</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+
+            <!-- product pricelist items button -->
+            <xpath expr="//field[@name='default_code']" position="before">
+                <field name="active_item_ids" invisible="1"/>
+                 <button name="button_product_pricelist_items"
+                    type='object' attrs="{'invisible':['|', ('active_item_ids', '=', [])]}"
+                    icon="fa-2x fa-tags fa-gard-icon-orange" string="Pricelist Items"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="product_template_kanban_view" model="ir.ui.view">
+        <field name="name">product.template.kanban.view.inherit.gard_product_price</field>
+        <field name="model">product.template</field>
+        <field name="mode">extension</field>
+        <field name="inherit_id" ref="product.product_template_kanban_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//kanban" position="inside">
+                <field name="active_item_ids" invisible="1"/>
+            </xpath>
+            <xpath expr="/kanban/templates/t//div" position="inside">
+                <div class="row">
+                    <button
+                        name="button_product_pricelist_items"
+                        type='object'
+                        attrs="{'invisible':[('active_item_ids', '=', [])]}"
+                        class="fa fa-2x fa-tags fa-gard-icon-orange pull-right"
+                        string="Pricelist Items"/>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Actions -->
+
+    <!-- Menus -->
+
+</odoo>

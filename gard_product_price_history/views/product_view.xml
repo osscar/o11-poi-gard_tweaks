@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+         <record id="product_product_tree_view" model="ir.ui.view">
+            <field name="name">product.product.tree.inherit.gard_product_price</field>
+            <field name="model">product.product</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+
+                <!-- product pricelist items button -->
+                <xpath expr="//field[@name='default_code']" position="before">
+                    <field name="active_pricelist_item_ids" invisible="1"/>
+                    <button
+                        name="button_product_pricelist_items"
+                        type='object'
+                        attrs="{'invisible':[('active_pricelist_item_ids', '=', [])]}"
+                        icon="fa-2x fa-tags fa-gard-icon-orange"
+                        string="Pricelist Items"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="product_kanban_view" model="ir.ui.view">
+            <field name="name">product.kanban.view.inherit.gard_product_price</field>
+            <field name="model">product.product</field>
+            <field name="mode">extension</field>
+            <field name="inherit_id" ref="product.product_kanban_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//kanban" position="inside">
+                    <field name="active_pricelist_item_ids" invisible="1"/>
+                    <field name="default_code"/>
+                </xpath>
+                <xpath expr="/kanban/templates/t//div" position="inside">
+                    <div class="row">
+                        <button
+                            name="button_product_pricelist_items"
+                            type='object'
+                            attrs="{'invisible':[('active_pricelist_item_ids', '=', [])]}"
+                            class="fa fa-2x fa-tags fa-gard-icon-orange pull-right"
+                            string="Pricelist Items"/>
+                    </div>
+                </xpath>
+                <xpath expr="/kanban//field[@name='name']" position="before">
+                    <strong><field name="default_code"/></strong>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="product_product_prices_view_form" model="ir.ui.view">
+            <field name="name">product.product.prices.view.form.gard_product_price</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+
+                <form string="Pricelist Items" create="false" edit="false" delete="false">
+                    <header>
+                    </header>
+                        <field name="default_code" widget="label_selection" class="label label-price" nolabel="1"/>
+                        <field name="name" nolabel="1" readonly="1"/>
+                        <separator/>
+                        <field name="active_pricelist_item_ids" mode="tree,kanban" readonly="1">
+                            <tree string="Pricelist Items" decoration-danger="partner_ids" default_order='description asc, min_quantity desc'>
+                                <field invisible="1" name="active_pricelist"/>
+                                <field invisible="1" name="currency_id"/>
+                                <field invisible="1" name="product_default_code"/>
+                                <field colspan="4" name="description"/>
+                                <field name="min_quantity"/>
+                                <field name="min_quantity_uom_id"/>
+                                <field name="price_unit" />
+                                <field name="price_pack" />
+                                <field name="min_quantity_pack"/>
+                                <field name="uom_pack_id" />
+                                <field name="global_uom_pack_id" />
+                                <field name="pricelist_id" widget="label_selection"/>
+                                <field name="partner_ids" widget="many2many_tags"/>
+                            </tree>
+                            <kanban class="o_kanban_mobile">
+                                <field invisible="1" name="active_pricelist"/>
+                                <field invisible="1" name="currency_id"/>
+                                <field invisible="1" name="product_default_code"/>
+                                <field name="description"/>
+                                <field name="min_quantity"/>
+                                <field name="min_quantity_uom_id"/>
+                                <field name="price_unit" />
+                                <field name="min_quantity_pack"/>
+                                <field name="price_pack" />
+                                <field name="uom_pack_id" />
+                                <field name="global_uom_pack_id" />
+                                <field name="currency_id"/>
+                                <field name="pricelist_id"/>
+                                <field name="partner_ids"/>
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <span><field name="pricelist_id" widget="kanban_label_selection"/></span>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <span><field name="partner_ids" widget="many2many_tags"/></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <table style="text-align: left; width: 450px;" border="0" cellpadding="0" cellspacing="0" padding="0" margin="0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Description</th>
+                                                                <th>Min.</th>
+                                                                <th>UoM</th>
+                                                                <th>Unit Price</th>
+                                                                <th>Pack Min.</th>
+                                                                <th>Pack UoM</th>
+                                                                <th>Pack Price</th>
+                                                                <th>Global Pack UoM</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <field name="description"/>
+                                                                </td>
+                                                                <td>
+                                                                    <field name="min_quantity"/>
+                                                                </td>
+                                                                <td>
+                                                                    <field name="min_quantity_uom_id"/>
+                                                                </td>
+                                                                <td>
+                                                                    <field name="price_unit" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                                                                </td>
+                                                                <td>
+                                                                    <field name="min_quantity_pack"/>
+                                                                </td>
+                                                                <td>
+                                                                    <field name="uom_pack_id" />
+                                                                </td>
+                                                                <td>
+                                                                    <field name="price_pack" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                                                                </td>
+                                                                <td>
+                                                                    <field name="global_uom_pack_id" />
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
+                    <footer>
+                    </footer>
+                </form>
+
+            </field>
+        </record>
+
+        <!-- Actions -->
+
+        <!-- Menus -->
+    </data>
+</odoo>

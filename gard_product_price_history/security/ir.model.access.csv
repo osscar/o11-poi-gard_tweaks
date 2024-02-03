@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_pricelist_item_gard_product_price_manager,product.pricelist.item gard_product_price_manager,product.model_product_pricelist_item,group_product_price_manager,1,1,1,1
+access_product_pricelist_gard_product_price_manager,product.pricelist gard_product_price_manager,product.model_product_pricelist,group_product_price_manager,1,1,1,0
+access_ir_model_data_gard_product_price_manager,ir.model.data gard_product_price_manager,base.model_ir_model_data,group_product_price_manager,1,1,0,0

@@ -375,6 +375,7 @@ class AccountInvoiceRefundRequest(models.Model):
         "invoice_picking_ids.state",
         "invoice_state",
         "refund_invoice_state",
+        "siat_state",
     )
     def _compute_invoice_stock_move_ids(self):
         for request in self:
