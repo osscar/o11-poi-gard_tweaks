@@ -18,7 +18,7 @@
 #
 ##############################################################################
 
-from openerp import fields, models, api
+from odoo import fields, models, api
 
 
 class ProductProduct(models.Model):

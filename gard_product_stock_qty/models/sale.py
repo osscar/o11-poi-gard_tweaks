@@ -19,7 +19,7 @@
 ##############################################################################
 
 
-from openerp import fields, models, api
+from odoo import fields, models, api
 
 
 class SaleOrderLine(models.Model):
@@ -32,9 +32,9 @@ class SaleOrderLine(models.Model):
 
     @api.multi
     def _get_product_qty_available(self):
-        for order_line in self:
-            product_id = order_line.product_id
-            order_line.qty_available = product_id.qty_available
+        for line in self:
+            product_id = line.product_id
+            line.qty_available = product_id.qty_available
 
     @api.multi
     def button_product_stock_quantity(self):
