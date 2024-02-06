@@ -25,7 +25,7 @@ class SaleOrderLine(models.Model):
     )
     def _product_margin_factor(self):
         for line in self:
-            currency = line.order_id.pricelist_id.currency_id
+            # currency = line.order_id.pricelist_id.currency_id
             if line.price_subtotal == 0:
                 line.margin_factor = -1
             elif line.purchase_price == 0:
@@ -35,6 +35,21 @@ class SaleOrderLine(models.Model):
                     line.purchase_price * line.product_uom_qty
                 )
 
+    # def _product_margin_factor(self):
+    #     for line in self:
+    #         if line.product_id.qty_available == 0:
+    #             continue
+    #         currency = line.order_id.pricelist_id.currency_id
+    #         if currency:
+    #             if line.price_subtotal == 0:
+    #                 line.margin_factor = -1
+    #             elif line.purchase_price == 0:
+    #                 line.margin_factor = line.price_subtotal
+    #             else:
+    #                 line.margin_factor = line.price_subtotal / (
+    #                     line.purchase_price * line.product_uom_qty
+    #                 )
+
     @api.onchange("product_id")
     def check_pricelist(self):
         if self.product_id and not self.order_id.pricelist_id:
@@ -43,14 +58,19 @@ class SaleOrderLine(models.Model):
             )
             
     def _compute_margin(self, order_id, product_id, product_uom_id):
+        price = 0.00
         frm_cur = self.env.user.company_id.currency_id
         to_cur = order_id.pricelist_id.currency_id
-        purchase_price = product_id.stock_value / product_id.qty_at_date
-        if product_uom_id != product_id.uom_id:
-            purchase_price = product_id.uom_id._compute_price(purchase_price, product_uom_id)
-        ctx = self.env.context.copy()
-        ctx['date'] = order_id.date_order
-        price = frm_cur.with_context(ctx).compute(purchase_price, to_cur, round=False)
+        if frm_cur and to_cur:
+            stock_value = product_id.stock_value
+            qty_at_date = product_id.qty_at_date
+            if qty_at_date != 0:
+                purchase_price = stock_value / qty_at_date
+                if product_uom_id != product_id.uom_id:
+                    purchase_price = product_id.uom_id._compute_price(purchase_price, product_uom_id)
+                ctx = self.env.context.copy()
+                ctx['date'] = order_id.date_order
+                price = frm_cur.with_context(ctx).compute(purchase_price, to_cur, round=False)
         return price
 
     @api.model
