@@ -19,7 +19,7 @@
 ##############################################################################
 {
     'name': 'MRP Product Stock Quantity',
-    'version': '11.0.1.0.1',
+    'version': '11.0.1.0.2',
     'author': 'squid',
     'company': '',
     'website': 'http://wwf.comcom.com',
