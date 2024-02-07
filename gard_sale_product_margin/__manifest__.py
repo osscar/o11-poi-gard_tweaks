@@ -18,8 +18,8 @@
 #
 ##############################################################################
 {
-    'name': 'GARD Sale Margin Tweaks',
-    'version': '11.01',
+    'name': 'GARD Product Sale Margin',
+    'version': '11.0.1.0.3',
     'author': 'squid',
     'company': '',
     'website': 'http://wwf.comcom.com',
@@ -38,10 +38,11 @@ and 'sale_margin' addons.
 """,
     'images': [],
     'depends': [
-        'product',
-        'sale',
-        'sale_margin',
+        # 'product',
+        # 'sale',
         'product_margin',
+        'sale_margin',
+        'gard_product_stock_qty',
     ],
     'category': 'Sales',
     'data': [

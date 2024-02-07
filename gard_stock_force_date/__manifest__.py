@@ -29,7 +29,11 @@
     'company': 'GARD',
     'website': "https://www.gardsrl.com/",
     'category': 'Warehouse',
-    'depends': ['stock', 'stock_account', 'poi_stock_account_consolidate'],
+    'depends': [
+        # 'stock', 
+        'stock_account', 
+        'poi_stock_account_consolidate'
+    ],
     'data': [
         'security/gard_stock_force_date_security.xml',
 
