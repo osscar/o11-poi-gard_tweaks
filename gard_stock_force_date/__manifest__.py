@@ -19,7 +19,7 @@
 ##############################################################################
 {
     'name': 'GARD Stock Force Date',
-    'version': '11.01',
+    'version': '11.0.1.1.0',
     'summary': 'Force Date in Stock Picking',
     'description': """
     This module will give you a way to record stock picking to a specific date,

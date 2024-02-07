@@ -35,7 +35,7 @@ and viewability, including:
 - TO DO: security groups not set
 
 """,
-    'version': '11.1.01',
+    'version': '11.0.1.1.0',
     'author': 'squid',
     'category': 'Styles',
     'license': 'AGPL-3',

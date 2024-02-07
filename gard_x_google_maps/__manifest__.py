@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'GARD Google Maps Tweaks',
-    'version': '11.0.1.0.1',
+    'version': '11.0.1.1.0',
     'author': 'squid',
     'license': 'AGPL-3',
     'category': 'Hidden',

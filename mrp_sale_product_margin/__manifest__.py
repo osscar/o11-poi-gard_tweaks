@@ -19,7 +19,7 @@
 ##############################################################################
 {
     'name': 'MRP Sale Product Margin',
-    'version': '11.0.1.0.2',
+    'version': '11.0.1.1.0',
     'author': 'squid',
     'company': '',
     'website': 'http://wwf.comcom.com',

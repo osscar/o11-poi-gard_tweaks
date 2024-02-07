@@ -18,7 +18,7 @@
 {
     'name': "GARD Order History",
     'summary': "Order picking and invoice history.",
-    'version': '11.01',
+    'version': '11.0.1.0.2',
     'author': 'squid',
     'category': 'Purchase, Sale',
     'description': """

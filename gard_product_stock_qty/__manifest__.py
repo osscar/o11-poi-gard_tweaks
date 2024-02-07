@@ -19,7 +19,7 @@
 ##############################################################################
 {
     'name': 'GARD Product Stock Quantity',
-    'version': '11.0.1.0.3',
+    'version': '11.0.1.1.0',
     'author': 'squid',
     'company': '',
     'website': 'http://wwf.comcom.com',

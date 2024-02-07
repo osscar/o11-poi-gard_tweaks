@@ -5,7 +5,7 @@
 
 {
     'name': 'GARD Partner External Maps',
-    'version': '11.0.1.0.0',
+    'version': '11.0.1.0.1',
     'category': 'Extra Tools',
     'license': 'AGPL-3',
     'summary': 'Add Multi Record Map and Map Routing ',
