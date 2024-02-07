@@ -29,7 +29,7 @@ class SaleOrderLine(models.Model):
 
     qty_available = fields.Integer(
         "Available Qty.",
-        compute="_get_qty_available",
+        compute="_get_product_qty_available",
     )
 
     @api.model
@@ -46,9 +46,9 @@ class SaleOrderLine(models.Model):
         for line in self:
             product_id = line.product_id
             _logger.debug("_gqa product_id >>>: %s", product_id)
-            _logger.debug("_gqa line.qty_available >>>: %s", line.qty_available)
+            # _logger.debug("_gqa line.qty_available >>>: %s", line.qty_available)
             line.qty_available = line._get_qty_available(product_id)
-            _logger.debug("_gqa line.qty_available post >>>: %s", line.qty_available)
+            # _logger.debug("_gqa line.qty_available post >>>: %s", line.qty_available)
 
     @api.multi
     def button_product_stock_quantity(self):
