@@ -37,13 +37,10 @@ This module tweaks the following:
 """,
     'images': [],
     'depends': [
-        # 'account',
         'account_analytic_parent',
         'account_move_analytic_recreate',
-        # 'analytic',
         'analytic_base_department',
         'gard_x_gard',
-        # 'stock_landed_costs',
         'stock_landed_costs_analytic',
     ],
     'category': 'Other',

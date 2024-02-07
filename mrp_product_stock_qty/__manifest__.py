@@ -31,16 +31,12 @@ Show potential product quantity for manufactured products.
 """,
     'images': [],
     'depends': [
-        # 'product',
         'stock_available_mrp',
         'gard_product_stock_qty',
     ],
     'category': 'Stock',
     'data': [
-        # 'views/product_view.xml',
-        # 'views/stock_view.xml',
         'views/sale_view.xml',
-        # 'security/ir.model.access.csv',
     ],
     'demo': [],
     'license': 'AGPL-3',
