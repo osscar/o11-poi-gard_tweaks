@@ -18,23 +18,37 @@
 #
 ##############################################################################
 
+import logging
 
 from odoo import fields, models, api
 
+_logger = logging.getLogger(__name__)
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     qty_available = fields.Integer(
         "Available Qty.",
-        compute="_get_product_qty_available",
+        compute="_get_qty_available",
     )
 
+    @api.model
+    def _get_qty_available(self, product):
+        qty_available = product.qty_available
+        _logger.debug("_gqa qty_available >>>: %s", qty_available)
+        if qty_available == 0.0:
+            qty_available = product.immediately_usable_qty
+            _logger.debug("_gqa if qty_available >>>: %s", qty_available)
+        return qty_available
+            
     @api.multi
     def _get_product_qty_available(self):
         for line in self:
             product_id = line.product_id
-            line.qty_available = product_id.qty_available
+            _logger.debug("_gqa product_id >>>: %s", product_id)
+            _logger.debug("_gqa line.qty_available >>>: %s", line.qty_available)
+            line.qty_available = line._get_qty_available(product_id)
+            _logger.debug("_gqa line.qty_available post >>>: %s", line.qty_available)
 
     @api.multi
     def button_product_stock_quantity(self):

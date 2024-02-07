@@ -17,28 +17,4 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-
-from odoo import fields, models, api
-
-
-class SaleOrderLine(models.Model):
-    _inherit = "sale.order.line"
-
-    @api.multi
-    def _get_product_qty_available(self):
-        super()._get_product_qty_available()
-        for line in self:
-            product_id = line.product_id
-            if product_id.bom_ids:
-                line.qty_available = product_id.immediately_usable_qty
-
-    # @api.model
-    # def _get_qty_available(self, product):
-    #         return product.qty_available
-            
-    # @api.multi
-    # def _get_product_qty_available(self):
-    #     for line in self:
-    #         product_id = line.product_id
-    #         line.qty_available = line._get_product_qty_available(product_id)
+from . import models

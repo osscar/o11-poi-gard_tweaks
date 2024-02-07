@@ -18,40 +18,38 @@
 #
 ##############################################################################
 {
-    'name': 'GARD Product Stock Quantity',
-    'version': '11.0.1.0.3',
+    'name': 'MRP Sale Product Margin',
+    'version': '11.0.1.0.2',
     'author': 'squid',
     'company': '',
     'website': 'http://wwf.comcom.com',
-    'summary': 'Poduct stock availablity.',
+    'summary': 'Sales margins based on product BoMs.',
     'descrption': """
-Product stock availability
+MRP Sales and Product Margins
 ==========================
-This module adds buttons and views to enhance product's
-available stock visualization.
+This module extends the sale order line, computing margin for
+products with BoMs.
 
-* stock quantity button in: product variants tree view, sale order line
-* stock quantity menu in: sales menu, inventory menu
-* kanban views include stock quantity button
-
-- TO DO: security groups have not been specified
-- TO DO: add stock quantity button to product template tree view
+*
+*
+*
 
 """,
     'images': [],
     'depends': [
         # 'product',
-        # 'sale_stock',
-        'stock_available',
-        'gard_x_gard',
+        # 'mrp',
+        'gard_sale_product_margin',
+        # 'mrp_product_stock_qty',
+        # 'product_margin',
+        # 'sale_margin',
     ],
-    'category': 'Stock',
+    'category': 'Sales',
     'data': [
-        'views/gard_product_stock_qty_templates.xml',
-        'views/product_view.xml',
-        'views/stock_view.xml',
-        'views/sale_view.xml',
+        # 'security/gard_sale_product_margin_security.xml',
         # 'security/ir.model.access.csv',
+        # 'views/sale_margin_view.xml',
+        # 'views/product_product_views.xml',
     ],
     'demo': [],
     'license': 'AGPL-3',
