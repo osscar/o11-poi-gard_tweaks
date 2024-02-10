@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import logging
+# import logging
 
 from odoo import api, fields, models, _
 from odoo.exceptions import RedirectWarning, UserError, ValidationError
 import odoo.addons.decimal_precision as dp
 
-_logger = logging.getLogger(__name__)
+# _logger = logging.getLogger(__name__)
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
@@ -50,39 +50,31 @@ class SaleOrderLine(models.Model):
         frm_cur = self.env.user.company_id.currency_id
         to_cur = order_id.pricelist_id.currency_id
         if frm_cur and to_cur:
+            stock_value = product_id.stock_value
             qty_at_date = product_id.qty_at_date
-            _logger.debug("_cm qty_at_date >>>: %s", qty_at_date)
+            purchase_price = 0.0
             if qty_at_date == 0.0:
                 stock_value = product_id.standard_price
                 qty_at_date = product_id.immediately_usable_qty
-                _logger.debug("_cm if qty_at_date >>>: %s", qty_at_date)
-                _logger.debug("_cm if stock_value >>>: %s", stock_value)
-                # if product_id.bom_ids:
-                #     stock_value = product_id.standard_price
-                if qty_at_date != 0.00:
-                    purchase_price = stock_value
-                    if product_uom_id != product_id.uom_id:
-                        purchase_price = product_id.uom_id._compute_price(purchase_price, product_uom_id)
-                    ctx = self.env.context.copy()
-                    ctx['date'] = order_id.date_order
-                    price = frm_cur.with_context(ctx).compute(purchase_price, to_cur, round=False)
+            if qty_at_date != 0.00:
+                purchase_price = stock_value / qty_at_date
+                if product_uom_id != product_id.uom_id:
+                    purchase_price = product_id.uom_id._compute_price(purchase_price, product_uom_id)
+                ctx = self.env.context.copy()
+                ctx['date'] = order_id.date_order
+                price = frm_cur.with_context(ctx).compute(purchase_price, to_cur, round=False)
         return price
 
     @api.model
     def _get_purchase_price(self, pricelist, product, product_uom, date):
-        _logger.debug("_gpp stock_value >>>: %s", stock_value)
         res = super()._get_purchase_price(pricelist, product, product_uom, date)
         qty_at_date = product.qty_at_date
-        _logger.debug("_gpp qty_at_date >>>: %s", qty_at_date)
         if qty_at_date == 0.0:
             frm_cur = self.env.user.company_id.currency_id
             to_cur = pricelist.currency_id
             stock_value = product.standard_price
             qty_at_date = product.immediately_usable_qty
             purchase_price = stock_value
-            _logger.debug("_gpp stock_value >>>: %s", stock_value)
-            _logger.debug("_gpp qty_at_date >>>: %s", qty_at_date)
-            _logger.debug("_gpp purchase_price >>>: %s", purchase_price)
             if product_uom != product.uom_id:
                 purchase_price = product.uom_id._compute_price(purchase_price, product_uom)
             ctx = self.env.context.copy()
