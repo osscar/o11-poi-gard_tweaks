@@ -159,9 +159,9 @@
         <field name="name">product.pricelist.item.form.inherit.gard_product_price</field>
         <field name="model">product.pricelist.item</field>
         <field name="mode">extension</field>
-        <!-- <field name="priority">19</field> -->
         <field name="inherit_id" ref="product.product_pricelist_item_form_view" />
         <!-- added security  group -->
+        <!-- <field name="priority">19</field> -->
         <field name="groups_id" eval="[(4, ref('group_product_price_manager'))]" />
         <field name="arch" type="xml">
 
@@ -222,6 +222,13 @@
                     <!-- %% -->
                 </div>
             </xpath>
+            <form position="inside">
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
 
         </field>
     </record>

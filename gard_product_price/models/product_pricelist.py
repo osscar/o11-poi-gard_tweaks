@@ -205,7 +205,8 @@ class ProductPricelist(models.Model):
 
 
 class ProductPricelistItem(models.Model):
-    _inherit = "product.pricelist.item"
+    _name = "product.pricelist.item"
+    _inherit = ["product.pricelist.item", 'mail.thread', 'mail.activity.mixin']
     _defaults = {"base": 1}
 
     @api.one
