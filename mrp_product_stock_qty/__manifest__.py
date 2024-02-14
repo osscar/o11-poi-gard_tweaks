@@ -19,7 +19,7 @@
 ##############################################################################
 {
     'name': 'MRP Product Stock Quantity',
-    'version': '11.0.1.1.0',
+    'version': '11.0.1.2.0',
     'author': 'squid',
     'company': '',
     'website': 'http://wwf.comcom.com',
@@ -36,7 +36,7 @@ Show potential product quantity for manufactured products.
     ],
     'category': 'Stock',
     'data': [
-        'views/sale_view.xml',
+        # 'views/sale_view.xml',
     ],
     'demo': [],
     'license': 'AGPL-3',

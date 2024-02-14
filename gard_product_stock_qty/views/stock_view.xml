@@ -1,80 +1,86 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-        <!-- Search Views -->
-        <record id="view_product_stock_quantity_search" model="ir.ui.view">
-            <field name="name">product.stock.quantity.search.gard_product_stock_qty</field>
-            <field name="model">stock.quant</field>
-            <field name="arch" type="xml">
+    <!-- Search Views -->
+    <record id="view_product_stock_quantity_search" model="ir.ui.view">
+        <field name="name">product.stock.quantity.search.gard_product_stock_qty</field>
+        <field name="model">stock.quant</field>
+        <field name="arch" type="xml">
 
-                <search string="Search Product Stock Quantity">
-                    <field name="location_id" filter_domain="['|', '|', ('location_id', 'ilike', self), ('product_id', 'ilike', self)]"/>
-                    <field name="product_id"/>
-                    <group expand='0' string='Filters'>
-                        <filter name='internal_loc' string="Internal Locations" domain="[('location_id.usage','=', 'internal')]"/>
-                    </group>
-                    <group expand="0" string="Group By">
-                        <filter name="locationgroup" string="Location" domain="[]" context="{'group_by': 'location_id'}"/>
-                        <filter name="productgroup" string="Product" domain="[]" context="{'group_by': 'product_id'}"/>
-                    </group>
-               </search>
+            <search string="Search Product Stock Quantity">
+                <field name="location_id"
+                    filter_domain="['|', '|', ('location_id', 'ilike', self), ('product_id', 'ilike', self)]" />
+                <field name="product_id" />
+                <group expand='0' string='Filters'>
+                    <filter name='internal_loc' string="Internal Locations"
+                        domain="[('location_id.usage','=', 'internal')]" />
+                </group>
+                <group expand="0" string="Group By">
+                    <filter name="locationgroup" string="Location" domain="[]"
+                        context="{'group_by': 'location_id'}" />
+                    <filter name="productgroup" string="Product" domain="[]"
+                        context="{'group_by': 'product_id'}" />
+                </group>
+            </search>
 
-            </field>
-        </record>
+        </field>
+    </record>
 
-        <!-- Views -->
-        <record id="view_product_stock_quantity_tree" model="ir.ui.view">
-            <field name="name">product.stock.quantity.tree.gard_product_stock_qty</field>
-            <field name="model">stock.quant</field>
-            <field name="view_mode">tree</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
+    <!-- Views -->
+    <record id="view_product_stock_quantity_tree" model="ir.ui.view">
+        <field name="name">product.stock.quantity.tree.gard_product_stock_qty</field>
+        <field name="model">stock.quant</field>
+        <field name="view_mode">tree</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
 
-                <tree string="Product Stock Quantity" create="0" edit="0" delete="0" editable="bottom" colors="orangered:reserved_quantity > '0'">
-                    <field invisible="1" name="product_id"/>
-                    <field name="location_id"/>
-                    <field name="quantity"/>
-                    <field name="reserved_quantity"/>
-                </tree>
+            <tree string="Product Stock Quantity" create="0" edit="0" delete="0" editable="bottom"
+                colors="orangered:reserved_quantity > '0'">
+                <field invisible="1" name="product_id" />
+                <field name="location_id" />
+                <field name="quantity" />
+                <field name="reserved_quantity" />
+            </tree>
 
-            </field>
-        </record>
+        </field>
+    </record>
 
-        <record id="view_sale_product_stock_quantity_tree" model="ir.ui.view">
-            <field name="name">sale.product.stock.quantity.tree.gard_product_stock_qty</field>
-            <field name="model">stock.quant</field>
-            <field name="view_mode">tree</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
+    <record id="view_sale_product_stock_quantity_tree" model="ir.ui.view">
+        <field name="name">sale.product.stock.quantity.tree.gard_product_stock_qty</field>
+        <field name="model">stock.quant</field>
+        <field name="view_mode">tree</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
 
-                <tree string="Product Stock Quantity" create="0" edit="0" delete="0" editable="bottom" colors="orangered:reserved_quantity > '0'">
-                    <field name="product_id"/>
-                    <field name="location_id"/>
-                    <field name="quantity"/>
-                    <field name="reserved_quantity"/>
-                </tree>
+            <tree string="Product Stock Quantity" create="0" edit="0" delete="0" editable="bottom"
+                colors="orangered:reserved_quantity > '0'">
+                <field name="product_id" />
+                <field name="location_id" />
+                <field name="quantity" />
+                <field name="reserved_quantity" />
+            </tree>
 
-            </field>
-        </record>
+        </field>
+    </record>
 
-        <!-- Actions -->
-        <record id="action_stock_product_stock_quantity_tree" model="ir.actions.act_window">
-            <field name="name">Product Stock Quantity</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">stock.quant</field>
-            <field name="view_id" ref="gard_product_stock_qty.view_product_stock_quantity_tree"/>
-            <field name="view_mode">tree</field>
-            <field name="context">{'group_by': ['location_id', 'product_id']}</field>
-            <field name="domain">[('location_id.usage','=', 'internal')]</field>
-            <field name="search_view_id" ref="gard_product_stock_qty.view_product_stock_quantity_search"/>
-        </record>
+    <!-- Actions -->
+    <record id="action_stock_product_stock_quantity_tree" model="ir.actions.act_window">
+        <field name="name">Product Stock Quantity</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.quant</field>
+        <field name="view_id" ref="gard_product_stock_qty.view_product_stock_quantity_tree" />
+        <field name="view_mode">tree</field>
+        <field name="context">{'group_by': ['location_id', 'product_id']}</field>
+        <field name="domain">[('location_id.usage','=', 'internal')]</field>
+        <field name="search_view_id" ref="gard_product_stock_qty.view_product_stock_quantity_search" />
+    </record>
 
-        <!-- Menus -->
-        <menuitem
-            id="menu_action_product_stock_quantity_tree"
-            name="Product Stock Quantity"
-            parent="stock.menu_stock_inventory_control"
-            action="action_stock_product_stock_quantity_tree"
-            sequence="20"
-            />
+    <!-- Menus -->
+    <menuitem
+        id="menu_action_product_stock_quantity_tree"
+        name="Product Stock Quantity"
+        parent="stock.menu_stock_inventory_control"
+        action="action_stock_product_stock_quantity_tree"
+        sequence="20"
+    />
 
 </odoo>
