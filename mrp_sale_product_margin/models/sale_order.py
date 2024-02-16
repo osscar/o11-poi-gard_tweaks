@@ -21,7 +21,7 @@ class SaleOrderLine(models.Model):
         _logger.debug("_ucb price >>>: %s", price)
         if price != product_id.standard_price:
             _logger.debug("_ucb if standard_price >>>: %s", product_id.standard_price)
-            if product_id.category_id.property_valuation == "manual":
+            if product_id.categ_id.property_valuation == "manual":
                 product_id.standard_price = price
                 _logger.debug("_ucb if standard_price >>>: %s", product_id.standard_price)
         return True
@@ -33,23 +33,3 @@ class SaleOrderLine(models.Model):
             self._update_cost_bom(product_id)
             _logger.debug("_cm if standard_price >>>: %s", product_id.standard_price)
         return price
-
-    # @api.model
-    # def _get_purchase_price(self, pricelist, product, product_uom, date):
-    #     _logger.debug("_gpp product >>>: %s", product)
-    #     # qty_at_date = product.immediate_
-    #     return super().with_context(qty_at_date=)._get_purchase_price(
-    #         pricelist, product, product_uom, date
-    #     )
-        # if product.bom_ids:
-        #     frm_cur = self.env.user.company_id.currency_id
-        #     to_cur = pricelist.currency_id
-        #     purchase_price = product.standard_price / product.qty_at_date
-        #     _logger.debug("_gpp if purchase_price >>>: %s", purchase_price)
-        #     if product_uom != product.uom_id:
-        #         purchase_price = product.uom_id._compute_price(purchase_price, product_uom)
-        #     ctx = self.env.context.copy()
-        #     ctx['date'] = date
-        #     price = frm_cur.with_context(ctx).compute(purchase_price, to_cur, round=False)
-        #     res = {'purchase_price': price}
-        # return res
