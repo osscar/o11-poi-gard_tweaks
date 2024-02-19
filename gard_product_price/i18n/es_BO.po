@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-01 21:54+0000\n"
-"PO-Revision-Date: 2023-09-01 21:54+0000\n"
+"POT-Creation-Date: 2024-02-19 07:35+0000\n"
+"PO-Revision-Date: 2024-02-19 07:35+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -91,12 +91,12 @@ msgstr "Cancelar"
 #. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_active_pricelist
 msgid "Checks pricelist's active state."
-msgstr "Checks pricelist's active state."
+msgstr "Revisa el estado activo de la lista de precios."
 
 #. module: gard_product_price
 #: model:ir.model,name:gard_product_price.model_res_partner
 msgid "Contact"
-msgstr "Contacto"
+msgstr "Contactos"
 
 #. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_cost_product
@@ -119,6 +119,11 @@ msgid "Date item was last updated."
 msgstr "Ultima fecha de actualizacion de la regla."
 
 #. module: gard_product_price
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_date_update
+msgid "Date last updated."
+msgstr "Ultimma fecha de actualizacion."
+
+#. module: gard_product_price
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_description
 #: model:ir.ui.view,arch_db:gard_product_price.product_product_prices_view_form
 msgid "Description"
@@ -131,13 +136,13 @@ msgid "Display Name"
 msgstr "Nombre a mostrar"
 
 #. module: gard_product_price
-#: code:addons/gard_product_price/models/product_pricelist.py:431
+#: code:addons/gard_product_price/models/product_pricelist.py:499
 #, python-format
 msgid "Division by zero cannot be performed. Net sale margin calculation will be set to 0 when product cost is 0."
 msgstr "El margen de venta se establecera a 0 cuando el precio de costo del producto es 0."
 
 #. module: gard_product_price
-#: code:addons/gard_product_price/models/product_pricelist.py:354
+#: code:addons/gard_product_price/models/product_pricelist.py:420
 #, python-format
 msgid "Error! Min. Qty UoM and Pack UoM have different categories. Pack minimum quantity cannot be computed."
 msgstr "Error! Las UdMs deben tener la misma categoria. La cantidad minima de paquetes no puedes ser calculado."
@@ -145,7 +150,7 @@ msgstr "Error! Las UdMs deben tener la misma categoria. La cantidad minima de pa
 #. module: gard_product_price
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_margin_sale_net_factor
 msgid "Factor Margin Net"
-msgstr "Margin neto factor"
+msgstr "!margen neto"
 
 #. module: gard_product_price
 #: model:res.groups,name:gard_product_price.group_product_price_manager
@@ -161,7 +166,7 @@ msgstr "Grupo personalizado GARD para la administración de tarifas."
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_global_uom_pack_id
 #: model:ir.ui.view,arch_db:gard_product_price.product_product_prices_view_form
 msgid "Global Pack UoM"
-msgstr "UdM global paq."
+msgstr "UdM global paquete"
 
 #. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_global_uom_pack_id
@@ -182,17 +187,17 @@ msgstr "Hide from product price view. Helpful if using pricelist only to perform
 #. module: gard_product_price
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_is_hidden
 msgid "Hide item"
-msgstr "Esconder regla"
+msgstr "Esconder"
 
 #. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_is_hidden
 msgid "Hide item in product price view."
-msgstr "No mostrar reglas en la vista de precios de productos."
+msgstr "Esconde regla de la ventana de precios de venta."
 
 #. module: gard_product_price
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_is_hidden
 msgid "Hide items"
-msgstr "Esconder reglas"
+msgstr "Esconder"
 
 #. module: gard_product_price
 #: model:ir.model.fields,field_description:gard_product_price.field_gard_product_price_price_list_id
@@ -201,7 +206,13 @@ msgid "ID"
 msgstr "ID"
 
 #. module: gard_product_price
-#: code:addons/gard_product_price/models/product_pricelist.py:430
+#: code:addons/gard_product_price/models/product_pricelist.py:376
+#, python-format
+msgid "If you continue, all affected pricelist items                                 by the changes made to this record, will be recomputed.                                 This could take a long time depending on the amount of records being processed."
+msgstr "Si continua, todoas las listas de precios afectadas                                 por los cambios hechos en este registro, seran recalculados.                                 El recalculo podria demorar si se procesaran muchos registros (+1000)."
+
+#. module: gard_product_price
+#: code:addons/gard_product_price/models/product_pricelist.py:498
 #, python-format
 msgid "Input Error"
 msgstr "Error de entrada"
@@ -225,7 +236,7 @@ msgstr "Última actualización en"
 #. module: gard_product_price
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_margin_sale_excl
 msgid "Margin Excluded"
-msgstr "Margen excluido"
+msgstr "Margin Excluded"
 
 #. module: gard_product_price
 #: model:ir.ui.view,arch_db:gard_product_price.product_product_prices_view_form
@@ -273,7 +284,7 @@ msgstr "Precio paq."
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_uom_pack_id
 #: model:ir.ui.view,arch_db:gard_product_price.product_product_prices_view_form
 msgid "Pack UoM"
-msgstr "UdM paq."
+msgstr "UdM paquete"
 
 #. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_min_quantity_pack
@@ -283,7 +294,7 @@ msgstr "Cantidad minima en la UdM del paquete."
 #. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_price_pack
 msgid "Package Sale Price."
-msgstr "Precio venta paq.."
+msgstr "Package Sale Price."
 
 #. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_uom_pack_id
@@ -294,13 +305,13 @@ msgstr "UdM del paquete para factorizar precio por paquete."
 #: model:ir.model.fields,field_description:gard_product_price.field_product_product_uom_pack_id
 #: model:ir.model.fields,field_description:gard_product_price.field_product_template_uom_pack_id
 msgid "Package UoM"
-msgstr "UdM paq."
+msgstr "Package UoM"
 
 #. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_product_uom_pack_id
 #: model:ir.model.fields,help:gard_product_price.field_product_template_uom_pack_id
 msgid "Package unit of measure."
-msgstr "UdM del paquete."
+msgstr "Package unit of measure."
 
 #. module: gard_product_price
 #: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_search
@@ -372,7 +383,7 @@ msgstr "Tarifa para la linea de venta."
 #. module: gard_product_price
 #: model:ir.model,name:gard_product_price.model_product_pricelist_item
 msgid "Pricelist item"
-msgstr "Regla de precio"
+msgstr "Item de Lista de precios"
 
 #. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_description
@@ -401,12 +412,12 @@ msgstr "Producto"
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_product_default_code_7730
 #: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_search
 msgid "Product Code"
-msgstr "Código producto"
+msgstr "Código de producto"
 
 #. module: gard_product_price
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_cost_product
 msgid "Product Cost"
-msgstr "Costo producto"
+msgstr "Costo de producto"
 
 #. module: gard_product_price
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_product_default_code
@@ -433,6 +444,22 @@ msgstr "Product's default code."
 #: model:ir.model,name:gard_product_price.model_sale_order
 msgid "Quotation"
 msgstr "Cotización"
+
+#. module: gard_product_price
+#: code:addons/gard_product_price/models/product_pricelist.py:375
+#, python-format
+msgid "Recompute"
+msgstr "Recompute"
+
+#. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_price_recompute
+msgid "Recompute Related"
+msgstr "Recalcular rel."
+
+#. module: gard_product_price
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_price_recompute
+msgid "Recompute related items. Select to recompute."
+msgstr "Seleccione para recalcular reglas relacionadas."
 
 #. module: gard_product_price
 #: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_partner_ids
@@ -482,6 +509,7 @@ msgid "UoM"
 msgstr "UdM"
 
 #. module: gard_product_price
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_date_update
 #: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_date_update
 msgid "Updated Date"
 msgstr "Ult. Actualizacion"
@@ -500,3 +528,4 @@ msgstr "menu_product_pricelist_main"
 #: model:ir.model,name:gard_product_price.model_report_gard_product_price_report_pricelist
 msgid "report.gard_product_price.report_pricelist"
 msgstr "report.gard_product_price.report_pricelist"
+

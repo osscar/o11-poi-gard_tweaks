@@ -2,9 +2,9 @@
 # import logging
 
 from itertools import chain
-from odoo import models, fields, api, _
+from odoo import fields, models, api, _
 from datetime import datetime
-import odoo.addons.decimal_precision as dp
+# import odoo.addons.decimal_precision as dp
 
 from odoo.exceptions import UserError
 
@@ -12,19 +12,29 @@ from odoo.exceptions import UserError
 
 
 class ProductPricelist(models.Model):
-    _inherit = "product.pricelist"
+    _name = "product.pricelist"
+    _inherit = ["product.pricelist", 'mail.thread', 'mail.activity.mixin']
 
-    partner_ids = fields.Many2many("res.partner", string="Partners")
+    partner_ids = fields.Many2many("res.partner", string="Partners", track_visibility="onchange",)
     item_product_default_code = fields.Char(
-        related="item_ids.product_default_code",
         string="Product Internal Reference",
-        help="Product's default code.",
+        related="item_ids.product_default_code",
         readonly=True,
+        help="Product's default code.",
+        track_visibility="onchange",
     )
     is_hidden = fields.Boolean(
-        string="Hide items",
+        string="Hide",
         default=False,
         help="Hide from product price view. Helpful if using pricelist only to perform calculations on other pricelists.",
+        track_visibility="onchange",
+    )
+    date_update = fields.Datetime(
+        string="Updated Date",
+        readonly=True,
+        copy=False,
+        help="Date last updated.",
+        track_visibility="onchange",
     )
 
     @api.multi
@@ -32,7 +42,6 @@ class ProductPricelist(models.Model):
         res = super(ProductPricelist, self)._compute_price_rule(
             products_qty_partner, date=False, uom_id=False
         )
-
         self.ensure_one()
         if not date:
             date = self._context.get("date") or fields.Date.context_today(self)
@@ -209,277 +218,46 @@ class ProductPricelistItem(models.Model):
     _inherit = ["product.pricelist.item", 'mail.thread', 'mail.activity.mixin']
     _defaults = {"base": 1}
 
-    @api.one
-    def write(self, vals):
-        res = super(ProductPricelistItem, self).write(vals)
-        active_id = self.env.context.get("active_id")
-        active_model = self.env.context.get("active_model")
-        uom_pack_id = vals.get("uom_pack_id")
-        price_unit = vals.get("price_unit")
-        product = False
-        # force recompute for global items
-        if uom_pack_id:
-            if self.applied_on == "3_global":
-                if active_id and active_model in (
-                    "product.product",
-                    "product.template",
-                ):
-                    product = self.env[active_model].search([("id", "=", active_id)])
-                    self.write({"global_uom_pack_id": uom_pack_id})
-        # force recompute on csv import by updating date_update field
-        # on related base_pricelist_id items
-        if price_unit:
-            if self.applied_on in ["1_product", "0_product_variant"]:
-                product = self.product_tmpl_id or self.product_id
-                rel_pricelist_items = self.search(
-                    [
-                        "|",
-                        ("product_tmpl_id", "=", product.id),
-                        ("product_id", "=", product.id),
-                    ]
-                )
-                recompute_items = rel_pricelist_items
-                if recompute_items:
-                    for r_item in recompute_items:
-                        r_item.write(
-                            {
-                                "date_update": datetime.now().strftime(
-                                    "%Y-%m-%d %H:%M:%S"
-                                )
-                            }
-                        )
-        return res
-
-    # @api.model
-    # def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-    #     _logger.debug('read_group call init self >>>: %s', self)
-    #     _logger.debug('read_group call init self._fields >>>: %s', self._fields)
-    #     f_list = list()
-    #     for k, v in self._fields.items():
-    #         if k == "applied_on":
-    #             f_list.append(v)
-
-    #         _logger.debug('read_group call init _fields f_list >>>: %s', f_list)
-    #     # _logger.debug('read_group call init self._fields >>>: %s', self._fields.product_id)
-    #     # for item in self._fields:
-    #     #     _logger.debug('read_group call init for item >>>: %s', item)
-    #     #     for product_tmpl in item.product_tmpl_id:
-    #     #         _logger.debug('read_group call for product_tmpl >>>: %s', product_tmpl)
-    #             # product_tmpl
-    #     _logger.debug('read_group call init self._context >>>: %s', self._context)
-    #     _logger.debug('read_group call init self._context.get(params) >>>: %s', self._context.get('params'))
-    #     _logger.debug('read_group call init self._context.get(params).get(view_type) >>>: %s', self._context.get('params').get('view_type'))
-    #     get_view_type = self._context.get('params').get('view_type')
-    #     # get_group_by = self._context.get('params').get('group_by')
-    #     _logger.debug('read_group call init >>>: %s', domain)
-    #     _logger.debug('read_group call init >>>: %s', fields)
-    #     _logger.debug('read_group call init >>>: %s', groupby)
-    #     _logger.debug('read_group call init >>>: %s', offset)
-    #     _logger.debug('read_group call init >>>: %s', limit)
-    #     _logger.debug('read_group call init >>>: %s', orderby)
-    #     # search and show all products when a rule applied_on == 'global'
-    #     if get_view_type == 'pivot':
-    #         _logger.debug('read_group call if get_view_type >>>: %s', get_view_type)
-    #         _logger.debug('read_group call if get_view_type fields >>>: %s', fields)
-    #         _logger.debug('read_group call if get_view_type group_by >>>: %s', groupby)
-    #         if 'pricelist_id' and 'product_id' in fields:
-    #             _logger.debug('read_group call if groupby >>>: %s', groupby)
-    #             _logger.debug('read_group call if groupby domain.get(a_on) >>>: %s', [d['applied_on'] for d in domain])
-    #             # list(map(lambda x: x[], domain)))
-    #             fields.remove('__count')
-    #             # for item in self:
-    #             if 'global' in list(map(lambda x: x['applied_on'], domain)):
-    #                 _logger.debug('read_group call if a_on global domain >>>: %s', fields)
-
-    #     # this was from a previous development; currently not used
-    #     # if 'product_default_code' or 'product_id' or 'product_tmpl_id' in groupby:
-    #     #     fields.remove('min_quantity')
-    #     #     fields.remove('price_sale')
-    #     #     fields.remove('price_unit')
-    #     #     fields.remove('margin_sale_net')
-    #     #     fields.remove('margin_sale_excl')
-    #     #     fields.remove('cost_product')
-    #     return super(ProductPricelistItem, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
-
-    # @api.model
-    # def _read_group_raw(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-    #     res = super(ProductPricelistItem, self)._read_group_raw(domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True)
-
-    #     return res
-
-    @api.onchange("compute_price")
-    def onchange_compute_price(self):
-        self.base == "standard_price"
-
-    @api.onchange("product_tmpl_id", "product_id")
-    def onchange_product(self):
-        self.description = (
-            self.product_tmpl_id.display_name or self.product_id.display_name
-        )
-
-    @api.depends(
-        "min_quantity",
-        "product_tmpl_id",
-        "product_tmpl_id.uom_pack_id",
-        "product_id",
-        "product_id.uom_pack_id",
-    )
-    @api.one
-    def _compute_uom_ids(self):
-        product = False
-        min_qty_uom_id = False
-        uom_pack_id = False
-        applied_on_product = False
-        active_id = self.env.context.get("active_id")
-        active_model = self.env.context.get("active_model")
-        # check if product is set
-        if self.applied_on == "3_global":
-            if active_id and active_model in (
-                "product.product",
-                "product.template",
-            ):
-                product = self.env[active_model].search([("id", "=", active_id)])
-                self.write({"uom_pack_id": False})
-        if self.applied_on in ["1_product", "0_product_variant"]:
-            applied_on_product = True
-            product = self.product_tmpl_id or self.product_id
-            min_qty_uom_id = product.uom_id
-            uom_pack_id = product.uom_pack_id
-        if product:
-            self.min_quantity_uom_id = min_qty_uom_id
-            self.uom_pack_id = uom_pack_id
-            if self.min_quantity_uom_id.category_id == self.uom_pack_id.category_id:
-                self.min_quantity_pack = self.min_quantity / self.uom_pack_id.factor_inv
-            else:
-                raise ValidationError(
-                    _(
-                        "Error! Min. Qty UoM and Pack UoM have different categories. Pack minimum quantity cannot be computed."
-                    )
-                )
-            if applied_on_product:
-                self.global_uom_pack_id = False
-            else:
-                self.global_uom_pack_id = product.uom_pack_id
-
-    @api.depends(
-        "applied_on",
-        "base",
-        "base_pricelist_id",
-        "compute_price",
-        "percent_price",
-        "min_quantity",
-        "date_update",
-        "uom_pack_id",
-    )
-    @api.one
-    def _calc_price_unit(self):
-        # TO DO: on-the-fly compute crashes on dummy record (NewId).
-        # find a way to compute or add User/ValidationError to
-        # warn user when editing rules from pricelist instead of item.
-        # ¿¿ assign empty value to void dummy record NewId error ??
-        if self.pricelist_id:
-            product = False
-            quantity = self.min_quantity
-            pack_factor = self.uom_pack_id.factor_inv
-            partner = False
-            active_id = self.env.context.get("active_id")
-            active_model = self.env.context.get("active_model")
-            if self.applied_on == "3_global":
-                if active_id and active_model in (
-                    "product.product",
-                    "product.template",
-                ):
-                    product = self.env[active_model].search([("id", "=", active_id)])
-                    pack_factor = product.uom_pack_id.factor_inv
-            if self.applied_on in ["1_product", "0_product_variant"]:
-                product = self.product_tmpl_id or self.product_id
-            if product:
-                price = self.pricelist_id.with_context(item_ids=self).get_product_price(
-                    product, quantity, partner, date=False, uom_id=False
-                )
-                pack_factor = pack_factor
-                self.price_unit = price
-                self.price_sale = price * quantity
-                self.price_pack = price * pack_factor
-                self.product_global_id = product
-
-    @api.depends("product_tmpl_id", "product_id", "product_id.qty_available", "percent_price", "min_quantity")
-    @api.one
-    def _compute_cost_product(self):
-        product = False
-        # check if product is set
-        if self.applied_on in ["1_product", "0_product_variant"]:
-            product = self.product_tmpl_id or self.product_id
-        # get product standard price or inventory valuation
-        if product:
-            self.cost_product = product._compute_cost_product()
-
-    @api.depends("cost_product", "margin_sale_excl")
-    @api.one
-    def _calc_margin(self):
-        if self.cost_product == 0.0:
-            self.margin_sale_net_unit == 0.0
-            self.margin_sale_net_pack == 0.0
-            return {
-                "warning": {
-                    "title": _("Input Error"),
-                    "message": _(
-                        "Division by zero cannot be performed. Net sale margin calculation will be set to 0 when product cost is 0."
-                    ),
-                },
-            }
-        else:
-            uom_factor_inv = self.uom_pack_id.factor_inv
-            price_unit = self.price_unit
-            price_pack = self.price_pack
-            cost_product = self.cost_product
-            margin_excl = (1 - (self.margin_sale_excl / 100))
-            
-            margin_sale_net_unit = (price_unit * margin_excl) - cost_product
-            margin_sale_net_pack = (price_unit * margin_excl * uom_factor_inv) - (cost_product * uom_factor_inv)
-            margin_sale_net_factor = price_unit * margin_excl / self.cost_product
-            
-            self.margin_sale_net_unit = margin_sale_net_unit
-            self.margin_sale_net_pack = margin_sale_net_pack
-            self.margin_sale_net_factor = margin_sale_net_factor
-            
-
     active_pricelist = fields.Boolean(
         related="pricelist_id.active",
-        string="Active",
         readonly=True,
         help="Checks pricelist's active state.",
+        track_visibility="onchange",
     )
+    pricelist_id = fields.Many2one(track_visibility="always")
+    base_pricelist_id = fields.Many2one(track_visibility="always")
+    percent_price = fields.Float(track_visibility="onchange")
+    min_quantity = fields.Integer(track_visibility="onchange")
     is_hidden = fields.Boolean(
         related="pricelist_id.is_hidden",
-        string="Hide item",
         default=False,
         help="Hide item in product price view.",
+        track_visibility="onchange",
     )
     product_default_code = fields.Char(
         related="product_id.default_code",
         string="Product Code",
         readonly=True,
         help="Product's default code.",
+        track_visibility="onchange",
     )
     description = fields.Char(string="Description", help="Pricelist item description.")
     partner_ids = fields.Many2many(
         related="pricelist_id.partner_ids",
-        string="Partners",
         help="Related partners.",
+        track_visibility="onchange",
     )
     date_update = fields.Datetime(
-        "Updated Date",
-        # compute="_calc_price_unit",
+        string="Updated Date",
         copy=False,
         readonly=True,
-        # store=True,
         help="Date item was last updated.",
+        track_visibility="onchange",
     )
     min_quantity_uom_id = fields.Many2one(
         "product.uom",
         string="UoM",
-        compute="_compute_uom_ids",
+        compute="_compute_uoms",
         readonly=True,
         store=True,
         help="Minimum Quantity UoM.",
@@ -487,7 +265,7 @@ class ProductPricelistItem(models.Model):
     uom_pack_id = fields.Many2one(
         "product.uom",
         string="Pack UoM",
-        compute="_compute_uom_ids",
+        compute="_compute_uoms",
         readonly=True,
         store=True,
         help="Package Unit of Measure to factor package price.",
@@ -495,14 +273,13 @@ class ProductPricelistItem(models.Model):
     global_uom_pack_id = fields.Many2one(
         "product.uom",
         string="Global Pack UoM",
-        compute="_compute_uom_ids",
+        compute="_compute_uoms",
         readonly=True,
-        # store=True,
         help="Global Package Unit of Measure to factor package price for global items.",
     )
     min_quantity_pack = fields.Integer(
         "Pack Min. Qty.",
-        compute="_compute_uom_ids",
+        compute="_compute_uoms",
         readonly=True,
         store=True,
         help="Pack minimum quantity.",
@@ -516,54 +293,247 @@ class ProductPricelistItem(models.Model):
         ],
         index=True,
         default="percentage_surcharge",
+        track_visibility="onchange",
     )
     price_unit = fields.Monetary(
         string="Unit Price",
         currency_field="currency_id",
-        compute="_calc_price_unit",
+        compute="_compute_sale_price",
         readonly=True,
         store=True,
+        track_visibility="onchange",
     )
     price_pack = fields.Monetary(
         string="Pack Price",
         currency_field="currency_id",
-        compute="_calc_price_unit",
+        compute="_compute_sale_price",
         readonly=True,
         store=True,
         help="Package Sale Price.",
     )
+    price_recompute = fields.Boolean(
+        string="Recompute Related",
+        default=False,
+        help="Recompute related items. Select to recompute.",
+    )
     cost_product = fields.Monetary(
         string="Product Cost",
         currency_field="currency_id",
-        compute="_compute_cost_product",
+        compute="_compute_product_cost",
         readonly=True,
         store=True,
         help="Cost price per default product UoM, based on product's Standard Price (when set) or inventory valuation.",
+        track_visibility="onchange",
     )
     margin_sale_net_unit = fields.Monetary(
         string="Unit Margin Net",
         currency_field="currency_id",
-        compute="_calc_margin",
+        compute="_compute_sale_margin",
         readonly=True,
         store=True,
         help="Net sale margin (including margin exclusion).",
-        # oldname="margin_sale_net",
+        track_visibility="onchange"
     )
     margin_sale_net_pack = fields.Monetary(
         string="Pack Margin Net",
         currency_field="currency_id",
-        compute="_calc_margin",
+        compute="_compute_sale_margin",
         readonly=True,
         store=True,
         help="Net sale margin (including margin exclusion).",
     )
     margin_sale_net_factor = fields.Float(
         string="Factor Margin Net",
-        compute="_calc_margin",
+        compute="_compute_sale_margin",
         readonly=True,
         store=True,
         help="Net sale margin factor (including margin exclusion).",
+        track_visibility="onchange",
     )
     margin_sale_excl = fields.Float(
-        string="Margin Excluded", default=16.00, help="Sale margin exclusion percent."
+        string="Margin Excluded", default=16.00, help="Sale margin exclusion percent.", track_visibility="onchange",
     )
+
+    @api.onchange("compute_price")
+    def onchange_compute_sale_price(self):
+        self.base == "standard_price"
+
+    @api.onchange("product_tmpl_id", "product_id")
+    def onchange_product(self):
+        self.description = (
+            self.product_tmpl_id.display_name or self.product_id.display_name
+        )
+
+    @api.onchange("price_recompute")
+    def onchange_price_recompute(self):
+        if self.price_recompute:
+            return {
+                        "warning": {
+                            "title": _("Recompute"),
+                            "message": _(
+                                "If you continue, all affected pricelist items \
+                                by the changes made to this record, will be recomputed. \
+                                This could take a long time depending on the amount of records being processed."
+                            ),
+                        },
+                    }
+    
+    @api.depends(
+        "min_quantity",
+        "product_tmpl_id",
+        "product_tmpl_id.uom_pack_id",
+        "product_id",
+        "product_id.uom_pack_id",
+    )
+    @api.multi
+    def _compute_uoms(self):
+        product = False
+        min_qty = 0.0
+        min_qty_uom_id = False
+        uom_pack_id = False
+        applied_on_product = False
+        global_uom_pack_id = False
+        active_id = self.env.context.get("active_id")
+        active_model = self.env.context.get("active_model")
+        for item in self:
+            # check if product is set
+            if item.applied_on == "3_global":
+                if active_id and active_model in (
+                    "product.product",
+                    "product.template",
+                ):
+                    product = self.env[active_model].search([("id", "=", active_id)])
+                    uom_pack_id = False
+            if item.applied_on in ["1_product", "0_product_variant"]:
+                applied_on_product = True
+                product = item.product_tmpl_id or item.product_id
+                min_qty = item.min_quantity
+                min_qty_uom_id = product.uom_id
+                uom_pack_id = product.uom_pack_id
+                if min_qty_uom_id.category_id == uom_pack_id.category_id:
+                    min_qty_pack = min_qty / uom_pack_id.factor_inv
+                else:
+                    raise ValidationError(
+                        _(
+                            "Error! Min. Qty UoM and Pack UoM have different categories. Pack minimum quantity cannot be computed."
+                        )
+                    )
+            if not applied_on_product:
+                global_uom_pack_id = uom_pack_id
+            item.min_quantity_uom_id = min_qty_uom_id
+            item.uom_pack_id = uom_pack_id
+            item.min_quantity_pack = min_qty_pack
+            item.global_uom_pack_id = global_uom_pack_id
+
+    @api.depends(
+        "base",
+        "base_pricelist_id",
+        "pricelist_id",
+        "percent_price",
+        "min_quantity",
+        "date_update",
+        "uom_pack_id",
+    )
+    @api.multi
+    def _compute_sale_price(self):
+        quantity = 0.0
+        pack_factor = 0.0
+        product = False
+        price = 0.0
+        partner = False
+        active_id = self.env.context.get("active_id")
+        active_model = self.env.context.get("active_model")
+        for item in self:
+            quantity = item.min_quantity
+            pack_factor = item.uom_pack_id.factor_inv
+            if item.partner_ids:
+                partner = item.partner_ids
+            if item.applied_on == "3_global":
+                if active_id and active_model in (
+                    "product.product",
+                    "product.template",
+                ):
+                    product = self.env[active_model].search([("id", "=", active_id)])
+                    pack_factor = product.uom_pack_id.factor_inv
+            if item.applied_on in ["1_product", "0_product_variant"]:
+                product = item.product_tmpl_id or item.product_id
+                price = item.pricelist_id.with_context(item_ids=item).get_product_price(product, quantity, partner, date=False, uom_id=False)
+                pack_factor = pack_factor
+            item.price_unit = price
+            item.price_pack = price * pack_factor
+
+    @api.depends(
+        "product_tmpl_id", 
+        "product_id", 
+        "product_id.qty_available", 
+        )
+    @api.multi
+    def _compute_product_cost(self):
+        product = False
+        for item in self:
+            # check if product is set
+            if item.applied_on in ["1_product", "0_product_variant"]:
+                product = item.product_tmpl_id or item.product_id
+                item.cost_product = product._compute_product_cost()
+
+    @api.depends("price_unit", "price_pack", "margin_sale_excl")
+    @api.multi
+    def _compute_sale_margin(self):
+        uom_factor_inv = 0.0
+        price_unit = 0.0
+        cost_product = 0.0
+        margin_sale_excl = 0.0
+        margin_sale_net_unit = 0.0
+        margin_sale_net_pack = 0.0
+        margin_sale_net_factor = 0.0
+        for item in self:
+            if item.cost_product == 0.0:
+                margin_sale_net_unit = 0.0
+                margin_sale_net_pack = 0.0
+                return {
+                    "warning": {
+                        "title": _("Input Error"),
+                        "message": _(
+                            "Division by zero cannot be performed. Net sale margin calculation will be set to 0 when product cost is 0."
+                        ),
+                    },
+                }
+            else:
+                uom_factor_inv = item.uom_pack_id.factor_inv
+                price_unit = item.price_unit
+                cost_product = item.cost_product
+                if cost_product == 0.0:
+                    cost_product = 1.0
+                margin_sale_excl = 1 - (item.margin_sale_excl / 100)
+                margin_sale_net_unit = (price_unit * margin_sale_excl) - cost_product
+                margin_sale_net_pack =  (price_unit * margin_sale_excl * uom_factor_inv) - (cost_product * uom_factor_inv)
+                margin_sale_net_factor = price_unit * (margin_sale_excl / cost_product)
+            item.margin_sale_net_unit = margin_sale_net_unit
+            item.margin_sale_net_pack = margin_sale_net_pack
+            item.margin_sale_net_factor = margin_sale_net_factor
+                
+    def _get_related_items(self):
+        domain = [('id','!=',self.id), ('product_id','=',self.product_id.id), ('active_pricelist','=',True)]
+        ritems = self.search(domain)
+        if self.applied_on == "3_global":
+            domain = [('id','!=',self.id), ('base_pricelist_id','=',self.pricelist_id.id), ('active_pricelist','=',True)]
+            ritems += self.search(domain).filtered(lambda ri: ri.base_pricelist_id.active == True).sorted(key=lambda r: r.id)
+        return ritems
+
+    def recompute_items(self):
+        datenow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        ritems = self._get_related_items()
+        for item in ritems:
+            date_update = datenow
+            item.pricelist_id.date_update = date_update
+        return date_update
+        
+    @api.multi
+    def write(self, vals):
+        res = super().write(vals)
+        for item in self.filtered(lambda i: i.price_recompute):
+            # log update on base pricelist log
+            date_update = item.recompute_items()
+            item.price_recompute = False
+            item.date_update = date_update
+        return res
