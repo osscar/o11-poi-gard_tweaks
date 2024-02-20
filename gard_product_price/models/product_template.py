@@ -32,7 +32,7 @@ class ProductTemplate(models.Model):
             "target": "new",
         }
         
-    def _compute_cost_product(self):
+    def _compute_product_cost(self):
         standard_price = self.standard_price
         valuation = self.stock_value
         qty_available = self.qty_at_date
@@ -55,7 +55,7 @@ class ProductTemplate(models.Model):
 
             prices = dict.fromkeys(self.ids, 0.0)
             for template in templates:
-                prices[template.id] = template._compute_cost_product()     
+                prices[template.id] = template._compute_product_cost()     
                 if uom:
                     prices[template.id] = template.uom_id._compute_price(prices[template.id], uom)
 
