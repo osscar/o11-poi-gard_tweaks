@@ -523,22 +523,16 @@ class ProductPricelistItem(models.Model):
 
     def recompute_items(self):
         datenow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        ritems = {self._get_related_items()}
+        ritems = self._get_related_items()
+        self.price_recompute = False
         for ritem in ritems:
-            ritems = ritem.pricelist_id.date_update = datenow
-        return ritems, datenow
+            date_update = ritem.date_update = ritem.pricelist_id.date_update = datenow
+        return date_update
         
     @api.multi
     def write(self, vals):
         res = super().write(vals)
-        date_update = {}
-        price_recompute = False
-        for item in self.filtered(lambda i: i.price_recompute):
+        if self.filtered(lambda i: i.price_recompute):
             # log update on base pricelist log
-            # date_update = 
-            # item.price_recompute = False
-            ritems, datenow = item.recompute_items()
-            date_update = item.price_recompute
-        
-        return date_update, price_recompute, res
- datenow
+            self.date_update = self.recompute_items()
+        return res
