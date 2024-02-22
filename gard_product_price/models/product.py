@@ -39,7 +39,7 @@ class ProductProduct(models.Model):
             'target': 'new',
         }
         
-    def _compute_product_cost(self):
+    def _compute_cost_product(self):
         standard_price = self.standard_price
         valuation = self.stock_value
         qty_available = self.qty_at_date
@@ -60,7 +60,7 @@ class ProductProduct(models.Model):
             products = self.with_context(force_company=company and company.id or self._context.get('force_company', self.env.user.company_id.id)).sudo()
             prices = dict.fromkeys(self.ids, 0.0)
             for product in products:
-                prices[product.id] = product._compute_product_cost()
+                prices[product.id] = product._compute_cost_product()
                 if uom:
                     prices[product.id] = product.uom_id._compute_price(prices[product.id], uom)
                 # Convert from current user company currency to asked one

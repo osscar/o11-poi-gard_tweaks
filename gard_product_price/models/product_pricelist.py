@@ -6,7 +6,8 @@ from odoo import fields, models, api, _
 from datetime import datetime
 # import odoo.addons.decimal_precision as dp
 
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
+
 
 # _logger = logging.getLogger(__name__)
 
@@ -319,7 +320,7 @@ class ProductPricelistItem(models.Model):
     cost_product = fields.Monetary(
         string="Product Cost",
         currency_field="currency_id",
-        compute="_compute_product_cost",
+        compute="_compute_cost_product",
         readonly=True,
         store=True,
         help="Cost price per default product UoM, based on product's Standard Price (when set) or inventory valuation.",
@@ -354,6 +355,30 @@ class ProductPricelistItem(models.Model):
         string="Margin Excluded", default=16.00, help="Sale margin exclusion percent.", track_visibility="onchange",
     )
 
+    def _get_warning_msg(self):
+        warning = {}
+        if self._context.get("warning") == "zero_div":
+            warning = {
+                        "warning": {
+                            "title": _("Input Error"),
+                            "message": _(
+                                "Division by zero cannot be performed. Net sale margin calculation will be set to 0 when product cost is 0."
+                            ),
+                        },
+                    }
+        elif self._context.get("warning") == "recompute":
+            warning = {
+                        "warning": {
+                            "title": _("Recompute"),
+                            "message": _(
+                                "If you continue, all affected pricelist items \
+                                by the changes made to this record, will be recomputed. \
+                                This could take a long time depending on the amount of records being processed."
+                            ),
+                        },
+                    }
+        return warning
+
     @api.onchange("compute_price")
     def onchange_compute_sale_price(self):
         self.base == "standard_price"
@@ -367,16 +392,7 @@ class ProductPricelistItem(models.Model):
     @api.onchange("price_recompute")
     def onchange_price_recompute(self):
         if self.price_recompute:
-            return {
-                        "warning": {
-                            "title": _("Recompute"),
-                            "message": _(
-                                "If you continue, all affected pricelist items \
-                                by the changes made to this record, will be recomputed. \
-                                This could take a long time depending on the amount of records being processed."
-                            ),
-                        },
-                    }
+            return self.with_context(warning="recompute")._get_warning_msg()
     
     @api.depends(
         "min_quantity",
@@ -389,8 +405,9 @@ class ProductPricelistItem(models.Model):
     def _compute_uoms(self):
         product = False
         min_qty = 0.0
-        min_qty_uom_id = False
+        uom_id = False
         uom_pack_id = False
+        min_qty_pack = 0.0
         applied_on_product = False
         global_uom_pack_id = False
         active_id = self.env.context.get("active_id")
@@ -404,14 +421,18 @@ class ProductPricelistItem(models.Model):
                 ):
                     product = self.env[active_model].search([("id", "=", active_id)])
                     uom_pack_id = False
-            if item.applied_on in ["1_product", "0_product_variant"]:
+            product = item.product_tmpl_id or item.product_id
+            if item.applied_on in ["1_product", "0_product_variant"] and product:
                 applied_on_product = True
-                product = item.product_tmpl_id or item.product_id
                 min_qty = item.min_quantity
-                min_qty_uom_id = product.uom_id
+                uom_id = product.uom_id
                 uom_pack_id = product.uom_pack_id
-                if min_qty_uom_id.category_id == uom_pack_id.category_id:
-                    min_qty_pack = min_qty / uom_pack_id.factor_inv
+                if uom_id.category_id == uom_pack_id.category_id:
+                    uom_pack_factor = uom_pack_id.factor_inv
+                    # if (min_qty or uom_pack_id.factor_inv) == 0.0:
+                    #     item._get_warning_msg()
+                    #     min_qty = uom_pack_factor = 1.0
+                    min_qty_pack = min_qty / uom_pack_factor
                 else:
                     raise ValidationError(
                         _(
@@ -420,7 +441,7 @@ class ProductPricelistItem(models.Model):
                     )
             if not applied_on_product:
                 global_uom_pack_id = uom_pack_id
-            item.min_quantity_uom_id = min_qty_uom_id
+            item.min_quantity_uom_id = uom_id
             item.uom_pack_id = uom_pack_id
             item.min_quantity_pack = min_qty_pack
             item.global_uom_pack_id = global_uom_pack_id
@@ -456,8 +477,8 @@ class ProductPricelistItem(models.Model):
                 ):
                     product = self.env[active_model].search([("id", "=", active_id)])
                     pack_factor = product.uom_pack_id.factor_inv
-            if item.applied_on in ["1_product", "0_product_variant"]:
-                product = item.product_tmpl_id or item.product_id
+            product = item.product_tmpl_id or item.product_id
+            if item.applied_on in ["1_product", "0_product_variant"] and product:
                 price = item.pricelist_id.with_context(item_ids=item).get_product_price(product, quantity, partner, date=False, uom_id=False)
                 pack_factor = pack_factor
             item.price_unit = price
@@ -469,13 +490,13 @@ class ProductPricelistItem(models.Model):
         "product_id.qty_available", 
         )
     @api.multi
-    def _compute_product_cost(self):
+    def _compute_cost_product(self):
         product = False
         for item in self:
             # check if product is set
             if item.applied_on in ["1_product", "0_product_variant"]:
                 product = item.product_tmpl_id or item.product_id
-                item.cost_product = product._compute_product_cost()
+                item.cost_product = product._compute_cost_product()
 
     @api.depends("price_unit", "price_pack", "margin_sale_excl")
     @api.multi
@@ -491,14 +512,6 @@ class ProductPricelistItem(models.Model):
             if item.cost_product == 0.0:
                 margin_sale_net_unit = 0.0
                 margin_sale_net_pack = 0.0
-                return {
-                    "warning": {
-                        "title": _("Input Error"),
-                        "message": _(
-                            "Division by zero cannot be performed. Net sale margin calculation will be set to 0 when product cost is 0."
-                        ),
-                    },
-                }
             else:
                 uom_factor_inv = item.uom_pack_id.factor_inv
                 price_unit = item.price_unit
