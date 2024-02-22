@@ -29,39 +29,66 @@ _logger = logging.getLogger(__name__)
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
+
+    # @api.multi
+    def _get_warning_msg(self):
+        title = ""
+        msg = ""
+        warning = False
+        if self._context.get("type_warn")[0] == "cc_dup":
+            pass
+            # invoice_dup = self._context.get("type_warn")[1]
+            # if invoice_dup:
+            #     _logger.debug("onch_ref if warning >>>: %s", warning)
+            #     for invoice in invoice_dup:
+            #         ref = str(invoice.number)
+            #         _logger.debug("onch_ref for ref >>>: %s", ref)
+            #         # msg = {k:v for k,v in enumerate(msg)}
+            # ref = ""
+        
+        # _logger.debug("onch_ref ref >>>: %s", ref)
+        _logger.debug("onch_ref msg >>>: %s", msg)
+        _logger.debug("onch_ref title >>>: %s", title)
+        warning = {
+                    "warning": {
+                        "title": title,
+                        "message": msg,
+                    },
+            }
+        warning["warning"]["title"] = "title"
+        # msg = "Please verify duplicate references: "
+        # _logger.debug("onch_ref if warning post >>>: %s", warning)
+        return warning
+            
     @api.onchange("reference", "cc_nro_purch", "cc_aut", "rendition_ids")
     def onchange_reference(self):
         _logger.debug("onch_ref self, self.id >>>: %s: %s", self, self._origin.id)
-        self = self.browse(self._origin.id)
-        _logger.debug("onch_ref self, self.id >>>: %s: %s", self, self.ids)
-        search_duplicate = []
-        for invoice in self:
-            _logger.debug("onch_ref invoice, invoice.id >>>: %s: %s", invoice, invoice.id)
-            cc_check = (invoice.cc_nro_purch and invoice.cc_aut) != False
-            _logger.debug("onch_ref cc_check >>>: %s", cc_check)
-            if cc_check:
-                search_duplicate = invoice.search([('company_id', '=', invoice.company_id.id), ('commercial_partner_id', '=', invoice.commercial_partner_id.id), ('id', '!=', invoice.id), '&', ('cc_nro_purch', '=', invoice.cc_nro_purch), ('cc_aut', '=', invoice.cc_aut)])
-                # _logger.debug("onch_ref cc_check, cc_search_duplicate >>>: %s: %s", cc_check, search_duplicate)
+        _logger.debug("onch_ref self, self._context >>>: %s: %s", self, self._context)
+        search_duplicate = False
+        warning = False
+        cc_check = (self.cc_nro_purch and self.cc_aut) != False
+        _logger.debug("onch_ref reference >>>: %s", self.reference)
+        _logger.debug("onch_ref cc_nro_purch >>>: %s", self.cc_nro_purch)
+        _logger.debug("onch_ref cc_aut >>>: %s", self.cc_aut)
+        if cc_check:
+            search_duplicate = self.search([('company_id', '=', self.company_id.id), ('commercial_partner_id', '=', self.commercial_partner_id.id), ('id', '!=', self._origin.id), '&', ('cc_nro_purch', '=', self.cc_nro_purch), ('cc_aut', '=', self.cc_aut)]).filtered(lambda ri: ri.estado_fac == 'V')
+            _logger.debug("onch_ref cc_check, cc_search_duplicate >>>: %s: %s", cc_check, search_duplicate)
         if search_duplicate:
-            return {
-                        "warning": {
-                            "title": _("Duplicate Reference"),
-                            "message": _(
-                                "Please verify duplicate references. %s"
-                            ) % (["Ref. - Aut. " + str(sd.cc_nro_purch + " " + sd.cc_aut) for sd in search_duplicate]),
-                        },
-                    }
+            if self._context.get("type_check") == "cc_dup":
+                warning = True
+            else:
+                warning = self.with_context(type_warn=["cc_dup", search_duplicate])._get_warning_msg()
+                # with_context().
+        return warning
 
-    # @api.multi   
-    # def _check_duplicate_supplier_reference(self):
-    #     res = super()._check_duplicate_supplier_reference()
-    #     _logger.debug("_cdsr >>>: %s", self)
-    #     for invoice in self:
-    #         # refuse to validate a vendor bill/credit note if there already exists one with the same reference for the same partner,
-    #         # because it's probably a double encoding of the same bill/credit note
-    #         if invoice.type in ('in_invoice', 'in_refund') and invoice.reference and invoice.cc_nro_purch:
-    #             _logger.debug("_cdsr if invoice.cc_nro_purch >>>: %s", invoice.cc_nro_purch)
-    #             if self.search([('type', '=', invoice.type), ('reference', '=', invoice.reference), '&amp;', ('cc_nro_purch', '=', invoice.cc_nro_purch), ('cc_aut', '=', invoice.cc_aut), ('company_id', '=', invoice.company_id.id), ('commercial_partner_id', '=', invoice.commercial_partner_id.id), ('id', '!=', invoice.id)]):
-    #                 raise UserError(_("Duplicated vendor reference detected. You probably encoded twice the same vendor bill/credit note. %s: %s", invoice.cc_nro_purch, invoice.cc_aut))
-    #             else:continue
-    #     return res
+    # @api.multi
+    def _check_duplicate_supplier_reference(self):
+        res = super()._check_duplicate_supplier_reference()
+        _logger.debug("_cdsr >>>: %s", self)
+        # for invoice in self:
+        _logger.debug("_cdsr if invoice.cc_nro_purch >>>: %s", invoice.cc_nro_purch)
+        # check fiscal l10n_bo warnings
+        if not self.with_context(type_check="cc_dup").onchange_reference():
+            _logger.debug("_cdsr if invoice.cc_nro_purch >>>: %s", self)
+            pass
+        return res
