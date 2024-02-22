@@ -429,7 +429,7 @@ class ProductPricelistItem(models.Model):
                 uom_pack_id = product.uom_pack_id
                 if uom_id.category_id == uom_pack_id.category_id:
                     if min_qty == 0.0:
-                        min_qty =1.0
+                        min_qty = 1.0
                     uom_pack_factor = uom_pack_id.factor_inv
                     # if (min_qty or uom_pack_id.factor_inv) == 0.0:
                     #     item._get_warning_msg()
