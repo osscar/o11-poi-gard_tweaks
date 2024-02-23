@@ -32,32 +32,17 @@ class AccountInvoice(models.Model):
 
     # @api.multi
     def _get_warning_msg(self):
-        title = ""
-        msg = ""
         warning = False
-        if self._context.get("type_warn")[0] == "cc_dup":
+        if not self._context.get("type_warn")[0] == "cc_dup":
             pass
-            # invoice_dup = self._context.get("type_warn")[1]
-            # if invoice_dup:
-            #     _logger.debug("onch_ref if warning >>>: %s", warning)
-            #     for invoice in invoice_dup:
-            #         ref = str(invoice.number)
-            #         _logger.debug("onch_ref for ref >>>: %s", ref)
-            #         # msg = {k:v for k,v in enumerate(msg)}
-            # ref = ""
-        
-        # _logger.debug("onch_ref ref >>>: %s", ref)
-        _logger.debug("onch_ref msg >>>: %s", msg)
-        _logger.debug("onch_ref title >>>: %s", title)
         warning = {
-                    "warning": {
-                        "title": title,
-                        "message": msg,
-                    },
+                "warning": {
+                    "title": _("Duplicate Reference"),
+                    "message": _(
+                        "Please verify duplicate references."
+                    )
+                },
             }
-        warning["warning"]["title"] = "title"
-        # msg = "Please verify duplicate references: "
-        # _logger.debug("onch_ref if warning post >>>: %s", warning)
         return warning
             
     @api.onchange("reference", "cc_nro_purch", "cc_aut", "rendition_ids")

@@ -41,8 +41,9 @@ class SaleOrder(models.Model):
         self._exception_check(vals)
 
         # delete order lines
-        for line in self.order_line:
-            line.unlink()
+        self.mapped("order_line").unlink()
+        # for line in self.order_line:
+        #     line.unlink()
 
         return True
 

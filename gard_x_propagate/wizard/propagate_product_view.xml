@@ -15,7 +15,7 @@
                   string="Clear Products" />
                 <separator />
                 <field name="product_ids" onstring="Select Products" domain="[('qty_available', '&gt;', 0)]">
-                  <tree edit="false" create="true">
+                  <tree edit="false" create="true" limit="7">
                     <field name="default_code" />
                     <field name="name" />
                     <field name="qty_available" />
@@ -36,7 +36,7 @@
                   string="Clear Lines" />
                 <separator />
                 <field name="wizard_line">
-                  <tree editable="bottom">
+                  <tree editable="bottom" limit="7">
                     <field name="product_id" />
                     <field name="name" />
                     <field name="date_planned" />
@@ -63,6 +63,7 @@
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
       <field name="view_id" ref="view_propagate_product_form" />
+      <!-- <field name="limit">15</field> -->
       <field name="target">new</field>
     </record>
 

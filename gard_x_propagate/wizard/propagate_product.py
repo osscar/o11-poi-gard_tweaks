@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# import logging
+import logging
 
 from odoo import models, fields, api, _
 
@@ -38,38 +38,43 @@ class PropagateProduct(models.TransientModel):
                 "product_uom": product.uom_id.id,
                 "price_unit": 1.0,
             }
-            line = self.wizard_line.create(line_vals)
+            self.wizard_line.create(line_vals)
             # line.onchange_product_id()
         return {
             "type": "set_scrollTop",
         }
 
-    @api.one
+    @api.multi
     def button_create_order_line(self):
         active_model = self._context.get("active_model", False)
         active_ids = self._context.get("active_ids", False)
-        order_obj = self.env[active_model]
-        order_ids = active_ids
-        res = order_obj.browse(order_ids)
-        for order in res:
-            for line in self.wizard_line:
-                # _logger.debug("bcaa order >>>: %s", order)
-                if active_model == "purchase.order" or "sale.order":
-                    line_obj = order.order_line
-                order_line_vals = {
-                    "order_id": order.id,
-                    "product_id": line.product_id.id,
-                    "name": line.name,
-                    "date_planned": line.date_planned,
-                    "product_qty": line.product_qty,
-                    "product_uom": line.product_uom.id,
-                    "price_unit": line.price_unit,
-                }
-                if active_model == "sale.order":
-                    order_line_vals["product_uom_qty"] = order_line_vals["product_qty"]
-                    del order_line_vals["product_qty"]
-                line_obj.create(order_line_vals)
-        return {
+        order_ids = self.env[active_model].browse(active_ids)
+        line_obj = self.env["sale.order.line"]
+        vals = []
+        pricelist_obj = self.env["product.pricelist"]
+        order_lines = []
+        # for oline in order_lines:
+        #     order_lines = oline.mapped("order_line")
+        for line in self.wizard_line:
+            vals = {
+                # "order_id": order.id,
+                "product_id": line.product_id.id,
+                "name": line.name,
+                "product_qty": line.product_qty,
+                "product_uom": line.product_uom.id,
+                "price_unit": line.price_unit,
+            }
+            if active_model == "sale.order":
+                vals["product_uom_qty"] = vals["product_qty"]
+                vals["pricelist_id"] = pricelist_obj.search([], limit=1)[0].id
+                del vals["product_qty"]
+            if active_model == "purchase.order":
+                vals["validity_date"] = line.date_planned
+            for order in order_ids:
+                # _logger.debug("bcol order >>>: %s", order)
+                vals["order_id"] = order.id
+                order_lines = line_obj.create(vals)
+        return order_lines, {
             "type": "set_scrollTop",
         }
 
@@ -79,9 +84,11 @@ class PropagateProduct(models.TransientModel):
             "type": "set_scrollTop",
         }
 
+    # @api.multi
     def button_unlink_wizard_line(self):
-        for line in self.wizard_line:
-            line.unlink()
+        self.mapped("wizard_line").unlink()
+        # for line in self.wizard_line:
+        #     line.unlink()
         return {
             "type": "set_scrollTop",
         }
