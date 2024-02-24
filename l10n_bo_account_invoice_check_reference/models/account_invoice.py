@@ -33,7 +33,7 @@ class AccountInvoice(models.Model):
     # @api.multi
     def _get_warning_msg(self):
         warning = False
-        if not self._context.get("type_warn")[0] == "cc_dup":
+        if not self._context.get("type_warn") == "cc_dup":
             pass
         warning = {
                 "warning": {
@@ -47,33 +47,22 @@ class AccountInvoice(models.Model):
             
     @api.onchange("reference", "cc_nro_purch", "cc_aut", "rendition_ids")
     def onchange_reference(self):
-        _logger.debug("onch_ref self, self.id >>>: %s: %s", self, self._origin.id)
-        _logger.debug("onch_ref self, self._context >>>: %s: %s", self, self._context)
         search_duplicate = False
         warning = False
         cc_check = (self.cc_nro_purch and self.cc_aut) != False
-        _logger.debug("onch_ref reference >>>: %s", self.reference)
-        _logger.debug("onch_ref cc_nro_purch >>>: %s", self.cc_nro_purch)
-        _logger.debug("onch_ref cc_aut >>>: %s", self.cc_aut)
         if cc_check:
             search_duplicate = self.search([('company_id', '=', self.company_id.id), ('commercial_partner_id', '=', self.commercial_partner_id.id), ('id', '!=', self._origin.id), '&', ('cc_nro_purch', '=', self.cc_nro_purch), ('cc_aut', '=', self.cc_aut)]).filtered(lambda ri: ri.estado_fac == 'V')
-            _logger.debug("onch_ref cc_check, cc_search_duplicate >>>: %s: %s", cc_check, search_duplicate)
         if search_duplicate:
             if self._context.get("type_check") == "cc_dup":
                 warning = True
             else:
-                warning = self.with_context(type_warn=["cc_dup", search_duplicate])._get_warning_msg()
-                # with_context().
+                warning = self.with_context(type_warn="cc_dup")._get_warning_msg()
         return warning
 
     # @api.multi
     def _check_duplicate_supplier_reference(self):
         res = super()._check_duplicate_supplier_reference()
-        _logger.debug("_cdsr >>>: %s", self)
-        # for invoice in self:
-        _logger.debug("_cdsr if invoice.cc_nro_purch >>>: %s", invoice.cc_nro_purch)
         # check fiscal l10n_bo warnings
         if not self.with_context(type_check="cc_dup").onchange_reference():
-            _logger.debug("_cdsr if invoice.cc_nro_purch >>>: %s", self)
             pass
         return res
