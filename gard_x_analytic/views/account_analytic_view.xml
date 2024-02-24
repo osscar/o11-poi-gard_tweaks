@@ -13,11 +13,12 @@
       <xpath expr="//field[@name='name']" position="replace">
         <field name="name" filter_domain="['|','|',('name','ilike',self),('account_id','ilike',self),('move_id','ilike',self)]"/>
       </xpath>
-
       <xpath expr="//filter[@name='account_id']" position="replace">
         <filter name="group_by_account_id" string="Analytic Account" context="{'group_by':'account_id'}"/>
       </xpath>
-
+      <field name="account_id" position="after">
+        <field name="tag_ids"/>
+      </field>
       <xpath expr="//group" position="inside">
         <!-- add poi_analytic filters -->
         <!-- <filter string="Categoría" domain="[]" context="{'group_by':'analytic_main_tag'}"/>
@@ -35,6 +36,9 @@
     <field name="inherit_id" ref="analytic.view_account_analytic_account_search"/>
     <field name="arch" type="xml">
 
+      <field name="name" position="after">
+        <field name="tag_ids"/>
+      </field>
       <xpath expr="//group" position="inside">
         <filter name="group_by_department_id" string="Department" domain="[]" context="{'group_by':'department_id'}"/>
         <filter name="group_by_parent_id" string="Parent" domain="[]" context="{'group_by':'parent_id'}"/>

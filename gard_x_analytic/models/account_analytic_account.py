@@ -46,7 +46,7 @@ class AccountAnalyticAccount(models.Model):
         orig_name = dict(super().name_get())
         for account in self:
             name = orig_name[account.id]
-            code = account.code or False
+            code = account.code or ""
             name = ": ".join([name, code])
             res.append((account.id, name))
         return res
