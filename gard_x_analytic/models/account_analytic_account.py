@@ -43,12 +43,11 @@ class AccountAnalyticAccount(models.Model):
     @api.multi
     def name_get(self):
         res = []
+        orig_name = dict(super().name_get())
         for account in self:
-            # res = super(AccountAnalyticAccount, account).name_get()
-            name = account.name
-            code = account.code
-            if code:
-                name = ": ".join([name, code])
+            name = orig_name[account.id]
+            code = account.code or False
+            name = ": ".join([name, code])
             res.append((account.id, name))
         return res
 

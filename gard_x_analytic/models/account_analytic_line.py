@@ -7,6 +7,18 @@ class AccountAnalyticLine(models.Model):
     _inherit = "account.analytic.line"
     _rec_name = "move_id"
 
+    # @api.multi
+    # def name_get(self):
+    #     result = []
+    #     orig_name = dict(super().name_get())
+    #     for line in self:
+    #         name = orig_name[line.id]
+    #         if self.account_:
+    #             name = "[%s] %s (%s)" % (line.order_id.name, name,
+    #                                      line.order_id.state)
+    #         result.append((line.id, name))
+    #     return result
+
     @api.model
     def name_search(self, name, args=None, operator="ilike", limit=100):
         args = args or []
