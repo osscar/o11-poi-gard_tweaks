@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
-# import logging
+import logging
 
 from itertools import chain
 from odoo import fields, models, api, _
 from datetime import datetime
-# import odoo.addons.decimal_precision as dp
 
 from odoo.exceptions import UserError, ValidationError
 
 
-# _logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class ProductPricelist(models.Model):
@@ -40,9 +39,6 @@ class ProductPricelist(models.Model):
 
     @api.multi
     def _compute_price_rule(self, products_qty_partner, date=False, uom_id=False):
-        res = super(ProductPricelist, self)._compute_price_rule(
-            products_qty_partner, date=False, uom_id=False
-        )
         self.ensure_one()
         if not date:
             date = self._context.get("date") or fields.Date.context_today(self)
@@ -106,6 +102,10 @@ class ProductPricelist(models.Model):
         if self._context.get("item_ids"):
             item_ids = [self._context.get("item_ids", [])]
             items = item_ids
+        else:
+            res = super(ProductPricelist, self)._compute_price_rule(
+            products_qty_partner, date=date, uom_id=uom_id
+        )
         results = {}
         for product, qty, partner in products_qty_partner:
             results[product.id] = 0.0
@@ -250,8 +250,11 @@ class ProductPricelistItem(models.Model):
     )
     date_update = fields.Datetime(
         string="Updated Date",
-        copy=False,
-        readonly=True,
+        compute="_sale_price",
+        # related="base_pricelist_id.date_update",
+        # copy=False,
+        # readonly=True,
+        store=True,
         help="Date item was last updated.",
         track_visibility="onchange",
     )
@@ -270,13 +273,6 @@ class ProductPricelistItem(models.Model):
         readonly=True,
         store=True,
         help="Package Unit of Measure to factor package price.",
-    )
-    global_uom_pack_id = fields.Many2one(
-        "product.uom",
-        string="Global Pack UoM",
-        compute="_compute_uoms",
-        readonly=True,
-        help="Global Package Unit of Measure to factor package price for global items.",
     )
     min_quantity_pack = fields.Integer(
         "Pack Min. Qty.",
@@ -299,7 +295,7 @@ class ProductPricelistItem(models.Model):
     price_unit = fields.Monetary(
         string="Unit Price",
         currency_field="currency_id",
-        compute="_compute_sale_price",
+        compute="_sale_price",
         readonly=True,
         store=True,
         track_visibility="onchange",
@@ -307,7 +303,7 @@ class ProductPricelistItem(models.Model):
     price_pack = fields.Monetary(
         string="Pack Price",
         currency_field="currency_id",
-        compute="_compute_sale_price",
+        compute="_sale_price",
         readonly=True,
         store=True,
         help="Package Sale Price.",
@@ -317,12 +313,9 @@ class ProductPricelistItem(models.Model):
         default=False,
         help="Recompute related items. Select to recompute.",
     )
-    cost_product = fields.Monetary(
+    product_cost = fields.Monetary(
         string="Product Cost",
-        currency_field="currency_id",
-        compute="_compute_cost_product",
-        readonly=True,
-        store=True,
+        related="product_id.stock_value_unit",
         help="Cost price per default product UoM, based on product's Standard Price (when set) or inventory valuation.",
         track_visibility="onchange",
     )
@@ -380,14 +373,8 @@ class ProductPricelistItem(models.Model):
         return warning
 
     @api.onchange("compute_price")
-    def onchange_compute_sale_price(self):
+    def onchange_sale_price(self):
         self.base == "standard_price"
-
-    @api.onchange("product_tmpl_id", "product_id")
-    def onchange_product(self):
-        self.description = (
-            self.product_tmpl_id.display_name or self.product_id.display_name
-        )
 
     @api.onchange("price_recompute")
     def onchange_price_recompute(self):
@@ -396,44 +383,36 @@ class ProductPricelistItem(models.Model):
     
     @api.depends(
         "min_quantity",
-        "product_tmpl_id",
         "product_tmpl_id.uom_pack_id",
-        "product_id",
         "product_id.uom_pack_id",
     )
     @api.multi
     def _compute_uoms(self):
-        product = False
-        min_qty = 0.0
-        uom_id = False
-        uom_pack_id = False
-        min_qty_pack = 0.0
-        applied_on_product = False
-        global_uom_pack_id = False
-        active_id = self.env.context.get("active_id")
-        active_model = self.env.context.get("active_model")
+        vals = []
         for item in self:
+            uom_id = False
+            # product = False
+            uom_pack_id = False
+            min_qty_pack = 0.0
             # check if product is set
             if item.applied_on == "3_global":
+                active_id = self.env.context.get("active_id")
+                active_model = self.env.context.get("active_model")
                 if active_id and active_model in (
                     "product.product",
                     "product.template",
                 ):
                     product = self.env[active_model].search([("id", "=", active_id)])
-                    uom_pack_id = False
-            product = item.product_tmpl_id or item.product_id
-            if item.applied_on in ["1_product", "0_product_variant"] and product:
-                applied_on_product = True
+            if item.applied_on in ["1_product", "0_product_variant"]:
+                if item.applied_on == "1_product":
+                    product = item.product_tmpl_id
+                elif item.applied_on == "0_product_variant":
+                    product = item.product_id
+                uom_pack_id = product.uom_pack_id
                 min_qty = item.min_quantity
                 uom_id = product.uom_id
-                uom_pack_id = product.uom_pack_id
                 if uom_id.category_id == uom_pack_id.category_id:
-                    if min_qty == 0.0:
-                        min_qty = 1.0
                     uom_pack_factor = uom_pack_id.factor_inv
-                    # if (min_qty or uom_pack_id.factor_inv) == 0.0:
-                    #     item._get_warning_msg()
-                    #     min_qty = uom_pack_factor = 1.0
                     min_qty_pack = min_qty / uom_pack_factor
                 else:
                     raise ValidationError(
@@ -441,12 +420,13 @@ class ProductPricelistItem(models.Model):
                             "Error! Min. Qty UoM and Pack UoM have different categories. Pack minimum quantity cannot be computed."
                         )
                     )
-            if not applied_on_product:
-                global_uom_pack_id = uom_pack_id
-            item.min_quantity_uom_id = uom_id
-            item.uom_pack_id = uom_pack_id
-            item.min_quantity_pack = min_qty_pack
-            item.global_uom_pack_id = global_uom_pack_id
+                vals = {
+                    "min_quantity_uom_id": uom_id,
+                    "uom_pack_id": uom_pack_id,
+                    "min_quantity_pack": min_qty_pack,
+                }
+            item.update(vals)
+
 
     @api.depends(
         "base",
@@ -454,100 +434,160 @@ class ProductPricelistItem(models.Model):
         "pricelist_id",
         "compute_price",
         "percent_price",
-        "min_quantity",
-        "date_update",
         "uom_pack_id",
+        "product_cost",
+        # "date_update",
     )
     @api.multi
-    def _compute_sale_price(self):
-        quantity = 0.0
-        pack_factor = 0.0
-        product = False
-        price = 0.0
-        partner = False
-        active_id = self.env.context.get("active_id")
-        active_model = self.env.context.get("active_model")
-        for item in self:
-            quantity = item.min_quantity
+    def _sale_price(self):
+        vals = {}
+        # .filtered(lambda i: i.applied_on != "3_global")
+        for item in self.filtered(lambda i: i.applied_on != "3_global"):
+            # vals = {}
+            price = 0.0
+            product_id = False
             pack_factor = item.uom_pack_id.factor_inv
-            if item.partner_ids:
-                partner = item.partner_ids
+            price_pack = 0.0
+            pricelist_id = item.pricelist_id
+            partner_ids = item.partner_ids
+            date = fields.Datetime.now()
+            qty = item.min_quantity
             if item.applied_on == "3_global":
+                active_id = self.env.context.get("active_id")
+                active_model = self.env.context.get("active_model")
                 if active_id and active_model in (
                     "product.product",
                     "product.template",
                 ):
-                    product = self.env[active_model].search([("id", "=", active_id)])
-                    pack_factor = product.uom_pack_id.factor_inv
-            product = item.product_tmpl_id or item.product_id
-            if item.applied_on in ["1_product", "0_product_variant"] and product:
-                price = item.pricelist_id.with_context(item_ids=item).get_product_price(product, quantity, partner, date=False, uom_id=False)
-                pack_factor = pack_factor
-            item.price_unit = price
-            item.price_pack = price * pack_factor
+                    product_id = self.env[active_model].search([("id", "=", active_id)])
+                    pack_factor = product_id.uom_pack_id.factor_inv
+            elif item.applied_on in ["1_product", "0_product_variant"]:
+                if item.applied_on == "1_product":
+                    product_id = item.product_tmpl_id
+                elif item.applied_on == "0_product_variant":
+                    product_id = item.product_id
+            price = pricelist_id.with_context(item_ids=item).get_product_price(product=product_id, quantity=qty, partner=partner_ids, date=False, uom_id=False)
+            _logger.debug("_csp dict list price >>>: %s", price)
+            _logger.debug("_csp dict list pack_factor >>>: %s", pack_factor)
+            price_pack = price * pack_factor
+            _logger.debug("_csp price post>>>: %s", price)
+            vals = {
+            "price_unit": price,
+            "price_pack": price_pack,
+            "date_update": date,
+            }
+            _logger.debug("_csp item vals post >>>: %s", vals)
+        self.update(vals)
 
-    @api.depends(
-        "product_tmpl_id", 
-        "product_id", 
-        "product_id.qty_available", 
-        )
-    @api.multi
-    def _compute_cost_product(self):
-        product = False
-        for item in self:
-            # check if product is set
-            if item.applied_on in ["1_product", "0_product_variant"]:
-                product = item.product_tmpl_id or item.product_id
-                item.cost_product = product._compute_cost_product()
-
-    @api.depends("price_unit", "price_pack", "margin_sale_excl")
+    @api.depends("price_unit", "margin_sale_excl")
     @api.multi
     def _compute_sale_margin(self):
-        uom_factor_inv = 0.0
-        price_unit = 0.0
-        cost_product = 0.0
-        margin_sale_excl = 0.0
-        margin_sale_net_unit = 0.0
-        margin_sale_net_pack = 0.0
-        margin_sale_net_factor = 0.0
+        vals = {}
         for item in self:
-            if item.cost_product == 0.0:
-                margin_sale_net_unit = 0.0
-                margin_sale_net_pack = 0.0
+            product_cost = item.product_cost
+            margin_sale_net_unit = 0.0
+            margin_sale_net_pack = 0.0
+            margin_sale_net_factor = 0.0
+            if product_cost == 0.0:
+                vals = {
+                "margin_sale_net_unit": margin_sale_net_unit,
+                "margin_sale_net_pack": margin_sale_net_pack,
+                "margin_sale_net_factor": margin_sale_net_factor,
+                }
             else:
                 uom_factor_inv = item.uom_pack_id.factor_inv
                 price_unit = item.price_unit
-                cost_product = item.cost_product
-                if cost_product == 0.0:
-                    cost_product = 1.0
                 margin_sale_excl = 1 - (item.margin_sale_excl / 100)
-                margin_sale_net_unit = (price_unit * margin_sale_excl) - cost_product
-                margin_sale_net_pack =  (price_unit * margin_sale_excl * uom_factor_inv) - (cost_product * uom_factor_inv)
-                margin_sale_net_factor = price_unit * (margin_sale_excl / cost_product)
-            item.margin_sale_net_unit = margin_sale_net_unit
-            item.margin_sale_net_pack = margin_sale_net_pack
-            item.margin_sale_net_factor = margin_sale_net_factor
+                margin_sale_net_unit = (price_unit * margin_sale_excl) - product_cost
+                margin_sale_net_pack =  (margin_sale_net_unit * uom_factor_inv)
+                margin_sale_net_factor = margin_sale_net_unit / product_cost
+            vals = {
+                "margin_sale_net_unit": margin_sale_net_unit,
+                "margin_sale_net_pack": margin_sale_net_pack,
+                "margin_sale_net_factor": margin_sale_net_factor,
+                }
+            item.update(vals)
                 
-    def _get_related_items(self):
-        domain = [('id','!=',self.id), ('product_id','=',self.product_id.id), ('active_pricelist','=',True)]
-        ritems = self.search(domain)
-        if self.applied_on == "3_global":
-            domain = [('id','!=',self.id), ('base_pricelist_id','=',self.pricelist_id.id), ('active_pricelist','=',True)]
-            ritems += self.search(domain).filtered(lambda ri: ri.base_pricelist_id.active == True).sorted(key=lambda r: r.id)
-        return ritems
+    def _get_related_items(self, product, applied_on, pricelists):
+        domain = [('base_pricelist_id','=',pricelists.id)]
+        domain_pricelist = [('id','!=',self.id), ('active_pricelist','=',True), ('base_pricelist_id','=',pricelists.id)]
+        domain_product = [('product_id','=',product.id)]
+        ritems = self.env['product.pricelist.item']
+        if product or pricelists:
+            ritem_search = self.env['product.pricelist.item']
+            # pricelist_search = self.env['product.pricelist']    
+            if applied_on == "0_product_variant":
+                domain += domain_product
+                # product_search = product
+            ritem_search = self.env['product.pricelist.item']
+            pricelist_search = pricelists + self.base_pricelist_id
+            _logger.debug("_gri domain >>>: %s", domain)
+            _logger.debug("_gri self >>>: %s", (self, product, applied_on, pricelists))
+            count_ritems = len(self.env['product.pricelist'].search([]))
+            _logger.debug("_gri if count_ritems >>>: %s", count_ritems)
+            while count_ritems >= 0:
+                ritem_search = self.env['product.pricelist.item'].search(domain)
+                _logger.debug("_gri while ritem_search >>>: %s", len(ritem_search))
+                ritems |= ritem_search
+                for rsitem in ritem_search:
+                    # product_search |= rsitem.product_id
+                    pricelist_search |= rsitem.pricelist_id + rsitem.base_pricelist_id
+                _logger.debug("_gri while if pricelist_search post >>>: %s", pricelist_search)
+                pricelists |= pricelist_search
+                _logger.debug("_gri while pricelists post >>>: %s", pricelists)
+                del domain[:]
+                # if pricelist_search:
+                # domain_product = [('product_id','in',([prod.id for prod in product_search]))]
+                domain_pricelist = [('id','!=',self.id), ('active_pricelist','=',True), ('base_pricelist_id','in',([plist.id for plist in pricelists]))]
+                domain = domain_pricelist
+                # if applied_on == "3_global":
+                #     pricelist_search |= pricelists
+                #     # count_ritems += 2
+                if applied_on == "0_product_variant":
+                    domain += domain_product
+                    _logger.debug("_gri if product domain >>>: %s", domain)
+                _logger.debug("_gri while count_ritems >>>: %s", count_ritems)
+                ritem_search = self.env['product.pricelist.item']
+                pricelist_search = self.env['product.pricelist']    
+                if not ritem_search:
+                    count_ritems -= 1
+        return ritems, pricelists
 
-    def recompute_items(self):
-        datenow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        ritems = self._get_related_items()
+    # @api.model
+    def _recompute_items(self):
+        self.ensure_one()
+        # avoid infinite loop by switching recompute field to False
         self.price_recompute = False
-        for ritem in ritems:
-            date_update = ritem.date_update = ritem.pricelist_id.date_update = datenow
-        return date_update
+        # get related items by product
+        ritem_ids, pricelist_ids = self._get_related_items(product=self.product_id, applied_on=self.applied_on, pricelists=self.pricelist_id)
+        date = fields.Datetime.now()
+        # force recompute by updating date_update field
+        ritem_ids = ritem_ids.filtered(lambda ritem: ritem.applied_on != "3_global")
+        # .(ritem.pricelist_id.id, ritem.id)
+        # ritem_ids._recompute_todo(self._fields['uom_pack_id'])
+        # ritem_ids._recompute_todo(self._fields['price_unit'])
+        for ritem in ritem_ids:
+            ritem._onchange_applied_on()
+            # _write({"price_unit": ritem.price_unit})
+        # self.recompute()
+        _logger.debug("reci ritems post >>>: %s", len(ritem_ids))
+        _logger.debug("reci for ritem pricelist_ids >>>: %s", pricelist_ids)
+        return date, pricelist_ids
         
     @api.multi
-    def write(self, vals):
-        res = super().write(vals)
-        if self.filtered(lambda i: i.price_recompute):
-            # log update on base pricelist log
-            self.date_update = self.recompute_items()
+    def _write(self, vals):
+        res = super()._write(vals)
+        pricelist_ids = self.env['product.pricelist.item']
+        # item_ids = self.env['product.pricelist']
+        date = False
+        # log update on base pricelist log
+        # with self.env.norecompute():
+        for item in self.filtered(lambda i: i.price_recompute):
+            # run recompute on related items 
+            # and get related pricelists and update date
+            date, pricelist_ids = item._recompute_items()
+            item_ids = item
+            pricelist_ids |= item.pricelist_id
+            # item_ids._recompute_todo(self._fields['uom_pack_id'])
+        pricelist_ids.update({"date_update": date})
         return res

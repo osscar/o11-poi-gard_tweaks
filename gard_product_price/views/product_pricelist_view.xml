@@ -96,7 +96,7 @@
             </xpath>
             <xpath expr="//div[2]" position="after">
                 <group name="options">
-                    <field name="date_update" />
+                    <field name="date_update" force_save="1" />
                     <separator />
                     <field name="is_hidden" />
                 </group>
@@ -152,11 +152,11 @@
                     groups="gard_product_price.group_product_price_manager" />
                 <field name="margin_sale_excl"
                     groups="gard_product_price.group_product_price_manager" />
-                <field name="cost_product" groups="gard_product_price.group_product_price_manager" />
+                <field name="product_cost" groups="gard_product_price.group_product_price_manager" />
                 <field name="pricelist_id" />
                 <field name="partner_ids" widget="many2many_tags" />
                 <field name="branch_id" />
-                <field name="date_update" />
+                <field name="date_update" force_save="1" />
             </tree>
 
         </field>
@@ -189,7 +189,7 @@
             <!-- add date_update field: also used for recomputation of items with related
       base_pricelist_id -->
             <xpath expr="//field[@name='date_end']" position="after">
-                <field name="date_update" />
+                <field name="date_update" force_save="1" />
             </xpath>
             <xpath expr="//field[@name='min_quantity']" position="after">
                 <field name="min_quantity_uom_id" />
@@ -222,7 +222,7 @@
                         groups="gard_product_price.group_product_price_manager" force_save="1" />
                     <field name="margin_sale_excl"
                         groups="gard_product_price.group_product_price_manager" />
-                    <field name="cost_product"
+                    <field name="product_cost"
                         groups="gard_product_price.group_product_price_manager" />
                 </group>
             </xpath>
@@ -266,6 +266,14 @@
         <field name="search_view_id" ref="gard_product_price.product_pricelist_view_search" />
         <field name="act_window_id" ref="product.product_pricelist_action2" />
     </record>
+
+    <record id="action_to_recompute_fields" model="ir.actions.server">
+        <field name="name">Sale Price Recompute</field>
+        <field name="model_id" ref="model_sale_order_line"/>
+        <field name="binding_model_id" ref="model_sale_order_line"/>
+        <field name="state">code</field>
+        <field name="code">records._sale_price()</field>
+      </record>
 
     <!-- Menus -->
 

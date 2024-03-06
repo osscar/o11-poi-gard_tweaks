@@ -73,7 +73,6 @@
                                 <field name="price_pack" />
                                 <field name="min_quantity_pack"/>
                                 <field name="uom_pack_id" />
-                                <field name="global_uom_pack_id" />
                                 <field name="pricelist_id" widget="label_selection"/>
                                 <field name="partner_ids" widget="many2many_tags"/>
                             </tree>
@@ -88,7 +87,6 @@
                                 <field name="min_quantity_pack"/>
                                 <field name="price_pack" />
                                 <field name="uom_pack_id" />
-                                <field name="global_uom_pack_id" />
                                 <field name="currency_id"/>
                                 <field name="pricelist_id"/>
                                 <field name="partner_ids"/>
@@ -140,11 +138,6 @@
                                                                 </td>
                                                                 <td>
                                                                     <field name="price_pack" widget="monetary" options="{'currency_field': 'currency_id'}" />
-                                                                </td>
-                                                                <td>
-                                                                    <field name="global_uom_pack_id" />
-                                                                </td>
-                                                                <td>
                                                                 </td>
                                                             </tr>
                                                         </tbody>

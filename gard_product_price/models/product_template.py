@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-# import logging
+
+import logging
 
 from odoo import models, fields, api, _
 
-# _logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"
@@ -33,18 +34,6 @@ class ProductTemplate(models.Model):
         }
 
     @api.multi
-    def _compute_cost_product(self):
-        self.ensure_one()
-        standard_price = self.standard_price
-        valuation = self.stock_value
-        qty_available = self.qty_at_date
-        
-        if qty_available:
-            standard_price = valuation / qty_available
-    
-        return standard_price
-    
-    @api.multi
     def price_compute(self, price_type, uom=False, currency=False, company=False):
         res = super().price_compute(price_type, uom=False, currency=False, company=False)
         if price_type == 'standard_price':
@@ -57,7 +46,7 @@ class ProductTemplate(models.Model):
 
             prices = dict.fromkeys(self.ids, 0.0)
             for template in templates:
-                prices[template.id] = template._compute_cost_product()     
+                prices[template.id] = template.stock_value_unit     
                 if uom:
                     prices[template.id] = template.uom_id._compute_price(prices[template.id], uom)
 

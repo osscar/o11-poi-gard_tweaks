@@ -99,7 +99,7 @@ msgid "Contact"
 msgstr "Contactos"
 
 #. module: gard_product_price
-#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_cost_product
+#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_product_cost
 msgid "Cost price per default product UoM, based on product's Standard Price (when set) or inventory valuation."
 msgstr "Cost price per default product UoM, based on product's Standard Price (when set) or inventory valuation."
 
@@ -161,17 +161,6 @@ msgstr "Administrador de tarifas GARD"
 #: model:res.groups,comment:gard_product_price.group_product_price_manager
 msgid "GARD custom group for pricelist management."
 msgstr "Grupo personalizado GARD para la administración de tarifas."
-
-#. module: gard_product_price
-#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_global_uom_pack_id
-#: model:ir.ui.view,arch_db:gard_product_price.product_product_prices_view_form
-msgid "Global Pack UoM"
-msgstr "UdM global paquete"
-
-#. module: gard_product_price
-#: model:ir.model.fields,help:gard_product_price.field_product_pricelist_item_global_uom_pack_id
-msgid "Global Package Unit of Measure to factor package price for global items."
-msgstr "UdM global para factorizar el precio de paquete para reglas globales."
 
 #. module: gard_product_price
 #: model:ir.ui.view,arch_db:gard_product_price.product_pricelist_item_view_search
@@ -415,7 +404,7 @@ msgid "Product Code"
 msgstr "Código de producto"
 
 #. module: gard_product_price
-#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_cost_product
+#: model:ir.model.fields,field_description:gard_product_price.field_product_pricelist_item_product_cost
 msgid "Product Cost"
 msgstr "Costo de producto"
 

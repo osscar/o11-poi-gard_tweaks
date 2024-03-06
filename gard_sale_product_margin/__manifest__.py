@@ -19,7 +19,7 @@
 ##############################################################################
 {
     'name': 'GARD Product Sale Margin',
-    'version': '11.0.1.1.0',
+    'version': '11.0.3.2.0',
     'author': 'squid',
     'company': '',
     'website': 'http://wwf.comcom.com',
@@ -48,7 +48,7 @@ and 'sale_margin' addons.
     'data': [
         'security/gard_sale_product_margin_security.xml',
         'security/ir.model.access.csv',
-        'views/sale_margin_view.xml',
+        'views/sale_order_views.xml',
         'views/product_product_views.xml',
     ],
     'demo': [],

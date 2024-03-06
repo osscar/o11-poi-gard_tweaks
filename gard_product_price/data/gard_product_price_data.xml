@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <data>
+        <record model="res.config.settings" id="sale_config_settings_gard_product_price">
+            <field name="sale_pricelist_setting" eval="'formula'"/>
+            <field name="group_product_pricelist" eval="'False'"/>
+            <field name="group_sale_pricelist" eval="'True'"/>
+            <field name="group_pricelist_item" eval="'True'"/>
+            <field name="group_product_variant" eval="'True'"/>
+        </record>
 
-    <record model="res.config.settings" id="sale_config_settings_gard_product_price">
-        <field name="sale_pricelist_setting" eval="'formula'"/>
-        <field name="group_product_pricelist" eval="'False'"/>
-        <field name="group_sale_pricelist" eval="'True'"/>
-        <field name="group_pricelist_item" eval="'True'"/>
-        <field name="group_product_variant" eval="'True'"/>
-    </record>
-
-    <function model="res.config.settings" name="execute">
-        <value eval="[ref('sale_config_settings_gard_product_price')]"/>
-        <value eval="{}"/>
-    </function>
-
+        <function model="res.config.settings" name="execute">
+            <value eval="[ref('sale_config_settings_gard_product_price')]"/>
+            <value eval="{}"/>
+        </function>
+    </data>
+    <data noupdate="1">
+        <record id="ir_cron_update_membership" model="ir.cron">
+            <field name="name">Membership: update memberships</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_update_membership()</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+    </data>
 </odoo>
-

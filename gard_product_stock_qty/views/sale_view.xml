@@ -25,7 +25,7 @@
           type="object"
           icon="fa-dropbox fa-gard-icon-orange fa-2x"
         />
-        <field name="qty_available" />
+        <field name="qty_available" force_save="1" />
       </xpath>
       <xpath expr="//form//field[@name='order_line']/form//field[@name='route_id']"
         position="before">
@@ -36,7 +36,7 @@
           type="object"
           icon="fa-dropbox fa-gard-icon-orange fa"
         />
-        <field name="qty_available" />
+        <field name="qty_available" force_save="1" />
       </xpath>
       <!-- <xpath expr="//form//field[@name='order_line']/kanban/field[@name='route_id']"
         position="before">
@@ -47,7 +47,7 @@
             attrs="{'invisible':[('qty_available', '&lt;', '1')]}"
             type="object"
             icon="fa-dropbox fa-gard-icon-orange fa"
-          />/ <field name="qty_available" />
+          />/ <field name="qty_available" force_save="1" />
         </div>
       </xpath> -->
 
@@ -71,7 +71,7 @@
           type="object"
           icon="fa-dropbox fa-gard-icon-orange fa-2x"
         />
-        <field name="qty_available" />
+        <field name="qty_available" force_save="1" />
       </xpath>
     </field>
   </record>
