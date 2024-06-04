@@ -64,3 +64,13 @@ class AccountInvoiceLine(models.Model):
     invoice_type = fields.Selection(
         related="invoice_id.type", store=True, readonly=True
     )
+    invoice_refund = fields.One2many(
+        related="invoice_id.refund_invoice_ids", readonly=True
+    )
+    invoice_state_sin = fields.Selection(
+        related="invoice_id.estado_fac", store=True, readonly=True
+    )
+    invoice_state_siat = fields.Selection(
+        related="invoice_id.siat_state", store=True, readonly=True
+    )
+    

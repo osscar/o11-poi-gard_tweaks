@@ -8,10 +8,16 @@
       <search string="Search Invoice Lines">
         <field name="invoice_id" string="Invoice"
           filter_domain="['|','|','|', ('invoice_id.number','ilike',self), ('invoice_id.cc_nro','ilike',self), ('invoice_id.origin','ilike',self), ('partner_id', 'child_of', self)]" />
+        <field name="product_id" />
         <field name="account_analytic_id" />
+        <field name="invoice_type" />
+        <field name="invoice_state_sin" />
+        <field name="invoice_state_siat" />
         <filter name="draft" string="Draft" domain="[('state','=','draft')]" />
         <filter name="unpaid" string="Open" domain="[('state', '=', 'open')]" />
         <filter name="paid" string="Paid" domain="[('state', '=', 'paid')]" />
+        <!-- <filter name="refund" string="Refunded" domain="[('invoice_refund', '!=', [])]" />
+        <filter name="unrefund" string="Unrefunded" domain="[('invoice_refund', 'in', [])]" /> -->
         <separator />
         <field name="partner_id" operator="child_of" />
         <field name="user_id" string="Salesperson" domain="[('share','=', False)]" />
