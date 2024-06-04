@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-14 19:58+0000\n"
-"PO-Revision-Date: 2022-12-14 19:58+0000\n"
+"POT-Creation-Date: 2024-06-04 18:54+0000\n"
+"PO-Revision-Date: 2024-06-04 18:54+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,13 +18,15 @@ msgstr ""
 #. module: gard_x_gard
 #: model:ir.model.fields,help:gard_x_gard.field_account_invoice_line_state
 msgid " * The 'Draft' status is used when a user is encoding a new and unconfirmed Invoice.\n"
+" * The 'Renditioned' status is used when a rendition of a draft invoice is confirmed.\n"
 " * The 'Open' status is used when user creates invoice, an invoice number is generated. It stays in the open status till the user pays the invoice.\n"
 " * The 'Paid' status is set automatically when the invoice is paid. Its related journal entries may or may not be reconciled.\n"
 " * The 'Cancelled' status is used when user cancel invoice."
-msgstr "* El estado \"Borrador\" se usa cuando un usuario confecciona un nueva factura no confirmada.\n"
-"* El estado \"Abierto\" se usa cuando el usuario crea una factura, y se genera un número de factura. Este estado se mantiene hasta que el usuario paga la factura\n"
-"* El Estado \"Pagado\" se establece automáticamente cuando la factura se paga.  Sus entradas relacionadas en el diario pueden o no estar conciliadas.\n"
-"* El estado \"Cancelado\" se usa cuando el usuario cancela una factura"
+msgstr " * The 'Draft' status is used when a user is encoding a new and unconfirmed Invoice.\n"
+" * The 'Renditioned' status is used when a rendition of a draft invoice is confirmed.\n"
+" * The 'Open' status is used when user creates invoice, an invoice number is generated. It stays in the open status till the user pays the invoice.\n"
+" * The 'Paid' status is set automatically when the invoice is paid. Its related journal entries may or may not be reconciled.\n"
+" * The 'Cancelled' status is used when user cancel invoice."
 
 #. module: gard_x_gard
 #: model:ir.model.fields,field_description:gard_x_gard.field_account_deposit_payment_count
@@ -188,15 +190,19 @@ msgid "Dropship"
 msgstr "Dropship"
 
 #. module: gard_x_gard
-#: code:addons/gard_x_gard/models/account.py:79
-#: code:addons/gard_x_gard/models/account_invoice.py:81
-#: code:addons/gard_x_gard/models/account_invoice.py:183
-#: code:addons/gard_x_gard/models/account_payment.py:65
-#: code:addons/gard_x_gard/models/sale.py:62
-#: code:addons/gard_x_gard/models/sale.py:101
-#, python-format
-msgid "Edit allowed only in draft state. [%s.%s]"
-msgstr "Solo se puede editar en estado borrador. [%s.%s]"
+#: model:ir.model.fields,help:gard_x_gard.field_account_invoice_line_invoice_state_siat
+msgid "Especifica si la Factura ha sido enviada a los servidores del SIAT con éxito."
+msgstr "Especifica si la Factura ha sido enviada a los servidores del SIAT con éxito."
+
+#. module: gard_x_gard
+#: model:ir.model.fields,field_description:gard_x_gard.field_account_invoice_line_invoice_state_siat
+msgid "Estado SIAT"
+msgstr "Estado SIAT"
+
+#. module: gard_x_gard
+#: model:ir.model.fields,field_description:gard_x_gard.field_account_invoice_line_invoice_state_sin
+msgid "Estado SIN"
+msgstr "Estado SIN"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
@@ -457,13 +463,11 @@ msgstr "Los pagos se utilizan para registrar movimientos de liquidez (enviar, re
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.invoice_form
-msgid "Please check all the data before validating. Validate?"
-msgstr "Revise todos los datos antes de validar, ¿validar?"
-
-#. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.invoice_supplier_form
-msgid "Please revise the inputed data and check that the correct journal has been selected. Validate?"
-msgstr "Asegurese que el diario correcto este seleccionado, y revise los datos introducidos. ¿Validar?"
+msgid "Please check the data -journal, partner, currency, etc.- before\n"
+"          validating. Validate?"
+msgstr "Please check the data -journal, partner, currency, etc.- before\n"
+"          validating. Validate?"
 
 #. module: gard_x_gard
 #: model:res.groups,name:gard_x_gard.group_product_manager
@@ -471,9 +475,15 @@ msgid "Product Manager"
 msgstr "Administrador de productos"
 
 #. module: gard_x_gard
-#: model:ir.model.fields,field_description:gard_x_gard.field_sale_order_route_id
-msgid "Propagate Route"
-msgstr "Propagar ruta"
+#: model:ir.model,name:gard_x_gard.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: gard_x_gard
+#: model:ir.model.fields,field_description:gard_x_gard.field_product_product_uom_ids
+#: model:ir.model.fields,field_description:gard_x_gard.field_product_template_uom_ids
+msgid "Product UoMs"
+msgstr "UdMs Producto"
 
 #. module: gard_x_gard
 #: model:res.groups,name:gard_x_gard.group_account_invoice_purchase
@@ -489,6 +499,16 @@ msgstr "Cotización"
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
 msgid "Referencia:"
 msgstr "Referencia:"
+
+#. module: gard_x_gard
+#: model:ir.model.fields,field_description:gard_x_gard.field_account_invoice_line_invoice_refund
+msgid "Refund Invoices"
+msgstr "Facturas de reembolso"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.view_account_invoice_line_filter
+msgid "Refunded"
+msgstr "Rectificado"
 
 #. module: gard_x_gard
 #: model:ir.model.fields,field_description:gard_x_gard.field_stock_move_requested_by
@@ -545,6 +565,16 @@ msgid "Stock Accounting"
 msgstr "Stock Accounting"
 
 #. module: gard_x_gard
+#: model:ir.model,name:gard_x_gard.model_stock_landed_cost
+msgid "Stock Landed Cost"
+msgstr "Coste en destino"
+
+#. module: gard_x_gard
+#: model:ir.model,name:gard_x_gard.model_stock_landed_cost_lines
+msgid "Stock Landed Cost Lines"
+msgstr "Líneas de coste en destino"
+
+#. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_stock_move
 msgid "Stock Move"
 msgstr "Movimiento de existencias"
@@ -570,6 +600,12 @@ msgid "The partner reference of this invoice."
 msgstr "La referencia de asociado para esta factura."
 
 #. module: gard_x_gard
+#: model:ir.model.fields,help:gard_x_gard.field_product_product_uom_ids
+#: model:ir.model.fields,help:gard_x_gard.field_product_template_uom_ids
+msgid "These are the available units of measure for this product."
+msgstr "UdMs disponibles para este producto."
+
+#. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
 msgid "Tipo de Cambio:"
 msgstr "Tipo de Cambio:"
@@ -588,6 +624,11 @@ msgstr "Transferir"
 #: model:ir.model.fields,field_description:gard_x_gard.field_stock_move_move_type
 msgid "Type"
 msgstr "Tipo"
+
+#. module: gard_x_gard
+#: model:ir.ui.view,arch_db:gard_x_gard.view_account_invoice_line_filter
+msgid "Unrefunded"
+msgstr "No Rectificado"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_invoice_line_filter
@@ -623,3 +664,4 @@ msgstr "de"
 #: model:ir.model,name:gard_x_gard.model_report_gard_x_gard_report_account_move_multi_t
 msgid "report.gard_x_gard.report_account_move_multi_t"
 msgstr "report.gard_x_gard.report_account_move_multi_t"
+
