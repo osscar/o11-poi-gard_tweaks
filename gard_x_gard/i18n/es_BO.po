@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-04 18:54+0000\n"
-"PO-Revision-Date: 2024-06-04 18:54+0000\n"
+"POT-Creation-Date: 2024-06-04 19:04+0000\n"
+"PO-Revision-Date: 2024-06-04 19:04+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -508,7 +508,7 @@ msgstr "Facturas de reembolso"
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_invoice_line_filter
 msgid "Refunded"
-msgstr "Rectificado"
+msgstr "Reembolsado"
 
 #. module: gard_x_gard
 #: model:ir.model.fields,field_description:gard_x_gard.field_stock_move_requested_by
@@ -628,7 +628,7 @@ msgstr "Tipo"
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_invoice_line_filter
 msgid "Unrefunded"
-msgstr "No Rectificado"
+msgstr "No Reembolsado"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.view_account_invoice_line_filter
