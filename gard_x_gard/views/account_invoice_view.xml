@@ -16,8 +16,8 @@
         <filter name="draft" string="Draft" domain="[('state','=','draft')]" />
         <filter name="unpaid" string="Open" domain="[('state', '=', 'open')]" />
         <filter name="paid" string="Paid" domain="[('state', '=', 'paid')]" />
-        <!-- <filter name="refund" string="Refunded" domain="[('invoice_refund', '!=', [])]" />
-        <filter name="unrefund" string="Unrefunded" domain="[('invoice_refund', 'in', [])]" /> -->
+        <filter name="refund" string="Refunded" domain="[('invoice_refund', '!=', False)]" />
+        <filter name="unrefund" string="Unrefunded" domain="[('invoice_refund', '=', False)]" />
         <separator />
         <field name="partner_id" operator="child_of" />
         <field name="user_id" string="Salesperson" domain="[('share','=', False)]" />
