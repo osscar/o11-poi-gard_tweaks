@@ -449,6 +449,7 @@ class AccountInvoiceLine(models.Model):
         if taxes_exe:
             taxes = self.with_context(taxes=taxes)._get_taxes_vals()
             self.with_context(tax_vals=taxes)._get_tax_exempt_amount()
+            price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
             self.price_subtotal = price_subtotal_signed = (
                 taxes["total_excluded"] if taxes else self.quantity * price
             )
