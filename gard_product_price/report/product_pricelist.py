@@ -50,20 +50,20 @@ class report_product_pricelist(models.AbstractModel):
                 items_data[item.id]['price_unit'] = item.price_unit
                 items_data[item.id]['price_uom_unit'] = item.product_id.uom_id.name
                 items_data[item.id]['price_pack'] = item.price_pack
-                items_data[item.id]['price_uom_pack'] = item.uom_pack_id.name
+                items_data[item.id]['price_uom_pack'] = item.product_uom_pack.name
             # global_items
             elif item.applied_on == '3_global':
                 _logger.debug('if global_items item >>>: %s', item)
             #     _logger.debug('if global_items item >>>: %s', product)
             #     # _logger.debug('if global_items product_id >>>: %s', item.product_id)
             #     items = item
-                items_data[item.id] = product.name
+                items_data[item.id] = products.name
                 items_data[item.id]['min_quantity'] = item.min_quantity
-                items_data[item.id]['price_unit'] = self._get_price(pricelist, product, qty=min_quantities)
+                items_data[item.id]['price_unit'] = self._get_price(pricelist, products, qty=min_quantities)
                 items_data[item.id]['price_uom_unit'] = product.uom_id
-                qty_pack = product.uom_pack_id.factor_inv
-                items_data[item.id]['price_pack'] = self._get_price(pricelist, product, qty=qty_pack)
-                items_data[item.id]['price_uom_pack'] = product.uom_pack_id
+                qty_pack = products.uom_pack_id.factor_inv
+                items_data[item.id]['price_pack'] = self._get_price(pricelist, products, qty=qty_pack)
+                items_data[item.id]['price_uom_pack'] = products.uom_pack_id
             #     _logger.debug('if global_items min_quantities >>>: %s', min_quantities)
             #     _logger.debug('if global_items uom_prices_pack >>>: %s', uom_prices_pack)
     #         # append product data

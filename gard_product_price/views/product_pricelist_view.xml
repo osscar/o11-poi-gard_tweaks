@@ -38,7 +38,8 @@
         </field>
     </record>
 
-    <record id="product_pricelist_view_search" model="ir.ui.view">
+    <record
+        id="product_pricelist_view_search" model="ir.ui.view">
         <field name="name">product.pricelist.view.search.inherit.gard_product_price</field>
         <field name="model">product.pricelist</field>
         <field name="mode">extension</field>
@@ -63,8 +64,7 @@
 
         </field>
     </record>
-
-    <!-- Views -->
+    0.000000 <!-- Views -->
     <record id="product_pricelist_view_tree" model="ir.ui.view">
         <field name="name">product.pricelist.view.tree.inherit.gard_product_price</field>
         <field name="model">product.pricelist</field>
@@ -78,12 +78,15 @@
 
             <xpath expr="//field[@name='currency_id']" position="before">
                 <field name="partner_ids" widget="many2many_tags" />
+                <field name="tax_ids" widget="many2many_tags" options="{'no_create': True}" />
+                    <!-- domain="[('type_tax_use','=','sale')]" /> -->
             </xpath>
 
         </field>
     </record>
 
-    <record id="product_pricelist_view" model="ir.ui.view">
+    <record
+        id="product_pricelist_view" model="ir.ui.view">
         <field name="name">product.pricelist.view.inherit.gard_product_price</field>
         <field name="model">product.pricelist</field>
         <field name="mode">extension</field>
@@ -104,6 +107,8 @@
             <!-- added partners -->
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="partner_ids" widget="many2many_tags" placeholder="Select partners." />
+                <field name="tax_ids" widget="many2many_tags" options="{'no_create': True}" />
+                    <!-- domain="[('type_tax_use','=','sale')]" /> -->
             </xpath>
             <!-- added redirect to custom view -->
             <xpath expr="//field[@name='item_ids']" position="replace">
@@ -122,7 +127,8 @@
         </field>
     </record>
 
-    <record id="product_pricelist_item_view_tree" model="ir.ui.view">
+    <record
+        id="product_pricelist_item_view_tree" model="ir.ui.view">
         <field name="name">product.pricelist.item.view.tree.gard_product_price</field>
         <field name="model">product.pricelist.item</field>
         <field name="type">tree</field>
@@ -139,20 +145,29 @@
                 <field name="product_default_code" />
                 <field colspan="4" name="description" />
                 <field name="min_quantity" />
-                <field name="min_quantity_uom_id" />
+                <field name="product_uom" />
                 <field name="price_unit" />
-                <field name="margin_sale_net_unit"
-                    groups="gard_product_price.group_product_price_manager" />
+                <field name="price_net_unit" groups="gard_product_price.group_product_price_manager" />
+                <field name="tax_price_unit" />
                 <field name="min_quantity_pack" />
-                <field name="uom_pack_id" />
+                <field name="product_uom_pack" />
                 <field name="price_pack" />
-                <field name="margin_sale_net_pack"
+                <field name="price_net_pack" groups="gard_product_price.group_product_price_manager" />
+                <field name="tax_price_pack" />
+                <field name="margin_unit"
                     groups="gard_product_price.group_product_price_manager" />
-                <field name="margin_sale_net_factor"
+                <field name="margin_net_unit"
                     groups="gard_product_price.group_product_price_manager" />
-                <field name="margin_sale_excl"
+                <field name="margin_pack"
+                    groups="gard_product_price.group_product_price_manager" />
+                <field name="margin_net_pack"
+                    groups="gard_product_price.group_product_price_manager" />
+                <field name="margin_factor"
+                    groups="gard_product_price.group_product_price_manager" />
+                <field name="margin_net_factor"
                     groups="gard_product_price.group_product_price_manager" />
                 <field name="product_cost" groups="gard_product_price.group_product_price_manager" />
+                <field name="product_cost_base" groups="gard_product_price.group_product_price_manager" />
                 <field name="pricelist_id" />
                 <field name="partner_ids" widget="many2many_tags" />
                 <field name="branch_id" />
@@ -162,7 +177,8 @@
         </field>
     </record>
 
-    <record id="product_pricelist_item_form_view" model="ir.ui.view">
+    <record
+        id="product_pricelist_item_form_view" model="ir.ui.view">
         <field name="name">product.pricelist.item.form.inherit.gard_product_price</field>
         <field name="model">product.pricelist.item</field>
         <field name="mode">extension</field>
@@ -192,10 +208,12 @@
                 <field name="date_update" force_save="1" />
             </xpath>
             <xpath expr="//field[@name='min_quantity']" position="after">
-                <field name="min_quantity_uom_id" />
+                <field name="product_uom" />
             </xpath>
             <xpath expr="/form//group" position="inside">
                 <group>
+                    <field name="company_id" />
+                    <!-- <field invisible="1" name="company_id" /> -->
                     <field invisible="1" name="currency_id" />
                     <field name="active_pricelist" />
                     <field name="is_hidden" />
@@ -203,13 +221,26 @@
                 </group>
                 <group>
                     <field name="price_unit" force_save="1" />
-                    <field name="min_quantity_uom_id" />
-                    <field name="margin_sale_net_unit"
+                    <field name="price_net_unit"
                         groups="gard_product_price.group_product_price_manager" force_save="1" />
-                    <field name="min_quantity_pack" />
-                    <field name="uom_pack_id" />
-                    <field name="price_pack" force_save="1" />
-                    <field name="margin_sale_net_pack"
+                    <field
+                        name="tax_price_unit"
+                        groups="gard_product_price.group_product_price_manager" force_save="1" />
+                    <field
+                        name="min_quantity_pack" force_save="1" />
+                    <field name="product_uom_pack" />
+                    <field
+                        name="price_pack" force_save="1" />
+                    <field name="price_net_pack"
+                        groups="gard_product_price.group_product_price_manager" force_save="1" />
+                    <field name="tax_price_pack" />
+                    <field name="margin_unit"
+                        groups="gard_product_price.group_product_price_manager" force_save="1" />
+                    <field name="margin_net_unit"
+                        groups="gard_product_price.group_product_price_manager" force_save="1" />
+                    <field name="margin_pack"
+                        groups="gard_product_price.group_product_price_manager" force_save="1" />
+                    <field name="margin_net_pack"
                         groups="gard_product_price.group_product_price_manager" force_save="1" />
                 </group>
                 <group>
@@ -218,24 +249,38 @@
                     <field name="pricelist_id" />
                 </group>
                 <group groups="gard_product_price.group_product_price_manager">
-                    <field name="margin_sale_net_factor"
+                    <field name="margin_factor"
                         groups="gard_product_price.group_product_price_manager" force_save="1" />
-                    <field name="margin_sale_excl"
-                        groups="gard_product_price.group_product_price_manager" />
+                    <field name="margin_net_factor"
+                        groups="gard_product_price.group_product_price_manager" force_save="1" />
+                    <!-- ,('company_id','in',company_id.id or False) -->
                     <field name="product_cost"
-                        groups="gard_product_price.group_product_price_manager" />
+                        groups="gard_product_price.group_product_price_manager" force_save="1" />
+                    <field name="product_cost_base"
+                        groups="gard_product_price.group_product_price_manager" force_save="1" />
                 </group>
             </xpath>
 
             <xpath expr="/form/group[2]/group/div/div[2]" position="replace">
                 <div
                     attrs="{'invisible':[('compute_price', 'not in', ['percentage', 'percentage_surcharge'])]}">
-                    <field name="percent_price" nolabel="1" class="oe_inline" />
-                    <!-- %% -->
-                </div>
+                    <field name="percent_price" nolabel="1" class="oe_inline" />%% </div>
             </xpath>
             <field name="applied_on" position="before">
                 <field name="price_recompute" />
+            </field>
+            <field name="compute_price" position="after">
+                <div attrs="{'invisible':[('compute_price', '!=', 'fixed')]}">
+                    <field name="is_price_pack" nolabel="1" class="oe_inline" />
+                </div>
+            </field>
+            <field name="fixed_price" position="after">
+                <field name="fixed_price_pack" attrs="{'invisible': [('is_price_pack','!=',True)]}" />
+            </field>
+            <field name="fixed_price" position="attributes">
+                <attribute name="attrs"> {'readonly': [('is_price_pack','=',True)]} <!--
+                    'invisible': [('is_price_pack','=',True)],  --></attribute>
+                <attribute name="force_save">1</attribute>
             </field>
             <form position="inside">
                 <separator />
@@ -250,7 +295,8 @@
     </record>
 
     <!-- Actions -->
-    <record id="product_pricelist_item_action_view_tree" model="ir.actions.act_window">
+    <record
+        id="product_pricelist_item_action_view_tree" model="ir.actions.act_window">
         <field name="name">Pricelist Items</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">product.pricelist.item</field>
@@ -261,19 +307,21 @@
         <field name="search_view_id" ref="gard_product_price.product_pricelist_item_view_search" />
     </record>
 
-    <record id="product.product_pricelist_action2_tree" model="ir.actions.act_window.view">
+    <record
+        id="product.product_pricelist_action2_tree" model="ir.actions.act_window.view">
         <field name="view_mode">tree</field>
         <field name="search_view_id" ref="gard_product_price.product_pricelist_view_search" />
         <field name="act_window_id" ref="product.product_pricelist_action2" />
     </record>
 
-    <record id="action_to_recompute_fields" model="ir.actions.server">
+    <record
+        id="action_to_recompute_fields" model="ir.actions.server">
         <field name="name">Sale Price Recompute</field>
-        <field name="model_id" ref="model_sale_order_line"/>
-        <field name="binding_model_id" ref="model_sale_order_line"/>
+        <field name="model_id" ref="model_sale_order_line" />
+        <field name="binding_model_id" ref="model_sale_order_line" />
         <field name="state">code</field>
         <field name="code">records._sale_price()</field>
-      </record>
+    </record>
 
     <!-- Menus -->
 

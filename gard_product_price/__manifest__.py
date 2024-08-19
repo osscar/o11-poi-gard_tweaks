@@ -45,9 +45,6 @@ JS script on web/static/src/js in render_tag function.)
     'complexity': 'easy',
     'images': [],
     'depends': [
-        'base',
-        'base_import',
-        # 'branch',
         'product',
         'sale',
         'sale_stock',

@@ -55,6 +55,12 @@
           <field name="pricelist_id" />
           <field name="pricelist_item_count" invisible="1" />
         </xpath> -->
+        <xpath expr="//field[@name='order_line']/form//field[@name='purchase_price']" position="after">
+          <field name="product_cost_base" force_save="1" groups="gard_sale_product_margin.group_sale_margin_view"/>
+        </xpath>
+        <xpath expr="//field[@name='order_line']/tree//field[@name='purchase_price']" position="after">
+          <field name="product_cost_base" readonly="1" force_save="1" groups="gard_sale_product_margin.group_sale_margin_view"/>
+        </xpath>
 
       </field>
     </record>
@@ -77,6 +83,9 @@
           <field name="pricelist_id" />
           <field name="pricelist_item_count" invisible="1" />
         </xpath>
+        <!-- <xpath expr="//field[@name='order_line']/form//field[@name='purchase_price']" position="after">
+            <field name="product_cost_base" readonly="1" force_save="1" groups="gard_sale_product_margin.group_sale_margin_view"/>
+        </xpath> -->
         
       </field>
     </record>

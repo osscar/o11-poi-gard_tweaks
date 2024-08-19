@@ -68,11 +68,11 @@
                                 <field invisible="1" name="product_default_code"/>
                                 <field colspan="4" name="description"/>
                                 <field name="min_quantity"/>
-                                <field name="min_quantity_uom_id"/>
+                                <field name="product_uom"/>
                                 <field name="price_unit" />
                                 <field name="price_pack" />
                                 <field name="min_quantity_pack"/>
-                                <field name="uom_pack_id" />
+                                <field name="product_uom_pack" />
                                 <field name="pricelist_id" widget="label_selection"/>
                                 <field name="partner_ids" widget="many2many_tags"/>
                             </tree>
@@ -82,11 +82,11 @@
                                 <field invisible="1" name="product_default_code"/>
                                 <field name="description"/>
                                 <field name="min_quantity"/>
-                                <field name="min_quantity_uom_id"/>
+                                <field name="product_uom"/>
                                 <field name="price_unit" />
                                 <field name="min_quantity_pack"/>
                                 <field name="price_pack" />
-                                <field name="uom_pack_id" />
+                                <field name="product_uom_pack" />
                                 <field name="currency_id"/>
                                 <field name="pricelist_id"/>
                                 <field name="partner_ids"/>
@@ -125,7 +125,7 @@
                                                                     <field name="min_quantity"/>
                                                                 </td>
                                                                 <td>
-                                                                    <field name="min_quantity_uom_id"/>
+                                                                    <field name="product_uom"/>
                                                                 </td>
                                                                 <td>
                                                                     <field name="price_unit" widget="monetary" options="{'currency_field': 'currency_id'}" />
@@ -134,7 +134,7 @@
                                                                     <field name="min_quantity_pack"/>
                                                                 </td>
                                                                 <td>
-                                                                    <field name="uom_pack_id" />
+                                                                    <field name="product_uom_pack" />
                                                                 </td>
                                                                 <td>
                                                                     <field name="price_pack" widget="monetary" options="{'currency_field': 'currency_id'}" />
