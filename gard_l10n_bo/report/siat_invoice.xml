@@ -3,7 +3,7 @@
   <data>
 
     <record id="account.account_invoices" model="ir.actions.report">
-      <field name="paperformat_id" ref="poi_x_gard.paperformat_euro_pos_gard_ticket" />
+      <field name="paperformat_id" ref="poi_x_gard.paperformat_pos80_gard" />
       <field name="attachment_use" eval="False" />
     </record>
 
