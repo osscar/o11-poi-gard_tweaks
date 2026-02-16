@@ -58,7 +58,7 @@
             </div>
 
             <!-- row 2: invoice type A -->
-            <div id="page_row2" class="text-center" style="font-size: 26px">
+            <div id="page_row2" class="text-center" style="font-size: 30px">
               <strong>
                 <div>
                   <span t-if="o.type == 'out_refund'">
