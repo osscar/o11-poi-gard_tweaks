@@ -60,6 +60,8 @@ This module tweaks the following:
         "data/gard_x_gard_data.xml",
         "report/account_report_views.xml",
         "report/account_report_templates.xml",
+        "report/account_deposit_report.xml",
+        "report/account_deposit_report_templates.xml",
         "security/gard_x_gard_security.xml",
         "security/ir.model.access.csv",
         "views/account_view.xml",

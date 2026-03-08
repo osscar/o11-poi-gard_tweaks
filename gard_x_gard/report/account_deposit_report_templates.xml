@@ -153,64 +153,90 @@
                 </t>
                 <t t-foreach="set(payment_journal)" t-as="jour">
                     <div><strong t-esc="jour.name"/></div>
-                    <table class="table table-condensed">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Type</th>
-                                <th>Date</th>
-                                <th>Ref.</th>
-                                <th>Partner</th>
-                                <th>Invoice Origin Ref.</th>
-                                <th>Method</th>
-                                <th>Check Ref.</th>
-                                <th>Amount BOB</th>
-                                <th>Amount USD</th>
-                                <th>State</th>
-                                <th>Created by</th>
-                            </tr>
-                        </thead>
+                    <table class="table table-condensed" style="margin-bottom: 20px;">
                         <tbody>
                             <t t-set="subtotalbs" t-value="0"/>
                             <t t-set="subtotalus" t-value="0"/>
-                            <tr t-foreach="o.payment_ids" t-as="ps">
+                            <t t-foreach="o.payment_ids" t-as="ps">
                                 <t t-if="ps.journal_id.id==jour.id">
-                                    <td><span t-esc="i"/></td>
-                                    <t t-set="i" t-value="i+1"/>
-                                    <td><span t-field="ps.payment_type"/></td>
-                                    <td><span t-field="ps.payment_date"/></td>
-                                    <td><span t-esc="ps.name"/></td>
-                                    <td><span t-esc="ps.sudo().partner_id and ps.sudo().partner_id.name or ''"/></td>
-                                    <td><t t-foreach="ps.invoice_ids" t-as="psi"><span t-esc="psi.origin"/>,</t></td>
-                                    <td><span t-field="ps.journal_id.name"/></td>
-                                    <td><span t-field="ps.check_number"/></td>
-                                    <t t-if="ps.currency_id.id==ps.company_id.currency_id.id">
-                                        <t t-set="subtotalbs" t-value="subtotalbs + ps.amount_applied"/>
-                                        <td><span t-esc="ps.amount_applied" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                    
+                                    <!-- ROW 1: H1 Labels (7 Columns) -->
+                                    <tr style="background-color: #f2f2f2; font-weight: bold; border-top: 2px solid black;">
+                                        <td style="width: 5%;">#</td>
+                                        <td style="width: 15%;">Type</td>
+                                        <td style="width: 20%;">Date</td>
+                                        <td style="width: 30%;">Method</td>
+                                        <td style="width: 30%;">Check Ref.</td>
+                                    </tr>
+                                    
+                                    <!-- ROW 2: H1 Data (7 Columns) -->
+                                    <tr>
+                                        <td><span t-esc="i"/><t t-set="i" t-value="i+1"/></td>
+                                        <td><span t-field="ps.payment_type"/></td>
+                                        <td><span t-field="ps.payment_date"/></td>
+                                        <td><span t-field="ps.journal_id.code"/></td>
+                                        <td><span t-field="ps.check_number"/></td>
+                                    </tr>
+                                    
+                                    <!-- ROW 3: H2 Labels (7 Columns) -->
+                                    <tr style="background-color: #f9f9f9; font-style: italic; font-weight: bold; border-top: 1px dashed #ddd;">
                                         <td/>
-                                    </t>
-                                    <t t-if="ps.currency_id.id!=ps.company_id.currency_id.id">
-                                        <t t-set="subtotalus" t-value="subtotalus + p.amount_applied"/>
+                                        <td>Ref.</td>
+                                        <td colspan="2">Partner</td>
+                                        <td colspan="2">Invoice Origin</td>
                                         <td/>
-                                        <td><span t-esc="ps.amount_applied" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id_sec}"/></td>
-                                    </t>
-                                    <td><span t-field="ps.state"/></td>
-                                    <td><span t-field="ps.create_uid.name"/></td>
+                                    </tr>
+                                    
+                                    <!-- ROW 4: H2 Data (7 Columns) -->
+                                    <tr>
+                                        <td/>
+                                        <td><span t-esc="ps.name"/></td>
+                                        <td colspan="2"><span t-esc="ps.sudo().partner_id and ps.sudo().partner_id.name or ''"/></td>
+                                        <td colspan="2"><t t-foreach="ps.invoice_ids" t-as="psi"><span t-esc="psi.origin"/>, </t></td>
+                                        <td/>
+                                    </tr>
+
+                                    <!-- ROW 5: H3 Labels (Adjusted to 7 columns using colspan) -->
+                                    <tr style="background-color: #f9f9f9; font-style: italic; font-weight: bold; border-top: 1px dashed #ddd;">
+                                        <td/>
+                                        <td>State</td>
+                                        <td>Created by</td>
+                                        <td>Amount BOB</td>
+                                        <td>Amount USD</td>
+                                    </tr>
+                                    
+                                    <!-- ROW 4: Data (Adjusted to 7 columns using colspan) -->
+                                    <tr style="border-bottom: 2px solid #eee;">
+                                        <td/>
+                                        <td><span t-field="ps.state"/></td>
+                                        <td><span t-field="ps.create_uid.name"/></td>
+                                        <!-- BOB Column -->
+                                        <td style="text-align: right;">
+                                            <t t-if="ps.currency_id.id == ps.company_id.currency_id.id">
+                                                <t t-set="subtotalbs" t-value="subtotalbs + ps.amount_applied"/>
+                                                <span t-esc="ps.amount_applied" t-options='{"widget": "monetary", "display_currency": res_company.currency_id}'/>
+                                            </t>
+                                        </td>
+
+                                        <!-- USD Column -->
+                                        <td style="text-align: right;">
+                                            <t t-if="ps.currency_id.id != ps.company_id.currency_id.id">
+                                                <t t-set="subtotalus" t-value="subtotalus + ps.amount_applied"/>
+                                                <span t-esc="ps.amount_applied" t-options='{"widget": "monetary", "display_currency": res_company.currency_id_sec}'/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 15px;"><td colspan="5"/></tr>
                                 </t>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                            </t>
+
+                            <!-- Totals Section -->
+                            <tr style="border-top: 2px solid black;">
+                                <td/> 
+                                <td/>
+                                <td/>
                                 <td><b><span t-esc="subtotalbs" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></b></td>
                                 <td><b><span t-esc="subtotalus" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id_sec}"/></b></td>
-                                <td></td>
-                                <td></td>
                             </tr>
                         </tbody>
                     </table>

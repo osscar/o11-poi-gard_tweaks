@@ -18,6 +18,22 @@
             <field name="dpi">90</field>
         </record>
 
+        <record id="paperformat_pos80_account_deposit_slip_gard" model="report.paperformat">
+            <field name="name">POS80 Account Deposit Slip</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">80</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">1</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
         <!-- QWeb Reports -->
         <report
             id="action_report_deposit_slip_summary"
@@ -26,7 +42,7 @@
             report_type="qweb-pdf"
             name="gard_x_gard.report_deposit_slip_summary"
             file="gard_x_gard.report_deposit_slip_summary"
-            paperformat="poi_x_gard.paperformat_pos80_gard"
+            paperformat="gard_x_gard.paperformat_pos80_account_deposit_slip_gard"
         />
 
         <report
@@ -36,7 +52,7 @@
             report_type="qweb-pdf"
             name="gard_x_gard.report_deposit_slip"
             file="gard_x_gard.report_deposit_slip"
-            paperformat="gard_x_gard.paperformat_us_letter_low_margin"
+            paperformat="gard_x_gard.paperformat_pos80_account_deposit_slip_gard"
         />
 
         <report
