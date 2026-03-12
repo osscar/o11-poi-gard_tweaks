@@ -31,7 +31,7 @@
             <field name="margin_right">1</field>
             <field name="header_line" eval="False"/>
             <field name="header_spacing">35</field>
-            <field name="dpi">90</field>
+            <field name="dpi">100</field>
         </record>
 
         <!-- QWeb Reports -->
