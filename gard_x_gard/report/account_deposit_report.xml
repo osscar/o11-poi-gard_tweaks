@@ -45,7 +45,7 @@
             paperformat="gard_x_gard.paperformat_pos80_account_deposit_slip_gard"
         />
 
-        <report
+        <!-- <report
             id="action_report_deposit_slip"
             model="account.deposit"
             string="Deposit Slip"
@@ -53,9 +53,19 @@
             name="gard_x_gard.report_deposit_slip"
             file="gard_x_gard.report_deposit_slip"
             paperformat="gard_x_gard.paperformat_pos80_account_deposit_slip_gard"
-        />
+        /> -->
 
         <report
+            id="action_report_deposit"
+            model="account.deposit"
+            string="Deposit Slip"
+            report_type="qweb-pdf"
+            name="gard_x_gard.report_deposit"
+            file="gard_x_gard.report_deposit"
+            paperformat="gard_x_gard.paperformat_us_letter_low_margin"
+        />
+
+        <!-- <report
             id="action_report_deposit_summary"
             model="account.deposit"
             string="Deposit Summary"
@@ -63,7 +73,7 @@
             name="gard_x_gard.report_deposit_summary"
             file="gard_x_gard.report_deposit_summary"
             paperformat="gard_x_gard.paperformat_us_letter_low_margin"
-        />
+        /> -->
 
     </data>
 </odoo>
