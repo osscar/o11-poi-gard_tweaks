@@ -168,11 +168,14 @@
       <xpath expr="//field[last()]" position="after">
         <field name="requested_by" readonly="1"/>
       </xpath>
+      <xpath expr="//field[@name='state']" position="after">
+        <field name="category" readonly="1"/>
+      </xpath>
 
     </field>
   </record>
 
-  <record model="ir.ui.view" id="view_stock_picking_tree_inherit">
+  <!-- <record model="ir.ui.view" id="view_stock_picking_tree_inherit">
     <field name="name">stock.picking.tree.inherit</field>
     <field name="model">stock.picking</field>
     <field name="mode">extension</field>
@@ -188,7 +191,7 @@
       </xpath>
 
     </field>
-  </record>
+  </record> -->
 
   <!-- Actions -->
 
