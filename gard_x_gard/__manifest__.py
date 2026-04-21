@@ -48,7 +48,7 @@ This module tweaks the following:
         "poi_stock_account_consolidate",
         # "sale",
         "sale_stock",
-        # "stock",
+        "stock",
         # "stock_account",
         # "stock_landed_costs",
         "stock_landed_costs_analytic",

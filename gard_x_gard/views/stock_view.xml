@@ -42,6 +42,12 @@
       <xpath expr="//group/filter[last()]" position="after">
         <filter string="Requested By" domain="[]" context="{'group_by':'requested_by'}"/>
       </xpath>
+      <xpath expr="//field[last()]" position="after">
+        <field name="category" string="Category" filter_domain="[('category','ilike', self)]"/>
+      </xpath>
+      <xpath expr="//group/filter[last()]" position="after">
+        <filter string="Category" domain="[]" context="{'group_by':'category'}"/>
+      </xpath>
 
     </field>
   </record>
@@ -117,6 +123,9 @@
         <attribute name="readonly">1</attribute>
         <attribute name="invisible">0</attribute>
       </xpath>
+      <xpath expr="//form/sheet//page[@name='extra']//field[@name='picking_type_id']" position="after">
+        <field name="category" readonly="1" groups="stock.group_stock_multi_locations"/>
+      </xpath>
     </field>
   </record>
 
@@ -173,6 +182,9 @@
 
       <xpath expr="//field[last()]" position="after">
         <field name="requested_by" readonly="1"/>
+      </xpath>
+      <xpath expr="//field[@name='state']" position="after">
+        <field name="category" readonly="1"/>
       </xpath>
 
     </field>

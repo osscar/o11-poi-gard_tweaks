@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 14:33+0000\n"
-"PO-Revision-Date: 2026-03-14 14:33+0000\n"
+"POT-Creation-Date: 2026-04-06 12:42+0000\n"
+"PO-Revision-Date: 2026-04-06 12:42+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -211,6 +211,12 @@ msgid "Cashier"
 msgstr "Cajero"
 
 #. module: gard_x_gard
+#: model:ir.model.fields,field_description:gard_x_gard.field_stock_picking_category
+#: model:ir.ui.view,arch_db:gard_x_gard.view_picking_internal_search_inherit
+msgid "Category"
+msgstr "Categoría"
+
+#. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_template
 msgid "Check Ref."
 msgstr "Cheque Ref."
@@ -234,6 +240,16 @@ msgstr "Creado por"
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
 msgid "Cuenta"
 msgstr "Cuenta"
+
+#. module: gard_x_gard
+#: selection:stock.picking,category:0
+msgid "Customer Delivery"
+msgstr "Entrega Cliente"
+
+#. module: gard_x_gard
+#: selection:stock.picking,category:0
+msgid "Customer Return"
+msgstr "Devolución Cliente"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_deposit_template
@@ -343,22 +359,22 @@ msgstr "GARD Edicion Contabilidad"
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_cashier
 msgid "GARD custom for cashier."
-msgstr "GARD custom for cashier."
+msgstr "GARD grupo personalizado para cajero."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_product_manager
 msgid "GARD custom group for product manager."
-msgstr "GARD custom group for product manager."
+msgstr "GARD grupo personalizado para administrador de productos."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_invoice_purchase
 msgid "GARD custom group for purchase billing."
-msgstr "GARD custom group for purchase billing."
+msgstr "GARD grupo personalizado para facturación de compras."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_invoice_sale
 msgid "GARD custom group for sales billing."
-msgstr "GARD custom group for sales billing."
+msgstr "GARD grupo personalizado para facturación de ventas."
 
 #. module: gard_x_gard
 #: model:res.groups,comment:gard_x_gard.group_account_edit
@@ -415,7 +431,12 @@ msgstr "In"
 #. module: gard_x_gard
 #: selection:stock.move,move_type:0
 msgid "Internal"
-msgstr "Internal"
+msgstr "Interno"
+
+#. module: gard_x_gard
+#: selection:stock.picking,category:0
+msgid "Internal Transfer"
+msgstr "Transferencia Interna"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_account_invoice
@@ -544,6 +565,11 @@ msgid "Order Date"
 msgstr "Fecha orden"
 
 #. module: gard_x_gard
+#: selection:stock.picking,category:0
+msgid "Other"
+msgstr "Other"
+
+#. module: gard_x_gard
 #: selection:stock.move,move_type:0
 msgid "Out"
 msgstr "Out"
@@ -620,7 +646,7 @@ msgstr "UdMs Producto"
 #. module: gard_x_gard
 #: model:res.groups,name:gard_x_gard.group_account_invoice_purchase
 msgid "Purchase Billing"
-msgstr "Facturacion compras"
+msgstr "Facturación Compras"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_sale_order
@@ -658,7 +684,7 @@ msgstr "Solocitado por"
 #. module: gard_x_gard
 #: selection:stock.move,move_type:0
 msgid "Returned Dropship"
-msgstr "Returned Dropship"
+msgstr "Devolución Dropship"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
@@ -674,7 +700,7 @@ msgstr "Lineas de venta"
 #. module: gard_x_gard
 #: model:res.groups,name:gard_x_gard.group_account_invoice_sale
 msgid "Sales Billing"
-msgstr "Sales Billing"
+msgstr "Facturación Ventas"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_sale_order_line
@@ -704,7 +730,7 @@ msgstr "Estado"
 #. module: gard_x_gard
 #: model:res.groups,name:gard_x_gard.group_stock_account
 msgid "Stock Accounting"
-msgstr "Stock Accounting"
+msgstr "Contabilidad Almacén"
 
 #. module: gard_x_gard
 #: model:ir.model,name:gard_x_gard.model_stock_landed_cost
@@ -730,6 +756,16 @@ msgstr "Movimientos de existencias que deberian tener registros contables."
 #: model:ir.ui.view,arch_db:gard_x_gard.view_move_search_inherit
 msgid "Stock moves that should not have accounting entries."
 msgstr "Movimientos de existencias que no deberian tener registros contables."
+
+#. module: gard_x_gard
+#: selection:stock.picking,category:0
+msgid "Supplier Return"
+msgstr "Devolución Proveedor"
+
+#. module: gard_x_gard
+#: selection:stock.picking,category:0
+msgid "Supplier Shipment"
+msgstr "Envio Proveedor"
 
 #. module: gard_x_gard
 #: model:ir.ui.view,arch_db:gard_x_gard.report_account_move_multi_t
