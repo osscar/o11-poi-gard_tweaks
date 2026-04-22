@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- QWeb Reports -->
+        <report
+                string="Pick Slip"
+                id="action_report_pick_slip"
+                model="stock.picking"
+                report_type="qweb-pdf"
+                name="poi_x_gard.report_pickslip"
+                file="poi_x_gard.report_pickslip"
+                print_report_name="'Pick Slip - %s - %s' % (object.partner_id.name or '', object.name)"
+                paperformat="poi_x_gard.paperformat_pos80_gard"
+        />
+
+    </data>
+</odoo>
