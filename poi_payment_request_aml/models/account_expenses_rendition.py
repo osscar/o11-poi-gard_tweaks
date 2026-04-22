@@ -1,3 +1,5 @@
+from odoo import models, fields
+
 class AccountExpensesRendition(models.Model):
     _inherit = "account.expenses.rendition"
 
