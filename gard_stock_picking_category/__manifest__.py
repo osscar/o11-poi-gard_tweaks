@@ -39,6 +39,7 @@ This module tweaks the following:
     "depends": [
         "stock",
         "gard_order_history",
+        "gard_x_gard",
     ],
     "category": "Other",
     "data": [
