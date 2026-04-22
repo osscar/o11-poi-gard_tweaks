@@ -12,10 +12,11 @@
                             <field name="date"/>
                             <field name="move_id"/>
                             <field name="account_id"/>
+                            <field name="ref"/>
                             <field name="name"/>
                             <field name="debit" sum="Total"/>
                             <field name="credit" sum="Total"/>
-                            <field name="balance"/>
+                            <field name="balance" sum="Total"/>
                         </tree>
                     </field>
                 </page>
