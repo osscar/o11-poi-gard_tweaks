@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 class AccountPaymentRequest(models.Model):
     _inherit = "account.payment.request"
@@ -41,14 +41,21 @@ class AccountPaymentRequest(models.Model):
     @api.multi
     def action_view_ledger_lines(self):
         self.ensure_one()
-        # Return an action to open the move line tree view filtered by this request
+        # We create a clean context to prevent 'user_id' or other 
+        # request-specific defaults from leaking into the move line view.
+        ctx = {
+            'search_default_group_by_account': 1, # Optional: nice for accountants
+            'create': False,
+            'edit': False,
+        }
+        
         return {
-            'name': 'Journal Items',
+            'name': _('Journal Items'),
             'type': 'ir.actions.act_window',
             'view_mode': 'tree,form',
             'res_model': 'account.move.line',
             'domain': [('id', 'in', self.move_line_ids.ids)],
-            'context': dict(self._context, create=False),
+            'context': ctx,
         }
 
     # aml payment request backfill method
