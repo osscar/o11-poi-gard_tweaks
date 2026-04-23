@@ -60,29 +60,22 @@ class AccountPaymentRequest(models.Model):
 
     # aml payment request backfill method
     # disable after use
+    @api.multi
     def action_backfill_aml_links(self):
-        """One-time script to link existing AMLs to their Requests."""
-        for request in self.search([]):
-            # 1. Links from Direct Payments
+        """Link existing data. Works for all requests regardless of selection."""
+        # We search for ALL requests to ensure a complete backfill
+        all_requests = self.env['account.payment.request'].search([])
+        for request in all_requests:
+            # Link direct payments
             if request.payment_ids:
-                request.payment_ids.mapped('move_line_ids').write({
-                    'payment_request_id': request.id
-                })
+                request.payment_ids.mapped('move_line_ids').write({'payment_request_id': request.id})
             
-            # 2. Links from Renditions
+            # Link rendition moves and invoices
             if request.rendition_ids:
-                # Direct Rendition Moves
-                request.rendition_ids.mapped('move_id.line_ids').write({
-                    'payment_request_id': request.id
-                })
-                # Moves from Invoices linked to Renditions
-                request.rendition_ids.mapped('invoice_ids.move_id.line_ids').write({
-                    'payment_request_id': request.id
-                })
-
-            # 3. Links from Cash Movements
+                request.rendition_ids.mapped('move_id.line_ids').write({'payment_request_id': request.id})
+                request.rendition_ids.mapped('invoice_ids.move_id.line_ids').write({'payment_request_id': request.id})
+            
+            # Link cash movement payments
             if request.movement_ids:
-                m_payments = request.movement_ids.mapped('payment_ids')
-                m_payments.mapped('move_line_ids').write({
-                    'payment_request_id': request.id
-                })
+                request.movement_ids.mapped('payment_ids.move_line_ids').write({'payment_request_id': request.id})
+        return True
