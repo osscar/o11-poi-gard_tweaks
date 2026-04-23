@@ -21,6 +21,8 @@
     'author': 'squid',
     'depends': ['poi_payment_request', 'account'],
     'data': [
+        'data/server_action.xml',
+        
         'views/account_move_line_view.xml',
         'views/account_payment_request_view.xml',
     ],
