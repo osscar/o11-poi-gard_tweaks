@@ -4,14 +4,21 @@ class AccountPayment(models.Model):
     _inherit = "account.payment"
 
     def post(self):
-        # 1. Let the base module and Odoo standard logic run first.
-        # This creates the journal entries and move lines.
+        # 1. Run standard Odoo posting to create AMLs
         res = super(AccountPayment, self).post()
 
-        # 2. Now that the lines exist, stamp them with the Request ID
         for payment in self:
-            if payment.payment_request_id and payment.move_line_ids:
-                payment.move_line_ids.write({
-                    'payment_request_id': payment.payment_request_id.id
-                })
+            # Resolve the Request ID through the hierarchy
+            req_id = False
+            
+            if payment.payment_request_id:
+                req_id = payment.payment_request_id.id
+            elif payment.rendition_id and payment.rendition_id.request_id:
+                req_id = payment.rendition_id.request_id.id
+            elif payment.cash_movement_id and payment.cash_movement_id.payment_request_id:
+                req_id = payment.cash_movement_id.payment_request_id.id
+            
+            # Stamp only the payment lines
+            if req_id and payment.move_line_ids:
+                payment.move_line_ids.write({'payment_request_id': req_id})
         return res
