@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             
             <xpath expr="//notebook" position="inside">
-                <page string="Ledger Entries" name="aml_entries">
+                <page string="Ledger Entries" name="aml_entries" groups="account.group_account_user">
                     <field name="move_line_ids" readonly="1">
                         <tree string="Journal Items">
                             <field name="date"/>
@@ -28,7 +28,8 @@
                         type="object" 
                         class="oe_stat_button" 
                         icon="fa-bars" 
-                        attrs="{'invisible': [('aml_count', '=', 0)]}">
+                        attrs="{'invisible': [('aml_count', '=', 0)]}"
+                        groups="account.group_account_user">
                     <field name="aml_count" widget="statinfo" string="Ledger Lines"/>
                 </button>
             </xpath>
