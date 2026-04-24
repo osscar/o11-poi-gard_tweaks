@@ -66,16 +66,20 @@ class AccountPaymentRequest(models.Model):
         # We search for ALL requests to ensure a complete backfill
         all_requests = self.env['account.payment.request'].search([])
         for request in all_requests:
-            # Link direct payments
+            # 1. Link direct payments linked to the request
             if request.payment_ids:
                 request.payment_ids.mapped('move_line_ids').write({'payment_request_id': request.id})
             
-            # Link rendition moves and invoices
+            # 2. Link payments generated inside Renditions
+            # We no longer stamp rendition.move_id or rendition.invoice_ids
             if request.rendition_ids:
-                request.rendition_ids.mapped('move_id.line_ids').write({'payment_request_id': request.id})
-                request.rendition_ids.mapped('invoice_ids.move_id.line_ids').write({'payment_request_id': request.id})
+                # We look for payments associated with these renditions
+                rendition_payments = request.rendition_ids.mapped('invoice_payment_ids')
+                if rendition_payments:
+                    rendition_payments.mapped('move_line_ids').write({'payment_request_id': request.id})
             
-            # Link cash movement payments
+            # 3. Link cash movement payments
             if request.movement_ids:
                 request.movement_ids.mapped('payment_ids.move_line_ids').write({'payment_request_id': request.id})
+                
         return True
