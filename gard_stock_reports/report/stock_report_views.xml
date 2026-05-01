@@ -8,8 +8,8 @@
                 id="action_report_pick_slip"
                 model="stock.picking"
                 report_type="qweb-pdf"
-                name="gard_x_gard.report_pickslip"
-                file="gard_x_gard.report_pickslip"
+                name="gard_stock_reports.report_pickslip"
+                file="gard_stock_reports.report_pickslip"
                 print_report_name="'Pick Slip - %s - %s' % (object.partner_id.name or '', object.name)"
                 paperformat="poi_x_gard.paperformat_pos80_gard"
         />
