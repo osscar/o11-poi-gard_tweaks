@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+  <!-- Search Views -->
+  <record model="ir.ui.view" id="view_picking_internal_search_inherit">
+    <field name="name">stock.picking.internal.search.inherit</field>
+    <field name="model">stock.picking</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[last()]" position="after">
+        <field name="category" string="Category" filter_domain="[('category','ilike', self)]"/>
+      </xpath>
+      <xpath expr="//group/filter[last()]" position="after">
+        <filter string="Category" domain="[]" context="{'group_by':'category'}"/>
+      </xpath>
+
+    </field>
+  </record>
+
+  <!-- Views -->
+  <record model="ir.ui.view" id="view_picking_form">
+    <field name="name">stock.picking.form.inherit</field>
+    <field name="model">stock.picking</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="stock.view_picking_form"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//form/sheet//page[@name='extra']//field[@name='picking_type_id']" position="after">
+        <field name="category" readonly="1" groups="stock.group_stock_multi_locations"/>
+      </xpath>
+
+    </field>
+  </record>
+
+  <record model="ir.ui.view" id="vpicktree_inherit_gard_order_history">
+    <field name="name">stock.vpicktree.inherit.gard_order_history.gard_x_gard</field>
+    <field name="model">stock.picking</field>
+    <field name="mode">extension</field>
+    <field name="priority">10</field>
+    <field name="inherit_id" ref="gard_order_history.vpicktree_inherit"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='state']" position="after">
+        <field name="category" readonly="1"/>
+      </xpath>
+
+    </field>
+  </record>
+
+</odoo>

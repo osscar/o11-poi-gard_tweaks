@@ -42,12 +42,6 @@
       <xpath expr="//group/filter[last()]" position="after">
         <filter string="Requested By" domain="[]" context="{'group_by':'requested_by'}"/>
       </xpath>
-      <xpath expr="//field[last()]" position="after">
-        <field name="category" string="Category" filter_domain="[('category','ilike', self)]"/>
-      </xpath>
-      <xpath expr="//group/filter[last()]" position="after">
-        <filter string="Category" domain="[]" context="{'group_by':'category'}"/>
-      </xpath>
 
     </field>
   </record>
@@ -91,9 +85,6 @@
     </field>
   </record>
 
-  <!-- <record model="ir.ui.view" id="view_picking_form_inherit"> <field name="name">stock.picking.form.inherit</field> <field name="model">stock.picking</field> <field name="mode">extension</field> <field name="priority">10</field> <field
-  name="inherit_id" ref="stock.view_picking_form"/> <field name="arch" type="xml"> <xpath expr="//field[@name='group_id']" position="after"> <field name="requested_by" readonly="1"/> </xpath> -->
-
   <record model="ir.ui.view" id="view_picking_form">
     <field name="name">stock.picking.form.inherit</field>
     <field name="model">stock.picking</field>
@@ -102,8 +93,6 @@
     <field name="inherit_id" ref="stock.view_picking_form"/>
     <field name="arch" type="xml">
 
-      <!-- <xpath expr="//group[@name='account_info']//field[@name='move_id']" position="attributes"> <attribute name="groups">gard_x_gard.group_stock_logistics,account.group_account_manager</attribute> </xpath> -->
-      <!-- <xpath expr="//field[@name='move_id']" position="replace"> <field name="move_id" readonly="1" groups="gard_x_gard.group_stock_account"/> </xpath> -->
       <xpath expr="//field[@name='group_id']" position="after">
         <field name="requested_by" readonly="1"/>
       </xpath>
@@ -123,9 +112,7 @@
         <attribute name="readonly">1</attribute>
         <attribute name="invisible">0</attribute>
       </xpath>
-      <xpath expr="//form/sheet//page[@name='extra']//field[@name='picking_type_id']" position="after">
-        <field name="category" readonly="1" groups="stock.group_stock_multi_locations"/>
-      </xpath>
+
     </field>
   </record>
 
@@ -136,10 +123,11 @@
     <field name="priority">10</field>
     <field name="inherit_id" ref="poi_stock_account_consolidate.view_picking_form"/>
     <field name="arch" type="xml">
-      <!-- <xpath expr="//field[@name='move_id']" position="attributes"> <attribute name="groups">gard_x_gard.group_stock_account</attribute> </xpath> -->
+
       <xpath expr="//group[@name='account_info']//field[@name='move_id']" position="replace">
         <field name="move_id" readonly="1" groups="gard_x_gard.group_stock_account"/>
       </xpath>
+
     </field>
   </record>
 
@@ -150,10 +138,11 @@
     <field name="priority">10</field>
     <field name="inherit_id" ref="poi_stock_account_consolidate.vpicktree"/>
     <field name="arch" type="xml">
-      <!-- <xpath expr="//field[@name='move_id']" position="attributes"> <attribute name="groups">gard_x_gard.group_stock_logistics,account.group_account_manager</attribute> </xpath> -->
+
       <xpath expr="//field[@name='move_id']" position="replace">
         <field name="move_id" readonly="1" groups="gard_x_gard.group_stock_account"/>
       </xpath>
+
     </field>
   </record>
 
@@ -168,30 +157,9 @@
       <xpath expr="//field[last()]" position="after">
         <field name="requested_by" readonly="1"/>
       </xpath>
-      <xpath expr="//field[@name='state']" position="after">
-        <field name="category" readonly="1"/>
-      </xpath>
 
     </field>
   </record>
-
-  <!-- <record model="ir.ui.view" id="view_stock_picking_tree_inherit">
-    <field name="name">stock.picking.tree.inherit</field>
-    <field name="model">stock.picking</field>
-    <field name="mode">extension</field>
-    <field name="priority">10</field>
-    <field name="inherit_id" ref="gard_order_history.view_stock_picking_tree"/>
-    <field name="arch" type="xml">
-
-      <xpath expr="//field[last()]" position="after">
-        <field name="requested_by" readonly="1"/>
-      </xpath>
-      <xpath expr="//field[@name='state']" position="after">
-        <field name="category" readonly="1"/>
-      </xpath>
-
-    </field>
-  </record> -->
 
   <!-- Actions -->
 

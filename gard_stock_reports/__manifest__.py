@@ -18,18 +18,18 @@
 #
 ##############################################################################
 {
-    "name": "GARD x_Tweaks",
+    "name": "GARD Stock Reports",
     "version": "11.0.1.0.0",
     "author": "squid",
     "company": "",
     "website": "http://wwf.comcom.com",
-    "summary": "Tweaks for poi_Odoov11.",
+    "summary": "Tweaks for Stock Reporting.",
     "descrption": """
-GARD x_Tweaks
-==========================
+GARD Stock Reports
+==================
 This module tweaks the following:
 
-*
+* Stock reports.
 *
 *
 
@@ -37,33 +37,15 @@ This module tweaks the following:
 """,
     "images": [],
     "depends": [
-        "branch",
-        "poi_x_gard",
-        "poi_bol_siat",
-        "poi_kardex_valorado",
-        "poi_stock_account_consolidate",
-        "sale_stock",
         "stock",
-        "stock_landed_costs_analytic",
-        "stock_reserve_sale",
-        "web",
+        "poi_x_gard",
+        "gard_stock_picking_category",
+        "gard_x_gard",
     ],
-    "category": "Other",
+    'category': 'Warehouse',
     "data": [
-        "data/gard_x_gard_data.xml",
-        "report/account_report_views.xml",
-        "report/account_report_templates.xml",
-        "report/account_deposit_report.xml",
-        "report/account_deposit_report_templates.xml",
-        "security/gard_x_gard_security.xml",
-        "security/ir.model.access.csv",
-        "views/account_view.xml",
-        "views/account_invoice_view.xml",
-        "views/account_payment_view.xml",
-        "views/product_view.xml",
-        "views/sale_view.xml",
-        "views/stock_view.xml",
-        "views/stock_landed_cost_view.xml",
+        "report/report_stockpicking_operations.xml",
+        "report/stock_report_views.xml",
     ],
     "demo": [],
     "license": "AGPL-3",
