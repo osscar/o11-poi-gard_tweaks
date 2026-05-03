@@ -58,6 +58,31 @@ class AccountPaymentRequest(models.Model):
             'context': ctx,
         }
 
+    @api.multi
+    def action_view_ledger_analysis(self):
+        """ 
+        Returns an action that opens the Pivot view of AMLs 
+        grouped first by Account and then by Payment Request.
+        """
+        selected_ids = self.ids
+
+        return {
+            'name': _('Payment Request Ledger Analysis'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.move.line',
+            'view_type': 'form',
+            'view_mode': 'pivot,tree,form',
+            'domain': [('payment_request_id', 'in', selected_ids)],
+            'context': {
+                # The order in this list defines the drill-down hierarchy
+                'pivot_row_groupby': ['account_id', 'payment_request_id'],
+                'pivot_column_groupby': ['date:month'],
+                'pivot_measures': ['debit', 'credit', 'balance'],
+                # Optional: sets the default expansion level
+                'pivot_column_expand': 1, 
+            }
+        }
+
     # aml payment request backfill method
     # disable after use
     @api.multi

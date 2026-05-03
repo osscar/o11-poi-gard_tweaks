@@ -37,4 +37,14 @@
         </field>
     </record>
 
+    <record id="action_pr_ledger_analysis_pivot" model="ir.actions.server">
+        <field name="name">Ledger Analysis (Pivot)</field>
+        <field name="model_id" ref="poi_payment_request.model_account_payment_request"/>
+        <field name="binding_model_id" ref="poi_payment_request.model_account_payment_request"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_view_ledger_analysis()
+        </field>
+    </record>
+
 </odoo>
