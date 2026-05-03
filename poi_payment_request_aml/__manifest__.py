@@ -29,4 +29,5 @@
     "license": "AGPL-3",
     "application": False,
     'installable': True,
+    'post_init_hook': 'add_payment_request_links', # Add this line
 }

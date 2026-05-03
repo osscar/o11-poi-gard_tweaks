@@ -18,3 +18,15 @@
 #
 ##############################################################################
 from . import models
+from odoo import api, SUPERUSER_ID
+
+def add_payment_request_links(cr, registry):
+    """
+    This hook will run automatically only after the module is installed.
+    It will not run during module updates (-u).
+    """
+    env = api.Environment(cr, SUPERUSER_ID, {})
+    # Call the method on the model. 
+    # Since your method searches for all records internally, 
+    # calling it on an empty recordset is sufficient.
+    env['account.payment.request'].action_backfill_aml_links()
