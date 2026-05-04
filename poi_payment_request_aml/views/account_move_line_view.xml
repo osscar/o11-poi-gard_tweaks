@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_move_line_tree_inherit_request" model="ir.ui.view">
+        <field name="name">account.move.line.tree.inherit.request</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="move_id" position="after">
+                <field name="payment_request_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_move_line_pivot_pr_inherit" model="ir.ui.view">
+        <field name="name">account.move.line.pivot.pr.inherit</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_pivot"/>
+        <field name="arch" type="xml">
+            <xpath expr="//pivot" position="inside">
+                <field name="payment_request_id" type="row"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_move_line_filter_pr_inherit" model="ir.ui.view">
+        <field name="name">account.move.line.search.pr.inherit</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='account_id']" position="after">
+                <field name="payment_request_id" string="Payment Request"/>
+            </xpath>
+            
+            <xpath expr="//filter[@name='unreconciled']" position="after">
+                <separator/>
+                <filter string="With Payment Request" name="has_payment_request" 
+                        domain="[('payment_request_id', '!=', False)]"/>
+            </xpath>
+
+            <xpath expr="//group" position="inside">
+                <filter string="Payment Request" name="group_by_payment_request" 
+                        domain="[]" context="{'group_by': 'payment_request_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

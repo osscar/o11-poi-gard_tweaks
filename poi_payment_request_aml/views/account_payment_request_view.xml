@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_payment_request_form_inherit_aml" model="ir.ui.view">
+        <field name="name">account.payment.request.form.inherit.aml</field>
+        <field name="model">account.payment.request</field>
+        <field name="inherit_id" ref="poi_payment_request.account_payment_request_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//notebook" position="inside">
+                <page string="Ledger Entries" name="aml_entries" groups="account.group_account_user">
+                    <field name="move_line_ids" readonly="1">
+                        <tree string="Journal Items">
+                            <field name="date"/>
+                            <field name="move_id"/>
+                            <field name="account_id"/>
+                            <field name="ref"/>
+                            <field name="name"/>
+                            <field name="debit" sum="Total"/>
+                            <field name="credit" sum="Total"/>
+                            <field name="balance" sum="Total"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_ledger_lines" 
+                        type="object" 
+                        class="oe_stat_button" 
+                        icon="fa-bars" 
+                        attrs="{'invisible': [('aml_count', '=', 0)]}"
+                        groups="account.group_account_user">
+                    <field name="aml_count" widget="statinfo" string="Ledger Lines"/>
+                </button>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="action_pr_ledger_analysis_pivot" model="ir.actions.server">
+        <field name="name">Ledger Analysis (Pivot)</field>
+        <field name="model_id" ref="poi_payment_request.model_account_payment_request"/>
+        <field name="binding_model_id" ref="poi_payment_request.model_account_payment_request"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_view_ledger_analysis()
+        </field>
+    </record>
+
+    <record id="action_payment_request_ledger_report" model="ir.actions.act_window">
+        <field name="name">Payment Request Ledger Analysis</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,tree,form</field>
+        <field name="domain">[('payment_request_id', '!=', False)]</field>
+        <field name="context">{
+            'pivot_row_groupby': ['account_id', 'payment_request_id'],
+            'pivot_column_groupby': ['date:month'],
+            'pivot_measures': ['debit', 'credit', 'balance'],
+            'expand': 1
+        }</field>
+    </record>
+
+    <menuitem id="menu_payment_request_ledger_analysis"
+              name="Payment Request Analysis"
+              parent="account.account_reports_management_menu"
+              action="action_payment_request_ledger_report"
+              sequence="50"
+              groups="account.group_account_user"/>
+
+</odoo>

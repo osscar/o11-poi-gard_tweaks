@@ -1,0 +1,67 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* poi_payment_request_aml
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-22 19:02+0000\n"
+"PO-Revision-Date: 2026-04-22 19:02+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: poi_payment_request_aml
+#: model:ir.model,name:poi_payment_request_aml.model_account_payment_request
+msgid "Account Payment Requests"
+msgstr "Solicitudes de Pago"
+
+#. module: poi_payment_request_aml
+#: model:ir.model.fields,help:poi_payment_request_aml.field_account_payment_request_move_line_ids
+msgid "Aggregated accounting lines from all related payments, movements, and renditions."
+msgstr "Líneas contables agregadas de todos los pagos, movimientos y devoluciones relacionados."
+
+#. module: poi_payment_request_aml
+#: model:ir.model,name:poi_payment_request_aml.model_account_move_line
+msgid "Journal Item"
+msgstr "Apunte contable"
+
+#. module: poi_payment_request_aml
+#: model:ir.ui.view,arch_db:poi_payment_request_aml.view_payment_request_form_inherit_aml
+msgid "Journal Items"
+msgstr "Apuntes contables"
+
+#. module: poi_payment_request_aml
+#: model:ir.ui.view,arch_db:poi_payment_request_aml.view_payment_request_form_inherit_aml
+msgid "Ledger Entries"
+msgstr "Entradas del Libro Mayor"
+
+#. module: poi_payment_request_aml
+#: model:ir.model.fields,field_description:poi_payment_request_aml.field_account_move_line_payment_request_id
+msgid "Payment Request"
+msgstr "Solicitud de Pago"
+
+#. module: poi_payment_request_aml
+#: model:ir.model,name:poi_payment_request_aml.model_account_payment
+msgid "Payments"
+msgstr "Pagos"
+
+#. module: poi_payment_request_aml
+#: model:ir.model.fields,field_description:poi_payment_request_aml.field_account_payment_request_move_line_ids
+msgid "Related Move Lines"
+msgstr "Líneas de Asiento Relacionadas"
+
+#. module: poi_payment_request_aml
+#: model:ir.model.fields,help:poi_payment_request_aml.field_account_move_line_payment_request_id
+msgid "The payment request that generated or is linked to this journal entry line."
+msgstr "The payment request that generated or is linked to this journal entry line."
+
+#. module: poi_payment_request_aml
+#: model:ir.ui.view,arch_db:poi_payment_request_aml.view_payment_request_form_inherit_aml
+msgid "Total"
+msgstr "Total"
+
