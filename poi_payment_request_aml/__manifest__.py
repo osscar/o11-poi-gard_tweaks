@@ -19,7 +19,10 @@
     'version': '11.0.1.0.0',
     'category': 'Accounting',
     'author': 'squid',
-    'depends': ['poi_payment_request', 'account'],
+    'depends': [
+        'account',
+        'poi_payment_request',
+    ],
     'data': [
         'data/server_action.xml',
         

@@ -47,4 +47,25 @@
         </field>
     </record>
 
+    <record id="action_payment_request_ledger_report" model="ir.actions.act_window">
+        <field name="name">Payment Request Ledger Analysis</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,tree,form</field>
+        <field name="domain">[('payment_request_id', '!=', False)]</field>
+        <field name="context">{
+            'pivot_row_groupby': ['account_id', 'payment_request_id'],
+            'pivot_column_groupby': ['date:month'],
+            'pivot_measures': ['debit', 'credit', 'balance'],
+            'expand': 1
+        }</field>
+    </record>
+
+    <menuitem id="menu_payment_request_ledger_analysis"
+              name="Payment Request Analysis"
+              parent="account.account_reports_management_menu"
+              action="action_payment_request_ledger_report"
+              sequence="50"
+              groups="account.group_account_user"/>
+
 </odoo>
